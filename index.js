@@ -1,1 +1,201 @@
-//testing!
+/*
+REMINDERS:
+ -Server perks system
+ -Improve profile system (black hole upgrade system)
+ -Make code cleaner (unnecessary arguments, pass config)
+*/
+
+const Discord = require('discord.js');
+const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
+const fs = require('fs');
+const express = require('express');
+let app = express();
+require('dotenv').config();
+
+
+
+client.commands = new Discord.Collection();
+client.events = new Discord.Collection();
+
+['command_handler', 'event_handler'].forEach(handler =>{
+    require(`./handlers/${handler}`)(client, Discord);
+});
+
+
+
+
+
+client.on('message', msg => {
+  if(msg.channel.type ==='dm' && !msg.author.bot){
+    return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
+  }
+
+  let configRaw =  fs.readFileSync('config.json');
+  let configArr =  JSON.parse(configRaw);
+  let guildPrefix;
+
+  try {
+  guildPrefix = configArr[0][msg.guild.id].prefix;
+  } catch {
+    configArr[0][msg.guild.id] = {
+      prefix: ".",
+      special: false
+    }
+    const firstRaw =  JSON.stringify(configArr, null, 2);
+     fs.writeFileSync('config.json', firstRaw);
+    guildPrefix = configArr[0][msg.guild.id].prefix;
+  }
+
+  if(!msg.content.startsWith(guildPrefix) || msg.author.bot) return;
+
+  const args = msg.content.slice(guildPrefix.length).split(/ +/);
+  const command = args.shift().toLowerCase();
+
+  if(command === 'test'){
+    client.commands.get('test').execute(msg, args, Discord);
+  }
+
+  if (command === `help`) {
+    client.commands.get('help').execute(msg, args, Discord, guildPrefix, client);
+  }
+
+  if(command === `ping`) {
+    client.commands.get('ping').execute(msg, client, Discord);
+  }
+
+  if (command === `exit` && msg.author.id === '722092754510807133') {
+    client.commands.get('exit').execute(msg, Discord);
+  }
+  
+  if (command === `invite`) {
+    client.commands.get('invite').execute(msg, Discord);
+  }
+
+  if (command === `kick`) {
+    client.commands.get('kick').execute(msg, args, Discord);
+  }
+
+  if (command === `tempban`) {
+    client.commands.get('tempban').execute(msg, args, Discord);
+  }
+
+  if (command === `mute`) {
+    client.commands.get('mute').execute(msg, client, Discord);
+  }
+
+  if(command === `h`  && configArr[0][msg.guild.id].special === true){
+    client.commands.get('h').execute(msg, args);
+  }
+
+  if(command === `bestmcseed` && configArr[0][msg.guild.id].special === true){
+    client.commands.get('bestmcseed').execute(msg, args, Discord);
+  }
+
+  if(command === `unmute`){
+    client.commands.get('unmute').execute(msg, args, Discord);
+  }
+
+  if(command === `prefix`){
+    client.commands.get('prefix').execute(msg, args, fs, Discord, configArr);
+  }
+
+  if(command === 'nickname'){
+    client.commands.get('nickname').execute(msg, args, Discord);
+  }
+
+  if(command === 'credits'){
+    client.commands.get('credits').execute(msg, args, Discord);
+  }
+
+  if(command === 'reactionrole'){
+    client.commands.get('reactionrole').execute(msg, args, fs, configArr);
+  }
+
+  if(command === 'register'){
+    client.commands.get('register').execute(msg, args, fs, Discord, configArr);
+  }
+
+  if(command === 'profile'){
+    client.commands.get('profile').execute(msg, configArr, Discord);
+  }
+
+  if(command === 'addprofilefield'){
+    client.commands.get('profile').execute(msg, args, fs, Discord, configArr);
+  }
+
+  if(command === 'say'){
+    client.commands.get('say').execute(msg, args);
+  }
+
+  if(command === 'welcomemessage'){
+    client.commands.get('welcomemessage').execute(msg, args, fs, configArr);
+  }
+
+  if(command === 'leavemessage'){
+    client.commands.get('leavemessage').execute(msg, args, fs, Discord, configArr);
+  }
+  
+  if(command === 'perks'){
+    client.commands.get('perks').execute(msg, args, Discord, guildPrefix, configArr);
+  }
+
+  if(command === 'clear'){
+    client.commands.get('clear').execute(msg, args, Discord);
+  }
+
+  if(command === 'testping'){
+    client.commands.get('testping').execute(msg);
+  }
+});
+
+const port = 8000;
+
+app.get('/',function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/index.html');
+
+  //__dirname : It will resolve to your project folder.
+});
+
+app.get('/home',function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/index.html');
+
+  //__dirname : It will resolve to your project folder.
+});
+
+app.get('/commands',function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/commands.html');
+
+});
+
+app.get('/dashboard',function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/dashboard.html');
+
+});
+
+app.get('/style.css',function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/style.css');
+});
+
+app.get('/script.js', function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/script.js');
+});
+
+app.get('/hole.ico', function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/hole.ico');
+});
+
+app.get('/hole.png', function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/hole.png');
+});
+
+app.get('/dropdown.png', function(req,res){
+  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/dropdown.png');
+});
+
+
+
+app.listen(port);
+console.log('Server started at http://localhost:' + port);
+
+
+client.login(process.env.TOKEN);
