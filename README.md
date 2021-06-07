@@ -14,7 +14,7 @@ A free, easy to use Discord bot
   - Clear (bulk deletes messages)
   - Nicknaming
 - Leveling
-- My Singularity (more info on this [here](singularitybot.glitch.me)
+- My Singularity (more info on this [here](singularitybot.glitch.me))
 
 ## What's the invite link?
 [Invite Singularity](https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8)
