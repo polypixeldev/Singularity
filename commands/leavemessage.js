@@ -2,7 +2,8 @@ module.exports = {
     name: 'leavemessage',
     description: "Sets the leave message for the server",
     type: 'mod',
-    execute(msg, args, fs, Discord, configArr){
+    async execute(msg, args, serverModel, Discord){
+        const serverDoc = await serverModel.findOne({guildID: msg.guild.id});
         const leaveChannelName = args.shift();
         const leaveChannel = msg.guild.channels.cache.find(ch => ch.name === leaveChannelName);
 
@@ -14,11 +15,17 @@ module.exports = {
         }
 
         const leaveMessage = args.join(' ');
-        configArr[0][msg.guild.id].leaveMessage = leaveMessage;
-        configArr[0][msg.guild.id].leaveChannelName = leaveChannelName;
+        serverDoc.leaveMessage = leaveMessage;
+        serverDoc.leaveChannelName = leaveChannelName;
 
-        const raw = JSON.stringify(configArr, null, 2);
-        fs.writeFileSync('config.json', raw);
+        await serverDoc.save(function(err){
+          if(err !== null && err){
+            const errEmbed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription(`Uhoh, an error occured when recieving changing the prefix. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
+            return msg.channel.send(errEmbed);
+          }
+        });
 
         const embed = new Discord.MessageEmbed()
         .setColor(0x000000)

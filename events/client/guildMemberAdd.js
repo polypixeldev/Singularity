@@ -1,13 +1,11 @@
-const fs = require('fs');
-module.exports = (serverModel, client, member) => {
-  let configRaw = fs.readFileSync('config.json');
-  let configArr = JSON.parse(configRaw);
-    const channel = member.guild.channels.cache.find(ch => ch.name === configArr[0][member.guild.id].welcomeChannelName);
+module.exports = async (serverModel, client, member) => {
+    const serverDoc = await serverModel.findOne({guildID: member.guild.id});
+    const channel = member.guild.channels.cache.find(ch => ch.name === serverDoc.welcomeChannelName);
     if (!channel) return;
     const tagRegex = /{member-tag}/g;
     const nameRegex = /{member-name}/g;
     const mentionRegex = /{member-mention}/g;
-    let welcomeMsg = configArr[0][member.guild.id].welcomeMessage.replace(tagRegex, `${member.tag}`);
+    let welcomeMsg = serverDoc.welcomeMessage.replace(tagRegex, `${member.tag}`);
     welcomeMsg = welcomeMsg.replace(nameRegex, `${member.user.username}`);
     welcomeMsg = welcomeMsg.replace(mentionRegex, `<@${member.user.id}>`);
 

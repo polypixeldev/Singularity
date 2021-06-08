@@ -7,7 +7,6 @@ REMINDERS:
 
 const Discord = require('discord.js');
 const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
-const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -66,8 +65,6 @@ client.on('message', async msg => {
     return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
   }
 
-  let configRaw =  fs.readFileSync('config.json');
-  let configArr =  JSON.parse(configRaw);
   let guildPrefix;
 
  await serverModel.findOne({guildID: msg.guild.id}).then(function(server, err){
@@ -168,6 +165,8 @@ client.on('message', async msg => {
   if(command === 'reactionrole'){
     client.commands.get('reactionrole').execute(msg, args, serverModel, Discord);
   }
+  /*
+  The following 3 commands are down for maintenance! New features coming soon!
 
   if(command === 'register'){
     client.commands.get('register').execute(msg, args, fs, Discord, configArr);
@@ -180,22 +179,25 @@ client.on('message', async msg => {
   if(command === 'addprofilefield'){
     client.commands.get('profile').execute(msg, args, fs, Discord, configArr);
   }
+  */
 
   if(command === 'say'){
     client.commands.get('say').execute(msg, args);
   }
 
   if(command === 'welcomemessage'){
-    client.commands.get('welcomemessage').execute(msg, args, fs, configArr);
+    client.commands.get('welcomemessage').execute(msg, args, serverModel, Discord);
   }
 
   if(command === 'leavemessage'){
-    client.commands.get('leavemessage').execute(msg, args, fs, Discord, configArr);
+    client.commands.get('leavemessage').execute(msg, args, serverModel, Discord);
   }
-  
+  /*
+  This command is also down for maintenance! New features coming soon!
   if(command === 'perks'){
     client.commands.get('perks').execute(msg, args, Discord, guildPrefix, configArr);
   }
+  */
 
   if(command === 'clear'){
     client.commands.get('clear').execute(msg, args, Discord);
@@ -204,6 +206,7 @@ client.on('message', async msg => {
   if(command === 'testping'){
     client.commands.get('testping').execute(msg);
   }
+
 });
 
 const port = 8000;
