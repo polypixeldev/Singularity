@@ -1,0 +1,216 @@
+
+
+body {
+    background-color: #1e2124;
+    margin: 0px 0px 0px 0px;
+  }
+  
+  #h1{
+    color: #FFF;
+    font-family: 'Oswald';
+    font-size: 2.5em;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  hr{
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+  
+  p{
+    font-family: 'Comfortaa';
+    font-size: 1.5em;
+    color: #FFF;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  img {
+    width: 45vmin;
+    height: 45vmin;
+    display: block;
+    margin: auto;
+    margin-top: 5px;
+  }
+  
+  .nav-links {
+    font-family: 'Oswald';
+    font-size: 1.5em;
+    color: #FFF;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  nav {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-around;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+    background-color: #1e2124;
+    right: 0px;
+    left: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+  h2 {
+      color: #FFF;
+    font-family: 'Oswald';
+    font-size: 2.5em;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  #main {
+    display: flex;
+    flex-direction: horizontal;
+    align-items: center;
+    justify-content:space-between;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+  }
+
+
+  #inv-button {
+    padding: 5vmin 5vmin 5vmin 5vmin;
+    border-radius: 10px;
+    background-color: #7289DA;
+    font-size: 3em;
+    margin-top: 10vmin;
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #ad-text {
+    margin-bottom: 10vmin;
+  }
+
+  #text-div {
+    margin: auto;
+    display: flex;
+    padding: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #why {
+    margin-right: 5vw;
+    margin-left: 5vw;
+  }
+
+  #pfp {
+    width: 1vmin;
+    height: 1vmin;
+    margin: 0px 0px 0px 0px;
+  }
+
+#headline {
+  text-decoration:solid;
+  font-size: 2.25em;
+}
+
+footer {
+  background-color: #141517;
+  padding: 5vmin 5vmin 5vmin 5vmin;
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#credits {
+  font-size: 2em;
+  margin-right: 5vw;
+}
+
+#sm {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5em;
+  color: white;
+}
+
+#sml {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 1em;
+  color: white;
+}
+
+  @media screen and (min-width: 500px) {
+    .dropdown{
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 500px){
+
+
+    #main {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    p {
+      font-size: 1em;
+    }
+
+    #inv-button {
+      font-size: 2em;
+    }
+
+    .dropbtn {
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 7vmin;
+      height: 7vmin;
+    }
+    
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-family: 'Comfortaa', sans-serif;
+    }
+    
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {background-color: #f1f1f1}
+    
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    #inv-link, #dash-link, #cmd-link {
+      display:none;
+    }
+  }

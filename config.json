@@ -1,0 +1,82 @@
+[
+  {
+    "822162764964560937": {
+      "prefix": "?",
+      "special": true,
+      "welcomeMessage": "{member-mention} has joined the server and is now worth of Shrek & H",
+      "welcomeChannelName": "welcome",
+      "leaveMessage": "{member-tag} has left the server 😦",
+      "leaveChannelName": "welcome",
+      "perks": {
+        "members": {
+          "722092754510807133": {
+            "items": [
+              "test",
+              "something",
+              "something else"
+            ],
+            "perks": [
+              "none",
+              "ok"
+            ],
+            "points": 10
+          }
+        },
+        "items": {
+          "test": {
+            "name": "test",
+            "price": 2,
+            "description": "test item",
+            "roleAdd": "Muted",
+            "roleRem": "Member",
+            "dmMessage": "this is a secret"
+          }
+        }
+      },
+      "reactionroles": [
+        [
+          {
+            "guild": "822162764964560937",
+            "id": "836715599819571220",
+            "name": "Muted",
+            "color": 16777215,
+            "hoist": false,
+            "rawPosition": 8,
+            "permissions": 66560,
+            "managed": false,
+            "mentionable": false,
+            "deleted": false,
+            "createdTimestamp": 1619558944421
+          },
+          "💩"
+        ]
+      ]
+    },
+    "789625767243153419": {
+      "prefix": ".",
+      "special": false
+    },
+    "830206520331206696": {
+      "prefix": ".",
+      "special": false
+    }
+  },
+  {
+    "722092754510807133": {
+      "name": "poly",
+      "discriminator": "3622",
+      "tag": "poly#3622"
+    },
+    "809532556155945040": {
+      "name": "astro alpaca",
+      "discriminator": "5799",
+      "tag": "astro alpaca#5799",
+      "shrek": "sioma"
+    },
+    "724798908278112309": {
+      "name": "Redstone",
+      "discriminator": "1165",
+      "tag": "Redstone#1165"
+    }
+  }
+]
