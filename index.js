@@ -154,7 +154,7 @@ client.on('message', async msg => {
   }
 
   if(command === `prefix`){
-    client.commands.get('prefix').execute(msg, args, fs, Discord, configArr);
+    client.commands.get('prefix').execute(msg, args, fs, Discord, configArr, serverModel);
   }
 
   if(command === 'nickname'){
