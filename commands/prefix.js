@@ -2,7 +2,7 @@ module.exports = {
     name: 'prefix',
     description: "Sets the prefix of the bot",
     type: 'mod',
-    async execute(msg, args, fs, Discord, configArr, serverModel){
+    async execute(msg, args, Discord, serverModel){
       if(!args[0]){
         const embed = new Discord.MessageEmbed()
         .setColor(0x000000)

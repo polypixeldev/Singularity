@@ -141,11 +141,11 @@ client.on('message', async msg => {
     client.commands.get('mute').execute(msg, client, Discord);
   }
 
-  if(command === `h`  && configArr[0][msg.guild.id].special === true){
+  if(command === `h`){
     client.commands.get('h').execute(msg, args);
   }
 
-  if(command === `bestmcseed` && configArr[0][msg.guild.id].special === true){
+  if(command === `bestmcseed`){
     client.commands.get('bestmcseed').execute(msg, args, Discord);
   }
 
@@ -154,7 +154,7 @@ client.on('message', async msg => {
   }
 
   if(command === `prefix`){
-    client.commands.get('prefix').execute(msg, args, fs, Discord, configArr, serverModel);
+    client.commands.get('prefix').execute(msg, args, Discord, serverModel);
   }
 
   if(command === 'nickname'){
@@ -166,7 +166,7 @@ client.on('message', async msg => {
   }
 
   if(command === 'reactionrole'){
-    client.commands.get('reactionrole').execute(msg, args, fs, configArr);
+    client.commands.get('reactionrole').execute(msg, args, serverModel, Discord);
   }
 
   if(command === 'register'){

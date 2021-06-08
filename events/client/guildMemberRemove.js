@@ -1,5 +1,5 @@
 const fs = require('fs');
-module.exports = (a, b, member) => {
+module.exports = (serverModel, client, member) => {
     let configRaw = fs.readFileSync('config.json');
     let configArr = JSON.parse(configRaw);
     const channel = member.guild.channels.cache.find(ch => ch.name === configArr[0][member.guild.id].leaveChannelName);
