@@ -9,10 +9,50 @@ const Discord = require('discord.js');
 const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
 const fs = require('fs');
 const express = require('express');
+const mongoose = require('mongoose');
+
 let app = express();
 require('dotenv').config();
 
+const url = 'mongodb://127.0.0.1:27017/Singularity';
 
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+db.once('open', () => {
+  console.log('Database connected:', url)
+});
+
+db.on('error', err => {
+  console.error('connection error:', err)
+});
+
+const serverSchema = new mongoose.Schema({
+  guildID: String,
+  prefix: String,
+  welcomeMessage: String,
+  welcomeChannelName: String,
+  leaveChannelName: String,
+  leaveMessage: String,
+  reactionRoles: Array
+});
+
+const profileSchema = new mongoose.Schema({
+  profileID: String,
+  data: Array
+})
+
+const serverModel = mongoose.model('serverModel', serverSchema);
+
+const profileModel = mongoose.model('profileModel', profileSchema)
+
+const testProfile = new profileModel({
+  profileID: 'profileID',
+  data: []
+});
+
+
+testProfile.save();
 
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
@@ -21,11 +61,7 @@ client.events = new Discord.Collection();
     require(`./handlers/${handler}`)(client, Discord);
 });
 
-
-
-
-
-client.on('message', msg => {
+client.on('message', async msg => {
   if(msg.channel.type ==='dm' && !msg.author.bot){
     return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
   }
@@ -34,17 +70,39 @@ client.on('message', msg => {
   let configArr =  JSON.parse(configRaw);
   let guildPrefix;
 
-  try {
-  guildPrefix = configArr[0][msg.guild.id].prefix;
-  } catch {
-    configArr[0][msg.guild.id] = {
-      prefix: ".",
-      special: false
+ await serverModel.findOne({guildID: msg.guild.id}).then(function(server, err){
+    if(err !== null && err){
+      const errEmbed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
+
+      return msg.channel.send(errEmbed);
+    } else if(server === null){
+      const newServer = new serverModel({
+        guildID: msg.guild.id,
+        prefix: '.',
+        welcomeMessage: '{member-mention} has joined the server!',
+        welcomeChannelName: 'welcome',
+        leaveChannelName: 'welcome',
+        leaveMessage: '{member-tag} has left the server :(',
+        reactionroles: []
+      });
+
+      newServer.save(function(err){
+        if(err !== null && err){
+          const errEmbed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
+          return msg.channel.send(errEmbed);
+        }
+      });
+
+      guildPrefix = '.';
+    } else {
+      guildPrefix = server.prefix;
     }
-    const firstRaw =  JSON.stringify(configArr, null, 2);
-     fs.writeFileSync('config.json', firstRaw);
-    guildPrefix = configArr[0][msg.guild.id].prefix;
-  }
+
+  });
 
   if(!msg.content.startsWith(guildPrefix) || msg.author.bot) return;
 
