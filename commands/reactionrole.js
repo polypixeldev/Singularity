@@ -3,18 +3,21 @@ module.exports = {
     description: "Instantiates a new reaction role",
     type: 'mod',
     async execute(msg, args, serverModel, Discord){
-        const reactionChannel = msg.channel.guild.channels.cache.find(ch => ch.name === 'reaction-roles');
+        const reactionChannel = msg.channel;
         const emoji = args.shift();
         const roleName = args.shift();
         const messageSend = args.join(' ');
 
         const serverDoc = await serverModel.findOne({guildID: msg.guild.id});
-
-        reactionChannel.send(messageSend).then(sent => {
-          sent.react(emoji);
-          serverDoc.reactionroles.push([roleName, emoji, sent.id]);
+        let sentMessage;
+        await reactionChannel.send(messageSend).then(sent => {
+          sentMessage = sent;
+          serverDoc.reactionRoles.set(serverDoc.reactionRoles.length, [roleName, emoji, sent.id]);
+          serverDoc.markModified('reactionRoles');
+          console.log(serverDoc.reactionRoles);
         });
-
+        await serverModel.updateOne({guildID: msg.guild.id}, {reactionRoles: serverDoc.reactionRoles});
+        /*
         await serverDoc.save(function(err){
           if(err !== null && err){
             const errEmbed = new Discord.MessageEmbed()
@@ -23,7 +26,8 @@ module.exports = {
             return msg.channel.send(errEmbed);
           }
         })
-
+        */
+       sentMessage.react(emoji);
         const successEmbed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setDescription('Reaction role added!');
