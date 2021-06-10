@@ -1,0 +1,55 @@
+module.exports = {
+	name: 'command',
+	description: 'Displays information about the mentioned command',
+	type: 'general',
+	args: ['<command name>'],
+	aliases: [],
+	example: 'command help',
+	async execute(msg, args, Discord, prefix, client){
+		let command;
+		if(!client.commands.get(args[0])){
+			const notFoundEmbed = new Discord.MessageEmbed()
+			.setColor(0x000000)
+			.setDescription('That command does not exist!');
+			return msg.channel.send(notFoundEmbed);
+		} else {
+			command = client.commands.get(args[0]);
+		}
+		let aliasString;
+		let argString;
+		if(command.aliases.length > 0){
+			aliasString = ``;
+			for(let alias of command.aliases){
+				aliasString = aliasString + `, ${alias}`;
+			}
+		} else {
+			aliasString = 'none'
+		}
+
+		if(command.args.length > 0){
+			argString = ``;
+			for(let arg of command.args){
+				argString = argString + ` ${arg}`;
+			}
+		} else {
+			argString = `none`;
+		}
+
+		const embed =  new Discord.MessageEmbed()
+		.setColor(0x000000)
+		.setTitle(`${command.name} - ${command.type}`)
+		.setDescription(`${command.description}
+
+		**Usage**:
+		\`\`\`${prefix}${command.name} ${argString}\`\`\`
+		**Aliases:**
+		\`\`\`${aliasString}\`\`\`
+		**Example:**
+		\`\`\`${prefix}${command.example}\`\`\`
+		**Notes:**
+		\`\`\`${command.notes ? command.notes : 'none'}\`\`\`
+		`)
+		.setFooter(`Arguments marked with ! are optional - command info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		msg.channel.send(embed);
+	}
+}

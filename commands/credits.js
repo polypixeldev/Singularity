@@ -2,6 +2,9 @@ module.exports = {
     name: 'credits',
     description: 'Credits to the makers of this bot',
     type: 'general',
+    args: [],
+    aliases: [],
+    example: 'credits',
     execute(msg, args, Discord){
         const embed = new Discord.MessageEmbed()
         .setTitle('Singularity Credits')

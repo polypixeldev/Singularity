@@ -2,6 +2,10 @@ module.exports = {
     name: 'tempban',
     description: "Bans the mentioned user for the specified amount of days",
     type: 'mod',
+    args: ['<user to ban>', '!<number of days>'],
+    aliases: [],
+    example: 'ban @poly 14',
+    notes: 'number of days cannot be longer than 14 - if days are ommitted, mentioned user will be banned until unban',
     async execute(msg, args, Discord){
         const user = msg.mentions.users.first();
         if (user) {

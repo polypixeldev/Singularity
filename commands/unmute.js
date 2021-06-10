@@ -2,6 +2,10 @@ module.exports = {
     name: 'unmute',
     description: "Unmutes the mentioned user",
     type: 'mod',
+    args: ['<user to unmute>'],
+    aliases: [],
+    example: 'unmute @poly',
+    notes: 'user must be mentioned',
     async execute(msg, args, Discord){
         const user = msg.mentions.users.first();
       if (user) {

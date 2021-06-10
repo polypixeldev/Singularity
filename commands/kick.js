@@ -2,6 +2,10 @@ module.exports = {
     name: 'kick',
     description: "Kicks the mentioned user",
     type: 'mod',
+    args: ['<user to kick>', '!<reason>'],
+    aliases: [],
+    example: 'kick @poly spamming',
+    notes: 'user must be a mention',
     execute(msg, args, Discord){
         const user = msg.mentions.users.first();
 

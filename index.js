@@ -39,7 +39,16 @@ const serverSchema = new mongoose.Schema({
 const profileSchema = new mongoose.Schema({
   profileID: String,
   data: Array
-})
+});
+
+const commandSchema = new mongoose.Schema({
+  name: String,
+  aliases: Array,
+  args: Array,
+  example: String
+});
+
+const commandModel = mongoose.model('commandModel', commandSchema);
 
 const serverModel = mongoose.model('serverModel', serverSchema);
 
@@ -49,7 +58,6 @@ const testProfile = new profileModel({
   profileID: 'profileID',
   data: []
 });
-
 
 testProfile.save();
 
@@ -61,8 +69,22 @@ client.events = new Discord.Collection();
 });
 
 client.on('message', async msg => {
-  if(msg.channel.type ==='dm' && !msg.author.bot){
-    return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
+  if(msg.channel.type ==='dm'){
+    if(msg.author.bot){
+      return;
+    }
+    const args = msg.content.split(/ +/);
+    const command = args.shift().toLowerCase();
+    const poly = client.users.cache.get('722092754510807133');
+    if(command === 'bug'){
+      poly.send(`Bug from \`${msg.author.tag}\`: ${args.join(' ')}`);
+      return msg.channel.send('The bug has been reported! Thank you for helping to improve Singularity!');
+    } else if(command === 'suggestion'){
+      poly.send(`Suggestion from \`${msg.author.tag}\`: ${args.join(' ')}`);
+      return msg.channel.send('Your suggestion has been sent! Thank you for helping to improve Singularity!');
+    } else {
+      return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
+    }
   }
 
   let guildPrefix;
@@ -207,6 +229,9 @@ client.on('message', async msg => {
     client.commands.get('testping').execute(msg);
   }
 
+  if(command === 'command'){
+    client.commands.get('command').execute(msg, args, Discord, guildPrefix, client, commandModel);
+  }
 });
 
 const port = 8000;

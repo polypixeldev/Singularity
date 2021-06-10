@@ -2,6 +2,10 @@ module.exports = {
     name: 'reactionrole',
     description: "Instantiates a new reaction role",
     type: 'mod',
+    args: ['<emoji>', '<role name>', '<message to send>'],
+    aliases: [],
+    example: 'reactionrole ⏰ Notify React to get notified!',
+    notes: 'message will be sent in channel that the command is sent in',
     async execute(msg, args, serverModel, Discord){
         const reactionChannel = msg.channel;
         const emoji = args.shift();

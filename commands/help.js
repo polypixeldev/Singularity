@@ -2,6 +2,9 @@ module.exports = {
     name: 'help',
     description: "Singularity Help",
     type: 'general',
+    args: ['!<command type>'],
+    aliases: [],
+    example: 'help general',
     execute(msg, args, Discord, prefix, client){
         let general_commands = [];
         let mod_commands = [];
@@ -45,7 +48,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed() 
         .setTitle('Singularity Help')
         .setColor(0x000000)
-        .setDescription(`**This server's prefix is:** \`${prefix}\` \n \n **General Command Help:** \`${prefix}help general\` \n \n **Moderation Command Help:** \`${prefix}help mod\` \n \n **Perk Command Help:** \`${prefix}help perks\``)
+        .setDescription(`**This server's prefix is:** \`${prefix}\` \n \n **General Command Help:** \`${prefix}help general\` \n \n **Moderation Command Help:** \`${prefix}help mod\` \n \n **Perk Command Help:** \`${prefix}help perks\` \n \n **Improve Singularity!** \n You can help to improve Singularity by reporting a bug or suggesting a feature! Simply DM Singularity \`bug <description of the bug>\` or \`suggestion <description of the suggestion>\``)
         .setFooter(`Help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 
         msg.channel.send(embed);

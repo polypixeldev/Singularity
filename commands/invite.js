@@ -2,6 +2,9 @@ module.exports = {
     name: 'invite',
     description: "Invite link for Singularity",
     type: 'general',
+    args: [],
+    aliases: [],
+    example: 'invite',
     execute(msg, Discord){
     const embed = new Discord.MessageEmbed()
     .setTitle('Singularity Invite Link')

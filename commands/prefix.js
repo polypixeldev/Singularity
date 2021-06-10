@@ -2,6 +2,9 @@ module.exports = {
     name: 'prefix',
     description: "Sets the prefix of the bot",
     type: 'mod',
+    args: ['<new prefix>'],
+    aliases: [],
+    example: 'prefix ?',
     async execute(msg, args, Discord, serverModel){
       if(!args[0]){
         const embed = new Discord.MessageEmbed()

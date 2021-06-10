@@ -2,6 +2,10 @@ module.exports =  {
     name: 'nickname',
     description: 'Sets the mentioned user\'s nickname to the specified nickname',
     type: 'mod',
+    args: ['<target user>', '<new nickname>'],
+    aliases: [],
+    example: 'nickname @poly Bot Maker',
+    notes: 'user must be mentioned',
     async execute(msg, args, Discord){
         if(!args[1]){
             const embed = new Discord.MessageEmbed()

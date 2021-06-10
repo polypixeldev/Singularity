@@ -2,6 +2,10 @@ module.exports = {
     name: 'leavemessage',
     description: "Sets the leave message for the server",
     type: 'mod',
+    args: ['<channel name to send the message in>', '<message to send>'],
+    aliases: [],
+    example: 'leavemessage goodbye {member-tag} left the server :(',
+    notes: 'cannot be channel mention, only channel name - In message, you may use the following placeholders: {member-name} and/or {member-tag}',
     async execute(msg, args, serverModel, Discord){
         const serverDoc = await serverModel.findOne({guildID: msg.guild.id});
         const leaveChannelName = args.shift();

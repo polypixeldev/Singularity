@@ -2,6 +2,9 @@ module.exports = {
     name: 'clear',
     description: "Clear messages",
     type: 'mod',
+    args: ['<# of messages to clear> '],
+    aliases: ['purge', 'delete'],
+    example: 'clear 100',
     async execute(message, args, Discord) {
         if(!message.member.hasPermission('ADMINISTRATOR')){
             const embed = new Discord.MessageEmbed()

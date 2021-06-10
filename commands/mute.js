@@ -2,6 +2,10 @@ module.exports = {
     name: 'mute',
     description: "Mutes the mentioned user",
     type: 'mod',
+    args: ['<user to mute>'],
+    aliases: [],
+    example: 'mute @poly',
+    notes: 'user must be mentioned',
     execute(msg, client, Discord){
         const user = msg.mentions.users.first();
         if(user) {
