@@ -5,7 +5,6 @@ module.exports = {
     args: [],
     aliases: ['ms'],
     example: 'mysingularity',
-    notes: '',
     execute(msg, args, Discord){
         const embed = new Discord.MessageEmbed()
         .setTitle('My Singularity')
