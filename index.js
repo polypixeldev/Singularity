@@ -237,45 +237,45 @@ client.on('message', async msg => {
 const port = 8000;
 
 app.get('/',function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/index.html');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/index.html');
 
   //__dirname : It will resolve to your project folder.
 });
 
 app.get('/home',function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/index.html');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/index.html');
 
   //__dirname : It will resolve to your project folder.
 });
 
 app.get('/commands',function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/commands.html');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/commands.html');
 
 });
 
 app.get('/dashboard',function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/dashboard.html');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/dashboard.html');
 
 });
 
 app.get('/style.css',function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/style.css');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/style.css');
 });
 
 app.get('/script.js', function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/script.js');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/script.js');
 });
 
 app.get('/hole.ico', function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/hole.ico');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/hole.ico');
 });
 
 app.get('/hole.png', function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/hole.png');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/hole.png');
 });
 
 app.get('/dropdown.png', function(req,res){
-  res.sendFile('C:/Users/samme/Documents/Bot/Singularity/dropdown.png');
+  res.sendFile('C:/Users/samme/Documents/Programs/Singularity/web/dropdown.png');
 });
 
 
