@@ -8,15 +8,15 @@ module.exports = {
     execute(msg, args, Discord, prefix, client){
         let general_commands = [];
         let mod_commands = [];
-        let perks_commands = [];
+        let ms_commands = [];
 
         for(let command of client.commands){
             if(command[1].type === 'general'){
                 general_commands.push(`\`${prefix}${command[1].name}\` - ${command[1].description} \n `);
             } else if (command[1].type === 'mod'){
                 mod_commands.push(`\`${prefix}${command[1].name}\` - ${command[1].description} \n `);
-            } else if(command[1].type === 'perks'){
-                perks_commands.push(`\`${prefix}${command[1].name}\` - ${command[1].description} \n `);
+            } else if(command[1].type === 'ms'){
+                ms_commands.push(`\`${prefix}${command[1].name}\` - ${command[1].description} \n `);
             }
         }
 
@@ -36,12 +36,12 @@ module.exports = {
         .setFooter(`Mod help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 
         msg.channel.send(embed);
-       } else if(args[0] === 'perks') {
+       } else if(args[0] === 'ms') {
         const embed = new Discord.MessageEmbed()
-        .setTitle('Singularity Perks Commands')
+        .setTitle('My Singularity Commands')
         .setColor(0x000000)
-        .setDescription(perks_commands.join(' '))
-        .setFooter(`Perks help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+        .setDescription(ms_commands.join(' '))
+        .setFooter(`My Singularity help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 
         msg.channel.send(embed);
        } else {

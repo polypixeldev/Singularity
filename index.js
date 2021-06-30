@@ -187,21 +187,6 @@ client.on('message', async msg => {
   if(command === 'reactionrole'){
     client.commands.get('reactionrole').execute(msg, args, serverModel, Discord);
   }
-  /*
-  The following 3 commands are down for maintenance! New features coming soon!
-
-  if(command === 'register'){
-    client.commands.get('register').execute(msg, args, fs, Discord, configArr);
-  }
-
-  if(command === 'profile'){
-    client.commands.get('profile').execute(msg, configArr, Discord);
-  }
-
-  if(command === 'addprofilefield'){
-    client.commands.get('profile').execute(msg, args, fs, Discord, configArr);
-  }
-  */
 
   if(command === 'say'){
     client.commands.get('say').execute(msg, args);
@@ -214,12 +199,11 @@ client.on('message', async msg => {
   if(command === 'leavemessage'){
     client.commands.get('leavemessage').execute(msg, args, serverModel, Discord);
   }
-  /*
-  This command is also down for maintenance! New features coming soon!
-  if(command === 'perks'){
-    client.commands.get('perks').execute(msg, args, Discord, guildPrefix, configArr);
+
+  if(command === 'ms' || command === 'mysingularity'){
+    client.commands.get('mysingularity').execute(msg, args, Discord);
   }
-  */
+  
 
   if(command === 'clear'){
     client.commands.get('clear').execute(msg, args, Discord);
