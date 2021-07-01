@@ -36,30 +36,23 @@ const serverSchema = new mongoose.Schema({
   reactionRoles: Array
 });
 
-const profileSchema = new mongoose.Schema({
-  profileID: String,
-  data: Array
+const msSchema = new mongoose.Schema({
+  userID: String,
+  atoms: Number,
+  items: Array,
+  powerUps: Array,
+  singularity: Object
 });
-
-const commandSchema = new mongoose.Schema({
-  name: String,
-  aliases: Array,
-  args: Array,
-  example: String
-});
-
-const commandModel = mongoose.model('commandModel', commandSchema);
 
 const serverModel = mongoose.model('serverModel', serverSchema);
 
-const profileModel = mongoose.model('profileModel', profileSchema)
+const msModel = mongoose.model('msModel', msSchema);
 
-const testProfile = new profileModel({
-  profileID: 'profileID',
-  data: []
+const testMS = new msModel({
+  
 });
 
-testProfile.save();
+testMS.save();
 
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
@@ -213,7 +206,7 @@ client.on('message', async msg => {
   }
 
   if(command === 'command'){
-    client.commands.get('command').execute(msg, args, Discord, guildPrefix, client, commandModel);
+    client.commands.get('command').execute(msg, args, Discord, guildPrefix, client);
   }
 });
 
