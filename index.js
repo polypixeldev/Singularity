@@ -201,10 +201,9 @@ client.on('message', async msg => {
   }
 
   if(command === 'ms' || command === 'mysingularity'){
-    client.commands.get('mysingularity').execute(msg, args, Discord);
+    client.commands.get('mysingularity').execute(msg, args, Discord, guildPrefix);
   }
   
-
   if(command === 'clear'){
     client.commands.get('clear').execute(msg, args, Discord);
   }
