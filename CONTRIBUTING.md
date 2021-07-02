@@ -6,7 +6,6 @@ There's a wide variety of ways you can help! You don't have to be proficient in 
 - Adding/Suggesting features to the bot
 - Opening issues about the bot
 - Resolving issues about the bot
-- Improving the documentation
 
 ## Guidelines
 In general, just be constructive and not toxic. Always try to be positive and use appropriate language.
