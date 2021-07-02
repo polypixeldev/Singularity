@@ -33,7 +33,8 @@ const serverSchema = new mongoose.Schema({
   welcomeChannelName: String,
   leaveChannelName: String,
   leaveMessage: String,
-  reactionRoles: Array
+  reactionRoles: Array,
+  exp: Object
 });
 
 const msSchema = new mongoose.Schema({
@@ -48,11 +49,18 @@ const serverModel = mongoose.model('serverModel', serverSchema);
 
 const msModel = mongoose.model('msModel', msSchema);
 
-const testMS = new msModel({
-  
-});
+const cooldowns = {
 
-testMS.save();
+}
+
+const levelArr = [50, 80, 800, 1250, 1750, 2500, 4000, 7500, 15000, 30000];
+
+//eslint-ignore
+let cooldownInterval = setInterval(() => {
+  for(let person in cooldowns){
+    if(cooldowns[person] > 0) cooldowns[person]--;
+  }
+}, 100)
 
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
@@ -80,41 +88,76 @@ client.on('message', async msg => {
     }
   }
 
-  let guildPrefix;
+  let serverDoc;
 
- await serverModel.findOne({guildID: msg.guild.id}).then(function(server, err){
+  await serverModel.findOne({guildID: msg.guild.id}).then(function(server, err){
+     if(err !== null && err){
+       const errEmbed = new Discord.MessageEmbed()
+       .setColor(0x000000)
+       .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
+ 
+       return msg.channel.send(errEmbed);
+     } else if(server === null){
+       const newServer = new serverModel({
+         guildID: msg.guild.id,
+         prefix: '.',
+         welcomeMessage: '{member-mention} has joined the server!',
+         welcomeChannelName: 'welcome',
+         leaveChannelName: 'welcome',
+         leaveMessage: '{member-tag} has left the server :(',
+         reactionroles: [],
+         exp: {
+
+         }
+       });
+ 
+       newServer.save(function(err){
+         if(err !== null && err){
+           const errEmbed = new Discord.MessageEmbed()
+           .setColor(0x000000)
+           .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
+           return msg.channel.send(errEmbed);
+         }
+       });
+     }
+     serverDoc = server;
+   });
+   console.log(serverDoc);
+
+  if(!msg.author.bot){
+    if(!cooldowns[msg.author.id]){
+      cooldowns[msg.author.id] = 0;
+  }
+
+  if(!serverDoc.exp[msg.author.id]){
+    serverDoc.exp[msg.author.id] = 0;
+  }
+
+  const prevExp = serverDoc.exp[msg.author.id];
+  if(cooldowns[msg.author.id] === 0){
+    serverDoc.exp[msg.author.id] += Math.floor(10 + (Math.random() * 10));
+    cooldowns[msg.author.id] = 60;
+  }
+  let index = 1;
+  for(let value of levelArr){
+    if(prevExp < value && serverDoc.exp[msg.author.id] >= value){
+      msg.channel.send(`Level up! Your Singularity is now level **${index}**!`);
+    }
+    index++;
+  }
+
+  serverDoc.markModified('exp');
+  await serverDoc.save(function(err){
     if(err !== null && err){
       const errEmbed = new Discord.MessageEmbed()
       .setColor(0x000000)
       .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
-
       return msg.channel.send(errEmbed);
-    } else if(server === null){
-      const newServer = new serverModel({
-        guildID: msg.guild.id,
-        prefix: '.',
-        welcomeMessage: '{member-mention} has joined the server!',
-        welcomeChannelName: 'welcome',
-        leaveChannelName: 'welcome',
-        leaveMessage: '{member-tag} has left the server :(',
-        reactionroles: []
-      });
-
-      newServer.save(function(err){
-        if(err !== null && err){
-          const errEmbed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
-          return msg.channel.send(errEmbed);
-        }
-      });
-
-      guildPrefix = '.';
-    } else {
-      guildPrefix = server.prefix;
     }
-
   });
+}
+
+  let guildPrefix = serverDoc.prefix;
 
   if(!msg.content.startsWith(guildPrefix) || msg.author.bot) return;
 
@@ -207,6 +250,10 @@ client.on('message', async msg => {
 
   if(command === 'command'){
     client.commands.get('command').execute(msg, args, Discord, guildPrefix, client);
+  }
+
+  if(command === 'singularity' || command === 's'){
+    client.commands.get('singularity').execute(msg, msModel, Discord);
   }
 });
 
