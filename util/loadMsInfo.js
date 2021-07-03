@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'loadMsInfo',
-	execute(serverDoc, id){
+	execute(serverDoc, id, client){
 		let userMS;
 		let filteredArr = serverDoc.ms.filter(user => user.userID === id);
 		if(filteredArr.length > 1){
@@ -21,11 +21,7 @@ module.exports = {
 
 			serverDoc.ms.push(newMS);
   
-			serverDoc.save(function(err){
-				if(err !== null && err){
-					return undefined;
-				}
-			});
+			serverDoc.save(client.utils.get('saveCallback'));
 			userMS = newMS;
 		} else {
 			userMS = filteredArr[0];

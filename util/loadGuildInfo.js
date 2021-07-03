@@ -20,11 +20,7 @@ module.exports = {
 
 				serverDoc = newServer;
 				console.log('set');
-				await newServer.save(function(err){
-					if(err !== null && err){
-						return err;
-					}
-				});
+				await newServer.save(client.utils.get('saveCallback'));
 			} else {
 				serverDoc = server;
 			}
