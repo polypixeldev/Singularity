@@ -2,7 +2,7 @@ const cooldowns = {
 
 }
 
-const levelArr = [50, 80, 800, 1250, 1750, 2500, 4000, 7500, 15000, 30000];
+const levelArr = [200, 500, 1000, 2000, 5000, 9000, 14000, 20000, 28000, 40000];
 
 //eslint-disable-next-line
 let cooldownInterval = setInterval(() => {
