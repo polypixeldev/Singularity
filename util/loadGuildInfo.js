@@ -2,9 +2,8 @@ module.exports = {
 	name: 'loadGuildInfo',
 	async execute(client, guildResolvable){
 		let guild = client.guilds.resolve(guildResolvable);
-		console.log(guild.id);
 		let serverDoc;
-		await client.serverModel.findOne({guildID: guild.id}, (err, server) => {
+		await client.serverModel.findOne({guildID: guild.id}, async(err, server) => {
 			if(err !== null && err){
 				return err;
 			} else if(server === null){
@@ -21,7 +20,7 @@ module.exports = {
 
 				serverDoc = newServer;
 				console.log('set');
-				newServer.save(function(err){
+				await newServer.save(function(err){
 					if(err !== null && err){
 						return err;
 					}

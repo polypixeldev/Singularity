@@ -1,10 +1,8 @@
 module.exports = {
 	name: 'loadMsInfo',
 	execute(serverDoc, id){
-		console.log(serverDoc);
 		let userMS;
 		let filteredArr = serverDoc.ms.filter(user => user.userID === id);
-		console.log(filteredArr);
 		if(filteredArr.length > 1){
 			return undefined;
 		} else if(filteredArr.length === 0){
@@ -28,8 +26,6 @@ module.exports = {
 					return undefined;
 				}
 			});
-
-			console.log(newMS);
 			userMS = newMS;
 		} else {
 			userMS = filteredArr[0];

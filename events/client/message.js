@@ -9,9 +9,10 @@ let cooldownInterval = setInterval(() => {
   for(let person in cooldowns){
     if(cooldowns[person] > 0) cooldowns[person]--;
   }
-}, 100);
+}, 30000);
 
 module.exports = async (Discord, client, serverModel, msg) => {
+	if(msg.author.bot) return;
 	const serverDoc = await client.utils.get('loadGuildInfo').execute(client, msg.guild);
 	const userMS = await client.utils.get('loadMsInfo').execute(serverDoc, msg.author.id);
     const prefix = serverDoc.prefix;
@@ -53,7 +54,7 @@ module.exports = async (Discord, client, serverModel, msg) => {
 		}
 	
 		serverDoc.markModified('ms');
-		serverDoc.save(client.utils.saveCallback);
+		await serverDoc.save(client.utils.saveCallback);
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;
