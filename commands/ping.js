@@ -5,7 +5,7 @@ module.exports = {
     args: [],
     aliases: [],
     example: 'ping',
-    execute(msg, client, Discord){
+    execute(client, Discord, msg){
         const embed = new Discord.MessageEmbed()
         .setDescription(`🏓 Latency is ${Date.now() - msg.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
         .setColor(0x000000);

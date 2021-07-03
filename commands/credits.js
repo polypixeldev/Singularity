@@ -5,7 +5,7 @@ module.exports = {
     args: [],
     aliases: [],
     example: 'credits',
-    execute(msg, args, Discord){
+    execute(client, Discord, msg){
         const embed = new Discord.MessageEmbed()
         .setTitle('Singularity Credits')
         .setColor(0x000000)

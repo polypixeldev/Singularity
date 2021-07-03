@@ -5,7 +5,7 @@ module.exports = {
     args: [],
     aliases: ['ms'],
     example: 'mysingularity',
-    execute(msg, args, Discord, guildPrefix){
+    execute(client, Discord, msg, args, serverModel, prefix){
         const embed = new Discord.MessageEmbed()
         .setTitle('My Singularity')
         .setColor(0x000000)
@@ -21,7 +21,7 @@ module.exports = {
             By being active in a server, you can gain *atoms*. These atoms are a sort of currency in the My Singularity system. \
             You can use them to make your black hole bigger, or to trade them in for better items. The Developers (poly#3622 and Redstone#1165) will always be adding new features to My Singularity to keep your black hole growing!
 
-            *Use \`${guildPrefix}help ms\` to get a full list of My Singularity commands*
+            *Use \`${prefix}help ms\` to get a full list of My Singularity commands*
         `);
         msg.channel.send(embed);
     }

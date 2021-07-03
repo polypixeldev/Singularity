@@ -5,7 +5,7 @@ module.exports = {
     args: ['!<command type>'],
     aliases: [],
     example: 'help general',
-    execute(msg, args, Discord, prefix, client){
+    execute(client, Discord, msg, args, serverModel, prefix){
         let general_commands = [];
         let mod_commands = [];
         let ms_commands = [];

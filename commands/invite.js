@@ -5,7 +5,7 @@ module.exports = {
     args: [],
     aliases: [],
     example: 'invite',
-    execute(msg, Discord){
+    execute(client, Discord, msg){
     const embed = new Discord.MessageEmbed()
     .setTitle('Singularity Invite Link')
     .setColor(0x000000)

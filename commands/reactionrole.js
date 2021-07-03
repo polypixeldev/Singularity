@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'reactionrole ⏰ Notify React to get notified!',
     notes: 'message will be sent in channel that the command is sent in',
-    async execute(msg, args, serverModel, Discord){
+    async execute(client, Discord, msg, args, serverModel){
         const reactionChannel = msg.channel;
         const emoji = args.shift();
         const roleName = args.shift();

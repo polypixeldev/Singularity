@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'mute @poly',
     notes: 'user must be mentioned',
-    execute(msg, client, Discord){
+    execute(client, Discord, msg){
         const user = msg.mentions.users.first();
         if(user) {
           const member = msg.guild.members.resolve(user);

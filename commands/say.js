@@ -5,7 +5,7 @@ module.exports = {
     args: ['<message to repeat'],
     aliases: [],
     example: 'say I am Singularity',
-    execute(msg, args){
+    execute(client, Discord, msg, args){
         msg.channel.send(args.join(' '));
     }
 }

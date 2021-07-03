@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'ban @poly 14',
     notes: 'number of days cannot be longer than 14 - if days are ommitted, mentioned user will be banned until unban',
-    async execute(msg, args, Discord){
+    async execute(client, Discord, msg){
         const user = msg.mentions.users.first();
         if (user) {
           const member = msg.guild.members.resolve(user);

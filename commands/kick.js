@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'kick @poly spamming',
     notes: 'user must be a mention',
-    execute(msg, args, Discord){
+    execute(client, Discord, msg, args){
         const user = msg.mentions.users.first();
 
         args.shift();

@@ -2,7 +2,7 @@ module.exports = {
     name: 'h',
     description: "h",
     type: 'general',
-    execute(msg){
+    execute(client, Discord, msg){
         msg.channel.send('h');
     }
 }

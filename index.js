@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 
 let app = express();
 require('dotenv').config();
-
+//
 const url = 'mongodb://127.0.0.1:27017/Singularity';
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -26,6 +26,14 @@ db.on('error', err => {
   console.error('connection error:', err)
 });
 
+client.msSchema = new mongoose.Schema({
+  userID: String,
+  atoms: Number,
+  items: Array,
+  powerUps: Array,
+  singularity: Object
+});
+
 const serverSchema = new mongoose.Schema({
   guildID: String,
   prefix: String,
@@ -34,128 +42,22 @@ const serverSchema = new mongoose.Schema({
   leaveChannelName: String,
   leaveMessage: String,
   reactionRoles: Array,
-  exp: Object
+  ms: [client.msSchema]
 });
 
-const msSchema = new mongoose.Schema({
-  userID: String,
-  atoms: Number,
-  items: Array,
-  powerUps: Array,
-  singularity: Object
-});
-
-const serverModel = mongoose.model('serverModel', serverSchema);
-
-const msModel = mongoose.model('msModel', msSchema);
-
-const cooldowns = {
-
-}
-
-const levelArr = [50, 80, 800, 1250, 1750, 2500, 4000, 7500, 15000, 30000];
-
-//eslint-ignore
-let cooldownInterval = setInterval(() => {
-  for(let person in cooldowns){
-    if(cooldowns[person] > 0) cooldowns[person]--;
-  }
-}, 100)
+client.serverModel = mongoose.model('serverModel', serverSchema);
 
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
+client.utils = new Discord.Collection();
 
-['command_handler', 'event_handler'].forEach(handler =>{
-    require(`./handlers/${handler}`)(client, serverModel);
+['command_handler', 'event_handler', 'util_handler'].forEach(handler =>{
+    require(`./handlers/${handler}`)(Discord, client);
 });
-
+/*
 client.on('message', async msg => {
-  if(msg.channel.type ==='dm'){
-    if(msg.author.bot){
-      return;
-    }
-    const args = msg.content.split(/ +/);
-    const command = args.shift().toLowerCase();
-    const poly = client.users.cache.get('722092754510807133');
-    if(command === 'bug'){
-      poly.send(`Bug from \`${msg.author.tag}\`: ${args.join(' ')}`);
-      return msg.channel.send('The bug has been reported! Thank you for helping to improve Singularity!');
-    } else if(command === 'suggestion'){
-      poly.send(`Suggestion from \`${msg.author.tag}\`: ${args.join(' ')}`);
-      return msg.channel.send('Your suggestion has been sent! Thank you for helping to improve Singularity!');
-    } else {
-      return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
-    }
-  }
-
-  let serverDoc;
-
-  await serverModel.findOne({guildID: msg.guild.id}).then(function(server, err){
-     if(err !== null && err){
-       const errEmbed = new Discord.MessageEmbed()
-       .setColor(0x000000)
-       .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
- 
-       return msg.channel.send(errEmbed);
-     } else if(server === null){
-       const newServer = new serverModel({
-         guildID: msg.guild.id,
-         prefix: '.',
-         welcomeMessage: '{member-mention} has joined the server!',
-         welcomeChannelName: 'welcome',
-         leaveChannelName: 'welcome',
-         leaveMessage: '{member-tag} has left the server :(',
-         reactionroles: [],
-         exp: {
-
-         }
-       });
- 
-       newServer.save(function(err){
-         if(err !== null && err){
-           const errEmbed = new Discord.MessageEmbed()
-           .setColor(0x000000)
-           .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
-           return msg.channel.send(errEmbed);
-         }
-       });
-     }
-     serverDoc = server;
-   });
-   console.log(serverDoc);
-
-  if(!msg.author.bot){
-    if(!cooldowns[msg.author.id]){
-      cooldowns[msg.author.id] = 0;
-  }
-
-  if(!serverDoc.exp[msg.author.id]){
-    serverDoc.exp[msg.author.id] = 0;
-  }
-
-  const prevExp = serverDoc.exp[msg.author.id];
-  if(cooldowns[msg.author.id] === 0){
-    serverDoc.exp[msg.author.id] += Math.floor(10 + (Math.random() * 10));
-    cooldowns[msg.author.id] = 60;
-  }
-  let index = 1;
-  for(let value of levelArr){
-    if(prevExp < value && serverDoc.exp[msg.author.id] >= value){
-      msg.channel.send(`Level up! Your Singularity is now level **${index}**!`);
-    }
-    index++;
-  }
-
-  serverDoc.markModified('exp');
-  await serverDoc.save(function(err){
-    if(err !== null && err){
-      const errEmbed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setDescription(`Uhoh, an error occured when recieving this message. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
-      return msg.channel.send(errEmbed);
-    }
-  });
-}
+  console.log('msg');
+  let serverDoc = client.utils.get;
 
   let guildPrefix = serverDoc.prefix;
 
@@ -253,9 +155,10 @@ client.on('message', async msg => {
   }
 
   if(command === 'singularity' || command === 's'){
-    client.commands.get('singularity').execute(msg, msModel, Discord);
+    client.commands.get('singularity').execute(msg, userMS, Discord, serverDoc);
   }
 });
+*/
 
 const port = 8000;
 

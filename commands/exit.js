@@ -2,7 +2,7 @@ module.exports = {
     name: 'exit',
     description: "Shuts down the bot",
     type: 'mod',
-    execute(msg, Discord){
+    execute(client, Discord, msg){
         if(msg.author.id === '722092754510807133'){
         msg.channel.send('```Shutting down...```').then(() => {process.exit(1);});
         } else {

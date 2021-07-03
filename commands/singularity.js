@@ -5,22 +5,23 @@ module.exports = {
     args: ['!<@user>'],
     aliases: ['s'],
     example: 'singularity',
-    async execute(msg, msModel, Discord){
+    async execute(client, Discord, msg){
+		let serverDoc = await client.utils.get('loadGuildInfo').execute(client, msg.guild);
+		let userMS = await client.utils.get('loadMsInfo').execute(serverDoc, msg.author.id);
 		let user = msg.mentions.users.first() ? msg.mentions.users.first() : msg.author;
 
-		let userMS;
-
-		await msModel.findOne({userID: user.id}).then(async function(ms, err){
-			console.log(ms);
-			if(err !== null && err){
+		if(msg.mentions.users.first()){
+			let filteredArr = serverDoc.ms.filter(user => user.userID === msg.author.id);
+			console.log(filteredArr);
+			if(filteredArr.length > 1){
 				const errEmbed = new Discord.MessageEmbed()
 				.setColor(0x000000)
-				.setDescription(`Uhoh, an error occured when trying to fetch your Singularity. If this issue persists, report this bug by sending me a DM starting with 'bug ' and a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
+				.setDescription(`Uhoh, an error occured when trying to fetch your Singularity. If this issue persists, report this bug by sending me a DM starting with 'bug ' and a screenshot of this message. \n \n \`Error:\` \n \`\`\`index.js Line 128 - filtered array length > 1\`\`\``);
 		
 				return msg.channel.send(errEmbed);
-			} else if(ms === null){
-				const newMS = new msModel({
-					userID: user.id,
+			} else if(filteredArr === []){
+				const newMS = new serverDoc.ms({
+					userID: msg.author.id,
 					atoms: 0,
 					items: [],
 					powerUps: [],
@@ -31,7 +32,9 @@ module.exports = {
 					}
 				});
 		
-				await newMS.save(function(err){
+				serverDoc.ms.push(newMS);
+		
+				await serverDoc.save(function(err){
 					if(err !== null && err){
 						const errEmbed = new Discord.MessageEmbed()
 						.setColor(0x000000)
@@ -42,8 +45,8 @@ module.exports = {
 				console.log(newMS);
 				userMS = newMS;
 			}
-			userMS = ms;
-		});
+			userMS = filteredArr[0];
+		} 
 		
 		let itemStr = ''
 		for(let item of userMS.items){

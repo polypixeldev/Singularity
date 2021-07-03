@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'welcomemessage welcome Welcome to the server, {member-mention}!',
     notes: 'cannot be channel mention, only channel name - In message, you may use the following placeholders: {member-mention}, {member-name}, and/or {member.tag}',
-    async execute(msg, args, serverModel, Discord){
+    async execute(client, Discord, msg, args, serverModel){
         const welcomeChannelName = args.shift();
         const welcomeChannel = msg.guild.channels.cache.find(ch => ch.name === welcomeChannelName);
         const serverDoc = await serverModel.findOne({guildID: msg.guild.id});

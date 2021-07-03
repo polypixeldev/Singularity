@@ -1,10 +1,8 @@
 const fs = require('fs');
 
-module.exports = (client, Discord) => {
+module.exports = (Discord, client) => {
     const command_files = fs.readdirSync('./commands/').filter(file => file.endsWith('js'));
-    if(!Discord){
-        //just to make eslint happy :)
-    }
+
     for(const file of command_files){
         const command = require(`../commands/${file}`);
         if(command.name){

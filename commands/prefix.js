@@ -5,7 +5,7 @@ module.exports = {
     args: ['<new prefix>'],
     aliases: [],
     example: 'prefix ?',
-    async execute(msg, args, Discord, serverModel){
+    async execute(client, Discord, msg, args, serverModel){
       if(!args[0]){
         const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
