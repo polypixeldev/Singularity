@@ -14,7 +14,7 @@ module.exports = {
 					welcomeChannelName: 'welcome',
 					leaveChannelName: 'welcome',
 					leaveMessage: '{member-tag} has left the server :(',
-					reactionroles: [],
+					reactionRoles: [],
 					ms: [client.msSchema]
 				});
 
@@ -25,6 +25,7 @@ module.exports = {
 				serverDoc = server;
 			}
 		});
+		console.log(serverDoc);
 		return serverDoc;
 	}
 }
