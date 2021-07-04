@@ -3,7 +3,7 @@ module.exports = {
     description: "Instantiates a new reaction role",
     type: 'mod',
     args: ['<emoji>', '<role name>', '<message to send>'],
-    aliases: [],
+    aliases: ['rr'],
     example: 'reactionrole ⏰ Notify React to get notified!',
     notes: 'message will be sent in channel that the command is sent in',
     async execute(client, Discord, msg, args, serverModel){
@@ -12,10 +12,22 @@ module.exports = {
         const roleName = args.shift();
         const messageSend = args.join(' ');
 
-        const serverDoc = await serverModel.findOne({guildID: msg.guild.id});
+        const checkObj = {
+          emoji: emoji,
+          role_name: roleName,
+          message_to_send: messageSend
+        };
+        for(let field in checkObj){
+          if(!checkObj[field]){
+            return msg.channel.send(`A required argument was not provided: \`${field}\``)
+          }
+        }
+
+        const serverDoc = client.utils.get('loadGuildInfo').execute(client, msg.guild);
         let sentMessage;
         await reactionChannel.send(messageSend).then(sent => {
           sentMessage = sent;
+          console.log(serverDoc.reactionRoles);
           serverDoc.reactionRoles.set(serverDoc.reactionRoles.length, [roleName, emoji, sent.id]);
           serverDoc.markModified('reactionRoles');
           console.log(serverDoc.reactionRoles);
