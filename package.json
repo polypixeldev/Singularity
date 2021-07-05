@@ -2,6 +2,7 @@
   "name": "singularity",
   "version": "1.0.0",
   "description": "",
+  "repository": "https://github.com/Poly-Pixel/Singularity",
   "main": "index.js",
   "dependencies": {
     "discord.js": "^12.5.3",
