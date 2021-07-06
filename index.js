@@ -17,40 +17,39 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.once('open', () => {
-  console.log('Database connected:', url)
+  console.log('Database connected:', url);
+  client.msSchema = new mongoose.Schema({
+    userID: String,
+    atoms: Number,
+    items: Array,
+    powerUps: Array,
+    singularity: Object
+  });
+  
+  const serverSchema = new mongoose.Schema({
+    guildID: String,
+    prefix: String,
+    welcomeMessage: String,
+    welcomeChannelName: String,
+    leaveChannelName: String,
+    leaveMessage: String,
+    reactionRoles: Array,
+    ms: [client.msSchema]
+  });
+  
+  client.serverModel = mongoose.model('serverModel', serverSchema);
+  
+  client.commands = new Discord.Collection();
+  client.events = new Discord.Collection();
+  client.utils = {};
+  
+  ['command_handler', 'event_handler', 'util_handler'].forEach(handler =>{
+      require(`./handlers/${handler}`)(Discord, client);
+  });
+  
+  client.login(process.env.TOKEN);
 });
 
 db.on('error', err => {
   console.error('connection error:', err)
 });
-
-client.msSchema = new mongoose.Schema({
-  userID: String,
-  atoms: Number,
-  items: Array,
-  powerUps: Array,
-  singularity: Object
-});
-
-const serverSchema = new mongoose.Schema({
-  guildID: String,
-  prefix: String,
-  welcomeMessage: String,
-  welcomeChannelName: String,
-  leaveChannelName: String,
-  leaveMessage: String,
-  reactionRoles: Array,
-  ms: [client.msSchema]
-});
-
-client.serverModel = mongoose.model('serverModel', serverSchema);
-
-client.commands = new Discord.Collection();
-client.events = new Discord.Collection();
-client.utils = new Discord.Collection();
-
-['command_handler', 'event_handler', 'util_handler'].forEach(handler =>{
-    require(`./handlers/${handler}`)(Discord, client);
-});
-
-client.login(process.env.TOKEN);
