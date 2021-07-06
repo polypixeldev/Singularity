@@ -1,10 +1,9 @@
-module.exports = {
-	name: 'loadGuildInfo',
-	async execute(client, guildResolvable){
+module.exports = async (client, guildResolvable) => {
 		let guild = client.guilds.resolve(guildResolvable);
 		let serverDoc;
 		await client.serverModel.findOne({guildID: guild.id}, async(err, server) => {
 			if(err !== null && err){
+				console.error(err);
 				return err;
 			} else if(server === null){
 				const newServer = new client.serverModel({
@@ -20,12 +19,10 @@ module.exports = {
 
 				serverDoc = newServer;
 				console.log('set');
-				await newServer.save(client.utils.get('saveCallback'));
+				await newServer.save(client.utils.saveCallback);
 			} else {
 				serverDoc = server;
 			}
 		});
-		console.log(serverDoc);
 		return serverDoc;
 	}
-}

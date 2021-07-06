@@ -1,5 +1,5 @@
-module.exports = async (serverModel, client, member) => {
-    const serverDoc = await serverModel.findOne({guildID: member.guild.id});
+module.exports = async (Discord, client, member) => {
+    const serverDoc = await client.utils.get(client, member.guild);
     const channel = member.guild.channels.cache.find(ch => ch.name === serverDoc.welcomeChannelName);
     if (!channel) return;
     const tagRegex = /{member-tag}/g;

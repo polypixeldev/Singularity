@@ -4,11 +4,6 @@ module.exports = (Discord, client) => {
 
     for(const file of util_files){
         const util = require(`../util/${file}`);
-        console.log(util.name);
-        if(util.name){
-            client.utils.set(util.name, util);
-        } else {
-            continue;
-        }
+        client.utils[file.split('.')[0]] =  util;
     }
 }

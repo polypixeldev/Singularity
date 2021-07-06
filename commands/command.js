@@ -6,7 +6,7 @@ module.exports = {
 	aliases: [],
 	example: 'command help',
 	notes: 'Aliases are not supported',
-	async execute(client, Discord, msg, args, serverModel, prefix){
+	async execute(client, Discord, msg, args, serverDoc){
 		let command;
 		if(!client.commands.get(args[0])){
 			const notFoundEmbed = new Discord.MessageEmbed()
@@ -39,11 +39,11 @@ module.exports = {
 		.setDescription(`${command.description}
 
 		**Usage**:
-		\`\`\`${prefix}${command.name} ${argString}\`\`\`
+		\`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
 		**Aliases:**
 		\`\`\`${aliasString}\`\`\`
 		**Example:**
-		\`\`\`${prefix}${command.example}\`\`\`
+		\`\`\`${serverDoc.prefix}${command.example}\`\`\`
 		**Notes:**
 		\`\`\`${command.notes ? command.notes : 'none'}\`\`\`
 		`)

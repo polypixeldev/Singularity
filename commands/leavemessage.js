@@ -6,8 +6,7 @@ module.exports = {
     aliases: [],
     example: 'leavemessage goodbye {member-tag} left the server :(',
     notes: 'cannot be channel mention, only channel name - In message, you may use the following placeholders: {member-name} and/or {member-tag}',
-    async execute(client, Discord, msg, args, serverModel){
-        const serverDoc = await serverModel.findOne({guildID: msg.guild.id});
+    async execute(client, Discord, msg, args, serverDoc){
         const leaveChannelName = args.shift();
         const leaveChannel = msg.guild.channels.cache.find(ch => ch.name === leaveChannelName);
 
@@ -19,16 +18,12 @@ module.exports = {
         }
 
         const leaveMessage = args.join(' ');
-        serverDoc.leaveMessage = leaveMessage;
-        serverDoc.leaveChannelName = leaveChannelName;
+        //serverDoc.leaveMessage = leaveMessage;
+        //serverDoc.leaveChannelName = leaveChannelName;
 
-        await serverDoc.save(function(err){
-          if(err !== null && err){
-            const errEmbed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setDescription(`Uhoh, an error occured when recieving changing the prefix. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
-            return msg.channel.send(errEmbed);
-          }
+        await client.utils.updateServer(client, serverDoc, {
+          leaveMessage: leaveMessage,
+          leaveChannelName: leaveChannelName
         });
 
         const embed = new Discord.MessageEmbed()

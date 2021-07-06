@@ -5,7 +5,7 @@ module.exports = {
     args: ['<new prefix>'],
     aliases: [],
     example: 'prefix ?',
-    async execute(client, Discord, msg, args, serverModel){
+    async execute(client, Discord, msg, args, serverDoc){
       if(!args[0]){
         const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
@@ -15,19 +15,7 @@ module.exports = {
       }
 
         if(msg.member.hasPermission('MANAGE_GUILD')){
-          const serverDoc = await serverModel.findOne({guildID: msg.guild.id});
-          serverDoc.prefix = args[0];
-          await serverDoc.save(function(err){
-            if(err !== null && err){
-              const errEmbed = new Discord.MessageEmbed()
-              .setColor(0x000000)
-              .setDescription(`Uhoh, an error occured when recieving changing the prefix. If this issue persists, DM poly#3622 with a screenshot of this message. \n \n \`Error:\` \n \`\`\`${err}\`\`\``);
-              return msg.channel.send(errEmbed);
-            }
-          });
-
-            //configArr[0][msg.guild.id].prefix = args[0];
-            //fs.writeFileSync('config.json', JSON.stringify(configArr, null, 2));
+            await client.utils.updateServer(client, serverDoc, {prefix: args[0]});
 
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
