@@ -1,11 +1,10 @@
-module.exports = async (client, guildResolvable) => {
+module.exports = (client, guildResolvable) => {
+	return new Promise((resolve) => {
 		let guild = client.guilds.resolve(guildResolvable);
-		let serverDoc;
-		await client.serverModel.findOne({guildID: guild.id}, async(err, server) => {
-			if(err !== null && err){
-				console.error(err);
-				return err;
-			} else if(server === null){
+		client.serverModel.findOne({guildID: guild.id}).exec().then(serverDoc => {
+			console.log('h');
+			if(serverDoc === null){
+				console.log('gSetting...');
 				const newServer = new client.serverModel({
 					guildID: guild.id,
 					prefix: '.',
@@ -16,13 +15,14 @@ module.exports = async (client, guildResolvable) => {
 					reactionRoles: [],
 					ms: [client.msSchema]
 				});
-
-				serverDoc = newServer;
-				console.log('set');
-				await newServer.save(client.utils.saveCallback);
+				resolve(newServer);
+				console.log('gSet');
 			} else {
-				serverDoc = server;
+				resolve(serverDoc);
 			}
-		});
-		return serverDoc;
-	}
+		
+		//return serverDoc;
+		
+		});	
+	});
+}

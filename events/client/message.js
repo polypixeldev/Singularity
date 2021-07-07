@@ -13,8 +13,14 @@ let cooldownInterval = setInterval(() => {
 
 module.exports = async (Discord, client, msg) => {
 	if(msg.author.bot) return;
-	const serverDoc = await client.utils.loadGuildInfo(client, msg.guild);
-	const userMS = await client.utils.loadMsInfo(serverDoc, msg.author.id, client);
+	if(msg.channel.type === 'dm') return;
+	let userMS;
+	let serverDoc
+	await client.utils.loadGuildInfo(client, msg.guild).then(async server => {
+		serverDoc = server
+		userMS = await client.utils.loadMsInfo(server, msg.author.id, client);
+	})
+	if(serverDoc === 'err') return msg.channel.send(serverDoc);
     const prefix = serverDoc.prefix;
 
 	if(msg.channel.type ==='dm'){
@@ -54,7 +60,7 @@ module.exports = async (Discord, client, msg) => {
 		}
 	
 		serverDoc.markModified('ms');
-		await serverDoc.save(client.utils.saveCallback);
+		serverDoc.save(client.utils.saveCallback);
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;

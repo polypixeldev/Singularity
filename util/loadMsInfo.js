@@ -1,10 +1,13 @@
-module.exports = async (serverDoc, id, client) => {
+module.exports = (serverDoc, id) => {
+	return new Promise((resolve, reject) => {
+	console.log(serverDoc);
 		let userMS;
 		let filteredArr = serverDoc.ms.filter(user => user.userID === id);
 		if(filteredArr.length > 1){
-			return undefined;
+			//return 'err';
+			reject('err');
 		} else if(filteredArr.length === 0){
-			console.log('setting...');
+			console.log('mSetting...');
 			const newMS = {
 				userID: id,
 				atoms: 0,
@@ -19,12 +22,14 @@ module.exports = async (serverDoc, id, client) => {
 
 			serverDoc.ms.push(newMS);
   
-			serverDoc.save(client.utils.saveCallback);
-			userMS = newMS;
+			userMS = serverDoc.save();
+			console.log('msSet');
+			
 		} else {
 			userMS = filteredArr[0];
 		}
-		
 
-		return userMS;
-	}
+		//return userMS;
+		resolve(userMS);
+	});
+}
