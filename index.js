@@ -20,7 +20,10 @@ db.once('open', () => {
   console.log('Database connected:', url);
   client.msSchema = new mongoose.Schema({
     userID: String,
-    atoms: Number,
+    protons: Number,
+    electrons: Number,
+    darkMatter: Number,
+    lifeExp: Number,
     items: Array,
     powerUps: Array,
     singularity: Object

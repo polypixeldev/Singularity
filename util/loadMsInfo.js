@@ -1,7 +1,5 @@
 module.exports = (serverDoc, id) => {
 	return new Promise((resolve, reject) => {
-	console.log(serverDoc);
-		let userMS;
 		let filteredArr = serverDoc.ms.filter(user => user.userID === id);
 		if(filteredArr.length > 1){
 			//return 'err';
@@ -10,9 +8,12 @@ module.exports = (serverDoc, id) => {
 			console.log('mSetting...');
 			const newMS = {
 				userID: id,
-				atoms: 0,
+				protons: 0,
+				electrons: 0,
 				items: [],
 				powerUps: [],
+				lifeExp: 0,
+				darkMatter: 0,
 				singularity: {
 					type: 'black',
 					size: 10,
@@ -22,14 +23,15 @@ module.exports = (serverDoc, id) => {
 
 			serverDoc.ms.push(newMS);
   
-			userMS = serverDoc.save();
+			serverDoc.save().then(() => {
+				resolve(newMS);
+				console.log('fetched');
+			});
 			console.log('msSet');
 			
 		} else {
-			userMS = filteredArr[0];
+			resolve(filteredArr[0]);
+			console.log('fetched');
 		}
-
-		//return userMS;
-		resolve(userMS);
 	});
 }
