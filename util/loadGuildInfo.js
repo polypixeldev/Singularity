@@ -2,7 +2,6 @@ module.exports = (client, guildResolvable) => {
 	return new Promise((resolve) => {
 		let guild = client.guilds.resolve(guildResolvable);
 		client.serverModel.findOne({guildID: guild.id}).exec().then(serverDoc => {
-			console.log('h');
 			if(serverDoc === null){
 				console.log('gSetting...');
 				const newServer = new client.serverModel({
