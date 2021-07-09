@@ -9,11 +9,12 @@ let cooldownInterval = setInterval(() => {
   for(let person in cooldowns){
     if(cooldowns[person] > 0) cooldowns[person]--;
   }
-}, 30000);
+}, 1000);
 
 module.exports = async (Discord, client, msg) => {
 	if(msg.author.bot) return;
 	if(msg.channel.type === 'dm') return;
+	console.log(cooldowns);
 	let userMS;
 	let serverDoc
 	await client.utils.loadGuildInfo(client, msg.guild).then(async server => {
@@ -48,19 +49,25 @@ module.exports = async (Discord, client, msg) => {
 	
 		const prevExp = userMS.atoms;
 		if(cooldowns[msg.author.id] === 0){
-			userMS.atoms += Math.floor(10 + (Math.random() * 10));
+			console.log('exp');
+			let addProton = Math.random() * 5;
+			let addElectron = Math.random() * 2;
+			userMS.protons += Math.floor(10 + addProton);
+			userMS.electrons += Math.floor(10 + addElectron);
+			userMS.lifeExp += Math.floor(20 + addProton + (addElectron * 2.5));
 			cooldowns[msg.author.id] = 60;
 		}
 		let index = 1;
 		for(let value of levelArr){
-			if(prevExp < value && userMS.atoms >= value){
+			if(prevExp < value && userMS.lifeAtoms >= value){
 				msg.channel.send(`Level up! Your Singularity is now level **${index}**!`);
 			}
 			index++;
 		}
 	
 		serverDoc.markModified('ms');
-		serverDoc.save(client.utils.saveCallback);
+		await serverDoc.save();
+		console.log('saved');
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;
