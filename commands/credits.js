@@ -3,7 +3,7 @@ module.exports = {
     description: 'Credits to the makers of this bot',
     type: 'general',
     args: [],
-    aliases: [],
+    aliases: ['c'],
     example: 'credits',
     execute(client, Discord, msg){
         const embed = new Discord.MessageEmbed()

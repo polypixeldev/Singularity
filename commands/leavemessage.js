@@ -3,7 +3,7 @@ module.exports = {
     description: "Sets the leave message for the server",
     type: 'mod',
     args: ['<channel name to send the message in>', '<message to send>'],
-    aliases: [],
+    aliases: ['lm'],
     example: 'leavemessage goodbye {member-tag} left the server :(',
     notes: 'cannot be channel mention, only channel name - In message, you may use the following placeholders: {member-name} and/or {member-tag}',
     async execute(client, Discord, msg, args, serverDoc){

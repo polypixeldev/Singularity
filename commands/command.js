@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Displays information about the mentioned command',
 	type: 'general',
 	args: ['<command name>'],
-	aliases: [],
+	aliases: ['cmd'],
 	example: 'command help',
 	notes: 'Aliases are not supported',
 	async execute(client, Discord, msg, args, serverDoc){

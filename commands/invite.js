@@ -3,7 +3,7 @@ module.exports = {
     description: "Invite link for Singularity",
     type: 'general',
     args: [],
-    aliases: [],
+    aliases: ['i'],
     example: 'invite',
     execute(client, Discord, msg){
     const embed = new Discord.MessageEmbed()
