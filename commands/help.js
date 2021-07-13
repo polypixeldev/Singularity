@@ -48,7 +48,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed() 
         .setTitle('Singularity Help')
         .setColor(0x000000)
-        .setDescription(`**This server's prefix is:** \`${serverDoc.prefix}\` \n \n **General Command Help:** \`${serverDoc.prefix}help general\` \n \n **Moderation Command Help:** \`${serverDoc.prefix}help mod\` \n \n **My Singularity Help:** \`${serverDoc.prefix}help ms\` \n \n **Improve Singularity!** Singularity is open-source! Check out the repository on github at https://github.com/Poly-Pixel/Singularity and join the support server at https://discord.gg/Q5GbzpXgSz`)
+        .setDescription(`**This server's prefix is:** \`${serverDoc.prefix}\` \n \n **General Command Help:** \`${serverDoc.prefix}help general\` \n \n **Moderation Command Help:** \`${serverDoc.prefix}help mod\` \n \n **My Singularity Help:** \`${serverDoc.prefix}help ms\` \n \n **Command Info:** \`${serverDoc.prefix}command <command_name>\` \n \n **Improve Singularity!** Singularity is open-source! Check out the repository on GitHub at https://github.com/Poly-Pixel/Singularity and join the support server at https://discord.gg/Q5GbzpXgSz`)
         .setFooter(`Help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 
         msg.channel.send(embed);
