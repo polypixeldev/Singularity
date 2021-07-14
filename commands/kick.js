@@ -13,14 +13,14 @@ module.exports = {
         const reason = args.join(' ');
 
         if (user) {
-          if(user.hasPermission('ADMINISTRATOR')){
+          const member = msg.guild.members.resolve(user);
+          if(member.hasPermission('ADMINISTRATOR')){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot kick a moderator!')
             .setColor(0x000000);
             return msg.channel.send(permsEmbed);
           }
-
-          const member = msg.guild.members.resolve(user);
+          
           const kicker = msg.guild.members.resolve(msg.author);
 
           if (member) {

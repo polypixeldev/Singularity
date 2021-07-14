@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'unmute @poly',
     notes: 'user must be mentioned',
-    async execute(client, Discord, msg){
+    execute(client, Discord, msg){
         const user = msg.mentions.users.first();
       if (user) {
         const member = msg.guild.members.resolve(user);
@@ -16,8 +16,7 @@ module.exports = {
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You do not have permission to unmute!')
             .setColor(0x000000);
-            await msg.channel.send(permsEmbed);
-            return;
+            return msg.channel.send(permsEmbed);
           }
           const unmuteRole = msg.guild.roles.cache.find(role => role.name === "Muted");
           member

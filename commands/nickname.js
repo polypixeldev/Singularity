@@ -6,7 +6,7 @@ module.exports =  {
     aliases: [],
     example: 'nickname @poly Bot Maker',
     notes: 'user must be mentioned',
-    async execute(client, Discord, msg, args){
+    execute(client, Discord, msg, args){
         if(!args[1]){
             const embed = new Discord.MessageEmbed()
             .setDescription('Please provide a username to set')

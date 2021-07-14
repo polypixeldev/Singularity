@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const cooldowns = {
 
 }
@@ -16,7 +14,6 @@ let cooldownInterval = setInterval(() => {
 module.exports = async (Discord, client, msg) => {
 	if(msg.author.bot) return;
 	if(msg.channel.type === 'dm') return;
-	console.log(cooldowns);
 	let userMS;
 	let serverDoc
 	await client.utils.loadGuildInfo(client, msg.guild).then(async server => {
@@ -51,7 +48,6 @@ module.exports = async (Discord, client, msg) => {
 	
 		const prevExp = userMS.atoms;
 		if(cooldowns[msg.author.id] === 0){
-			console.log('exp');
 			let addProton = Math.random() * 5;
 			let addElectron = Math.random() * 2;
 			userMS.protons += Math.floor(10 + addProton);
@@ -69,7 +65,6 @@ module.exports = async (Discord, client, msg) => {
 	
 		serverDoc.markModified('ms');
 		await serverDoc.save();
-		console.log('saved');
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;
@@ -79,35 +74,6 @@ module.exports = async (Discord, client, msg) => {
 
     const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 	if(!command) return;
-	let errors = JSON.parse(fs.readFileSync('./errors.json'));
-	for(let cmd of errors){
-		if(cmd.command === command.name){
-			const embed = new Discord.MessageEmbed()
-			.setColor(0xFF0000)
-			.setDescription(`This command is currently in Maintenance Mode due to an error. The command will be made available once the error is resolved. Thank you for your patience.`);
-
-			return msg.channel.send(embed);
-		}
-	}
 	
-	try {
-		command.execute(client, Discord, msg, args, serverDoc);
-	} catch(error){
-		let stack = error.stack.split('\n');
-		stack.shift();
-		stack.pop();
-
-		errors.push({
-			command: command.name,
-			errorMsg: error.message,
-			stack: stack
-		});
-		fs.writeFileSync('./errors.json', JSON.stringify(errors, null, 2));
-
-		const embed = new Discord.MessageEmbed()
-		.setColor(0xFF0000)
-		.setDescription(`There was an error executing this command. Command ${command.name} has gone into Maintenance Mode until the issue is resolved. Thank you for your patience.`);
-
-		return msg.channel.send(embed);
-	}
+	command.execute(client, Discord, msg, args, serverDoc);
 }

@@ -6,7 +6,7 @@ module.exports = {
 	aliases: ['cmd'],
 	example: 'command help',
 	notes: 'Aliases are not supported',
-	async execute(client, Discord, msg, args, serverDoc){
+	execute(client, Discord, msg, args, serverDoc){
 		let command;
 		if(!client.commands.get(args[0])){
 			const notFoundEmbed = new Discord.MessageEmbed()

@@ -5,13 +5,12 @@ module.exports = {
     args: ['<# of messages to clear> '],
     aliases: ['purge', 'delete'],
     example: 'clear 100',
-    async execute(client, Discord, msg, args) {
+    execute(client, Discord, msg, args) {
         if(!msg.member.hasPermission('ADMINISTRATOR')){
             const embed = new Discord.MessageEmbed()
             .setDescription('You do not have permission to clear messages!')
             .setColor(0x000000);
-            await msg.channel.send(embed);
-            return;
+            return msg.channel.send(embed);
         }
 
         if(!args[0]){

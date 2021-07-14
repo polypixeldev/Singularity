@@ -5,6 +5,17 @@ REMINDERS:
  -Make code cleaner (unnecessary arguments, pass config)
 */
 
+const Sentry = require("@sentry/node");
+const Tracing = require("@sentry/tracing"); //eslint-disable-line
+
+Sentry.init({
+  dsn: "https://d38245378f464bdeb3d02ca1cb6af6f9@o920118.ingest.sentry.io/5865017",
+  release: 'Singularity@0.1.0',
+  tracesSampleRate: 1.0,
+});
+
+Sentry.setTag("appProcess", "bot-core");
+
 const Discord = require('discord.js');
 const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
 const mongoose = require('mongoose');

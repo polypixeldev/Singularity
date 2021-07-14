@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'ban @poly 14',
     notes: 'number of days cannot be longer than 14 - if days are ommitted, mentioned user will be banned until unban',
-    async execute(client, Discord, msg){
+    execute(client, Discord, msg){
         const user = msg.mentions.users.first();
         if (user) {
           const member = msg.guild.members.resolve(user);
@@ -14,8 +14,7 @@ module.exports = {
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot ban a moderator!')
             .setColor(0x000000);
-            await msg.channel.send(permsEmbed);
-            return;
+            return msg.channel.send(permsEmbed);
           }
           const banner = msg.guild.members.resolve(msg.author);
           if (member) {
@@ -23,11 +22,10 @@ module.exports = {
               const permsEmbed = new Discord.MessageEmbed()
               .setDescription('You do not have permission to ban!')
               .setColor(0x000000);
-              await msg.channel.send(permsEmbed);
-              return;
+              return msg.channel.send(permsEmbed);
             }
             if(isNaN(msg.content[msg.content.length - 1])){
-              await member
+              return member
               .ban({reason: `User banned by: ${msg.author.tag}`})
               .then(() => {
                 msg.channel.send(`Successfully banned **${user.tag}**`);
@@ -36,7 +34,6 @@ module.exports = {
                 msg.channel.send('I was unable to ban the member because: \n`' + err + "`");
                 console.error(err);
               });
-              return;
             }
             member
               .ban({days: msg.content[msg.content.length - 1], reason: `User banned by: ${msg.author.tag}`})
