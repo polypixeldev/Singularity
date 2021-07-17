@@ -2,6 +2,9 @@ module.exports = {
     name: 'bestmcseed',
     description: "Shows the best seed in Minecraft Bedrock Edition",
     type: 'general',
+    args: [],
+    aliases: [],
+    example: 'bestmcseed',
     execute(client, Discord, msg){
         const embed = new Discord.MessageEmbed()
         .setTitle('Best Minecraft Seeds')
