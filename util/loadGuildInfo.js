@@ -19,9 +19,6 @@ module.exports = (client, guildResolvable) => {
 			} else {
 				resolve(serverDoc);
 			}
-		
-		//return serverDoc;
-		
 		});	
 	});
 }
