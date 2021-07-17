@@ -16,6 +16,11 @@ Sentry.init({
 
 Sentry.setTag("appProcess", "bot-core");
 
+const startupTransaction = Sentry.startTransaction({
+  op: 'Startup',
+  name: 'Startup'
+});
+
 const Discord = require('discord.js');
 const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
 const mongoose = require('mongoose');
@@ -25,9 +30,14 @@ require('dotenv').config();
 const url = 'mongodb://127.0.0.1:27017/Singularity';
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const databaseConnectionTransaction = startupTransaction.startChild({
+  op: 'connection',
+  name: 'Database Connection'
+});
 
 const db = mongoose.connection;
 db.once('open', () => {
+  databaseConnectionTransaction.finish();
   console.log('Database connected:', url);
   client.msSchema = new mongoose.Schema({
     userID: String,
@@ -62,6 +72,13 @@ db.once('open', () => {
   });
   
   client.login(process.env.TOKEN);
+  const loginTransaction = startupTransaction.startChild({
+    op: 'connection',
+    name: 'Login to Discord API'
+  });
+  client.once('ready', () => {
+    loginTransaction.finish();
+  })
 });
 
 db.on('error', err => {
