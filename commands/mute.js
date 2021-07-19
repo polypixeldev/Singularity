@@ -6,7 +6,7 @@ module.exports = {
     aliases: [],
     example: 'mute @poly',
     notes: 'user must be mentioned',
-    execute(client, Discord, msg){
+    async execute(client, Discord, msg){
         const user = msg.mentions.users.first();
         if(user) {
           const member = msg.guild.members.resolve(user);
@@ -37,7 +37,7 @@ module.exports = {
 
         if(!muteRole){
           const aGuild = client.guilds.resolve(msg.channel);
-          aGuild.roles.create({data:{
+          await aGuild.roles.create({data:{
             name: 'Muted',
             color: '#FFFFFF',
             hoist: true,
@@ -48,6 +48,7 @@ module.exports = {
 
           muteRole = member.guild.roles.cache.find(rl => rl.name === 'Muted');
         }
+        console.log(muteRole);
 
           member
           .roles.add(muteRole)
