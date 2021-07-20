@@ -9,7 +9,7 @@ let cooldownInterval = setInterval(() => {
   for(let person in cooldowns){
     if(cooldowns[person] > 0) cooldowns[person]--;
   }
-}, 1000);
+}, 60000);
 
 module.exports = async (Discord, client, msg) => {
 	if(msg.author.bot) return;
@@ -49,9 +49,9 @@ module.exports = async (Discord, client, msg) => {
 		const prevExp = userMS.atoms;
 		if(cooldowns[msg.author.id] === 0){
 			let addProton = Math.random() * 5;
-			let addElectron = Math.random() * 2;
-			userMS.protons += Math.floor(10 + addProton);
-			userMS.electrons += Math.floor(10 + addElectron);
+			let addElectron = Math.random();
+			userMS.protons += Math.floor(5 + addProton);
+			userMS.electrons += Math.floor(5 + addElectron);
 			userMS.lifeExp += Math.floor(20 + addProton + (addElectron * 2.5));
 			cooldowns[msg.author.id] = 60;
 		}
