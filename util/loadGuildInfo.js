@@ -3,19 +3,17 @@ module.exports = (client, guildResolvable) => {
 		let guild = client.guilds.resolve(guildResolvable);
 		client.serverModel.findOne({guildID: guild.id}).exec().then(serverDoc => {
 			if(serverDoc === null){
-				console.log('gSetting...');
 				const newServer = new client.serverModel({
 					guildID: guild.id,
 					prefix: '.',
 					welcomeMessage: '{member-mention} has joined the server!',
-					welcomeChannelName: 'welcome',
-					leaveChannelName: 'welcome',
+					welcomeChannelID: 'none',
+					leaveChannelID: 'none',
 					leaveMessage: '{member-tag} has left the server :(',
 					reactionRoles: [],
 					ms: [client.msSchema]
 				});
 				resolve(newServer);
-				console.log('gSet');
 			} else {
 				resolve(serverDoc);
 			}

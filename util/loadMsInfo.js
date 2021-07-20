@@ -5,7 +5,6 @@ module.exports = (serverDoc, id) => {
 			//return 'err';
 			reject('err');
 		} else if(filteredArr.length === 0){
-			console.log('mSetting...');
 			const newMS = {
 				userID: id,
 				protons: 0,
@@ -25,13 +24,10 @@ module.exports = (serverDoc, id) => {
   
 			serverDoc.save().then(() => {
 				resolve(newMS);
-				console.log('fetched');
 			});
-			console.log('msSet');
 			
 		} else {
 			resolve(filteredArr[0]);
-			console.log('fetched');
 		}
 	});
 }
