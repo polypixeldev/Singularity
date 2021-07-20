@@ -54,8 +54,8 @@ db.once('open', () => {
     guildID: String,
     prefix: String,
     welcomeMessage: String,
-    welcomeChannelName: String,
-    leaveChannelName: String,
+    welcomeChannelID: String,
+    leaveChannelID: String,
     leaveMessage: String,
     reactionRoles: Array,
     ms: [client.msSchema]

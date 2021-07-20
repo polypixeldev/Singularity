@@ -1,6 +1,6 @@
 module.exports = async (Discord, client, member) => {
     const serverDoc = await client.utils.loadGuildInfo(client, member.guild);
-    const channel = member.guild.channels.cache.find(ch => ch.name === serverDoc.leaveChannelName);
+    const channel = member.guild.channels.resolve(serverDoc.leaveChannelID);
     if (!channel) return;
     const tagRegex = /{member-tag}/g;
     const nameRegex = /{member-name}/g;
