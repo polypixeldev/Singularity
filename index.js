@@ -12,6 +12,10 @@ Sentry.init({
   dsn: "https://d38245378f464bdeb3d02ca1cb6af6f9@o920118.ingest.sentry.io/5865017",
   release: 'Singularity@0.1.0',
   tracesSampleRate: 1.0,
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+  ],
+  environment: 'development'
 });
 
 Sentry.setTag("appProcess", "bot-core");
@@ -19,6 +23,10 @@ Sentry.setTag("appProcess", "bot-core");
 const startupTransaction = Sentry.startTransaction({
   op: 'Startup',
   name: 'Startup'
+});
+
+Sentry.configureScope(scope => {
+  scope.setSpan(startupTransaction);
 });
 
 const Discord = require('discord.js');
