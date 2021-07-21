@@ -2,7 +2,6 @@ module.exports = (serverDoc, id) => {
 	return new Promise((resolve, reject) => {
 		let filteredArr = serverDoc.ms.filter(user => user.userID === id);
 		if(filteredArr.length > 1){
-			//return 'err';
 			reject('err');
 		} else if(filteredArr.length === 0){
 			const newMS = {
