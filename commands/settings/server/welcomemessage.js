@@ -1,12 +1,4 @@
-module.exports = {
-    name: 'welcomemessage',
-    description: "Sets the server welcome message",
-    type: 'mod',
-    args: ['<channel name to send the message in>', '<message to send>'],
-    aliases: ['wm'],
-    example: 'welcomemessage welcome Welcome to the server, {member-mention}!',
-    notes: 'cannot be channel mention, only channel name - In message, you may use the following placeholders: {member-mention}, {member-name}, and/or {member.tag}',
-    execute(client, Discord, msg, args, serverDoc){
+module.exports = (client, Discord, msg, args, serverDoc) => {
         if(args.length === 0){
           if(serverDoc.welcomeChannelID !== 'none'){
             client.utils.updateServer(client, serverDoc, {
@@ -59,4 +51,3 @@ module.exports = {
           msg.channel.send(successEmbed);
         });
     }
-}

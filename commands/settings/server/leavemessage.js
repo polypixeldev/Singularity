@@ -1,12 +1,4 @@
-module.exports = {
-    name: 'leavemessage',
-    description: "Sets the leave message for the server",
-    type: 'mod',
-    args: ['<channel name to send the message in>', '<message to send>'],
-    aliases: ['lm'],
-    example: 'leavemessage goodbye {member-tag} left the server :(',
-    notes: 'cannot be channel mention, only channel name - In message, you may use the following placeholders: {member-name} and/or {member-tag}',
-    async execute(client, Discord, msg, args, serverDoc){
+module.exports = (client, Discord, msg, args, serverDoc) => {
       if(args.length === 0){
         if(serverDoc.leaveChannelID !== 'none'){
           client.utils.updateServer(client, serverDoc, {
@@ -45,15 +37,14 @@ module.exports = {
 
       const leaveMessage = args.join(' ');
 
-      await client.utils.updateServer(client, serverDoc, {
+      client.utils.updateServer(client, serverDoc, {
         leaveMessage: leaveMessage,
         leaveChannelID: leaveChannel.id
+      }).then(() => {
+        const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setDescription(`Server leave message successfully changed to \`${leaveMessage}\` in channel \`#${leaveChannel.name}\``)
+        
+        msg.channel.send(embed);
       });
-
-      const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setDescription(`Server leave message successfully changed to \`${leaveMessage}\` in channel \`${leaveChannel.name}\``)
-      
-      msg.channel.send(embed);
     }
-}
