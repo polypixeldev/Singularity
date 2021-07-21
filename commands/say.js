@@ -6,6 +6,8 @@ module.exports = {
     aliases: [],
     example: 'say I am Singularity',
     execute(client, Discord, msg, args){
-        msg.channel.send(args.join(' '));
+        msg.channel.send(args.join(' ')).then(() => {
+            msg.delete();
+        })
     }
 }
