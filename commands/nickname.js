@@ -7,32 +7,38 @@ module.exports =  {
     example: 'nickname @poly Bot Maker',
     notes: 'user must be mentioned',
     execute(client, Discord, msg, args){
-        if(!args[1]){
+        if(!msg.member.hasPermission('ADMINISTRATOR')){
             const embed = new Discord.MessageEmbed()
-            .setDescription('Please provide a username to set')
             .setColor(0x000000)
+            .setDescription('You do not have permission to set the nickname of others!');
 
             return msg.channel.send(embed);
         }
+        if(!args[1]) args[1] === null;
 
-        const user = msg.mentions.users.first();
+        let user = msg.mentions.users.first();
 
-        if (user) {
-          const member = msg.guild.members.resolve(user);
+        if (!user) {
+            user = client.user;
+            args[1] = args[0];
+        }
 
-          if(member.hasPermission('ADMINISTRATOR')){
+        const member = msg.guild.members.resolve(user);
+
+        if(member.hasPermission('ADMINISTRATOR') && user.id !== '860552124064202812'){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot nickname a moderator!')
             .setColor(0x000000);
 
             return msg.channel.send(permsEmbed);
-          }
-          const prevName = member.nickname;
+        }
 
-          let errored = false;
+        const prevName = member.nickname;
 
-          const nicknameFunc = args => {args.shift(); return args;}
-          const nicknameSet = nicknameFunc(args);
+        let errored = false;
+
+        const nicknameFunc = args => {args.shift(); return args;}
+        const nicknameSet = nicknameFunc(args);
 
         member.setNickname(nicknameSet.join(' ')).catch(async err => {
             errored = true;
@@ -50,22 +56,14 @@ module.exports =  {
             
                 return msg.channel.send(errEmbed);
             }
-            });
+        });
 
-            if(errored !== true){
-                const embed = new Discord.MessageEmbed()
-                .setColor(0x000000)
-                .setDescription(`Name changed from \`${prevName}\` to \`${nicknameSet.join(' ')}\``);
-
-                msg.channel.send(embed);
-            }
-        } else {
+        if(errored !== true){
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
-            .setDescription('Please provide a user to set the nickname of');
+            .setDescription(`Name changed from \`${prevName === null || prevName === '' ? 'None' : prevName}\` to \`${nicknameSet.join(' ') === null || nicknameSet.join(' ') === '' ? 'None': nicknameSet.join(' ')}\``);
+
             msg.channel.send(embed);
         }
-        
-        
     }
 }
