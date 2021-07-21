@@ -47,7 +47,11 @@ module.exports = {
                  .setDescription(`Successfully cleared \`${args[0]}\` messages!`)
                  .setColor(0x000000);
 
-                msg.channel.send(embed);
+                msg.channel.send(embed).then(sent => {
+                    setTimeout(() => {
+                        sent.delete();
+                    }, 3000);
+                });
             }, ()=>{
                 const embed = new Discord.MessageEmbed()
                 .setDescription('At this time, you cannot delete messages that are over 14 days old.')
