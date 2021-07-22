@@ -2,7 +2,7 @@ const Shop = require('./singularity/shop/shop.js');
 const Upgrade =  require('./singularity/upgrade.js');
 module.exports = {
     name: 'singularity',
-    description: 'Your black/white hole!',
+    description: 'Manage your Singularity and view the Singularities of others!',
     type: 'ms',
     args: ['!<@user | upgrade | shop>'],
     aliases: ['s'],

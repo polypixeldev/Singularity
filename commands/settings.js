@@ -5,6 +5,7 @@ const ModSettings = require('./settings/mod.js');
 module.exports = {
 	name: 'settings',
 	type: 'mod',
+	description: 'Singularity Settings',
 	aliases: [],
 	args: [],
 	example: 'settings',
