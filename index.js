@@ -33,10 +33,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
 const mongoose = require('mongoose');
 
+const API = require('./api/server.js');
+
 require('dotenv').config();
 
 const url = 'mongodb://127.0.0.1:27017/Singularity';
 
+API.start();
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const databaseConnectionTransaction = startupTransaction.startChild({
   op: 'connection',
