@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Oswald&display=swap');
+
+body {
+  background-color: #373b42;
+  margin: 0px 0px 0px 0px;
+  color: white;
+  font-family: 'Comfortaa', sans-serif;
+  text-align: center;
+}
+
+#h1{
+  color: #FFF;
+  font-family: 'Oswald';
+  font-size: 2.5em;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.nav-links {
+  font-family: 'Oswald';
+  font-size: 1.5em;
+  color: #FFF;
+  text-align: center;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: space-around;
+  align-items: center;
+  position: sticky;
+  top: 0px;
+  background-color: #1e2124;
+  right: 0px;
+  left: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 12.5vh;
+}
+
+#top {
+  height: 87.5vh;
+  background-image: url('https://cdn.glitch.com/7443647b-611c-42f0-93fa-477dbbcd12cf%2Fstars.png?v=1626895848707');
+}
+
+#nav-div {
+  width: 30vw;
+}
+
+.side-by-side {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.equal-grid-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.blurple-box {
+  background-color: #7289DA;
+  border-radius: 10px;
+  width: 70%;
+  padding: 5% 5% 5% 5%;
+}
+
+img {
+  display: block;
+  width: 30vw;
+  margin: auto;
+}
+
+.pretty-link {
+  text-decoration: none;
+  color: white;
+  background-color: #4E5D94;
+  padding: 3% 3% 3% 3%;
+  border-radius: 10px;
+}
+
+p {
+  font-size: calc(1vw + 15px);
+  margin: 5vh 5vw 5vh 5vw;
+}
+
+.equal-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+
+footer {
+  height: 30vh;
+  background-color: #1e2124;
+}
+
+.tiny-img {
+  width: 10vw;
+  height: 10vw;
+}
+
+.v-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  margin: 5px 0px 5px 0px;
+  font-size: calc(1vw + 10px);
+}
+
+#sidebar-main {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  height: 87.5vh;
+}
+
+#cmd-sidebar {
+  overflow-y: scroll;
+}
+
+#cmd-sidebar div button {
+  border: none;
+  box-shadow: none;
+  background: none;
+  color: white;
+  font-size: calc(1vw + 15px);
+  font-family: 'Comfortaa', sans-serif;
+  padding: 2% 2% 2% 2%
+}
+
+#cmd-sidebar div button:hover {
+  background-color: #1e2124;
+}
+
+hr {
+  background-color: white;
+  border-width: 0px;
+  padding: 1px 1px 1px 1px;
+  margin-top: 15px;
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
+
+.info {
+  font-size: calc(2vw + 10px);
+}
+
+code {
+  font-size: calc(1vw + 10px);
+  background-color: #1e2124;
+  padding: 5px 5px 5px 5px;
+  border-radius: 10px;
+}
+
+#command div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#command p {
+  text-align: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#command {
+  overflow-y: scroll;
+}
+
+#command div p, #command p {
+  font-size: calc(1vw + 10px);
+}
+
+@media screen and (min-width: 500px) {
+  .dropdown{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .dropbtn {
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 7vmin;
+    height: 7vmin;
+  }
+
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: 'Comfortaa', sans-serif;
+  }
+
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #f1f1f1}
+
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  #nav-div {
+    display: none;
+  }
+}

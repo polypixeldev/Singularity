@@ -1,0 +1,7 @@
+{
+  "glitch-help-instructions": "For a custom domain, change the 'url' parameter from 'glitch-default' to your domain _without_ a traling slash, like 'https://www.example.com'",
+  "title": "Singularity - Discord Bot",
+  "description": "Singularity - A Free, Easy to Use Discord Bot",
+  "url": "glitch-default",
+  "image": "https://cdn.glitch.com/7443647b-611c-42f0-93fa-477dbbcd12cf%2Fhole.ico?v=1623029180693"
+}
