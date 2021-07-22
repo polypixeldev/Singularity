@@ -47,7 +47,7 @@ module.exports = {
 		**Notes:**
 		\`\`\`${command.notes ? command.notes : 'none'}\`\`\`
 		`)
-		.setFooter(`Arguments marked with ! are optional - command info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		.setFooter(`Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 		msg.channel.send(embed);
 	}
 }

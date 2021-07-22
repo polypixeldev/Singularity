@@ -9,7 +9,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
         .setTitle('Singularity Credits')
         .setColor(0x000000)
-        .setDescription(`This bot was made by poly#3622 and Redstone#1165 using the Discord.js library`)
+        .setDescription(`This bot was made by poly#3622 and Redstone#1165 using the Discord.js library and a MongoDB database`)
         .setFooter(`Credits requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
         
         msg.channel.send(embed);

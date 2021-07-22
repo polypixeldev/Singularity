@@ -38,16 +38,18 @@ module.exports = {
         let sentMessage;
         await reactionChannel.send(messageSend).then(sent => {
           sentMessage = sent;
-          console.log(serverDoc);
           serverDoc.reactionRoles.push([roleName, emoji, sent.id]);
           serverDoc.markModified('reactionRoles');
-          console.log(serverDoc.reactionRoles);
         });
         await client.utils.updateServer(client, serverDoc, {reactionRoles: serverDoc.reactionRoles});
        sentMessage.react(emoji);
         const successEmbed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setDescription('Reaction role added!');
-        return msg.channel.send(successEmbed);
+        msg.channel.send(successEmbed).then(sent => {
+          setTimeout(() => {
+            sent.delete();
+          }, 3000);
+        })
     }
 }

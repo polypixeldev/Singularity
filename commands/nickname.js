@@ -35,17 +35,21 @@ module.exports =  {
 
         const prevName = member.nickname;
 
-        let errored = false;
-
         const nicknameFunc = args => {args.shift(); return args;}
         const nicknameSet = nicknameFunc(args);
 
-        member.setNickname(nicknameSet.join(' ')).catch(async err => {
-            errored = true;
+        member.setNickname(nicknameSet.join(' '))
+        .then(() => {
+            const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription(`Name changed from \`${prevName === null || prevName === '' ? 'None' : prevName}\` to \`${nicknameSet.join(' ') === null || nicknameSet.join(' ') === '' ? 'None': nicknameSet.join(' ')}\``);
 
+            msg.channel.send(embed);
+        })
+        .catch(async err => {
             if(err == 'DiscordAPIError: Missing Permissions'){
                 const errPermsEmbed = new Discord.MessageEmbed()
-                .setDescription('Uh oh! I don\'t have permission to manage nicknames!')
+                .setDescription('Uh oh! I don\'t have permission to nickname this user!')
                 .setColor(0x000000);
 
                 return msg.channel.send(errPermsEmbed);
@@ -57,13 +61,5 @@ module.exports =  {
                 return msg.channel.send(errEmbed);
             }
         });
-
-        if(errored !== true){
-            const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
-            .setDescription(`Name changed from \`${prevName === null || prevName === '' ? 'None' : prevName}\` to \`${nicknameSet.join(' ') === null || nicknameSet.join(' ') === '' ? 'None': nicknameSet.join(' ')}\``);
-
-            msg.channel.send(embed);
-        }
     }
 }

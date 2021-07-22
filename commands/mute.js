@@ -48,7 +48,6 @@ module.exports = {
 
           muteRole = member.guild.roles.cache.find(rl => rl.name === 'Muted');
         }
-        console.log(muteRole);
 
           member
           .roles.add(muteRole)

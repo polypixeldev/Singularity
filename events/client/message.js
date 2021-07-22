@@ -11,6 +11,24 @@ let cooldownInterval = setInterval(() => {
   }
 }, 60000);
 
+function splitCommandLine( commandLine ) {
+    var doubleDoubleQuote = '<DDQ>' ;
+    while( commandLine.indexOf( doubleDoubleQuote ) > -1 ) doubleDoubleQuote += '@' ;
+    var noDoubleDoubleQuotes = commandLine.replace( /""/g, doubleDoubleQuote ) ;
+    var spaceMarker = '<SP>' ;
+    while( commandLine.indexOf( spaceMarker ) > -1 ) spaceMarker += '@' ;
+    var noSpacesInQuotes = noDoubleDoubleQuotes.replace( /"([^"]*)"?/g, ( fullMatch, capture ) => {
+        return capture.replace( / /g, spaceMarker )
+                      .replace( RegExp( doubleDoubleQuote, 'g' ), '"' ) ;
+    }) ;
+    var mangledParamArray = noSpacesInQuotes.split( / +/ ) ;
+    var paramArray = mangledParamArray.map( ( mangledParam ) => {
+        return mangledParam.replace( RegExp( spaceMarker,       'g' ), ' ' )
+                           .replace( RegExp( doubleDoubleQuote, 'g' ), ''  ) ;
+    });
+    return paramArray ;
+}
+
 module.exports = async (Discord, client, msg) => {
 	if(msg.author.bot) return;
 	if(msg.channel.type === 'dm') return;
@@ -69,7 +87,7 @@ module.exports = async (Discord, client, msg) => {
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;
 
-    const args = msg.content.slice(prefix.length).split(/ +/);
+    const args = splitCommandLine(msg.content.slice(prefix.length));
     const cmd = args.shift().toLowerCase();
 
     const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));

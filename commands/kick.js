@@ -33,7 +33,7 @@ module.exports = {
             }
 
             member
-              .kick(reason)
+              .kick(reason ? reason : `User kicked by ${msg.author.tag}`)
               .then(() => {
                 const successEmbed = new Discord.MessageEmbed()
                 .setDescription(`Successfully kicked **${user.tag}**`)
@@ -42,6 +42,13 @@ module.exports = {
                 msg.channel.send(successEmbed);
               })
               .catch(err => {
+                if(err.message === 'Missing Permissions'){
+                  const embed = new Discord.MessageEmbed()
+                  .setColor(0x000000)
+                  .setDescription('I don\'t have permissions to kick this user!');
+
+                  return msg.channel.send(embed);
+                }
                 const errEmbed = new Discord.MessageEmbed()
                 .setDescription('I was unable to kick the member because: \n`' + err + "`");
                 msg.channel.send(errEmbed);
