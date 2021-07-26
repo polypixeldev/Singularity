@@ -13,7 +13,7 @@ module.exports = (serverDoc, id) => {
 				lifeExp: 0,
 				darkMatter: 0,
 				singularity: {
-					type: 'black',
+					type: 'Black',
 					size: 10,
 					ferocity: 0
 				}
