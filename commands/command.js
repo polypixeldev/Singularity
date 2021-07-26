@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'command',
 	description: 'Displays information about the mentioned command',
-	type: 'general',
+	type: 'lol',
 	args: ['<command name>'],
 	aliases: ['cmd'],
 	example: 'command help',
