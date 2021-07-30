@@ -5,11 +5,11 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 				protons: userMS.protons,
 				electrons: userMS.electrons
 			}
-			remaining.protons -= userMS.singularity.size * 100;
-			remaining.electrons -= userMS.singularity.size * 25;
+			remaining.protons -= userMS.singularity.size * 25;
+			remaining.electrons -= userMS.singularity.size * 7;
 			do {
-				remaining.protons -= 5000;
-				remaining.electrons -= 1000;
+				remaining.protons -= 1000;
+				remaining.electrons -= 250;
 				limit++;
 			} while(remaining.protons > 0 && remaining.electrons > 0)
 
@@ -20,13 +20,14 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 				**Current Protons:** *${userMS.protons}*
 				**Current Electrons:** *${userMS.electrons}*
 
-				**Amount of Protons Per Additional Upgrade:** *5000*
-				**Amount of Electrons Per Additional Upgrade:** *1000*
-				**Current Size Fee:** *${userMS.singularity.size * 100} Protons & ${userMS.singularity.size * 25} Electons*
+				**Amount of Protons Per Additional Upgrade:** *1000*
+				**Amount of Electrons Per Additional Upgrade:** *250*
+				**Current Size Fee:** *${userMS.singularity.size * 25} Protons & ${userMS.singularity.size * 7} Electons*
+				**Amount Needed for 1 Upgrade:** *${5000 + userMS.singularity.size * 25} Protons & ${1000 + userMS.singularity.size * 7} Electrons*
 
 				**Maximum Upgrades Available: ** *${limit}*
 
-				*Respond with the desired upgrade number within 30 seconds, or respond with 0 to abort*
+				*Respond with the desired number of upgrades within 30 seconds, or respond with 0 to abort*
 			`)
 			.setFooter(`Upgrade info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 			msg.channel.send(embed);
@@ -47,11 +48,11 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 
 					return msg.channel.send(embed);
 				} else {
-					userMS.electrons -= num * 1000;
-					userMS.protons -= num * 5000;
-					userMS.electrons -= userMS.singularity.size * 25;
-					userMS.protons -= userMS.singularity.size * 100;
-					userMS.singularity.size += (Math.random() * 9) + 1;
+					userMS.electrons -= num * 250;
+					userMS.protons -= num * 1000;
+					userMS.electrons -= userMS.singularity.size * 7;
+					userMS.protons -= userMS.singularity.size * 25;
+					userMS.singularity.size += Math.floor((Math.random() * 9) + 1);
 					serverDoc.markModified('ms');
 					serverDoc.save().then(() => {
 						const embed = new Discord.MessageEmbed()
