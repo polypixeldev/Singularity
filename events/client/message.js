@@ -9,7 +9,7 @@ let cooldownInterval = setInterval(() => {
   for(let person in cooldowns){
     if(cooldowns[person] > 0) cooldowns[person]--;
   }
-}, 60000);
+}, 1000);
 
 function splitCommandLine( commandLine ) {
     var doubleDoubleQuote = '<DDQ>' ;
@@ -66,10 +66,12 @@ module.exports = async (Discord, client, msg) => {
 	
 		const prevExp = userMS.atoms;
 		if(cooldowns[msg.author.id] === 0){
+			let protonBoosts = userMS.active.filter(powerup => powerup.name === '2x Proton Boost');
+			let electronBoosts = userMS.active.filter(powerup => powerup.name === '2x Electron Boost');
 			let addProton = Math.random() * 5;
 			let addElectron = Math.random();
-			userMS.protons += Math.floor(5 + addProton);
-			userMS.electrons += Math.floor(5 + addElectron);
+			userMS.protons += Math.floor(5 + addProton) * (protonBoosts.length * 2);
+			userMS.electrons += Math.floor(5 + addElectron) * (electronBoosts.length * 2);
 			userMS.lifeExp += Math.floor(20 + addProton + (addElectron * 2.5));
 			cooldowns[msg.author.id] = 60;
 		}

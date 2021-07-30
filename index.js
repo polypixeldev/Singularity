@@ -55,6 +55,7 @@ db.once('open', () => {
     lifeExp: Number,
     items: Array,
     powerUps: Array,
+    active: Array,
     singularity: Object
   });
   

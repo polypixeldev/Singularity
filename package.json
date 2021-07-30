@@ -10,7 +10,8 @@
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "events": "^3.3.0",
-    "mongoose": "^5.12.13"
+    "mongoose": "^5.12.13",
+    "pretty-ms": "^7.0.1"
   },
   "devDependencies": {
     "eslint": "^7.26.0"

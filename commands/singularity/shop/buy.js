@@ -1,46 +1,64 @@
-module.exports = async (client, Discord, msg, args, serverDoc, items) => {
+module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) => {
 	let userMS = await client.utils.loadMsInfo(serverDoc, msg.author.id);
+	let selectedItem;
 
-				if(!items.hasOwnProperty(args[2])){ //eslint-disable-line no-prototype-builtins
-					const embed = new Discord.MessageEmbed()
-					.setColor(0x000000)
-					.setDescription('That is not a valid item!');
+	for(let item in items){
+		if(items[item].name === args[2]){
+			selectedItem = ['item', items[item]];
+		}
+	}
 
-					return msg.channel.send(embed);
-				}
-				if(!args[3]) args[3] = 1;
+	for(let powerup in powerUps){
+		if(powerUps[powerup].name === args[2]){
+			selectedItem = ['powerup', powerUps[powerup]];
+		}
+	}
 
-				if(userMS.protons >= items[args[2]].protons * args[3] && userMS.electrons >= items[args[2]].electrons * args[3] && userMS.darkMatter >= items[args[2]].darkMatter * args[3]){
-					userMS.protons -= items[args[2]].protons;
-					userMS.electrons -= items[args[2]].electrons;
-					userMS.darkMatter -= items[args[2]].darkMatter;
-					userMS.items.push(args[2]);
+	if(!selectedItem){ //eslint-disable-line no-prototype-builtins
+		const embed = new Discord.MessageEmbed()
+		.setColor(0x000000)
+		.setDescription('That is not a valid item!');
 
-					serverDoc.markModified('ms');
-					serverDoc.save().then(() => {
-						const embed = new Discord.MessageEmbed()
-						.setColor(0x000000)
-						.setDescription(`
-							Purchase completed!
+		return msg.channel.send(embed);
+	}
 
-							\t + **${args[3]}** ${args[2]}
-							\t - **${items[args[2]].protons * args[3]}** Protons
-							\t - **${items[args[2]].electrons * args[3]}** Electrons
-							\t - **${items[args[2]].darkMatter * args[3]}** Dark Matter
+	if(!args[3]) args[3] = 1;
 
-							You now have:
-							\t **${userMS.protons}** Protons
-							\t **${userMS.electrons}** Electrons
-							\t **${userMS.darkMatter}** Dark Matter
-						`);
+	if(userMS.protons >= selectedItem[1].protons * args[3] && userMS.electrons >= selectedItem[1].electrons * args[3] && userMS.darkMatter >= selectedItem[1].darkMatter * args[3]){
+		userMS.protons -= selectedItem[1].protons;
+		userMS.electrons -= selectedItem[1].electrons;
+		userMS.darkMatter -= selectedItem[1].darkMatter;
+		if(selectedItem[0] === 'item'){
+			userMS.items.push(args[2]);
+		} else {
+			userMS.powerUps.push(args[2]);
+		}
 
-						return msg.channel.send(embed);
-					});
-				} else {
-					const embed = new Discord.MessageEmbed()
-					.setColor(0x000000)
-					.setDescription('You do not have enough protons/electrons/dark matter to buy this item!');
+		serverDoc.markModified('ms');
+		serverDoc.save().then(() => {
+			const embed = new Discord.MessageEmbed()
+			.setColor(0x000000)
+			.setDescription(`
+				Purchase completed!
 
-					return msg.channel.send(embed);
-				}
+				\t + **${args[3]}** ${args[2]}
+				\t - **${selectedItem[1].protons * args[3]}** Protons
+				\t - **${selectedItem[1].electrons * args[3]}** Electrons
+				\t - **${selectedItem[1].darkMatter * args[3]}** Dark Matter
+
+				You now have:
+				\t **${userMS.protons}** Protons
+				\t **${userMS.electrons}** Electrons
+				\t **${userMS.darkMatter}** Dark Matter
+			`);
+
+			return msg.channel.send(embed);
+		});
+	} else {
+		const embed = new Discord.MessageEmbed()
+		.setColor(0x000000)
+		.setDescription('You do not have enough protons/electrons/dark matter to buy this item!');
+
+		return msg.channel.send(embed);
+	}
 }

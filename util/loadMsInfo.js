@@ -12,6 +12,7 @@ module.exports = (serverDoc, id) => {
 				powerUps: [],
 				lifeExp: 0,
 				darkMatter: 0,
+				active: [],
 				singularity: {
 					type: 'black',
 					size: 10,
