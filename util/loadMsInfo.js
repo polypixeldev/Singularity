@@ -14,7 +14,7 @@ module.exports = (serverDoc, id) => {
 				darkMatter: 0,
 				active: [],
 				singularity: {
-					type: 'black',
+					type: 'Black',
 					size: 10,
 					ferocity: 0
 				}
