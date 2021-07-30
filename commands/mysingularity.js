@@ -4,6 +4,7 @@ const Shop = require('./singularity/shop/shop.js');
 const Upgrade =  require('./singularity/upgrade.js');
 const Use = require('./singularity/use.js');
 const Info = require('./singularity/info.js');
+const Mod = require('./singularity/mod/mod.js');
 
 module.exports = {
     name: 'mysingularity',
@@ -65,7 +66,9 @@ module.exports = {
 			Use(client, Discord, msg, args, serverDoc, items, powerUps)
 		} else if(args[0] === 'info'){
 			Info(client, Discord, msg, args, serverDoc);
-		} else {
+		} else if(args[0] === 'mod'){
+			Mod(client, Discord, msg, args, serverDoc);
+		} else  {
 			let user = msg.mentions.users.first() ? msg.mentions.users.first() : msg.author;
 			if(user.bot){
 				const embed = new Discord.MessageEmbed()
