@@ -5,6 +5,8 @@ const Upgrade =  require('./singularity/upgrade.js');
 const Use = require('./singularity/use.js');
 const Info = require('./singularity/info.js');
 const Mod = require('./singularity/mod/mod.js');
+const Prestige = require('./singularity/prestige.js');
+const Rares = require('./singularity/rare.js');
 
 module.exports = {
     name: 'mysingularity',
@@ -52,6 +54,21 @@ module.exports = {
 			}
 		]
 
+		const rareItems = [
+			{
+				name: 'Wormhole Relic',
+				description: 'An ancient relic from the early days of the universe when wormholes were common'
+			},
+			{
+				name: 'Space String',
+				description: 'A piece of the string that holds spacetime together'
+			},
+			{
+				name: '???',
+				description: 'Nobody knows exactly what this is...'
+			}
+		]
+
 		if(args[0] === 'upgrade'){
 			Upgrade(client, Discord, msg, args, serverDoc);
 		} else if(args[0] === 'shop'){
@@ -68,7 +85,11 @@ module.exports = {
 			Info(client, Discord, msg, args, serverDoc);
 		} else if(args[0] === 'mod'){
 			Mod(client, Discord, msg, args, serverDoc);
-		} else  {
+		} else if(args[0] === 'prestige'){
+			Prestige(client, Discord, msg, args, serverDoc, rareItems)
+		} else if(args[0] === 'rare'){
+			Rares(client, Discord, msg, args, serverDoc, rareItems)
+		} else {
 			let user = msg.mentions.users.first() ? msg.mentions.users.first() : msg.author;
 			if(user.bot){
 				const embed = new Discord.MessageEmbed()
@@ -95,28 +116,53 @@ module.exports = {
 			for(let a of userMS.active){
 				aStr = aStr + `- **${a.name}** - ${prettyMS(a.time - (Date.now() - a.start))}** \n `;
 			}
-			if(aStr === '\n') aStr = '**None**';	
+			if(aStr === '\n') aStr = '**None**';
+			
+			let rareStr = ''
+			for(let rare of userMS.rareItems){
+				rareStr = rareStr + '\n'
+				rareStr = rareStr + `- **${rare.name}**`;
+			}
+			if(rareStr === '') rareStr = '**None**';	
 
 			const embed = new Discord.MessageEmbed()
 			.setTitle(`${user.tag}'s Singularity`)
 			.setColor(0x000000)
 			//.setThumbnail('https://cdn.discordapp.com/avatars/835256019336036423/05dde3d48f1a67659be4837607746eb7.webp')
 			.setThumbnail(user.displayAvatarURL())
-			.setDescription(`
-				***------USER STATS------***
+			.addField('User Stats', `
 				Protons: **${userMS.protons}**
 				Electrons: **${userMS.electrons}**
 				Dark Matter: **${userMS.darkMatter}**
 				Items: ${itemStr}
+				Rare Items: ${rareStr}
 				Power-Ups: ${pStr}
 				Active Power-Ups: ${aStr}
 				Lifetime Experience: **${userMS.lifeExp}**
-
-				***------SINGULARITY STATS------***
+			`)
+			.addField('Singularity Stats', `
 				Singularity Type: **${userMS.singularity.type}**
 				Singularity Size: **${userMS.singularity.size}**
 				Singularity Ferocity: **${userMS.singularity.ferocity}**
+				Times Prestiged: **${userMS.singularity.prestige}**
 			`)
+			// .setDescription(`
+			// 	***----USER STATS----***
+			// 	Protons: **${userMS.protons}**
+			// 	Electrons: **${userMS.electrons}**
+			// 	Dark Matter: **${userMS.darkMatter}**
+			// 	Items: ${itemStr}
+			// 	Rare Items: ${rareStr}
+			// 	Power-Ups: ${pStr}
+			// 	Active Power-Ups: ${aStr}
+			// 	Lifetime Experience: **${userMS.lifeExp}**
+
+			// 	***----SINGULARITY STATS----***
+			// 	Singularity Type: **${userMS.singularity.type}**
+			// 	Singularity Size: **${userMS.singularity.size}**
+			// 	Singularity Ferocity: **${userMS.singularity.ferocity}**
+			// 	Times Prestiged: **${userMS.singularity.prestige}**
+			// `)
 			.setFooter(`${user.tag}'s Singularity requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 
 			msg.channel.send(embed);

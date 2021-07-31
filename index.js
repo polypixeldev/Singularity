@@ -54,6 +54,7 @@ db.once('open', () => {
     darkMatter: Number,
     lifeExp: Number,
     items: Array,
+    rareItems: Array,
     powerUps: Array,
     active: Array,
     singularity: Object

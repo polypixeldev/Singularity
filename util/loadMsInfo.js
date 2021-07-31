@@ -9,6 +9,7 @@ module.exports = (serverDoc, id) => {
 				protons: 0,
 				electrons: 0,
 				items: [],
+				rareItems: [],
 				powerUps: [],
 				lifeExp: 0,
 				darkMatter: 0,
@@ -16,7 +17,8 @@ module.exports = (serverDoc, id) => {
 				singularity: {
 					type: 'Black',
 					size: 10,
-					ferocity: 0
+					ferocity: 0,
+					prestige: 0
 				}
 			};
 
