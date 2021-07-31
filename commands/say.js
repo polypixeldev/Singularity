@@ -13,7 +13,7 @@ module.exports = {
 
             return msg.channel.send(embed);
         }
-        msg.channel.send(args.join(' ')).then(() => {
+        msg.channel.send(`**${msg.author.tag}:** ${args.join(' ')}`).then(() => {
             msg.delete();
         })
     }
