@@ -10,6 +10,8 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 	} else if(args[1] === 'kick'){
 		kick(client, Discord, msg);
 	} else {
+		let currentDate = new Date(Date.now())
+		
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setTitle(`Singularity Bot Settings - ${msg.guild.name}`)
@@ -20,7 +22,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 			 *- Current Setting:* \`${msg.guild.members.resolve(client.user).nickname ? msg.guild.members.resolve(client.user).nickname : 'None'}\`
 			**Kick Me:** \`${serverDoc.prefix}settings bot kick\`
 		`)
-		.setFooter(`Singularity Bot Settings requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		.setFooter(`Singularity Bot Settings requested by ${msg.author.tag}  • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
 		return msg.channel.send(embed);
 	}

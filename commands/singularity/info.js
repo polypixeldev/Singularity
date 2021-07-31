@@ -1,8 +1,9 @@
 module.exports = (client, Discord, msg, args, serverDoc) => {
+	let currentDate = new Date(Date.now())
 	const embed = new Discord.MessageEmbed()
 	.setTitle('My Singularity')
 	.setColor(0x000000)
-	.setFooter(`My Singularity info requested by ${msg.author.tag}`, msg.author.displayAvatarURL())
+	.setFooter(`My Singularity info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL())
 	.setDescription(`
 		***My Singularity is the new best way to show off what you've done for a server!***
 

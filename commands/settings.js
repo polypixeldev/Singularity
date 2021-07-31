@@ -24,6 +24,7 @@ module.exports = {
 			} else if(args[0] === 'mod'){
 				ModSettings(client, Discord, msg, args, serverDoc);
 			} else {
+				let currentDate = new Date(Date.now())
 				const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setTitle(`Singularity Settings - ${msg.guild.name}`)
@@ -34,7 +35,7 @@ module.exports = {
 	
 					**Moderation Settings:** \`${serverDoc.prefix}settings mod\`
 				`)
-				.setFooter(`Singularity Settings requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+				.setFooter(`Singularity Settings requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 	
 				return msg.channel.send(embed);
 			}

@@ -8,6 +8,8 @@ module.exports = (client, Discord, msg) => {
 		.then(collection => {
 			let message = collection.first();
 			if(message.content === 'Y'){
+				let currentDate = new Date(Date.now())
+				
 				const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setTitle('Goodbye')
@@ -23,7 +25,7 @@ module.exports = (client, Discord, msg) => {
 					*Sincerely,
 					The Singularity Team*
 				`)
-				.setFooter(`Singularity was kicked by ${msg.author.tag}`, msg.author.displayAvatarURL());
+				.setFooter(`Singularity was kicked by ${msg.author.tag}  • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
 				msg.channel.send(embed).then(() => {
 					msg.guild.leave();

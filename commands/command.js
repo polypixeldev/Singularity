@@ -33,6 +33,8 @@ module.exports = {
 			argString = `none`;
 		}
 
+		let currentDate = new Date(Date.now())
+
 		const embed =  new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setTitle(`${command.name} - ${command.type.toUpperCase()}`)
@@ -47,7 +49,7 @@ module.exports = {
 		**Notes:**
 		\`\`\`${command.notes ? command.notes : 'none'}\`\`\`
 		`)
-		.setFooter(`Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		.setFooter(`Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 		msg.channel.send(embed);
 	}
 }

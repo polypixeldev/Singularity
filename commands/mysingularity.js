@@ -125,6 +125,7 @@ module.exports = {
 			}
 			if(rareStr === '') rareStr = '**None**';	
 
+			let currentDate = new Date(Date.now())
 			const embed = new Discord.MessageEmbed()
 			.setTitle(`${user.tag}'s Singularity`)
 			.setColor(0x000000)
@@ -163,7 +164,7 @@ module.exports = {
 			// 	Singularity Ferocity: **${userMS.singularity.ferocity}**
 			// 	Times Prestiged: **${userMS.singularity.prestige}**
 			// `)
-			.setFooter(`${user.tag}'s Singularity requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+			.setFooter(`${user.tag}'s Singularity requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
 			msg.channel.send(embed);
 			

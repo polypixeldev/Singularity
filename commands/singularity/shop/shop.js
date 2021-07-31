@@ -14,6 +14,8 @@ module.exports = {
 			powerStr = powerStr + `**${powerUps[powerup].name}**: *${powerUps[powerup].protons} Protons, ${powerUps[powerup].electrons} Electrons, ${powerUps[powerup].darkMatter} Dark Matter* \n `
 		}
 
+		let currentDate = new Date(Date.now())
+
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setTitle(`Singularity Shop`)
@@ -24,7 +26,7 @@ module.exports = {
 			${powerStr}
 			*Use \`${serverDoc.prefix}singularity shop buy "<item_name>" <!quantity>\` to buy an item!*
 		`)
-		.setFooter(`Singularity Shop requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		.setFooter(`Singularity Shop requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 	
 		return msg.channel.send(embed);
 	}

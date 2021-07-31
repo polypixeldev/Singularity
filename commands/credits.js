@@ -6,11 +6,12 @@ module.exports = {
     aliases: ['c'],
     example: 'credits',
     execute(client, Discord, msg){
+        let currentDate = new Date(Date.now())
         const embed = new Discord.MessageEmbed()
         .setTitle('Singularity Credits')
         .setColor(0x000000)
         .setDescription(`This bot was made by **poly#3622** and **Redstone#1165** using the **Discord.js** module and a **MongoDB** database \n \n **Improve Singularity!** Singularity is open-source! Check out the repository on GitHub at https://github.com/Poly-Pixel/Singularity and join the support server at https://discord.gg/Q5GbzpXgSz`)
-        .setFooter(`Credits requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+        .setFooter(`Credits requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
         
         msg.channel.send(embed);
     }

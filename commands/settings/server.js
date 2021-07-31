@@ -6,6 +6,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 	} else if(args[1] === 'leave'){
 		leaveMessage(client, Discord, msg, args.slice(2), serverDoc);
 	} else {
+		let currentDate = new Date(Date.now())
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setTitle(`Singularity Server Settings - ${msg.guild.name}`)
@@ -15,7 +16,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 			**Set/Toggle a Leave Message:** \`${serverDoc.prefix}settings server leave <channel> <message>\`
 			 *- Current Setting:* \`${serverDoc.leaveMessage}\` *in* \`${msg.guild.channels.resolve(serverDoc.leaveChannelID).name}\`
 		`)
-		.setFooter(`Singularity Server Settings requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		.setFooter(`Singularity Server Settings requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
 		return msg.channel.send(embed);
 	}

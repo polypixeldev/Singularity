@@ -3,6 +3,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 	let baseReq = (userMS.singularity.prestige + 2) * ((userMS.singularity.prestige + 2) * 2)
 
 	if(args[1] === 'info'){
+		let currentDate = new Date(Date.now())
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setTitle('Singularity Prestige')
@@ -23,7 +24,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 		
 			*Your Lifetime Experience will not be affected*
 		`)
-		.setFooter(`Singularity Prestige Info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+		.setFooter(`Singularity Prestige Info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
 		return msg.channel.send(embed);
 	} else {

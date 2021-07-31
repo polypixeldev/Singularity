@@ -13,6 +13,8 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 				limit++;
 			} while(remaining.protons > 0 && remaining.electrons > 0)
 
+			let currentDate = new Date(Date.now())
+
 			const embed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription(`
@@ -29,7 +31,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 
 				*Respond with the desired number of upgrades within 30 seconds, or respond with 0 to abort*
 			`)
-			.setFooter(`Upgrade info requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+			.setFooter(`Upgrade info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 			msg.channel.send(embed);
 
 			msg.channel.awaitMessages(message => message.author.id === msg.author.id && Number.isInteger(Number(message.content)), {max: 1, time: 30000, errors: ['time']})
