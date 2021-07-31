@@ -10,7 +10,9 @@
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "events": "^3.3.0",
+    "lodash.merge": "^4.6.2",
     "mongoose": "^5.12.13",
+    "p-queue": "^6.6.2",
     "pretty-ms": "^7.0.1"
   },
   "devDependencies": {

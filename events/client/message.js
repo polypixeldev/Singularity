@@ -84,7 +84,7 @@ module.exports = async (Discord, client, msg) => {
 		}
 	
 		serverDoc.markModified('ms');
-		await serverDoc.save();
+		await client.utils.saveQueue(client, serverDoc);
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;

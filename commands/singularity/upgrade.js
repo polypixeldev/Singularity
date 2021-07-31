@@ -54,7 +54,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 					userMS.protons -= userMS.singularity.size * 25;
 					userMS.singularity.size += Math.floor((Math.random() * 9) + 1);
 					serverDoc.markModified('ms');
-					serverDoc.save().then(() => {
+					client.utils.saveQueue(client, serverDoc).then(() => {
 						const embed = new Discord.MessageEmbed()
 						.setColor(0x000000)
 						.setDescription(`Congrats! Your Singularity is now size \`${userMS.singularity.size}\`!`);

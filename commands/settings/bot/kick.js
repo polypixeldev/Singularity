@@ -27,6 +27,12 @@ module.exports = (client, Discord, msg) => {
 
 				msg.channel.send(embed).then(() => {
 					msg.guild.leave();
+
+					setTimeout(async () => {
+						if(await client.guilds.cache.find(guild => guild.id === msg.guild.id)){
+							client.serverModel.deleteOne({guildID: msg.guild.id});
+						}
+					}, 300000);
 				});
 			} else {
 				const embed = new Discord.MessageEmbed()

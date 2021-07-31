@@ -39,23 +39,24 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 		}
 	}
 
-	setTimeout(async () => {
-		let newServerDoc = await client.utils.loadGuildInfo(client, msg.guild);
-		let newUserMS = await client.utils.loadMsInfo(newServerDoc, msg.author.id);
-
-		for(let i=0; i < newUserMS.active.length; i++){
-			if(newUserMS.active[i].name === args[1]){
-				newUserMS.active.splice(i, 1);
-				break;
-			}
-		}
-
-		newServerDoc.markModified('ms');
-		newServerDoc.save();
-	}, selectedItem.time);
-
 	serverDoc.markModified('ms');
-	serverDoc.save().then(() => {
+	client.utils.saveQueue(client, serverDoc).then(() => {
+
+		setTimeout(async () => {
+			let newServerDoc = await client.utils.loadGuildInfo(client, msg.guild);
+			let newUserMS = await client.utils.loadMsInfo(newServerDoc, msg.author.id);
+	
+			for(let i=0; i < newUserMS.active.length; i++){
+				if(newUserMS.active[i].name === args[1]){
+					newUserMS.active.splice(i, 1);
+					break;
+				}
+			}
+	
+			newServerDoc.markModified('ms');
+			client.utils.saveQueue(client, newServerDoc)
+		}, selectedItem.time);
+
 		let itemList = "";
 		for(let powerup of userMS.active){
 			itemList = itemList + ` - **${powerup.name}** - ${prettyMS(powerup.time - (Date.now() - powerup.start))} \n`

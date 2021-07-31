@@ -46,7 +46,8 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 	}
 
 	serverDoc.markModified('ms');
-	serverDoc.save().then(() => {
+	client.utils.saveQueue(client, serverDoc)
+	.then(() => {
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setDescription(`

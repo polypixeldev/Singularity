@@ -11,7 +11,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 		Instead of just plain leveling, rank cards, and leaderboards, My Singularity allows you to, hence the name, build *YOUR OWN* black hole!
 
 		**How does it work?**
-		By being active in a server, you can gain *atoms*. These atoms are a sort of currency in the My Singularity system. \
+		By being active in a server, you can gain *protons* and *electrons*. These protons and electrons are a sort of currency in the My Singularity system. \
 		You can use them to make your black hole bigger, or to trade them in for better items. The Developers (poly#3622 and Redstone#1165) will always be adding new features to My Singularity to keep your black hole growing!
 
 		*Use \`${serverDoc.prefix}help ms\` to get a full list of My Singularity commands*
