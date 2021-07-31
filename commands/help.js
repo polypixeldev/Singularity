@@ -6,50 +6,48 @@ module.exports = {
     aliases: [],
     example: 'help general',
     execute(client, Discord, msg, args, serverDoc){
-        let general_commands = [];
-        let mod_commands = [];
-        let ms_commands = [];
+        let currentDate = new Date(Date.now());
+        let generalEmbed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle('Singularity General Commands')
+        .setFooter(`General help requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
+
+        let modEmbed = new Discord.MessageEmbed().setColor(0x000000)
+        .setColor(0x000000)
+        .setTitle('Singularity Moderation Commands')
+        .setFooter(`Moderation help requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
+
+        let msEmbed = new Discord.MessageEmbed().setColor(0x000000)
+        .setColor(0x000000)
+        .setTitle('My Singularity Commands')
+        .setFooter(`My Singularity help requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
         for(let command of client.commands){
             if(command[1].type === 'general'){
-                general_commands.push(`\`${serverDoc.prefix}${command[1].name}\` - ${command[1].description} \n `);
+                generalEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, command[1].description)
             } else if (command[1].type === 'mod'){
-                mod_commands.push(`\`${serverDoc.prefix}${command[1].name}\` - ${command[1].description} \n `);
+                modEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, command[1].description)
             } else if(command[1].type === 'ms'){
-                ms_commands.push(`\`${serverDoc.prefix}${command[1].name}\` - ${command[1].description} \n `);
+                msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, command[1].description)
             }
         }
 
        if(args[0] === 'general'){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Singularity General Commands')
-        .setColor(0x000000)
-        .setDescription(general_commands.join(' '))
-        .setFooter(`General help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
-
-        msg.channel.send(embed);
+        msg.channel.send(generalEmbed);
        } else if(args[0] === 'mod'){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Singularity Mod Commands')
-        .setColor(0x000000)
-        .setDescription(mod_commands.join(' '))
-        .setFooter(`Mod help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
-
-        msg.channel.send(embed);
+        msg.channel.send(modEmbed);
        } else if(args[0] === 'ms') {
-        const embed = new Discord.MessageEmbed()
-        .setTitle('My Singularity Commands')
-        .setColor(0x000000)
-        .setDescription(ms_commands.join(' '))
-        .setFooter(`My Singularity help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
-
-        msg.channel.send(embed);
+        msg.channel.send(msEmbed);
        } else {
         const embed = new Discord.MessageEmbed() 
         .setTitle('Singularity Help')
         .setColor(0x000000)
-        .setDescription(`**This server's prefix is:** \`${serverDoc.prefix}\` \n \n **General Command Help:** \`${serverDoc.prefix}help general\` \n \n **Moderation Command Help:** \`${serverDoc.prefix}help mod\` \n \n **My Singularity Help:** \`${serverDoc.prefix}help ms\` \n \n **Command Info:** \`${serverDoc.prefix}command <command_name>\` \n \n **Improve Singularity!** Singularity is open-source! Check out the repository on GitHub at https://github.com/Poly-Pixel/Singularity and join the support server at https://discord.gg/Q5GbzpXgSz`)
-        .setFooter(`Help requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
+        .setDescription(`
+            **This server's prefix is:** \`${serverDoc.prefix}\`
+            *Use ${serverDoc.prefix}command <COMMAND_NAME> to learn more about a command* \n
+        `)
+        .addFields({name: 'General Help', value: `\`${serverDoc.prefix}help general\``, inline: true}, {name: 'Moderation Help', value: `\`${serverDoc.prefix}help mod\``, inline: true}, {name: 'My Singularity Help', value: `\`${serverDoc.prefix}help ms\``, inline: true})
+        .setFooter(`Help requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
         msg.channel.send(embed);
        }
