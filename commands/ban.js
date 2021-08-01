@@ -7,7 +7,11 @@ module.exports = {
     example: 'ban @poly 14 Breaking the rules',
     notes: 'number of days cannot be longer than 7 - if days are omitted, mentioned user will be banned indefinitely',
     execute(client, Discord, msg, args){
-        const user = msg.mentions.users.first();
+        let user = msg.mentions.users.first();
+
+        if(!user){
+          user = client.utils.resolveTag(msg.guild, args[0]);
+        }
 
         if (user) {
           const member = msg.guild.members.resolve(user);

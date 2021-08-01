@@ -6,8 +6,13 @@ module.exports = {
     aliases: [],
     example: 'mute @poly',
     notes: 'user must be mentioned',
-    async execute(client, Discord, msg){
-        const user = msg.mentions.users.first();
+    async execute(client, Discord, msg, args){
+        let user = msg.mentions.users.first();
+
+        if(!user){
+          user = client.utils.resolveTag(msg.guild, args[0])
+        }
+
         if(user) {
           const member = msg.guild.members.resolve(user);
 
@@ -50,7 +55,7 @@ module.exports = {
         }
 
           member
-          .roles.add(muteRole)
+          .roles.add(muteRole, args[1])
           .then(() => {
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)

@@ -19,8 +19,11 @@ module.exports =  {
         let user = msg.mentions.users.first();
 
         if (!user) {
-            user = client.user;
-            args[1] = args[0];
+            user = client.utils.resolveTag(msg.guild, args[0])
+            if(!user){
+                user = client.user;
+                args[1] = args[0];
+            }
         }
 
         const member = msg.guild.members.resolve(user);

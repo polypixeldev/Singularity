@@ -7,7 +7,11 @@ module.exports = {
     example: 'kick @poly spamming',
     notes: 'user must be a mention',
     execute(client, Discord, msg, args){
-        const user = msg.mentions.users.first();
+        let user = msg.mentions.users.first();
+
+        if(!user){
+          user = client.utils.resolveTag(msg.guild, args[0])
+        }
 
         args.shift();
         const reason = args.join(' ');

@@ -6,8 +6,11 @@ module.exports = {
     aliases: [],
     example: 'unmute @poly',
     notes: 'user must be mentioned',
-    execute(client, Discord, msg){
-        const user = msg.mentions.users.first();
+    execute(client, Discord, msg, args){
+      let user = msg.mentions.users.first();
+      if(!user){
+        user = client.utils.resolveTag(msg.guild, args[0])
+      }
       if (user) {
         const member = msg.guild.members.resolve(user);
         const unmuter = msg.guild.members.resolve(msg.author);
@@ -20,7 +23,7 @@ module.exports = {
           }
           const unmuteRole = msg.guild.roles.cache.find(role => role.name === "Muted");
           member
-            .roles.remove(unmuteRole)
+            .roles.remove(unmuteRole, args[1])
             .then(() => {
               msg.channel.send(`Successfully unmuted **${user.tag}**`);
             })

@@ -1,6 +1,7 @@
 /*
 REMINDERS:
   - None!
+  - Fix nickname
 */
 
 const Sentry = require("@sentry/node");

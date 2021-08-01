@@ -2,11 +2,14 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 	let user = msg.mentions.users.first();
 
 	if(!user){
-		const embed = new Discord.MessageEmbed()
-		.setColor(0x000000)
-		.setDescription('You did not mention a user!')
-
-		return msg.channel.send(embed);
+		user = client.utils.resolveTag(msg.guild, args[2]);
+		if(!user){
+			const embed = new Discord.MessageEmbed()
+			.setColor(0x000000)
+			.setDescription('You did not mention/tag a user!')
+	
+			return msg.channel.send(embed);
+		}
 	}
 
 	let type = args[3] === 'protons' || args[3] === 'electrons' || args[3] === 'darkMatter';

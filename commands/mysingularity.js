@@ -90,7 +90,7 @@ module.exports = {
 		} else if(args[0] === 'rare'){
 			Rares(client, Discord, msg, args, serverDoc, rareItems)
 		} else {
-			let user = msg.mentions.users.first() ? msg.mentions.users.first() : msg.author;
+			let user = msg.mentions.users.first() ? msg.mentions.users.first() : client.utils.resolveTag(msg.guild, args[0]) ? client.utils.resolveTag(msg.guild, args[0]) : msg.author;
 			if(user.bot){
 				const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
