@@ -41,9 +41,9 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 	let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
 
 	if(mode === 'add'){
-		userMS[args[3]] += args[4].slice(1)
+		userMS[args[3]] += Number(args[4].slice(1))
 	} else if(mode === 'subtract'){
-		userMS[args[3]] -= args[4].slice(1);
+		userMS[args[3]] -= Number(args[4].slice(1));
 	} else {
 		userMS[args[3]] = args[4]
 	}
