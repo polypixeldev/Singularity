@@ -66,7 +66,6 @@ module.exports = async (Discord, client, msg) => {
 	
 		const prevExp = userMS.atoms;
 		if(cooldowns[msg.author.id] === 0){
-			console.log(msg.author.tag)
 			let protonBoosts = userMS.active.filter(powerup => powerup.name === '2x Proton Boost').length
 			let electronBoosts = userMS.active.filter(powerup => powerup.name === '2x Electron Boost').length
 			let addProton = Math.floor(5 + (Math.random() * 5));
@@ -75,7 +74,6 @@ module.exports = async (Discord, client, msg) => {
 			userMS.electrons += addElectron * (electronBoosts * 2 === 0 ? 1 : electronBoosts * 2);
 			userMS.lifeExp += Math.floor(10 + addProton + (addElectron * 2.5));
 			cooldowns[msg.author.id] = 60;
-			console.log(serverDoc)
 		}
 		let index = 1;
 		for(let value of levelArr){
