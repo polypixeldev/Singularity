@@ -11,7 +11,6 @@ module.exports = (client, doc) => {
 				let v = newDoc.__v;
 				let mergeDoc = merge(newDoc, doc);
 				mergeDoc.__v = v;
-				mergeDoc.markModified('ms');
 				mergeDoc.save()
 				.then(res => {
 					resolve(res);

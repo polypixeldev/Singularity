@@ -1,5 +1,5 @@
 module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
-	let userMS = await client.utils.loadMsInfo(serverDoc, msg.author.id);
+	let userMS = await client.utils.loadUserInfo(client, serverDoc, msg.author.id);
 	let baseReq = (userMS.singularity.prestige + 2) * ((userMS.singularity.prestige + 2) * 2)
 
 	if(args[1] === 'info'){
@@ -47,7 +47,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 				let message = collected.first()
 				if(message.content === 'Yes'){
 					const newServerDoc = await client.utils.loadGuildInfo(client, msg.guild);
-					let newUserMS = await client.utils.loadMsInfo(newServerDoc, msg.author.id);
+					let newUserMS = await client.utils.loadUserInfo(client, newServerDoc, msg.author.id);
 
 					newUserMS.userID = msg.author.id
 					newUserMS.protons = 0
@@ -66,7 +66,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 						prestige: newUserMS.singularity.prestige + 1
 					}
 
-					client.utils.saveQueue(client, newServerDoc)
+					client.utils.userQueue(client, newServerDoc, newUserMS)
 					.then(() => {
 						const embed = new Discord.MessageEmbed()
 						.setColor(0x000000)

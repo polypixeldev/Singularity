@@ -36,9 +36,9 @@ module.exports = async (Discord, client, msg) => {
 	let serverDoc
 	await client.utils.loadGuildInfo(client, msg.guild).then(async server => {
 		serverDoc = server
-		userMS = await client.utils.loadMsInfo(server, msg.author.id, client);
+		userMS = await client.utils.loadUserInfo(client, server, msg.author.id);
 	})
-	if(serverDoc === 'err') return msg.channel.send(serverDoc);
+	if(serverDoc === 'err') return;
     const prefix = serverDoc.prefix;
 
 	if(msg.channel.type ==='dm'){
@@ -66,14 +66,16 @@ module.exports = async (Discord, client, msg) => {
 	
 		const prevExp = userMS.atoms;
 		if(cooldowns[msg.author.id] === 0){
-			let protonBoosts = userMS.active.filter(powerup => powerup.name === '2x Proton Boost');
-			let electronBoosts = userMS.active.filter(powerup => powerup.name === '2x Electron Boost');
-			let addProton = Math.random() * 5;
-			let addElectron = Math.random();
-			userMS.protons += Math.floor(5 + addProton) * (protonBoosts.length * 2);
-			userMS.electrons += Math.floor(5 + addElectron) * (electronBoosts.length * 2);
-			userMS.lifeExp += Math.floor(20 + addProton + (addElectron * 2.5));
+			console.log(msg.author.tag)
+			let protonBoosts = userMS.active.filter(powerup => powerup.name === '2x Proton Boost').length
+			let electronBoosts = userMS.active.filter(powerup => powerup.name === '2x Electron Boost').length
+			let addProton = Math.floor(5 + (Math.random() * 5));
+			let addElectron = Math.floor(5 + Math.random());
+			userMS.protons += addProton * (protonBoosts * 2 === 0 ? 1 : protonBoosts * 2);
+			userMS.electrons += addElectron * (electronBoosts * 2 === 0 ? 1 : electronBoosts * 2);
+			userMS.lifeExp += Math.floor(10 + addProton + (addElectron * 2.5));
 			cooldowns[msg.author.id] = 60;
+			console.log(serverDoc)
 		}
 		let index = 1;
 		for(let value of levelArr){
@@ -82,9 +84,8 @@ module.exports = async (Discord, client, msg) => {
 			}
 			index++;
 		}
-	
-		serverDoc.markModified('ms');
-		await client.utils.saveQueue(client, serverDoc);
+
+		await client.utils.userQueue(client, serverDoc, userMS)
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;

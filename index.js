@@ -1,8 +1,6 @@
 /*
 REMINDERS:
- -Server perks system
- -Improve profile system (black hole upgrade system)
- -Make code cleaner (unnecessary arguments, pass config)
+  - None!
 */
 
 const Sentry = require("@sentry/node");
@@ -47,8 +45,9 @@ const db = mongoose.connection;
 db.once('open', () => {
   databaseConnectionTransaction.finish();
   console.log('Database connected:', url);
-  client.msSchema = new mongoose.Schema({
+  const userSchema = new mongoose.Schema({
     userID: String,
+    guildID: String,
     protons: Number,
     electrons: Number,
     darkMatter: Number,
@@ -68,10 +67,11 @@ db.once('open', () => {
     leaveChannelID: String,
     leaveMessage: String,
     reactionRoles: Array,
-    ms: [client.msSchema]
+    ms: [{type: mongoose.Schema.Types.ObjectId, ref: 'Users'}]
   });
   
-  client.serverModel = mongoose.model('serverModel', serverSchema);
+  client.userModel = mongoose.model('Users', userSchema);
+  client.serverModel = mongoose.model('Servers', serverSchema);
   
   client.commands = new Discord.Collection();
   client.events = new Discord.Collection();

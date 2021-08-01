@@ -4,7 +4,8 @@ module.exports = {
 	args: [],
 	aliases: ['lb'],
 	example: 'leaderboard',
-	execute(client, Discord, msg, args, serverDoc){
+	async execute(client, Discord, msg, args, serverDoc){
+		await serverDoc.populate('ms').execPopulate()
 		let xpArr = [];
 		for(let user of serverDoc.ms){
 			if(user.userID){

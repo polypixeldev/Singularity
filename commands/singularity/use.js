@@ -1,7 +1,7 @@
 const prettyMS = require('pretty-ms');
 
 module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) => {
-	let userMS = await client.utils.loadMsInfo(serverDoc, msg.author.id);
+	let userMS = await client.utils.loadUserInfo(client, serverDoc, msg.author.id);
 	let selectedItem;
 
 	for(let powerup in powerUps){
@@ -39,12 +39,11 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 		}
 	}
 
-	serverDoc.markModified('ms');
-	client.utils.saveQueue(client, serverDoc).then(() => {
+	client.utils.userQueue(client, serverDoc, userMS).then(() => {
 
 		setTimeout(async () => {
 			let newServerDoc = await client.utils.loadGuildInfo(client, msg.guild);
-			let newUserMS = await client.utils.loadMsInfo(newServerDoc, msg.author.id);
+			let newUserMS = await client.utils.loadUserInfo(client, newServerDoc, msg.author.id);
 	
 			for(let i=0; i < newUserMS.active.length; i++){
 				if(newUserMS.active[i].name === args[1]){
@@ -52,9 +51,8 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 					break;
 				}
 			}
-	
-			newServerDoc.markModified('ms');
-			client.utils.saveQueue(client, newServerDoc)
+
+			client.utils.userQueue(client, newServerDoc, newUserMS)
 		}, selectedItem.time);
 
 		let itemList = "";

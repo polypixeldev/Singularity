@@ -1,5 +1,5 @@
 module.exports = async (client, Discord, msg, args, serverDoc) => {
-	let userMS = await client.utils.loadMsInfo(serverDoc, msg.author.id);
+	let userMS = await client.utils.loadMsInfo(client, serverDoc, msg.author.id);
 			let limit = -1;
 			let remaining = {
 				protons: userMS.protons,
@@ -55,8 +55,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 					userMS.electrons -= userMS.singularity.size * 7;
 					userMS.protons -= userMS.singularity.size * 25;
 					userMS.singularity.size += Math.floor((Math.random() * 9) + 1);
-					serverDoc.markModified('ms');
-					client.utils.saveQueue(client, serverDoc).then(() => {
+					client.utils.userQueue(client, serverDoc, userMS).then(() => {
 						const embed = new Discord.MessageEmbed()
 						.setColor(0x000000)
 						.setDescription(`Congrats! Your Singularity is now size \`${userMS.singularity.size}\`!`);

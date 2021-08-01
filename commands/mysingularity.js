@@ -98,7 +98,7 @@ module.exports = {
 
 				return msg.channel.send(embed);
 			}
-			let userMS = await client.utils.loadMsInfo(serverDoc, user.id);
+			let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
 			
 			let itemStr = '\n'
 			for(let item of userMS.items){

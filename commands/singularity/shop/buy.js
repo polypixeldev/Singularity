@@ -1,5 +1,5 @@
 module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) => {
-	let userMS = await client.utils.loadMsInfo(serverDoc, msg.author.id);
+	let userMS = await client.utils.loadUserInfo(client, serverDoc, msg.author.id);
 	let selectedItem;
 
 	for(let item in items){
@@ -34,8 +34,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 			userMS.powerUps.push(args[2]);
 		}
 
-		serverDoc.markModified('ms');
-		client.utils.saveQueue(client, serverDoc).then(() => {
+		client.utils.userQueue(client, serverDoc, userMS).then(() => {
 			const embed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription(`

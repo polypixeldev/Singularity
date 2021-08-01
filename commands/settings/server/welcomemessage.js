@@ -1,7 +1,7 @@
 module.exports = (client, Discord, msg, args, serverDoc) => {
         if(args.length === 0){
           if(serverDoc.welcomeChannelID !== 'none'){
-            client.utils.updateServer(client, serverDoc, {
+            client.utils.updateServer(client, msg.guild.id, {
               welcomeChannelID: 'none'
             });
 
@@ -41,7 +41,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
           return msg.channel.send(embed);
         }
 
-        client.utils.updateServer(client, serverDoc, {
+        client.utils.updateServer(client, msg.guild.id, {
           welcomeMessage: welcomeMessage,
           welcomeChannelID: welcomeChannel.id
         }).then(() => {

@@ -1,7 +1,7 @@
 module.exports = (client, Discord, msg, args, serverDoc) => {
       if(args.length === 0){
         if(serverDoc.leaveChannelID !== 'none'){
-          client.utils.updateServer(client, serverDoc, {
+          client.utils.updateServer(client, msg.guild.id, {
             leaveChannelID: 'none'
           });
 
@@ -37,7 +37,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 
       const leaveMessage = args.join(' ');
 
-      client.utils.updateServer(client, serverDoc, {
+      client.utils.updateServer(client, msg.guild.id, serverDoc, {
         leaveMessage: leaveMessage,
         leaveChannelID: leaveChannel.id
       }).then(() => {

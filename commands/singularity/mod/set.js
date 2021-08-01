@@ -35,7 +35,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 		return msg.channel.send(embed);
 	}
 
-	let userMS = await client.utils.loadMsInfo(serverDoc, user.id);
+	let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
 
 	if(mode === 'add'){
 		userMS[args[3]] += args[4].slice(1)
@@ -45,8 +45,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 		userMS[args[3]] = args[4]
 	}
 
-	serverDoc.markModified('ms');
-	client.utils.saveQueue(client, serverDoc)
+	client.utils.userQueue(client, serverDoc, userMS)
 	.then(() => {
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)

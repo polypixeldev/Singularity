@@ -5,7 +5,7 @@ module.exports = {
     args: ['<new prefix>'],
     aliases: [],
     example: 'prefix ?',
-    execute(client, Discord, msg, args, serverDoc){
+    execute(client, Discord, msg, args){
       if(!args[0]){
         const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
@@ -15,7 +15,7 @@ module.exports = {
       }
 
         if(msg.member.hasPermission('MANAGE_GUILD')){
-          client.utils.updateServer(client, serverDoc, {prefix: args[0]}).then(() => {
+          client.utils.updateServer(client, msg.guild.id, {prefix: args[0]}).then(() => {
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription(`Prefix set to: \`${args[0]}\``);
