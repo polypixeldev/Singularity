@@ -15,7 +15,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 		.setColor(0x000000)
 		.setDescription('Please enter the name of the powerup you wish to use!');
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	}
 
 	if(!userMS.powerUps.includes(args[1])){
@@ -23,7 +23,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 		.setColor(0x000000)
 		.setDescription('You do not own this item!');
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	}
 
 	userMS.active.push({
@@ -70,6 +70,6 @@ module.exports = async (client, Discord, msg, args, serverDoc, items, powerUps) 
 			${itemList}
 		`);
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	})
 }

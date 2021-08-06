@@ -15,7 +15,7 @@ module.exports = {
 			.setColor(0x000000)
 			.setDescription('You do not have permission to view settings!');
 
-			return msg.channel.send(embed);
+			return msg.channel.send({embeds: [embed]});
 		} else {
 			if(args[0] === 'bot'){
 				BotSettings(client, Discord, msg, args, serverDoc);
@@ -37,7 +37,7 @@ module.exports = {
 				`)
 				.setFooter(`Singularity Settings requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 	
-				return msg.channel.send(embed);
+				return msg.channel.send({embeds: [embed]});
 			}
 		}
 	}

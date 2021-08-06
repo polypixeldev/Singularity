@@ -19,7 +19,7 @@ module.exports = {
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot ban a moderator!')
             .setColor(0x000000);
-            return msg.channel.send(permsEmbed);
+            return msg.channel.send({embeds: [permsEmbed]});
           }
 
           if (member) {
@@ -28,7 +28,7 @@ module.exports = {
               const permsEmbed = new Discord.MessageEmbed()
               .setDescription('You do not have permission to ban!')
               .setColor(0x000000);
-              return msg.channel.send(permsEmbed);
+              return msg.channel.send({embeds: [permsEmbed]});
             }
             
             if(args[1] && isNaN(args[1])){
@@ -38,7 +38,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`Successfully banned **${user.tag}**`)
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               })
               .catch(err => {
                 if(err.message === 'Missing Permissions'){
@@ -46,13 +46,13 @@ module.exports = {
                   .setColor(0x000000)
                   .setDescription('I do not have permissions to ban this user!');
 
-                  return msg.channel.send(embed);
+                  return msg.channel.send({embeds: [embed]});
                 }
 
                 const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`I was unable to ban the member because: \n \`\`\`${err}\`\`\``)
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               });
             } else if(!args[1]){
               return member
@@ -61,7 +61,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`Successfully banned **${user.tag}**`)
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               })
               .catch(err => {
                 if(err.message === 'Missing Permissions'){
@@ -69,13 +69,13 @@ module.exports = {
                   .setColor(0x000000)
                   .setDescription('I do not have permissions to ban this user!');
 
-                  return msg.channel.send(embed);
+                  return msg.channel.send({embeds: [embed]});
                 }
 
                 const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`I was unable to ban the member because: \n \`\`\`${err}\`\`\``)
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               });
             } else {
               if(args[1] > 7){
@@ -83,7 +83,7 @@ module.exports = {
                 .setColor(0x000000)
                 .setDescription('You cannot tempban someone for more than 7 days!');
 
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               }
 
               member
@@ -92,7 +92,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`Successfully banned **${user.tag}**`)
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               })
               .catch(err => {
                 if(err.message === 'Missing Permissions'){
@@ -100,20 +100,26 @@ module.exports = {
                   .setColor(0x000000)
                   .setDescription('I do not have permissions to ban this user!');
 
-                  return msg.channel.send(embed);
+                  return msg.channel.send({embeds: [embed]});
                 }
 
                 const embed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`I was unable to ban the member because: \n \`\`\`${err}\`\`\``)
-                return msg.channel.send(embed);
+                return msg.channel.send({embeds: [embed]});
               });
             }
           } else {
-            msg.channel.send("That user isn't in this guild!");
+            const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription("That user isn't in this guild!");
+            msg.channel.send({embeds: [embed]});
           }
         } else {
-          msg.channel.send("You didn't mention the user to ban!");
+            const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription("You didn't mention the user to ban!");
+            msg.channel.send({embeds: [embed]});
         }
     }
 }

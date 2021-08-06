@@ -19,7 +19,10 @@ module.exports = {
         };
         for(let field in checkObj){
           if(!checkObj[field]){
-            return msg.channel.send(`A required argument was not provided: \`${field}\``)
+            const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription(`A required argument was not provided: \`${field}\``)
+            return msg.channel.send({embeds: [embed]})
           }
         }
 
@@ -32,11 +35,11 @@ module.exports = {
             .setColor(0x000000)
             .setDescription('That role does not exist!');
 
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         }
 
         let sentMessage;
-        await reactionChannel.send(messageSend).then(sent => {
+        await reactionChannel.send({content: messageSend}).then(sent => {
           sentMessage = sent;
           serverDoc.reactionRoles.push([roleName, emoji, sent.id]);
           serverDoc.markModified('reactionRoles');
@@ -46,7 +49,7 @@ module.exports = {
         const successEmbed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setDescription('Reaction role added!');
-        msg.channel.send(successEmbed).then(sent => {
+        msg.channel.send({embeds: [successEmbed]}).then(sent => {
           setTimeout(() => {
             sent.delete();
           }, 3000);

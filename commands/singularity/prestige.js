@@ -26,7 +26,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 		`)
 		.setFooter(`Singularity Prestige Info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	} else {
 		if(userMS.protons >= baseReq * 125000 && userMS.electrons >= baseReq * 41666 && userMS.darkMatter >= baseReq * 6){
 			const embed = new Discord.MessageEmbed()
@@ -40,7 +40,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 				If not, send nothing or anything else
 			`);
 
-			await msg.channel.send(embed);
+			await msg.channel.send({embeds: [embed]});
 
 			msg.channel.awaitMessages(message => message.author.id === msg.author.id, {max: 1, time: 30000, errors: ['time']})
 			.then(async collected => {
@@ -72,14 +72,14 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 						.setColor(0x000000)
 						.setDescription('Congratulations! Prestige Successful!');
 
-						return msg.channel.send(embed);
+						return msg.channel.send({embeds: [embed]});
 					})
 				} else {
 					const embed = new Discord.MessageEmbed()
 					.setColor(0x000000)
 					.setDescription('Prestige Aborted');
 
-					return msg.channel.send(embed);
+					return msg.channel.send({embeds: [embed]});
 				}
 			})
 			.catch(() => {
@@ -87,7 +87,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 				.setColor(0x000000)
 				.setDescription('Prestige Aborted');
 
-				return msg.channel.send(embed);
+				return msg.channel.send({embeds: [embed]});
 			})
 		} else {
 			const embed = new Discord.MessageEmbed()
@@ -101,7 +101,7 @@ module.exports = async (client, Discord, msg, args, serverDoc, rareItems) => {
 				 *Enter \`${serverDoc.prefix}ms prestige info\` to learn more about Singularity Prestige*
 			`);
 
-			return msg.channel.send(embed);
+			return msg.channel.send({embeds: [embed]});
 		}
 	}
 }

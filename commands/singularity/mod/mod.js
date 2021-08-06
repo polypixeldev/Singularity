@@ -5,7 +5,7 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 		.setColor(0x000000)
 		.setDescription('You do not have permission to execute My Singularity moderation commands!');
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	} else {
 		if(args[1] === 'set'){
 			Set(client, Discord, msg, args, serverDoc);

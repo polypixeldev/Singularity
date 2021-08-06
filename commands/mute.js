@@ -21,7 +21,7 @@ module.exports = {
             .setDescription('You cannot mute a moderator!')
             .setColor(0x000000);
 
-            return msg.channel.send(permsEmbed);
+            return msg.channel.send({embeds: [permsEmbed]});
       }
 
       const muter = msg.guild.members.resolve(msg.author);
@@ -32,7 +32,7 @@ module.exports = {
           .setDescription('You do not have permissions to mute!')
           .setColor(0x000000);
 
-          return msg.channel.send(permsEmbed);
+          return msg.channel.send({embeds: [permsEmbed]});
         }
 
         let rolesize; 
@@ -61,14 +61,14 @@ module.exports = {
             .setColor(0x000000)
             .setDescription(`Successfully muted **${user.tag}**`);
 
-            msg.channel.send(embed);
+            msg.channel.send({embeds: [embed]});
           })
           .catch(err => {
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('I was unable to mute the member because: \n`' + err + "`");
 
-            msg.channel.send(embed);
+            msg.channel.send({embeds: [embed]});
             console.error(err);
           });
 
@@ -77,14 +77,14 @@ module.exports = {
         .setColor(0x000000)
         .setDescription("That user isn't in this server!");
 
-        msg.channel.send(embed);
+        msg.channel.send({embeds: [embed]});
       }
     } else {
       const embed = new Discord.MessageEmbed()
       .setColor(0x000000)
       .setDescription("You didn't mention the user to mute!");
 
-      msg.channel.send(embed);
+      msg.channel.send({embeds: [embed]});
     }
     }
 }

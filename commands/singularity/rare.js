@@ -9,5 +9,5 @@ module.exports = (client, Discord, msg, args, serverDoc, rareItems) => {
 		embed.addField(item.name, item.description);
 	}
 
-	msg.channel.send(embed);
+	msg.channel.send({embeds: [embed]});
 }

@@ -17,5 +17,5 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 
 		*Use \`${serverDoc.prefix}help ms\` to get a full list of My Singularity commands*
 	`);
-	msg.channel.send(embed);
+	msg.channel.send({embeds: [embed]});
 }

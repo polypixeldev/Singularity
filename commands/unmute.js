@@ -19,23 +19,39 @@ module.exports = {
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You do not have permission to unmute!')
             .setColor(0x000000);
-            return msg.channel.send(permsEmbed);
+            return msg.channel.send({embeds: [permsEmbed]});
           }
           const unmuteRole = msg.guild.roles.cache.find(role => role.name === "Muted");
           member
             .roles.remove(unmuteRole, args[1])
             .then(() => {
-              msg.channel.send(`Successfully unmuted **${user.tag}**`);
+              const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setDescription(`Successfully unmuted **${user.tag}**`);
+
+              msg.channel.send({embeds: [embed]})
             })
             .catch(err => {
-              msg.channel.send('I was unable to unmute the member because: \n`' + err + "`");
+              const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setDescription('I was unable to unmute the member because: \n`' + err + "`");
+
+              msg.channel.send({embeds: [embed]})
               console.error(err);
             });
         } else {
-          msg.channel.send("That user isn't in this guild!");
+          const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription("That user isn't in this guild!");
+
+          msg.channel.send({embeds: [embed]})
         }
       } else {
-        msg.channel.send("You didn't mention the user to unmute!");
+        const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setDescription("You didn't mention the user to unmute!");
+
+        msg.channel.send({embeds: [embed]})
       }
     }
 }

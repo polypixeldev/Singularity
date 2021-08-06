@@ -21,7 +21,7 @@ module.exports = {
           .setColor(0x000000)
           .setDescription('No users are banned in this server!');
 
-          return msg.channel.send(embed);
+          return msg.channel.send({embeds: [embed]});
         }
 
         const listEmbed = new Discord.MessageEmbed()
@@ -30,7 +30,7 @@ module.exports = {
         .setDescription(banListStr)
         .setFooter(`Ban list requested by ${msg.author.tag}`, msg.author.displayAvatarURL());
 
-        return msg.channel.send(listEmbed);
+        return msg.channel.send({embeds: [listEmbed]});
       }
 
       const banInfo = bans.find(ban => ban.user.tag === args[0]);
@@ -45,7 +45,7 @@ module.exports = {
             .setDescription('You do not have permissions to unban!')
             .setColor(0x000000);
 
-            return msg.channel.send(permsEmbed);
+            return msg.channel.send({embeds: [permsEmbed]});
           }
 
           msg.guild.members
@@ -55,7 +55,7 @@ module.exports = {
             .setDescription(`Successfully unbanned **${user.tag}**`)
             .setColor(0x000000);
 
-            msg.channel.send(successEmbed);
+            msg.channel.send({embeds: [successEmbed]});
           })
           .catch(err => {
             if(err.message === 'Missing Permissions'){
@@ -63,13 +63,13 @@ module.exports = {
               .setColor(0x000000)
               .setDescription('I don\'t have permissions to unban this user!');
 
-              return msg.channel.send(embed);
+              return msg.channel.send({embeds: [embed]});
             }
 
             const errEmbed = new Discord.MessageEmbed()
             .setDescription('I was unable to unban the member because: \n`' + err + "`");
 
-            msg.channel.send(errEmbed);
+            msg.channel.send({embeds: [errEmbed]});
 
             console.log(err);
           });
@@ -79,7 +79,7 @@ module.exports = {
           .setDescription('The tagged user is not banned!')
           .setColor(0x000000);
 
-          msg.channel.send(mentionEmbed);
+          msg.channel.send({embeds: [mentionEmbed]});
         }
     }
 }

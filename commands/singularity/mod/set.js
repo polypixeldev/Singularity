@@ -8,7 +8,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 			.setColor(0x000000)
 			.setDescription('You did not mention/tag a user!')
 	
-			return msg.channel.send(embed);
+			return msg.channel.send({embeds: [embed]});
 		}
 	}
 
@@ -18,14 +18,14 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 		.setColor(0x000000)
 		.setDescription('You did not specify a valid type! (Must be `protons`, `electrons`, or `darkMatter`)');
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	}
 	if(!args[4]){
 		const embed = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setDescription('You did not specify a value!');
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	}
 
 	let mode = args[4].startsWith('+') ? 'add' : args[4].startsWith('-') ? 'subtract' : 'set';
@@ -35,7 +35,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 		.setColor(0x000000)
 		.setDescription('The value provided is invalid!')
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	}
 
 	let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
@@ -56,6 +56,6 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 			Set Successful
 		`);
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	})
 }

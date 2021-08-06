@@ -10,35 +10,35 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setDescription('You do not have permission to clear messages!')
             .setColor(0x000000);
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         }
 
         if(!args[0]){
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('Please enter the amount of messages you wish to clear!');
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         } 
 
         if(isNaN(args[0])){
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('Please enter an actual number!');
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         } 
 
         if(args[0] > 100){
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('You are not able to delete over 100 messages at a time!');
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         } 
 
         if(args[0] < 1){
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('You must delete at least one message!');
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         } 
         
           msg.channel.messages.fetch({limit: Math.floor(args[0])}).then(messages =>{
@@ -47,7 +47,7 @@ module.exports = {
                  .setDescription(`Successfully cleared \`${args[0]}\` messages!`)
                  .setColor(0x000000);
 
-                msg.channel.send(embed).then(sent => {
+                msg.channel.send({embeds: [embed]}).then(sent => {
                     setTimeout(() => {
                         sent.delete();
                     }, 3000);
@@ -57,7 +57,7 @@ module.exports = {
                 .setDescription('At this time, you cannot delete messages that are over 14 days old.')
                 .setColor(0x000000);
                 
-                msg.channel.send(embed);
+                msg.channel.send({embeds: [embed]});
 
                 return;
             })

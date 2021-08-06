@@ -12,7 +12,7 @@ module.exports =  {
             .setColor(0x000000)
             .setDescription('You do not have permission to set the nickname of others!');
 
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         }
         if(!args[1]) args[1] === null;
 
@@ -33,7 +33,7 @@ module.exports =  {
             .setDescription('You cannot nickname a moderator!')
             .setColor(0x000000);
 
-            return msg.channel.send(permsEmbed);
+            return msg.channel.send({embeds: [permsEmbed]});
         }
 
         const prevName = member.nickname;
@@ -47,7 +47,7 @@ module.exports =  {
             .setColor(0x000000)
             .setDescription(`Name changed from \`${prevName === null || prevName === '' ? 'None' : prevName}\` to \`${nicknameSet.join(' ') === null || nicknameSet.join(' ') === '' ? 'None': nicknameSet.join(' ')}\``);
 
-            msg.channel.send(embed);
+            msg.channel.send({embeds: [embed]});
         })
         .catch(async err => {
             if(err == 'DiscordAPIError: Missing Permissions'){
@@ -55,13 +55,13 @@ module.exports =  {
                 .setDescription('Uh oh! I don\'t have permission to nickname this user!')
                 .setColor(0x000000);
 
-                return msg.channel.send(errPermsEmbed);
+                return msg.channel.send({embeds: [errPermsEmbed]});
             } else {
                 const errEmbed = new Discord.MessageEmbed()
                 .setColor(0x000000)
                 .setDescription(`I was unable to change the member's nickname because: \n \`${err}\``);
             
-                return msg.channel.send(errEmbed);
+                return msg.channel.send({embeds: [errEmbed]});
             }
         });
     }

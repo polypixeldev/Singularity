@@ -10,6 +10,6 @@ module.exports = {
         .setDescription(`🏓 Latency is ${Date.now() - msg.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
         .setColor(0x000000);
         
-        msg.channel.send(embed);
+        msg.channel.send({embeds: [embed]});
     }
 }

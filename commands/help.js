@@ -33,11 +33,11 @@ module.exports = {
         }
 
        if(args[0] === 'general'){
-        msg.channel.send(generalEmbed);
+        msg.channel.send({embeds: [generalEmbed]});
        } else if(args[0] === 'mod'){
-        msg.channel.send(modEmbed);
+        msg.channel.send({embeds: [modEmbed]});
        } else if(args[0] === 'ms') {
-        msg.channel.send(msEmbed);
+        msg.channel.send({embeds: [msEmbed]});
        } else {
         const embed = new Discord.MessageEmbed() 
         .setTitle('Singularity Help')
@@ -49,7 +49,7 @@ module.exports = {
         .addFields({name: 'General Help', value: `\`${serverDoc.prefix}help general\``, inline: true}, {name: 'Moderation Help', value: `\`${serverDoc.prefix}help mod\``, inline: true}, {name: 'My Singularity Help', value: `\`${serverDoc.prefix}help ms\``, inline: true})
         .setFooter(`Help requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
-        msg.channel.send(embed);
+        msg.channel.send({embeds: [embed]});
        }
     }
 }

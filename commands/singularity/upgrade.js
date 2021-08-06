@@ -32,7 +32,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 				*Respond with the desired number of upgrades within 30 seconds, or respond with 0 to abort*
 			`)
 			.setFooter(`Upgrade info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
-			msg.channel.send(embed);
+			msg.channel.send({embeds: [embed]});
 
 			msg.channel.awaitMessages(message => message.author.id === msg.author.id && Number.isInteger(Number(message.content)), {max: 1, time: 30000, errors: ['time']})
 			.then(collection => {
@@ -42,13 +42,13 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 					.setColor(0x000000)
 					.setDescription('You do not have enough protons/electrons to upgrade your Singularity size this much!');
 
-					return msg.channel.send(embed);
+					return msg.channel.send({embeds: [embed]});
 				} else if(num <= 0){
 					const embed = new Discord.MessageEmbed()
 					.setColor(0x000000)
 					.setDescription('Upgrade Aborted.')
 
-					return msg.channel.send(embed);
+					return msg.channel.send({embeds: [embed]});
 				} else {
 					userMS.electrons -= num * 250;
 					userMS.protons -= num * 1000;
@@ -60,7 +60,7 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 						.setColor(0x000000)
 						.setDescription(`Congrats! Your Singularity is now size \`${userMS.singularity.size}\`!`);
 
-						return msg.channel.send(embed);
+						return msg.channel.send({embeds: [embed]});
 					});
 				}
 			})
@@ -68,6 +68,6 @@ module.exports = async (client, Discord, msg, args, serverDoc) => {
 				const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setDescription('You did not respond with a valid number in time.');
-				return msg.channel.send(embed);
+				return msg.channel.send({embeds: [embed]});
 			});
 }

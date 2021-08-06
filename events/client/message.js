@@ -49,13 +49,13 @@ module.exports = async (Discord, client, msg) => {
 		const command = args.shift().toLowerCase();
 		const poly = client.users.cache.get('722092754510807133');
 		if(command === 'bug'){
-			poly.send(`Bug from \`${msg.author.tag}\`: ${args.join(' ')}`);
+			poly.send({content: `Bug from \`${msg.author.tag}\`: ${args.join(' ')}`});
 			return msg.channel.send('The bug has been reported! Thank you for helping to improve Singularity!');
 		} else if(command === 'suggestion'){
-			poly.send(`Suggestion from \`${msg.author.tag}\`: ${args.join(' ')}`);
+			poly.send({content: `Suggestion from \`${msg.author.tag}\`: ${args.join(' ')}`});
 			return msg.channel.send('Your suggestion has been sent! Thank you for helping to improve Singularity!');
 		} else {
-			return msg.channel.send('Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!');
+			return msg.channel.send({content: 'Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!'});
 		}
 	}
 	
@@ -78,7 +78,7 @@ module.exports = async (Discord, client, msg) => {
 		let index = 1;
 		for(let value of levelArr){
 			if(prevExp < value && userMS.lifeAtoms >= value){
-				msg.channel.send(`Level up! Your Singularity is now level **${index}**!`);
+				msg.channel.send({content: `Level up! Your Singularity is now level **${index}**!`});
 			}
 			index++;
 		}

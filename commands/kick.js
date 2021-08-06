@@ -22,7 +22,7 @@ module.exports = {
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot kick a moderator!')
             .setColor(0x000000);
-            return msg.channel.send(permsEmbed);
+            return msg.channel.send({embeds: [permsEmbed]});
           }
           
           const kicker = msg.guild.members.resolve(msg.author);
@@ -33,7 +33,7 @@ module.exports = {
               .setDescription('You do not have permissions to kick!')
               .setColor(0x000000);
 
-              return msg.channel.send(permsEmbed);
+              return msg.channel.send({embeds: [permsEmbed]});
             }
 
             member
@@ -43,7 +43,7 @@ module.exports = {
                 .setDescription(`Successfully kicked **${user.tag}**`)
                 .setColor(0x000000);
 
-                msg.channel.send(successEmbed);
+                msg.channel.send({embeds: [successEmbed]});
               })
               .catch(err => {
                 if(err.message === 'Missing Permissions'){
@@ -51,11 +51,11 @@ module.exports = {
                   .setColor(0x000000)
                   .setDescription('I don\'t have permissions to kick this user!');
 
-                  return msg.channel.send(embed);
+                  return msg.channel.send({embeds: [embed]});
                 }
                 const errEmbed = new Discord.MessageEmbed()
                 .setDescription('I was unable to kick the member because: \n`' + err + "`");
-                msg.channel.send(errEmbed);
+                msg.channel.send({embeds: [errEmbed]});
 
                 console.log(err);
               });
@@ -64,14 +64,14 @@ module.exports = {
             .setDescription('That user isn\'t in this server!')
             .setColor(0x000000);
 
-            msg.channel.send(naEmbed);
+            msg.channel.send({embeds: [naEmbed]});
           }
         } else {
           const mentionEmbed = new Discord.MessageEmbed()
           .setDescription('You didn\'t mention the user to kick!')
           .setColor(0x000000);
 
-          msg.channel.send(mentionEmbed);
+          msg.channel.send({embeds: [mentionEmbed]});
         }
     }
 }

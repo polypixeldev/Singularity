@@ -9,7 +9,7 @@ module.exports = async (Discord, client, member) => {
     welcomeMsg = welcomeMsg.replace(nameRegex, `${member.user.username}`);
     welcomeMsg = welcomeMsg.replace(mentionRegex, `<@${member.user.id}>`);
 
-    channel.send(welcomeMsg);
+    channel.send({content: welcomeMsg});
     // if(member.guild.id === '822162764964560937'){
     // member.guild.roles.fetch('824074694101041182').then(role => {
     //   member.roles.add(role)});

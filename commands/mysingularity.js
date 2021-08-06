@@ -96,7 +96,7 @@ module.exports = {
 				.setColor(0x000000)
 				.setDescription('Bots are not powerful enough to have their own Singularity!');
 
-				return msg.channel.send(embed);
+				return msg.channel.send({embeds: [embed]});
 			}
 			let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
 			
@@ -166,7 +166,7 @@ module.exports = {
 			// `)
 			.setFooter(`${user.tag}'s Singularity requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
-			msg.channel.send(embed);
+			msg.channel.send({embeds: [embed]});
 			
 		}
 	}	

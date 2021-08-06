@@ -11,7 +11,7 @@ module.exports = {
             .setColor(0x000000)
             .setDescription('Please enter a message for me to say!');
 
-            return msg.channel.send(embed);
+            return msg.channel.send({embeds: [embed]});
         }
         msg.channel.send(`**${msg.author.tag}:** ${args.join(' ')}`).then(() => {
             msg.delete();

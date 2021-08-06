@@ -29,7 +29,7 @@ Sentry.configureScope(scope => {
 });
 
 const Discord = require('discord.js');
-const client = new Discord.Client({partials: ["REACTION", "MESSAGE"]});
+const client = new Discord.Client({partials: ["REACTION", "MESSAGE"], intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_BANS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS', 'DIRECT_MESSAGES']});
 const mongoose = require('mongoose');
 
 require('dotenv').config();

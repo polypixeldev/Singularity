@@ -18,6 +18,6 @@ module.exports = (client, Discord, msg, args, serverDoc) => {
 		`)
 		.setFooter(`Singularity Server Settings requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
-		return msg.channel.send(embed);
+		return msg.channel.send({embeds: [embed]});
 	}
 }

@@ -3,7 +3,7 @@ module.exports = (client, Discord, msg) => {
 		.setColor(0x000000)
 		.setDescription('Are you sure you want to kick Singularity? (Y/N)');
 
-		msg.channel.send(embed);
+		msg.channel.send({embeds: [embed]});
 		msg.channel.awaitMessages(message => message.author.id === msg.author.id && (message.content === 'Y' || message.content === 'N'), {max: 1, time: 30000, errors: ['time']})
 		.then(collection => {
 			let message = collection.first();
@@ -27,7 +27,7 @@ module.exports = (client, Discord, msg) => {
 				`)
 				.setFooter(`Singularity was kicked by ${msg.author.tag}  • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
-				msg.channel.send(embed).then(() => {
+				msg.channel.send({embeds: [embed]}).then(() => {
 					msg.guild.leave();
 
 					setTimeout(async () => {
@@ -41,7 +41,7 @@ module.exports = (client, Discord, msg) => {
 				.setColor(0x000000)
 				.setDescription('Kick Aborted');
 
-				return msg.channel.send(embed);
+				return msg.channel.send({embeds: [embed]});
 			}
 		})
 		.catch(() => {
@@ -49,6 +49,6 @@ module.exports = (client, Discord, msg) => {
 			.setColor(0x000000)
 			.setDescription('You did not respond with a valid answer in time!');
 
-			return msg.channel.send(embed);
+			return msg.channel.send({embeds: [embed]});
 		})
 }

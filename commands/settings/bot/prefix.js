@@ -11,7 +11,7 @@ module.exports = {
         .setColor(0x000000)
         .setDescription('Please enter a prefix!');
 
-        return msg.channel.send(embed);
+        return msg.channel.send({embeds: [embed]});
       }
 
         if(msg.member.hasPermission('MANAGE_GUILD')){
@@ -20,14 +20,14 @@ module.exports = {
             .setColor(0x000000)
             .setDescription(`Prefix set to: \`${args[0]}\``);
 
-            msg.channel.send(embed);
+            msg.channel.send({embeds: [embed]});
           });
         } else {
           const permsEmbed = new Discord.MessageEmbed()
           .setDescription('You do not have permissions to change my prefix!')
           .setColor(0x000000);
           
-          msg.channel.send(permsEmbed);
+          msg.channel.send({embeds: [permsEmbed]});
         }
     }
 }

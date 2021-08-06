@@ -13,6 +13,6 @@ module.exports = {
         .setDescription('https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8')
         .setFooter(`Invite link requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
 
-        msg.reply(embed);
+        msg.reply({embeds: [embed]});
     }
 }

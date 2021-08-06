@@ -7,5 +7,5 @@ module.exports = async (Discord, client, member) => {
     let leaveMsg1 = serverDoc.leaveMessage.replace(tagRegex, `${member.user.tag}`);
     let leaveMsg2 = leaveMsg1.replace(nameRegex, `${member.user.username}`);
 
-    channel.send(leaveMsg2);
+    channel.send({content: leaveMsg2});
 }

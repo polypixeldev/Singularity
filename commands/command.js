@@ -12,7 +12,7 @@ module.exports = {
 			const notFoundEmbed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription('That command does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*');
-			return msg.channel.send(notFoundEmbed);
+			return msg.channel.send({embeds: [notFoundEmbed]});
 		} else {
 			command = client.commands.get(args[0]);
 		}
@@ -50,6 +50,6 @@ module.exports = {
 		\`\`\`${command.notes ? command.notes : 'none'}\`\`\`
 		`)
 		.setFooter(`Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL());
-		msg.channel.send(embed);
+		msg.channel.send({embeds: [embed]});
 	}
 }
