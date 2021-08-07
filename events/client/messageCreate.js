@@ -31,7 +31,7 @@ function splitCommandLine( commandLine ) {
 
 module.exports = async (Discord, client, msg) => {
 	if(msg.author.bot) return;
-	if(msg.channel.type === 'dm') return;
+	if(msg.channel.type === 'DM') return;
 	let userMS;
 	let serverDoc
 	await client.utils.loadGuildInfo(client, msg.guild).then(async server => {
@@ -41,7 +41,8 @@ module.exports = async (Discord, client, msg) => {
 	if(serverDoc === 'err') return;
     const prefix = serverDoc.prefix;
 
-	if(msg.channel.type ==='dm'){
+	if(msg.channel.type === 'DM'){
+		console.log('dm')
 		if(msg.author.bot){
 			return;
 		}
