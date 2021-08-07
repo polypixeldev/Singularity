@@ -18,7 +18,7 @@ module.exports = {
 
         if (user) {
           const member = msg.guild.members.resolve(user);
-          if(member.hasPermission('ADMINISTRATOR')){
+          if(member.permissions.has('ADMINISTRATOR')){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot kick a moderator!')
             .setColor(0x000000);
@@ -28,7 +28,7 @@ module.exports = {
           const kicker = msg.guild.members.resolve(msg.author);
 
           if (member) {
-            if(!kicker.hasPermission('KICK_MEMBERS') && !kicker.hasPermission('ADMINISTRATOR')){
+            if(!kicker.permissions.has('KICK_MEMBERS') && !kicker.permissions.has('ADMINISTRATOR')){
               const permsEmbed = new Discord.MessageEmbed()
               .setDescription('You do not have permissions to kick!')
               .setColor(0x000000);

@@ -14,7 +14,7 @@ module.exports = {
         return msg.channel.send({embeds: [embed]});
       }
 
-        if(msg.member.hasPermission('MANAGE_GUILD')){
+        if(msg.member.permissions.has('MANAGE_GUILD')){
           client.utils.updateServer(client, msg.guild.id, {prefix: args[0]}).then(() => {
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)

@@ -40,7 +40,7 @@ module.exports = {
 
       if (banInfo) {
           const user = banInfo.user;
-          if(!msg.member.hasPermission('BAN_MEMBERS') && !msg.member.hasPermission('ADMINISTRATOR')){
+          if(!msg.member.permissions.has('BAN_MEMBERS') && !msg.member.permissions.has('ADMINISTRATOR')){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You do not have permissions to unban!')
             .setColor(0x000000);

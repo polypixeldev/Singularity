@@ -1,6 +1,6 @@
 module.exports = {
     name: 'mute',
-    description: "Mutes the mentioned user",
+    description: "Mutes the mentioned user h",
     type: 'mod',
     args: ['<user to mute>'],
     aliases: [],
@@ -16,7 +16,7 @@ module.exports = {
         if(user) {
           const member = msg.guild.members.resolve(user);
 
-          if(member.hasPermission('ADMINISTRATOR')){
+          if(member.permissions.has('ADMINISTRATOR')){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot mute a moderator!')
             .setColor(0x000000);
@@ -27,7 +27,7 @@ module.exports = {
       const muter = msg.guild.members.resolve(msg.author);
 
       if (member) {
-        if(!muter.hasPermission('MUTE_MEMBERS')){
+        if(!muter.permissions.has('MUTE_MEMBERS')){
           const permsEmbed = new Discord.MessageEmbed()
           .setDescription('You do not have permissions to mute!')
           .setColor(0x000000);

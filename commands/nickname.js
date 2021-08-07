@@ -7,7 +7,7 @@ module.exports =  {
     example: 'nickname @poly Bot Maker',
     notes: 'user must be mentioned',
     execute(client, Discord, msg, args){
-        if(!msg.member.hasPermission('ADMINISTRATOR')){
+        if(!msg.member.permissions.has('ADMINISTRATOR')){
             const embed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription('You do not have permission to set the nickname of others!');
@@ -28,7 +28,7 @@ module.exports =  {
 
         const member = msg.guild.members.resolve(user);
 
-        if(member.hasPermission('ADMINISTRATOR') && user.id !== '860552124064202812'){
+        if(member.permissions.has('ADMINISTRATOR') && user.id !== '860552124064202812'){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot nickname a moderator!')
             .setColor(0x000000);

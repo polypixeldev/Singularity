@@ -15,7 +15,7 @@ module.exports = {
 
         if (user) {
           const member = msg.guild.members.resolve(user);
-          if(member.hasPermission('ADMINISTRATOR')){
+          if(member.permissions.has('ADMINISTRATOR')){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You cannot ban a moderator!')
             .setColor(0x000000);
@@ -24,7 +24,7 @@ module.exports = {
 
           if (member) {
             const banner = msg.guild.members.resolve(msg.author);
-            if(!banner.hasPermission('BAN_MEMBERS')){
+            if(!banner.permissions.has('BAN_MEMBERS')){
               const permsEmbed = new Discord.MessageEmbed()
               .setDescription('You do not have permission to ban!')
               .setColor(0x000000);

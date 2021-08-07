@@ -4,7 +4,7 @@ module.exports = (client, Discord, msg) => {
 		.setDescription('Are you sure you want to kick Singularity? (Y/N)');
 
 		msg.channel.send({embeds: [embed]});
-		msg.channel.awaitMessages(message => message.author.id === msg.author.id && (message.content === 'Y' || message.content === 'N'), {max: 1, time: 30000, errors: ['time']})
+		msg.channel.awaitMessages({filter: message => message.author.id === msg.author.id && (message.content === 'Y' || message.content === 'N'), max: 1, time: 30000, errors: ['time']})
 		.then(collection => {
 			let message = collection.first();
 			if(message.content === 'Y'){

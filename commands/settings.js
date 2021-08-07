@@ -10,7 +10,7 @@ module.exports = {
 	args: [],
 	example: 'settings',
 	execute(client, Discord, msg, args, serverDoc){
-		if(!msg.member.hasPermission('ADMINISTRATOR')){
+		if(!msg.member.permissions.has('ADMINISTRATOR')){
 			const embed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription('You do not have permission to view settings!');

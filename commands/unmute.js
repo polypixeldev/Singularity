@@ -15,7 +15,7 @@ module.exports = {
         const member = msg.guild.members.resolve(user);
         const unmuter = msg.guild.members.resolve(msg.author);
         if (member) {
-          if(!unmuter.hasPermission('MUTE_MEMBERS')){
+          if(!unmuter.permissions.has('MUTE_MEMBERS')){
             const permsEmbed = new Discord.MessageEmbed()
             .setDescription('You do not have permission to unmute!')
             .setColor(0x000000);
