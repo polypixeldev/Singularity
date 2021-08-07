@@ -1,6 +1,6 @@
 /*
 REMINDERS:
-  - None!
+  - Fix undocumented commands
   - Fix nickname
 */
 
