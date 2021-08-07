@@ -15,6 +15,7 @@ module.exports = (Discord, client) => {
     let commands = client.commands.map(command => ({
         name: command.name, 
         description: command.description, 
+        options: command.options,
         defaultPermission: command.defaultPermission}))
     client.application.commands.set(commands, process.env.DEV_GUILD_ID)
 }
