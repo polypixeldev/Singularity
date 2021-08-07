@@ -7,7 +7,7 @@ module.exports = {
     example: 'unban @poly not spamming',
     notes: 'user must be tagged in form user#tag',
     async execute(client, Discord, msg, args){
-      const bans = await msg.guild.fetchBans();
+      const bans = await msg.guild.bans.fetch();
       if(args[0] === 'list'){
         let banArr = bans.map(banInfo => banInfo.user.tag);
         let banListStr = "";

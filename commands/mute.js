@@ -42,14 +42,14 @@ module.exports = {
 
         if(!muteRole){
           const aGuild = client.guilds.resolve(msg.channel);
-          await aGuild.roles.create({data:{
+          await aGuild.roles.create({
             name: 'Muted',
             color: '#FFFFFF',
             hoist: true,
             position: rolesize,
             permissions: 66560,
-            mentionable: false
-            }, reason: 'mute role'});
+            mentionable: false,
+            reason: 'mute role'});
 
           muteRole = member.guild.roles.cache.find(rl => rl.name === 'Muted');
         }
