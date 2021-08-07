@@ -30,8 +30,7 @@ function splitCommandLine( commandLine ) {
 }
 
 module.exports = async (Discord, client, msg) => {
-	if(msg.author.bot) return;
-	if(msg.channel.type === 'DM') return;
+	if(msg.author.bot || msg.channel.type === 'DM') return;
 	let userMS;
 	let serverDoc
 	await client.utils.loadGuildInfo(client, msg.guild).then(async server => {
@@ -40,25 +39,6 @@ module.exports = async (Discord, client, msg) => {
 	})
 	if(serverDoc === 'err') return;
     const prefix = serverDoc.prefix;
-
-	if(msg.channel.type === 'DM'){
-		console.log('dm')
-		if(msg.author.bot){
-			return;
-		}
-		const args = msg.content.split(/ +/);
-		const command = args.shift().toLowerCase();
-		const poly = client.users.cache.get('722092754510807133');
-		if(command === 'bug'){
-			poly.send({content: `Bug from \`${msg.author.tag}\`: ${args.join(' ')}`});
-			return msg.channel.send('The bug has been reported! Thank you for helping to improve Singularity!');
-		} else if(command === 'suggestion'){
-			poly.send({content: `Suggestion from \`${msg.author.tag}\`: ${args.join(' ')}`});
-			return msg.channel.send('Your suggestion has been sent! Thank you for helping to improve Singularity!');
-		} else {
-			return msg.channel.send({content: 'Woops! Singularity doesn\'t respond to DM commands. Try sending `!help` in a server!'});
-		}
-	}
 	
 	if(!msg.author.bot){
 		if(!cooldowns[msg.author.id]){
