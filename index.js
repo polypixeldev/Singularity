@@ -29,7 +29,7 @@ Sentry.configureScope(scope => {
 });
 
 const Discord = require('discord.js');
-const client = new Discord.Client({partials: ["REACTION", "MESSAGE"], intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_BANS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS', 'DIRECT_MESSAGES']});
+const client = new Discord.Client({partials: ["REACTION", "MESSAGE", "CHANNEL"], intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_BANS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS', 'DIRECT_MESSAGES']});
 const mongoose = require('mongoose');
 
 require('dotenv').config();
@@ -78,18 +78,21 @@ db.once('open', () => {
   client.events = new Discord.Collection();
   client.utils = {};
   
-  ['command_handler', 'event_handler', 'util_handler'].forEach(handler =>{
-      require(`./handlers/${handler}`)(Discord, client);
-  });
-  
-  client.login(process.env.TOKEN);
+  client.login(process.env.DISCORD_TOKEN);
   const loginTransaction = startupTransaction.startChild({
     op: 'connection',
     name: 'Login to Discord API'
   });
+
   client.once('ready', () => {
+    console.log('Singularity is now online');
+    client.user.setPresence({ activity: { name: 'singularitybot.glitch.me', type: "WATCHING" }, status: 'online' });
+    ['command_handler', 'event_handler', 'util_handler'].forEach(handler =>{
+      require(`./handlers/${handler}`)(Discord, client);
+    });
     loginTransaction.finish();
   })
+  
 });
 
 db.on('error', err => {
