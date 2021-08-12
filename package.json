@@ -5,7 +5,7 @@
   "repository": "https://github.com/Poly-Pixel/Singularity",
   "main": "index.js",
   "dependencies": {
-    "@sentry/node": "6.9.0",
+    "@sentry/node": "6.11.0",
     "@sentry/tracing": "6.9.0",
     "discord.js": "13.0.1",
     "dotenv": "10.0.0",
