@@ -12,7 +12,7 @@
     "events": "^3.3.0",
     "lodash.merge": "^4.6.2",
     "mongoose": "^5.12.13",
-    "p-queue": "^6.6.2",
+    "p-queue": "^7.1.0",
     "pretty-ms": "^7.0.1"
   },
   "devDependencies": {
