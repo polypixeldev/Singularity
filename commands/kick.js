@@ -1,6 +1,17 @@
 module.exports = {
     name: 'kick',
     description: "Kicks the mentioned user",
+    defaultPermission: true,
+    options: [{
+      name: 'user',
+      type: 'USER',
+      description: 'The user you want to kick',
+      required: true
+    }, {
+      name: 'reason',
+      type: 'STRING',
+      description: 'A short reason for kicking this user - will default to "Kicked by <your tag>" if omitted'
+    }],
     type: 'mod',
     args: ['<user to kick>', '!<reason>'],
     aliases: [],
@@ -73,5 +84,50 @@ module.exports = {
 
           msg.channel.send({embeds: [mentionEmbed]});
         }
+    },
+    async slashExecute(client, Discord, interaction){
+      await interaction.deferReply({ephemeral: true})
+      let user = interaction.options.get('user')
+
+      const reason = interaction.options.get('reason')
+
+      if(user.member.permissions.has('ADMINISTRATOR')){
+        const permsEmbed = new Discord.MessageEmbed()
+        .setDescription('You cannot kick a moderator!')
+        .setColor(0x000000);
+        return interaction.editReply({embeds: [permsEmbed]});
+      }
+
+      if(!interaction.member.permissions.has('KICK_MEMBERS') && !interaction.member.permissions.has('ADMINISTRATOR')){
+        const permsEmbed = new Discord.MessageEmbed()
+        .setDescription('You do not have permissions to kick!')
+        .setColor(0x000000);
+
+        return interaction.editReply({embeds: [permsEmbed]});
+      }
+
+      user.member.kick(reason?.value ?? `User kicked by ${interaction.user.tag}`)
+      .then(() => {
+        const successEmbed = new Discord.MessageEmbed()
+        .setDescription(`Successfully kicked **${user.user.tag}**`)
+        .setColor(0x000000);
+
+        interaction.editReply({embeds: [successEmbed]});
+      })
+      .catch(err => {
+        if(err.message === 'Missing Permissions'){
+          const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription('I don\'t have permissions to kick this user!');
+
+          return interaction.editReply({embeds: [embed]});
+        }
+        const errEmbed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setDescription('I was unable to kick the member because: \n`' + err + "`");
+        interaction.editReply({embeds: [errEmbed]});
+
+        console.log(err);
+      });
     }
 }

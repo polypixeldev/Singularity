@@ -9,6 +9,7 @@ module.exports = (client, serverDoc, userDoc) => {
 			client.utils.loadUserInfo(client, serverDoc, userDoc.userID)
 			.then(newDoc => {
 				let v = newDoc.__v;
+				console.log(userDoc.items)
 				let mergeDoc = merge(newDoc, userDoc);
 				mergeDoc.__v = v;
 				mergeDoc.save()

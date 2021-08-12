@@ -9,6 +9,8 @@ module.exports = (Discord, client) =>{
             const event_name = file.split('.')[0];
             client.on(event_name, event.bind(null, Discord, client));
         }
+
+        console.log('Event Handlers Ready')
     }
 
     ['client'].forEach(e => load_dir(e));

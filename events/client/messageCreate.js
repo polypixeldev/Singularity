@@ -64,7 +64,7 @@ module.exports = async (Discord, client, msg) => {
 			index++;
 		}
 
-		await client.utils.userQueue(client, serverDoc, userMS)
+		await client.utils.updateUser(client, serverDoc.guildID, userMS.userID, userMS)
 	}
 
     if(!msg.content.startsWith(prefix) || msg.author.bot) return;

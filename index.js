@@ -86,7 +86,7 @@ db.once('open', () => {
 
   client.once('ready', () => {
     console.log('Singularity is now online');
-    client.user.setPresence({ activity: { name: 'singularitybot.glitch.me', type: "WATCHING" }, status: 'online' });
+    client.user.setPresence({ activities: [{ name: 'singularitybot.glitch.me', type: "WATCHING" }], status: 'online' });
     ['command_handler', 'event_handler', 'util_handler'].forEach(handler =>{
       require(`./handlers/${handler}`)(Discord, client);
     });
