@@ -9,8 +9,6 @@
     "@sentry/tracing": "6.11.0",
     "discord.js": "13.0.1",
     "dotenv": "10.0.0",
-    "events": "3.3.0",
-    "lodash.merge": "4.6.2",
     "mongoose": "5.12.13",
     "pretty-ms": "7.0.1"
   },
