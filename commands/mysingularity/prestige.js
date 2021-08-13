@@ -149,18 +149,31 @@ module.exports = {
 			return interaction.editReply({embeds: [embed]});
 		} else {
 			if(userMS.protons >= baseReq * 125000 && userMS.electrons >= baseReq * 41666 && userMS.darkMatter >= baseReq * 6){
-				const embed = new Discord.MessageEmbed()
+				const firstEmbed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setTitle('Are You Sure?')
 				.setDescription(`
 					Prestiging has many benefits, but it is a destructive action. **Prestiging is not reversible.**
 
-					If you are sure you want to prestige now, send \`Yes\`
+					If you are sure you want to prestige now, click \`Yes\`
 
-					If not, send nothing or anything else
+					If not, click \`No\`
 				`);
 
-				await interaction.editReply({embeds: [embed]});
+				let confirmation = await interaction.editReply({embeds: [firstEmbed], components: [{
+					type: 'ACTION_ROW',
+					components: [{
+						type: 'BUTTON',
+						label: 'Yes',
+						customId: 'Yes',
+						style: 'SUCCESS'
+					}, {
+						type: 'BUTTON',
+						label: 'No',
+						customId: 'No',
+						style: 'DANGER'
+					}]
+				}]});
 
 				interaction.channel.awaitMessages(message => message.author.id === interaction.user.id, {max: 1, time: 30000, errors: ['time']})
 				.then(async collected => {
@@ -208,6 +221,79 @@ module.exports = {
 					.setDescription('Prestige Aborted');
 
 					return interaction.followUp({embeds: [embed]});
+				})
+
+				confirmation.awaitMessageComponent({time: 30000, filter: answer => answer.user.id === interaction.user.id})
+				.then(async answer => {
+					await answer.deferReply({ephemeral: true})
+					if(answer.customId === 'Yes'){
+						const newServerDoc = await client.utils.loadGuildInfo(client, interaction.guild);
+						let newUserMS = await client.utils.loadUserInfo(client, newServerDoc, interaction.user.id);
+
+						newUserMS.userID = interaction.user.id
+						newUserMS.protons = 0
+						newUserMS.electrons = 0
+						newUserMS.items = []
+						for(let i=0; i < newUserMS.singularity.prestige + 2; i++){
+							newUserMS.rareItems.push(rareItems[Math.floor(Math.random() * rareItems.length - 1)])
+						}
+						newUserMS.powerUps = []
+						newUserMS.darkMatter = 0
+						newUserMS.active = []
+						newUserMS.singularity = {
+							type: 'White',
+							size: 10,
+							ferocity: newUserMS.singularity.ferocity + 5,
+							prestige: newUserMS.singularity.prestige + 1
+						}
+
+						client.utils.updateUser(client, newServerDoc.guildID, newUserMS.userID, newUserMS)
+						.then(() => {
+							interaction.editReply({embeds: [firstEmbed], components: [{
+								type: 'ACTION_ROW',
+								components: [{
+									type: 'BUTTON',
+									label: 'Yes',
+									customId: 'Yes',
+									style: 'SUCCESS',
+									disabled: true
+								}, {
+									type: 'BUTTON',
+									label: 'No',
+									customId: 'No',
+									style: 'DANGER',
+									disabled: true
+								}]
+							}]})
+							const embed = new Discord.MessageEmbed()
+							.setColor(0x000000)
+							.setDescription('Congratulations! Prestige Successful!');
+
+							return answer.editReply({embeds: [embed]});
+						})
+					} else {
+						interaction.editReply({embeds: [firstEmbed], components: [{
+							type: 'ACTION_ROW',
+							components: [{
+								type: 'BUTTON',
+								label: 'Yes',
+								customId: 'Yes',
+								style: 'SUCCESS',
+								disabled: true
+							}, {
+								type: 'BUTTON',
+								label: 'No',
+								customId: 'No',
+								style: 'DANGER',
+								disabled: true
+							}]
+						}]})
+						const embed = new Discord.MessageEmbed()
+						.setColor(0x000000)
+						.setDescription('Prestige Aborted');
+
+						return answer.editReply({embeds: [embed]});
+					}
 				})
 			} else {
 				const embed = new Discord.MessageEmbed()

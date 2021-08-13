@@ -18,8 +18,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
-    "lint": "eslint .",
-    "registerDevCmds": "node scripts/registerDevCmds.js"
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
