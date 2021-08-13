@@ -1,3 +1,5 @@
 module.exports = async (client, guildID, userID, data) => {
-	await client.userModel.replaceOne({guildID: guildID, userID: userID}, data).exec();
-}
+  await client.userModel
+    .replaceOne({ guildID: guildID, userID: userID }, data)
+    .exec();
+};

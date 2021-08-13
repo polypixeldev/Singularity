@@ -1,3 +1,3 @@
 module.exports = {
-	description: 'Singularity Server Settings'
-}
+  description: "Singularity Server Settings",
+};

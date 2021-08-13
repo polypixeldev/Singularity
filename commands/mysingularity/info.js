@@ -1,18 +1,22 @@
 module.exports = {
-	name: 'info',
-	description: 'Display information about My Singularity',
-	defaultPermission: true,
-	options: [],
-	args: [],
-	aliases: [],
-	example: 'ms info',
-	execute(client, Discord, msg, args, serverDoc){
-		let currentDate = new Date(Date.now())
-		const embed = new Discord.MessageEmbed()
-		.setTitle('My Singularity')
-		.setColor(0x000000)
-		.setFooter(`My Singularity info requested by ${msg.author.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, msg.author.displayAvatarURL())
-		.setDescription(`
+  name: "info",
+  description: "Display information about My Singularity",
+  defaultPermission: true,
+  options: [],
+  args: [],
+  aliases: [],
+  example: "ms info",
+  execute(client, Discord, msg, args, serverDoc) {
+    let currentDate = new Date(Date.now());
+    const embed = new Discord.MessageEmbed()
+      .setTitle("My Singularity")
+      .setColor(0x000000)
+      .setFooter(
+        `My Singularity info requested by ${
+          msg.author.tag
+        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+        msg.author.displayAvatarURL()
+      ).setDescription(`
 			***My Singularity is the new best way to show off what you've done for a server!***
 
 			**What is "My Singularity"?**
@@ -25,15 +29,19 @@ module.exports = {
 
 			*Use \`${serverDoc.prefix}help ms\` to get a full list of My Singularity commands*
 		`);
-		msg.channel.send({embeds: [embed]});
-	},
-	async slashExecute(client, Discord, interaction, serverDoc){
-		let currentDate = new Date(Date.now())
-		const embed = new Discord.MessageEmbed()
-		.setTitle('My Singularity')
-		.setColor(0x000000)
-		.setFooter(`My Singularity info requested by ${interaction.user.tag} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`, interaction.user.displayAvatarURL())
-		.setDescription(`
+    msg.channel.send({ embeds: [embed] });
+  },
+  async slashExecute(client, Discord, interaction, serverDoc) {
+    let currentDate = new Date(Date.now());
+    const embed = new Discord.MessageEmbed()
+      .setTitle("My Singularity")
+      .setColor(0x000000)
+      .setFooter(
+        `My Singularity info requested by ${
+          interaction.user.tag
+        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+        interaction.user.displayAvatarURL()
+      ).setDescription(`
 			***My Singularity is the new best way to show off what you've done for a server!***
 
 			**What is "My Singularity"?**
@@ -46,6 +54,6 @@ module.exports = {
 
 			*Use \`${serverDoc.prefix}help ms\` to get a full list of My Singularity commands*
 		`);
-		interaction.editReply({embeds: [embed]});
-	}
-}
+    interaction.editReply({ embeds: [embed] });
+  },
+};
