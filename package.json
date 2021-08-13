@@ -1,7 +1,7 @@
 {
   "name": "singularity",
   "version": "0.1.0",
-  "description": "",
+  "description": "A free, easy to use Discord bot",
   "repository": "https://github.com/Poly-Pixel/Singularity",
   "main": "index.js",
   "dependencies": {
