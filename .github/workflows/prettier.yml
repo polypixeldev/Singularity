@@ -2,7 +2,7 @@ name: Run Prettier
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   prettier:
