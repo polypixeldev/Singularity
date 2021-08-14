@@ -22,6 +22,7 @@ module.exports = (Discord, client) => {
   let slashCommands = basicCmds.map((command) => {
     let slashCmd = {
       name: command.name,
+      type: command.type,
       description: command.description,
       options: command.options,
       defaultPermission: command.defaultPermission,
@@ -85,10 +86,8 @@ module.exports = (Discord, client) => {
     .filter((file) => file.endsWith("js"));
 
   for (const file of context_files) {
-    console.log(context_files);
     const context = require(`../contexts/${file}`);
     if (context.name) {
-      console.log(context.name);
       client.contexts.set(context.name, context);
       slashCommands.push({
         name: context.name,

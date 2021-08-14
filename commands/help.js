@@ -50,20 +50,74 @@ module.exports = {
 
     for (let command of client.commands) {
       if (command[1].type === "general") {
+        let desc = [];
+
+        for (let option of command[1].options) {
+          if (option.type === "SUB_COMMAND_GROUP") {
+            desc.push(`\n \`${option.name}\` - ${option.description}`);
+            for (let subcmd of option.options) {
+              desc.push(
+                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+              );
+            }
+            desc.push("\n");
+          } else if (option.type === "SUB_COMMAND") {
+            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+          }
+        }
+
+        desc.unshift(`${command[1].description} \n`);
+
+        desc = desc.join("");
+
         generalEmbed.addField(
           `\`${serverDoc.prefix}${command[1].name}\``,
-          command[1].description
+          desc
         );
       } else if (command[1].type === "mod") {
-        modEmbed.addField(
-          `\`${serverDoc.prefix}${command[1].name}\``,
-          command[1].description
-        );
+        let desc = [];
+
+        for (let option of command[1].options) {
+          if (option.type === "SUB_COMMAND_GROUP") {
+            desc.push(`\n \`${option.name}\` - ${option.description}`);
+            for (let subcmd of option.options) {
+              desc.push(
+                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+              );
+            }
+            desc.push("\n");
+          } else if (option.type === "SUB_COMMAND") {
+            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+          }
+        }
+
+        desc.unshift(`${command[1].description} \n`);
+
+        desc = desc.join("");
+
+        modEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
       } else if (command[1].type === "ms") {
-        msEmbed.addField(
-          `\`${serverDoc.prefix}${command[1].name}\``,
-          command[1].description
-        );
+        let desc = [];
+
+        for (let option of command[1].options) {
+          if (option.type === "SUB_COMMAND_GROUP") {
+            desc.push(`\n \`${option.name}\` - ${option.description}`);
+            for (let subcmd of option.options) {
+              desc.push(
+                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+              );
+            }
+            desc.push("\n");
+          } else if (option.type === "SUB_COMMAND") {
+            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+          }
+        }
+
+        desc.unshift(`${command[1].description} \n`);
+
+        desc = desc.join("");
+
+        msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
       }
     }
 
@@ -147,20 +201,74 @@ module.exports = {
 
     for (let command of client.commands) {
       if (command[1].type === "general") {
+        let desc = [];
+
+        for (let option of command[1].options) {
+          if (option.type === "SUB_COMMAND_GROUP") {
+            desc.push(`\n \`${option.name}\` - ${option.description}`);
+            for (let subcmd of option.options) {
+              desc.push(
+                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+              );
+            }
+            desc.push("\n");
+          } else if (option.type === "SUB_COMMAND") {
+            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+          }
+        }
+
+        desc.unshift(`${command[1].description} \n`);
+
+        desc = desc.join("");
+
         generalEmbed.addField(
           `\`${serverDoc.prefix}${command[1].name}\``,
-          command[1].description
+          desc
         );
       } else if (command[1].type === "mod") {
-        modEmbed.addField(
-          `\`${serverDoc.prefix}${command[1].name}\``,
-          command[1].description
-        );
+        let desc = [];
+
+        for (let option of command[1].options) {
+          if (option.type === "SUB_COMMAND_GROUP") {
+            desc.push(`\n \`${option.name}\` - ${option.description}`);
+            for (let subcmd of option.options) {
+              desc.push(
+                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+              );
+            }
+            desc.push("\n");
+          } else if (option.type === "SUB_COMMAND") {
+            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+          }
+        }
+
+        desc.unshift(`${command[1].description} \n`);
+
+        desc = desc.join("");
+
+        modEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
       } else if (command[1].type === "ms") {
-        msEmbed.addField(
-          `\`${serverDoc.prefix}${command[1].name}\``,
-          command[1].description
-        );
+        let desc = [];
+
+        for (let option of command[1].options) {
+          if (option.type === "SUB_COMMAND_GROUP") {
+            desc.push(`\n \`${option.name}\` - ${option.description}`);
+            for (let subcmd of option.options) {
+              desc.push(
+                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+              );
+            }
+            desc.push("\n");
+          } else if (option.type === "SUB_COMMAND") {
+            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+          }
+        }
+
+        desc.unshift(`${command[1].description} \n`);
+
+        desc = desc.join("");
+
+        msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
       }
     }
 
