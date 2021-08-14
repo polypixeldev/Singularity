@@ -80,6 +80,10 @@ module.exports = (Discord, client) => {
     console.time(
       `Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`
     );
+    commands.push({
+      name: "Test",
+      type: "MESSAGE",
+    });
     client.application.commands
       .set(commands, process.env.DEV_GUILD_ID)
       .then(() => {
