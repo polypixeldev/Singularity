@@ -80,27 +80,35 @@ module.exports = {
 
           muteRole = member.guild.roles.cache.find((rl) => rl.name === "Muted");
 
-          let channels = member.guild.channels.cache
+          let channels = member.guild.channels.cache;
 
-          channels.mapValues(chanel => {
-            if(!(chanel instanceof Discord.ThreadChannel)){
-              if(chanel.manageable){
-                if(chanel.isText()){
-                  chanel.permissionOverwrites.create(muteRole, {
-                    SEND_MESSAGES: false
-                  }, {
-                    reason: 'Setting up Muted role'
-                  })
+          channels.mapValues((chanel) => {
+            if (!(chanel instanceof Discord.ThreadChannel)) {
+              if (chanel.manageable) {
+                if (chanel.isText()) {
+                  chanel.permissionOverwrites.create(
+                    muteRole,
+                    {
+                      SEND_MESSAGES: false,
+                    },
+                    {
+                      reason: "Setting up Muted role",
+                    }
+                  );
                 } else {
-                  chanel.permissionOverwrites.create(muteRole, {
-                    SPEAK: false
-                  }, {
-                    reason: 'Setting up Muted role'
-                  })
+                  chanel.permissionOverwrites.create(
+                    muteRole,
+                    {
+                      SPEAK: false,
+                    },
+                    {
+                      reason: "Setting up Muted role",
+                    }
+                  );
                 }
               }
             }
-          })
+          });
         }
 
         member.roles
