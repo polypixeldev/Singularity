@@ -73,12 +73,34 @@ module.exports = {
             color: "#FFFFFF",
             hoist: true,
             position: rolesize,
-            permissions: 66560,
+            permissions: 66560n,
             mentionable: false,
             reason: "mute role",
           });
 
           muteRole = member.guild.roles.cache.find((rl) => rl.name === "Muted");
+
+          let channels = member.guild.channels.cache
+
+          channels.mapValues(chanel => {
+            if(!(chanel instanceof Discord.ThreadChannel)){
+              if(chanel.manageable){
+                if(chanel.isText()){
+                  chanel.permissionOverwrites.create(muteRole, {
+                    SEND_MESSAGES: false
+                  }, {
+                    reason: 'Setting up Muted role'
+                  })
+                } else {
+                  chanel.permissionOverwrites.create(muteRole, {
+                    SPEAK: false
+                  }, {
+                    reason: 'Setting up Muted role'
+                  })
+                }
+              }
+            }
+          })
         }
 
         member.roles
@@ -154,7 +176,7 @@ module.exports = {
         name: "Muted",
         color: "#FFFFFF",
         hoist: true,
-        permissions: 66560,
+        permissions: 66560n,
         mentionable: false,
         reason: "mute role",
       });
@@ -162,6 +184,28 @@ module.exports = {
       muteRole = interaction.guild.roles.cache.find(
         (rl) => rl.name === "Muted"
       );
+
+      let channels = interaction.member.guild.channels.cache
+
+          channels.mapValues(chanel => {
+            if(!(chanel instanceof Discord.ThreadChannel)){
+              if(chanel.manageable){
+                if(chanel.isText()){
+                  chanel.permissionOverwrites.create(muteRole, {
+                    SEND_MESSAGES: false
+                  }, {
+                    reason: 'Setting up Muted role'
+                  })
+                } else {
+                  chanel.permissionOverwrites.create(muteRole, {
+                    SPEAK: false
+                  }, {
+                    reason: 'Setting up Muted role'
+                  })
+                }
+              }
+            }
+          })
     }
 
     user.member.roles
