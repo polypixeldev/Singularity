@@ -12,7 +12,6 @@ module.exports = {
     },
   ],
   async execute(client, Discord, msg, args, serverDoc) {
-    //eslint-disable-line
     let user = msg.mentions.users.first()
       ? msg.mentions.users.first()
       : client.utils.resolveTag(msg.guild, args[0])
@@ -111,6 +110,7 @@ module.exports = {
     msg.channel.send({ embeds: [embed] });
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply({ ephemeral: true });
     let user = interaction.options.get("user")?.user ?? interaction.user;
     if (user.bot) {
       const embed = new Discord.MessageEmbed()

@@ -53,6 +53,7 @@ module.exports = {
     }
   },
   async slashExecute(client, Discord, interaction, serverDoc, items, powerUps) {
+    await interaction.deferReply({ ephemeral: true });
     if (interaction.options.getSubcommand(false) === "buy") {
       buy.slashExecute(
         client,

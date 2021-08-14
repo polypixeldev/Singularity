@@ -112,6 +112,7 @@ module.exports = {
       });
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply({ ephemeral: true });
     let user = interaction.options.get("user").user;
     let type = interaction.options.get("type").value;
     let value = interaction.options.get("value").value;

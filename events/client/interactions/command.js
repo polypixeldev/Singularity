@@ -13,14 +13,38 @@ module.exports = async (Discord, client, interaction) => {
     });
   if (serverDoc === "err") return;
 
-  try {
-    await client.commands
+  let executor = null;
+
+  if (interaction.options.getSubcommandGroup(false)) {
+    executor = client.commands
       .get(interaction.commandName)
-      .slashExecute(client, Discord, interaction, serverDoc);
+      .options.find(
+        (cmd) => cmd.name === interaction.options.getSubcommandGroup()
+      )
+      .options.find(
+        (cmd) => cmd.name === interaction.options.getSubcommand()
+      ).slashExecute;
+  } else if (interaction.options.getSubcommand(false)) {
+    executor = client.commands
+      .get(interaction.commandName)
+      .options.find(
+        (cmd) => cmd.name === interaction.options.getSubcommand()
+      ).slashExecute;
+  } else {
+    executor = client.commands.get(interaction.commandName).slashExecute;
+  }
+
+  try {
+    await executor(client, Discord, interaction, serverDoc);
   } catch (error) {
     console.error(error);
+    const embed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setDescription(
+        "An error was encountered while executing this command. The issue has been reported to the Singularity Team. We are sorry for the inconvenience."
+      );
     await interaction.editReply({
-      content: "There was an error while executing this command!",
+      embeds: [embed],
       ephemeral: true,
     });
   }

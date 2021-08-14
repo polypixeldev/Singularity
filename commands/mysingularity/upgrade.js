@@ -107,6 +107,7 @@ module.exports = {
       });
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply({ ephemeral: true });
     let userMS = await client.utils.loadMsInfo(
       client,
       serverDoc,

@@ -23,6 +23,7 @@ module.exports = {
     }
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply({ ephemeral: true });
     if (!interaction.member.permissions.has("ADMINISTRATOR")) {
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)

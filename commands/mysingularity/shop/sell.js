@@ -111,6 +111,7 @@ module.exports = {
       });
   },
   async slashExecute(client, Discord, interaction, serverDoc, items, powerUps) {
+    await interaction.deferReply({ ephemeral: true });
     let userMS = await client.utils.loadUserInfo(
       client,
       serverDoc,

@@ -84,6 +84,7 @@ db.once("open", () => {
   client.serverModel = mongoose.model("Servers", serverSchema);
 
   client.commands = new Discord.Collection();
+  client.contexts = new Discord.Collection();
   client.events = new Discord.Collection();
   client.utils = {};
 

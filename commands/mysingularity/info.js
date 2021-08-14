@@ -32,6 +32,7 @@ module.exports = {
     msg.channel.send({ embeds: [embed] });
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
+    interaction.deferReply({ ephemeral: true });
     let currentDate = new Date(Date.now());
     const embed = new Discord.MessageEmbed()
       .setTitle("My Singularity")
