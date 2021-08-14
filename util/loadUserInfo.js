@@ -26,7 +26,7 @@ module.exports = (client, serverDoc, id) => {
             .then((userDoc) => {
               serverDoc.ms.push(userDoc._id);
               client.utils
-                .serverQueue(client, serverDoc)
+                .updateServer(client, serverDoc.guildID, serverDoc)
                 .then(() => {
                   resolve(userDoc);
                 })
