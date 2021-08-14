@@ -77,6 +77,30 @@ module.exports = (Discord, client) => {
 
   console.timeEnd("Finished Loading Slash (/) Command Data in");
 
+  console.log("Loading Context Menu Data...");
+  console.time("Finished Loading Context Menu Data in");
+
+  const context_files = fs
+    .readdirSync("./contexts/")
+    .filter((file) => file.endsWith("js"));
+
+  for (const file of context_files) {
+    console.log(context_files);
+    const context = require(`../contexts/${file}`);
+    if (context.name) {
+      console.log(context.name);
+      client.contexts.set(context.name, context);
+      slashCommands.push({
+        name: context.name,
+        type: context.type,
+      });
+    } else {
+      continue;
+    }
+  }
+
+  console.timeEnd("Finished Loading Context Menu Data in");
+
   console.log("Singularity Commands Set");
 
   if (process.argv[2] === "-d") {
