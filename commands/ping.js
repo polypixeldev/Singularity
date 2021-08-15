@@ -11,7 +11,7 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
       .setDescription(
         `🏓 Latency is ${
-          Date.now() - msg.createdTimestamp
+          client.ws.ping
         }ms. API Latency is ${Math.round(client.ws.ping)}ms`
       )
       .setColor(0x000000);
