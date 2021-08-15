@@ -35,17 +35,17 @@ module.exports = {
       .addFields([
         {
           name: "Total Protons",
-          value: `${totalProtons}`,
+          value: `\`${totalProtons}\``,
           inline: true,
         },
         {
           name: "Total Electrons",
-          value: `${totalElectrons}`,
+          value: `\`${totalElectrons}\``,
           inline: true,
         },
         {
           name: "Total Dark Matter",
-          value: `${totalDarkMatter}`,
+          value: `\`${totalDarkMatter}\``,
           inline: true,
         },
       ]);

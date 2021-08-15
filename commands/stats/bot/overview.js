@@ -25,9 +25,9 @@ module.exports = {
           .addFields([
             {
               name: "Uptime",
-              value: `${prettyMS(os.processUptime() * 1000, {
+              value: `\`${prettyMS(os.processUptime() * 1000, {
                 verbose: true,
-              })}`,
+              })}\``,
               inline: true,
             },
             {
