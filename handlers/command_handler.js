@@ -18,7 +18,7 @@ module.exports = (Discord, client) => {
     }
   }
 
-  client.user.id = "860552124064202812";
+  client.user.id = process.env.CLIENT_ID;
   let slashCommands = basicCmds.map((command) => {
     let slashCmd = {
       name: command.name,
