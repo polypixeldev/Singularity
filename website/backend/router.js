@@ -1,22 +1,45 @@
 const Express = require('express')
 const CORS = require('cors')
 const axios = require('axios').default
+const fs = require('fs')
 
 const router = Express.Router()
-router.get('/userinfo', CORS(), (req, res) => {
-	const apiInstance = axios.create({
-		headers: {"Authorization": `Bearer ${req.query.token}`}
-	})
-	router.use(Express.json)
-	apiInstance.get('https://discord.com/api/users/@me')
-	.then(apiRes => {
-		console.log(apiRes.data)
-		res.json(apiRes.data)
-	})
-	.catch(err => {
-		console.log(err)
-		res.send(err)
-	})
-})
+
+let corsOptions = {
+
+}
+
+let routeArr = []
+
+let routes = fs.readdirSync('./website/backend/routes', {
+	withFileTypes: true
+}).filter(file => file.name.endsWith('.js'))
+
+let search = () => {
+	routes = fs.readdirSync(`./website/backend/routes/${routeArr.join('/')}`, {
+		withFileTypes: true
+	}).filter(file => file.name.endsWith('.js'))
+
+	for(let ent of routes){
+		if(ent.isDirectory()){
+			routeArr.push(ent.name)
+			search()
+		} else {
+			let exec = require(`./routes/${routeArr.join('/')}/${ent.name}`)
+
+			console.log(`${routeArr.join('/')}/${ent.name.slice(0, ent.name.length - 3)}`)
+
+			router.all(`*`, CORS(), (req, res) => {
+				const apiInstance = axios.create({
+					headers: {"Authorization": `Bearer ${req.query.token}`}
+				})
+
+				return exec(apiInstance, req, res)
+			})
+		}
+	}
+}
+
+search()
 
 module.exports = router
