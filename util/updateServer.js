@@ -1,4 +1,3 @@
-module.exports = async (client, serverDoc, data) => {
-	await client.serverModel.updateOne({guildID: serverDoc.guildID}, data).exec();
-	await serverDoc.save(client.utils.saveCallback);
-}
+module.exports = async (client, id, data) => {
+  await client.serverModel.updateOne({ guildID: id }, data).exec();
+};

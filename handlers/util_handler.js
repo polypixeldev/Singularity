@@ -1,9 +1,11 @@
-const fs = require('fs');
+const fs = require("fs");
 module.exports = (Discord, client) => {
-	const util_files = fs.readdirSync('./util/').filter(file => file.endsWith('js'));
+  const util_files = fs
+    .readdirSync("./util/")
+    .filter((file) => file.endsWith("js"));
 
-    for(const file of util_files){
-        const util = require(`../util/${file}`);
-        client.utils[file.split('.')[0]] =  util;
-    }
-}
+  for (const file of util_files) {
+    const util = require(`../util/${file}`);
+    client.utils[file.split(".")[0]] = util;
+  }
+};
