@@ -1,45 +1,51 @@
-const Express = require('express')
-const CORS = require('cors')
-const axios = require('axios').default
-const fs = require('fs')
+const Express = require("express");
+const CORS = require("cors");
+const axios = require("axios").default;
+const fs = require("fs");
 
-const router = Express.Router()
+module.exports = (client) => {
+  const router = Express.Router();
 
-let corsOptions = {
+  let corsOptions = {};
 
-}
+  let routeArr = [];
 
-let routeArr = []
+  let routes = fs
+    .readdirSync("./website/backend/routes", {
+      withFileTypes: true,
+    })
+    .filter((file) => file.name.endsWith(".js"));
 
-let routes = fs.readdirSync('./website/backend/routes', {
-	withFileTypes: true
-}).filter(file => file.name.endsWith('.js'))
+  let search = () => {
+    routes = fs
+      .readdirSync(`./website/backend/routes/${routeArr.join("/")}`, {
+        withFileTypes: true,
+      })
+      .filter((file) => file.name.endsWith(".js"));
 
-let search = () => {
-	routes = fs.readdirSync(`./website/backend/routes/${routeArr.join('/')}`, {
-		withFileTypes: true
-	}).filter(file => file.name.endsWith('.js'))
+    for (let ent of routes) {
+      if (ent.isDirectory()) {
+        routeArr.push(ent.name);
+        search();
+      } else {
+        let exec = require(`./routes/${routeArr.join("/")}/${ent.name}`);
 
-	for(let ent of routes){
-		if(ent.isDirectory()){
-			routeArr.push(ent.name)
-			search()
-		} else {
-			let exec = require(`./routes/${routeArr.join('/')}/${ent.name}`)
+        console.log(
+          `${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`
+        );
 
-			console.log(`${routeArr.join('/')}/${ent.name.slice(0, ent.name.length - 3)}`)
+        router.all(`*`, CORS(corsOptions), (req, res) => {
+          const apiInstance = axios.create({
+            headers: { Authorization: `Bearer ${req.query.token}` },
+          });
 
-			router.all(`*`, CORS(), (req, res) => {
-				const apiInstance = axios.create({
-					headers: {"Authorization": `Bearer ${req.query.token}`}
-				})
+          return exec(apiInstance, client, req, res);
+        });
+      }
+    }
+  };
 
-				return exec(apiInstance, req, res)
-			})
-		}
-	}
-}
+  search();
 
-search()
-
-module.exports = router
+  return router;
+};

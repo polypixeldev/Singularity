@@ -45,7 +45,7 @@ class APIClient extends EventEmitter {
   }
 
   startBackend() {
-    this.app.use("/api", apiRouter);
+    this.app.use("/api", apiRouter(this));
   }
 
   startFrontend() {
@@ -65,7 +65,7 @@ class APIClient extends EventEmitter {
         "C:/Users/samme/Documents/Programs/Singularity/website/frontend/build"
       )
     );
-    this.app.use("/api", apiRouter);
+    this.app.use("/api", apiRouter(this));
     this.app.use((req, res) => {
       res.sendFile(
         "C:/Users/samme/Documents/Programs/Singularity/website/frontend/build/index.html"
