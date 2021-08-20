@@ -18,28 +18,15 @@ module.exports = (discord, client, req, res) => {
             .get(`https://discord.com/api/users/@me/guilds`)
             .then(async (guildsRes) => {
               for (let i = 0; i < guildsRes.data.length; i++) {
-                if (guildsRes.data[i].icon !== null) {
-                  let avatar = await discord.get(
-                    `https://cdn.discordapp.com/icons/${guildsRes.data[i].id}/${guildsRes.data[i].icon}.png`,
-                    {
-                      responseType: "arraybuffer",
-                    }
-                  );
-                  guildsRes.data[i].icon = Buffer.from(
-                    avatar.data,
-                    "binary"
-                  ).toString("base64");
+                let ev = { available: false };
 
-                  let ev = { available: false };
+                client.emit("guildAvailable", guildsRes.data[i].id, ev);
 
-                  client.emit("guildAvailable", guildsRes.data[i].id, ev);
+                guildsRes.data[i].available = ev.available;
 
-                  guildsRes.data[i].available = ev.available;
-
-                  console.log(
-                    `${guildsRes.data[i].name}: ${guildsRes.data[i].available}`
-                  );
-                }
+                console.log(
+                  `${guildsRes.data[i].name}: ${guildsRes.data[i].available}`
+                );
               }
 
               apiRes.data.guilds = guildsRes.data;
