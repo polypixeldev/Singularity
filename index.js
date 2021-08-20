@@ -25,6 +25,10 @@ Sentry.configureScope((scope) => {
 });
 
 const Discord = require("discord.js");
+const mongoose = require("mongoose");
+const APIClient = require("./website/server.js");
+require("dotenv").config();
+
 const client = new Discord.Client({
   partials: ["REACTION", "MESSAGE", "CHANNEL"],
   intents: [
@@ -37,9 +41,7 @@ const client = new Discord.Client({
   ],
   failIfNotExists: true,
 });
-const mongoose = require("mongoose");
-
-require("dotenv").config();
+const api = new APIClient({ type: "backend" });
 
 const url = "mongodb://127.0.0.1:27017/Singularity";
 
@@ -99,7 +101,7 @@ db.once("open", () => {
       status: "online",
     });
     ["command_handler", "event_handler", "util_handler"].forEach((handler) => {
-      require(`./handlers/${handler}`)(Discord, client);
+      require(`./handlers/${handler}`)(Discord, client, api);
     });
     loginTransaction.finish();
   });
