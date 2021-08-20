@@ -41,7 +41,11 @@ const client = new Discord.Client({
   ],
   failIfNotExists: true,
 });
-const api = new APIClient({ type: "backend" });
+const api = new APIClient({
+  type: process.env.API_TYPE,
+  host: process.env.API_HOST,
+  port: process.env.API_PORT,
+});
 
 const url = "mongodb://127.0.0.1:27017/Singularity";
 
