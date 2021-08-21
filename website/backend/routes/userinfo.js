@@ -18,15 +18,22 @@ module.exports = (discord, client, req, res) => {
             .get(`https://discord.com/api/users/@me/guilds`)
             .then(async (guildsRes) => {
               for (let i = 0; i < guildsRes.data.length; i++) {
-                let ev = { available: false };
+                let ev = { available: false, manageable: false };
 
-                client.emit("guildAvailable", guildsRes.data[i].id, ev);
+                client.emit(
+                  "guildAvailable",
+                  ev,
+                  guildsRes.data[i].id,
+                  apiRes.data.id
+                );
+                console.log(`${guildsRes.data[i].name}: ${ev.manageable}`);
 
                 guildsRes.data[i].available = ev.available;
-
-                console.log(
-                  `${guildsRes.data[i].name}: ${guildsRes.data[i].available}`
-                );
+                if (ev.manageable) {
+                  guildsRes.data[i].manageable = await ev.manageable;
+                } else {
+                  guildsRes.data[i].manageable = false;
+                }
               }
 
               apiRes.data.guilds = guildsRes.data;
