@@ -1,3 +1,4 @@
+const { BitField } = require("discord.js");
 module.exports = (discord, client, req, res) => {
   discord
     .get("https://discord.com/api/users/@me")
@@ -18,22 +19,14 @@ module.exports = (discord, client, req, res) => {
             .get(`https://discord.com/api/users/@me/guilds`)
             .then(async (guildsRes) => {
               for (let i = 0; i < guildsRes.data.length; i++) {
-                let ev = { available: false, manageable: false };
+                let ev = { available: false };
 
-                client.emit(
-                  "guildAvailable",
-                  ev,
-                  guildsRes.data[i].id,
-                  apiRes.data.id
-                );
+                client.emit("guildAvailable", ev, guildsRes.data[i].id);
                 console.log(`${guildsRes.data[i].name}: ${ev.manageable}`);
 
                 guildsRes.data[i].available = ev.available;
-                if (ev.manageable) {
-                  guildsRes.data[i].manageable = await ev.manageable;
-                } else {
-                  guildsRes.data[i].manageable = false;
-                }
+                let permissions = new BitField(guildsRes.data[i].permissions);
+                guildsRes.data[i].manageable = permissions.has(1 << 5);
               }
 
               apiRes.data.guilds = guildsRes.data;
