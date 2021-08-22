@@ -1,5 +1,6 @@
 const Express = require("express");
 const EventEmitter = require("events");
+const bodyParser = require("body-parser");
 
 const apiRouter = require("./backend/router.js");
 
@@ -45,6 +46,7 @@ class APIClient extends EventEmitter {
   }
 
   startBackend() {
+    this.app.use(bodyParser.json());
     this.app.use("/api", apiRouter(this));
   }
 

@@ -34,13 +34,20 @@ module.exports = (client) => {
           `${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`
         );
 
-        router.all(`*`, CORS(corsOptions), (req, res) => {
-          const apiInstance = axios.create({
-            headers: { Authorization: `Bearer ${req.query.token}` },
-          });
+        router.all(
+          `${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`,
+          CORS(corsOptions),
+          (req, res) => {
+            console.log(req.body);
+            const apiInstance = axios.create({
+              headers: {
+                Authorization: `Bearer ${req.query?.token ?? req.body?.token}`,
+              },
+            });
 
-          return exec(apiInstance, client, req, res);
-        });
+            return exec(apiInstance, client, req, res);
+          }
+        );
       }
     }
   };
