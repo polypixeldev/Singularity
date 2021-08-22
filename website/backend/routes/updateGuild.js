@@ -1,7 +1,7 @@
 module.exports = (discord, client, req, res) => {
   discord
     .get("https://discord.com/api/users/@me")
-    .then((apiRes) => {
+    .then(async (apiRes) => {
       let ev = { code: 1 };
       client.emit(
         "updateGuild",
@@ -11,7 +11,7 @@ module.exports = (discord, client, req, res) => {
         req.body.data
       );
       res.json({
-        code: ev.code,
+        code: await ev.code,
       });
     })
     .catch((err) => {
