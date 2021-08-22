@@ -31,6 +31,13 @@ module.exports = (discord, client, req, res) => {
                   promises.push(
                     ev.data.then((data) => (guildsRes.data[i].data = data))
                   );
+                if (ev.guild)
+                  promises.push(
+                    ev.guild.then(
+                      (guild) =>
+                        (guildsRes.data[i].nickname = guild.me.nickname ?? "")
+                    )
+                  );
               }
 
               await Promise.all(promises);
