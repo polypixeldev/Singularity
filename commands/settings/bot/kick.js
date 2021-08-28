@@ -35,7 +35,7 @@ module.exports = {
 					https://forms.gle/GgMKrsCHhe3fBN879
 
 					In case you want to invite Singularity again, just use the following link:
-					https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8
+					https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot
 
 					***Server data will be lost if Singularity is not re-invited within 5 minutes.***
 
@@ -108,7 +108,7 @@ module.exports = {
 					https://forms.gle/GgMKrsCHhe3fBN879
 
 					In case you want to invite Singularity again, just use the following link:
-					https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8
+					https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot
 
 					***Server data will be lost if Singularity is not re-invited within 5 minutes.***
 

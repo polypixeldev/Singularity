@@ -7,9 +7,13 @@
   "dependencies": {
     "@sentry/node": "~6.11.0",
     "@sentry/tracing": "~6.11.0",
+    "axios": "~0.21.1",
+    "body-parser": "~1.19.0",
+    "cors": "~2.8.5",
     "discord.js": "~13.1.0",
     "dotenv": "~10.0.0",
-    "mongoose": "~6.0.1",
+    "express": "~4.17.1",
+    "mongoose": "~5.13.7",
     "os-utils": "~0.0.14",
     "pretty-ms": "~7.0.1"
   },
