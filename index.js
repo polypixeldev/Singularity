@@ -3,6 +3,7 @@ REMINDERS:
   - Fix undocumented commands
   - Fix nickname
 */
+require("dotenv").config();
 
 const Sentry = require("@sentry/node");
 const Tracing = require("@sentry/tracing"); //eslint-disable-line
@@ -12,7 +13,7 @@ Sentry.init({
   release: "Singularity@0.1.0",
   tracesSampleRate: 1.0,
   integrations: [new Sentry.Integrations.Http({ tracing: true })],
-  environment: "development",
+  environment: process.env.SENTRY_ENVIRONMENT,
 });
 
 const startupTransaction = Sentry.startTransaction({
@@ -27,7 +28,6 @@ Sentry.configureScope((scope) => {
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const APIClient = require("./website/server.js");
-require("dotenv").config();
 
 const client = new Discord.Client({
   partials: ["REACTION", "MESSAGE", "CHANNEL"],
