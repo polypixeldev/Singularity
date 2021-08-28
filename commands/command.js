@@ -9,6 +9,13 @@ module.exports = {
       required: true,
       type: "STRING",
     },
+    {
+      name: "argument",
+      description:
+        "The name of the argument within the command you wish to view",
+      required: false,
+      type: "STRING",
+    },
   ],
   type: "general",
   args: ["<command name>"],
@@ -27,18 +34,12 @@ module.exports = {
     } else {
       command = client.commands.get(args[0]);
     }
-    let aliasString;
     let argString;
-    if (command.aliases.length > 0) {
-      aliasString = command.aliases.join(", ");
-    } else {
-      aliasString = "none";
-    }
 
-    if (command.args.length > 0) {
+    if (command.options.length > 0) {
       argString = ``;
-      for (let arg of command.args) {
-        argString = argString + ` ${arg}`;
+      for (let arg of command.options) {
+        argString = argString + `${arg.name} `;
       }
     } else {
       argString = `none`;
@@ -52,14 +53,10 @@ module.exports = {
       .setDescription(
         `${command.description}
 
-		**Usage**:
-		\`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
-		**Aliases:**
-		\`\`\`${aliasString}\`\`\`
-		**Example:**
-		\`\`\`${serverDoc.prefix}${command.example}\`\`\`
-		**Notes:**
-		\`\`\`${command.notes ? command.notes : "none"}\`\`\`
+        **Usage**:
+        \`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
+        **Example:**
+        \`\`\`${serverDoc.prefix}${command.example}\`\`\`
 		`
       )
       .setFooter(
@@ -83,47 +80,84 @@ module.exports = {
     } else {
       command = client.commands.get(interaction.options.get("command").value);
     }
-    let aliasString;
-    let argString;
-    if (command.aliases.length > 0) {
-      aliasString = command.aliases.join(", ");
-    } else {
-      aliasString = "none";
-    }
-
-    if (command.args.length > 0) {
-      argString = ``;
-      for (let arg of command.args) {
-        argString = argString + ` ${arg}`;
-      }
-    } else {
-      argString = `none`;
-    }
 
     let currentDate = new Date(Date.now());
+    if (!interaction.options.get("argument")?.value) {
+      let argString;
 
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(`${command.name} - ${command.type.toUpperCase()}`)
-      .setDescription(
-        `${command.description}
+      if (command.options.length > 0) {
+        argString = ``;
+        for (let arg of command.options) {
+          argString = argString + `<${!arg.required ? "!" : ""}${arg.name}> `;
+        }
+      } else {
+        argString = `none`;
+      }
 
-		**Usage**:
-		\`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
-		**Aliases:**
-		\`\`\`${aliasString}\`\`\`
-		**Example:**
-		\`\`\`${serverDoc.prefix}${command.example}\`\`\`
-		**Notes:**
-		\`\`\`${command.notes ? command.notes : "none"}\`\`\`
-		`
-      )
-      .setFooter(
-        `Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
-    interaction.editReply({ embeds: [embed] });
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle(`${command.name} - ${command.type.toUpperCase()}`)
+        .setDescription(
+          `${command.description}
+
+          **Usage**:
+          \`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
+          **Example:**
+          \`\`\`${serverDoc.prefix}${command.example}\`\`\`
+          **Notes:**
+          \`\`\`${command.notes ? command.notes : "none"}\`\`\`
+      `
+        )
+        .setFooter(
+          `Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${
+            interaction.user.tag
+          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+          interaction.user.displayAvatarURL()
+        );
+      interaction.editReply({ embeds: [embed] });
+    } else {
+      if (
+        !command.options.find(
+          (option) => option.name === interaction.options.get("argument").value
+        )
+      ) {
+        const argNotFoundEmbed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription(
+            "That argument does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
+          );
+
+        return interaction.editReply({ embeds: [argNotFoundEmbed] });
+      } else {
+        const argument = command.options.find(
+          (option) => option.name === interaction.options.get("argument").value
+        );
+        const argEmbed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(`${command.name} - Argument "${argument.name}"`)
+          .addFields([
+            {
+              name: "Description",
+              value: argument.description,
+            },
+            {
+              name: "Type",
+              value: argument.type,
+            },
+            {
+              name: "Required",
+              value: argument.required?.toString() ?? "False",
+            },
+          ])
+          .setFooter(
+            `command info requested by ${
+              interaction.user.tag
+            } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+            interaction.user.displayAvatarURL()
+          );
+
+        return interaction.editReply({ embeds: [argEmbed] });
+      }
+    }
   },
 };

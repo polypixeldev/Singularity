@@ -20,11 +20,11 @@ module.exports = {
       return msg.channel.send({ embeds: [embed] });
     } else {
       if (args[0] === "bot") {
-        BotSettings(client, Discord, msg, args, serverDoc);
+        BotSettings.execute(client, Discord, msg, args, serverDoc);
       } else if (args[0] === "server") {
-        ServerSettings(client, Discord, msg, args, serverDoc);
+        ServerSettings.execute(client, Discord, msg, args, serverDoc);
       } else if (args[0] === "mod") {
-        ModSettings(client, Discord, msg, args, serverDoc);
+        ModSettings.execute(client, Discord, msg, args, serverDoc);
       } else {
         let currentDate = new Date(Date.now());
         const embed = new Discord.MessageEmbed()
