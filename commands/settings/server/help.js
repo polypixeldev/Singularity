@@ -44,7 +44,8 @@ module.exports = {
       return msg.channel.send({ embeds: [embed] });
     }
   },
-  slashExecute(client, Discord, interaction, serverDoc) {
+  async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply({ ephemeral: true });
     if (interaction.options.getSubcommand(false) === "welcomemessage") {
       welcomeMessage.slashExecute(client, Discord, interaction, serverDoc);
     } else if (interaction.options.getSubcommand(false) === "leavemessage") {

@@ -82,7 +82,8 @@ module.exports = {
         msg.channel.send(embed);
       });
   },
-  slashExecute(client, Discord, interaction, serverDoc) {
+  async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply({ ephemeral: true });
     if (interaction.options.get("message").value === "none") {
       if (serverDoc.leaveChannelID !== "none") {
         client.utils.updateServer(client, interaction.guild.id, {

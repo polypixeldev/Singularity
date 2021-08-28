@@ -29,7 +29,8 @@ module.exports = {
       return msg.channel.send({ embeds: [embed] });
     }
   },
-  slashExecute(client, Discord, interaction) {
+  async slashExecute(client, Discord, interaction) {
+    await interaction.deferReply({ ephemeral: true });
     if (interaction.options.getSubcommand(false) === "") {
       //eslint-disable-line
     } else {

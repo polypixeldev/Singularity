@@ -40,7 +40,8 @@ module.exports = {
       msg.channel.send({ embeds: [permsEmbed] });
     }
   },
-  slashExecute(client, Discord, interaction) {
+  async slashExecute(client, Discord, interaction) {
+    await interaction.deferReply({ ephemeral: true });
     if (interaction.member.permissions.has("MANAGE_GUILD")) {
       client.utils
         .updateServer(client, interaction.guild.id, {

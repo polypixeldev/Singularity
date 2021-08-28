@@ -79,7 +79,8 @@ module.exports = {
         return msg.channel.send({ embeds: [embed] });
       });
   },
-  slashExecute(client, Discord, interaction) {
+  async slashExecute(client, Discord, interaction) {
+    await interaction.deferReply({ ephemeral: true });
     const embed = new Discord.MessageEmbed()
       .setColor(0x000000)
       .setDescription("Are you sure you want to kick Singularity? (Y/N)");
