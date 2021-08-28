@@ -2,3 +2,4 @@
 .gitignore
 .husky
 LICENSE
+website/frontend/build
