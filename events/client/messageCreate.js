@@ -93,5 +93,16 @@ module.exports = async (Discord, client, msg) => {
     client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
   if (!command) return;
 
+  if (!command.execute) {
+    const embed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setTitle("Unsupported Message Command")
+      .setDescription(
+        "It seems that this command is slash-command exclusive, and cannot be executed via message-based commands. Use slash commands to use this command!"
+      );
+
+    return msg.channel.send({ embeds: [embed] });
+  }
+
   command.execute(client, Discord, msg, args, serverDoc);
 };
