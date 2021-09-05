@@ -43,7 +43,7 @@ module.exports = {
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
-    await serverDoc.populate("ms").execPopulate();
+    await serverDoc.populate("ms");
     let xpArr = [];
     for (let user of serverDoc.ms) {
       if (user.userID) {

@@ -5,7 +5,7 @@ module.exports = {
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
 
-    await serverDoc.populate("ms").execPopulate();
+    await serverDoc.populate("ms");
 
     let totalProtons = serverDoc.ms.reduce((acc, val) => acc + val.protons, 0);
 
