@@ -173,15 +173,9 @@ module.exports = {
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
     let currentDate = new Date(Date.now());
-    if (
-      interaction.options.get("command") ||
-      interaction.options.get("argument")
-    ) {
+    if (interaction.options.get("command")) {
       let command;
-      if (
-        !client.commands.get(interaction.options.get("command")?.value) &&
-        !interaction.options.get("argument")
-      ) {
+      if (!client.commands.get(interaction.options.get("command").value)) {
         const notFoundEmbed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setDescription(
@@ -189,9 +183,7 @@ module.exports = {
           );
         return interaction.editReply({ embeds: [notFoundEmbed] });
       } else {
-        command = client.commands.get(
-          interaction.options.get("command")?.value
-        );
+        command = client.commands.get(interaction.options.get("command").value);
       }
 
       let currentDate = new Date(Date.now());
@@ -212,7 +204,6 @@ module.exports = {
           .setTitle(`${command.name} - ${command.type.toUpperCase()}`)
           .setDescription(
             `${command.description}
-
           **Usage**:
           \`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
           **Example:**
@@ -229,36 +220,12 @@ module.exports = {
           );
         interaction.editReply({ embeds: [embed] });
       } else {
-        let argument = null;
-        const arg = client.commands.find((command) =>
-          command.options.find((option) => {
-            if (option.type === "SUB_COMMAND_GROUP") {
-              return option.options.find((grp) =>
-                grp.find((cmd) =>
-                  cmd.options.find((opt) => {
-                    if (opt.name === interaction.options.get("argument").value)
-                      argument === opt;
-                    return (
-                      opt.name === interaction.options.get("argument").value
-                    );
-                  })
-                )
-              );
-            } else if (option.type === "SUB_COMMAND") {
-              return option.options.find((opt) => {
-                if (opt.name === interaction.options.get("argument").value)
-                  argument = opt;
-                return opt.name === interaction.options.get("argument").value;
-              });
-            } else {
-              if (option.name === interaction.options.get("argument").value)
-                argument = option;
-              return option.name === interaction.options.get("argument").value;
-            }
-          })
-        );
-
-        if (!arg) {
+        if (
+          !command.options.find(
+            (option) =>
+              option.name === interaction.options.get("argument").value
+          )
+        ) {
           const argNotFoundEmbed = new Discord.MessageEmbed()
             .setColor(0x000000)
             .setDescription(
@@ -267,10 +234,13 @@ module.exports = {
 
           return interaction.editReply({ embeds: [argNotFoundEmbed] });
         } else {
-          console.log(argument);
+          const argument = command.options.find(
+            (option) =>
+              option.name === interaction.options.get("argument").value
+          );
           const argEmbed = new Discord.MessageEmbed()
             .setColor(0x000000)
-            .setTitle(`Argument "${argument.name}"`)
+            .setTitle(`${command.name} - Argument "${argument.name}"`)
             .addFields([
               {
                 name: "Description",
@@ -278,7 +248,7 @@ module.exports = {
               },
               {
                 name: "Type",
-                value: `${argument.type}`,
+                value: argument.type,
               },
               {
                 name: "Required",

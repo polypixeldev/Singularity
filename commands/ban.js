@@ -4,13 +4,13 @@ module.exports = {
   defaultPermission: true,
   options: [
     {
-      type: 6,
+      type: "USER",
       name: "user",
       description: "The user you want to ban",
       required: true,
     },
     {
-      type: 4,
+      type: "INTEGER",
       name: "days",
       description: "The number of days you want to ban the user, up to 7",
       required: false,
@@ -46,7 +46,7 @@ module.exports = {
       ],
     },
     {
-      type: 3,
+      type: "STRING",
       name: "reason",
       description:
         'A short reason for banning this user - will default to "Banned by <your tag>" if omitted',
