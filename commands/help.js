@@ -15,6 +15,19 @@ module.exports = {
       required: false,
       type: "STRING",
     },
+    {
+      name: "group",
+      description: "The name of a subcommand group within the command",
+      required: false,
+      type: "STRING",
+    },
+    {
+      name: "subcommand",
+      description:
+        "The name of a subcommand within the command or subcommand group",
+      required: false,
+      type: "STRING",
+    },
   ],
   type: "general",
   args: ["!<command type>"],
@@ -175,6 +188,8 @@ module.exports = {
     let currentDate = new Date(Date.now());
     if (interaction.options.get("command")) {
       let command;
+      let subcommand;
+      let group;
       if (!client.commands.get(interaction.options.get("command").value)) {
         const notFoundEmbed = new Discord.MessageEmbed()
           .setColor(0x000000)
@@ -184,41 +199,137 @@ module.exports = {
         return interaction.editReply({ embeds: [notFoundEmbed] });
       } else {
         command = client.commands.get(interaction.options.get("command").value);
+        if (interaction.options.get("group")) {
+          group = command.options.find(
+            (opt) =>
+              opt.type === "SUB_COMMAND_GROUP" &&
+              opt.name === interaction.options.get("group").value
+          );
+          if (!group) {
+            const embed = new Discord.MessageEmbed()
+              .setColor(0x000000)
+              .setDescription("The specified subcommand group does not exist!");
+
+            return interaction.editReply({ embeds: [embed] });
+          }
+        }
+
+        if (interaction.options.get("subcommand")) {
+          if (group) {
+            subcommand = group.options.find(
+              (opt) =>
+                opt.type === "SUB_COMMAND" &&
+                opt.name === interaction.options.get("subcommand").value
+            );
+            if (!subcommand) {
+              const embed = new Discord.MessageEmbed()
+                .setColor(0x000000)
+                .setDescription(
+                  "The specified subcommand does not exist within the specified group!"
+                );
+
+              return interaction.editReply({ embeds: [embed] });
+            }
+          } else {
+            subcommand = command.options.find(
+              (opt) =>
+                opt.type === "SUB_COMMAND" &&
+                opt.name === interaction.options.get("subcommand").value
+            );
+            if (!subcommand) {
+              const embed = new Discord.MessageEmbed()
+                .setColor(0x000000)
+                .setDescription("The specified subcommand does not exist!");
+
+              return interaction.editReply({ embeds: [embed] });
+            }
+          }
+        }
       }
 
       let currentDate = new Date(Date.now());
       if (!interaction.options.get("argument")?.value) {
-        let argString;
+        if (command && ((group && subcommand) || (!group && !subcommand))) {
+          let argString;
+          let subGrpStr = "";
+          let subStr = "";
 
-        if (command.options.length > 0) {
-          argString = ``;
-          for (let arg of command.options) {
-            argString = argString + `<${!arg.required ? "!" : ""}${arg.name}> `;
+          if (subcommand?.options.length ?? command.options.length > 0) {
+            argString = ``;
+            for (let arg of subcommand?.options ?? command.options) {
+              if (arg.type === "SUB_COMMAND_GROUP") {
+                subGrpStr = subGrpStr + ` - ${arg.name} \n`;
+              } else if (arg.type === "SUB_COMMAND") {
+                subStr = subStr + ` - ${arg.name} \n`;
+              } else {
+                argString =
+                  argString + `<${!arg.required ? "!" : ""}${arg.name}> `;
+              }
+            }
+          } else {
+            argString = `none`;
           }
-        } else {
-          argString = `none`;
-        }
 
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle(`${command.name} - ${command.type.toUpperCase()}`)
-          .setDescription(
-            `${command.description}
-          **Usage**:
-          \`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
-          **Example:**
-          \`\`\`${serverDoc.prefix}${command.example}\`\`\`
-          **Notes:**
-          \`\`\`${command.notes ? command.notes : "none"}\`\`\`
-      `
-          )
-          .setFooter(
-            `Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${
-              interaction.user.tag
-            } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-            interaction.user.displayAvatarURL()
-          );
-        interaction.editReply({ embeds: [embed] });
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle(
+              `${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
+                subcommand ? `Subcommand "${subcommand.name}" - ` : ""
+              } ${command.type.toUpperCase()}`
+            )
+            .setDescription(
+              `${subcommand?.description ?? command.description}
+            **Usage**:
+            \`\`\`${serverDoc.prefix}${
+                subcommand?.name ?? command.name
+              } ${argString}\`\`\`
+            **Example:**
+            \`\`\`${serverDoc.prefix}${
+                subcommand?.example ?? command.example
+              }\`\`\`
+            **Notes:**
+            \`\`\`${subcommand?.notes ?? command.notes ?? "none"}\`\`\`
+            **Subcommand Groups:**
+            \`\`\`${subGrpStr !== "" ? subGrpStr : "None"}\`\`\`
+            **Subcommands:**
+            \`\`\`${subStr !== "" ? subStr : "None"}\`\`\`
+        `
+            )
+            .setFooter(
+              `Arguments marked with ! are optional - use the argument option to inspect an argument - command info requested by ${
+                interaction.user.tag
+              } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+              interaction.user.displayAvatarURL()
+            );
+          return interaction.editReply({ embeds: [embed] });
+        } else if (group) {
+          let subStr = "";
+          for (let subcmd of group.options) {
+            subStr = subStr + ` - **${subcmd.name}** \n`;
+          }
+
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle(
+              `${command.name} - Group "${
+                group.name
+              }" - ${command.type.toUpperCase()}`
+            )
+            .setDescription(
+              `
+            ${group.description}
+            **Subcommands:**
+            ${subStr}
+            `
+            )
+            .setFooter(
+              `Group info requested by ${
+                interaction.user.tag
+              } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+              interaction.user.displayAvatarURL()
+            );
+          return interaction.editReply({ embeds: [embed] });
+        }
       } else {
         if (
           !command.options.find(
