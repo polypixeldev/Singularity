@@ -124,7 +124,7 @@ module.exports = {
       return interaction.editReply({ embeds: [embed] });
     }
     const bans = await interaction.guild.bans.fetch();
-    if (interaction.options.get("tag").value === "list") {
+    if (interaction.options.get("tag")?.value === "list") {
       if (!interaction.member.permissions.has("BAN_MEMBERS")) {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
