@@ -26,6 +26,8 @@ module.exports = (Discord, client) => {
       description: command.description,
       options: command.options,
       defaultPermission: command.defaultPermission,
+      example: command.example,
+      notes: command.notes,
       execute: command.execute,
       slashExecute: command.slashExecute,
     };
@@ -55,6 +57,8 @@ module.exports = (Discord, client) => {
               description: subgrp_cmd.description,
               type: "SUB_COMMAND",
               options: subgrp_cmd.options,
+              example: subgrp_cmd.example,
+              notes: subgrp_cmd.notes,
               execute: subgrp_cmd.execute,
               slashExecute: subgrp_cmd.slashExecute,
             });
@@ -66,6 +70,8 @@ module.exports = (Discord, client) => {
             description: sub_cmd.description,
             type: "SUB_COMMAND",
             options: sub_cmd.options,
+            example: sub_cmd.example,
+            notes: sub_cmd.notes,
             execute: sub_cmd.execute,
             slashExecute: sub_cmd.slashExecute,
           });

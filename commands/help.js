@@ -267,7 +267,7 @@ module.exports = {
               }
             }
           } else {
-            argString = `none`;
+            argString = ``;
           }
 
           const embed = new Discord.MessageEmbed()
@@ -280,9 +280,9 @@ module.exports = {
             .setDescription(
               `${subcommand?.description ?? command.description}
             **Usage**:
-            \`\`\`${serverDoc.prefix}${
-                subcommand?.name ?? command.name
-              } ${argString}\`\`\`
+            \`\`\`${serverDoc.prefix}${command.name} ${
+                group ? `${group.name} ` : ""
+              }${subcommand ? `${subcommand.name} ` : ""} ${argString}\`\`\`
             **Example:**
             \`\`\`${serverDoc.prefix}${
                 subcommand?.example ?? command.example
@@ -331,8 +331,9 @@ module.exports = {
           return interaction.editReply({ embeds: [embed] });
         }
       } else {
+        const main = subcommand ?? command;
         if (
-          !command.options.find(
+          !main.options.find(
             (option) =>
               option.name === interaction.options.get("argument").value
           )
@@ -345,13 +346,19 @@ module.exports = {
 
           return interaction.editReply({ embeds: [argNotFoundEmbed] });
         } else {
-          const argument = command.options.find(
+          const main = subcommand ?? command;
+          console.log(main.options);
+          const argument = main.options.find(
             (option) =>
               option.name === interaction.options.get("argument").value
           );
           const argEmbed = new Discord.MessageEmbed()
             .setColor(0x000000)
-            .setTitle(`${command.name} - Argument "${argument.name}"`)
+            .setTitle(
+              `${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
+                subcommand ? `Subcommand "${subcommand.name}" - ` : ""
+              } Argument ${argument.name}`
+            )
             .addFields([
               {
                 name: "Description",
@@ -367,7 +374,7 @@ module.exports = {
               },
             ])
             .setFooter(
-              `command info requested by ${
+              `Argument info requested by ${
                 interaction.user.tag
               } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
               interaction.user.displayAvatarURL()
