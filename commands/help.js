@@ -2,7 +2,20 @@ module.exports = {
   name: "help",
   description: "Singularity Help",
   defaultPermission: true,
-  options: [],
+  options: [
+    {
+      name: "command",
+      description: "The name of the command you want information about",
+      required: false,
+      type: "STRING",
+    },
+    {
+      name: "argument",
+      description: "The name of the argument you wish to view",
+      required: false,
+      type: "STRING",
+    },
+  ],
   type: "general",
   args: ["!<command type>"],
   aliases: [],
@@ -160,208 +173,331 @@ module.exports = {
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
     let currentDate = new Date(Date.now());
-    let generalEmbed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle("Singularity General Commands")
-      .setFooter(
-        `General help requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
-
-    let modEmbed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setColor(0x000000)
-      .setTitle("Singularity Moderation Commands")
-      .setFooter(
-        `Moderation help requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
-
-    let msEmbed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setColor(0x000000)
-      .setTitle("My Singularity Commands")
-      .setFooter(
-        `My Singularity help requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
-
-    for (let command of client.commands) {
-      if (command[1].type === "general") {
-        let desc = [];
-
-        for (let option of command[1].options) {
-          if (option.type === "SUB_COMMAND_GROUP") {
-            desc.push(`\n \`${option.name}\` - ${option.description}`);
-            for (let subcmd of option.options) {
-              desc.push(
-                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
-              );
-            }
-            desc.push("\n");
-          } else if (option.type === "SUB_COMMAND") {
-            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
-          }
-        }
-
-        desc.unshift(`${command[1].description} \n`);
-
-        desc = desc.join("");
-
-        generalEmbed.addField(
-          `\`${serverDoc.prefix}${command[1].name}\``,
-          desc
+    if (
+      interaction.options.get("command") ||
+      interaction.options.get("argument")
+    ) {
+      let command;
+      if (
+        !client.commands.get(interaction.options.get("command")?.value) &&
+        !interaction.options.get("argument")
+      ) {
+        const notFoundEmbed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription(
+            "That command does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
+          );
+        return interaction.editReply({ embeds: [notFoundEmbed] });
+      } else {
+        command = client.commands.get(
+          interaction.options.get("command")?.value
         );
-      } else if (command[1].type === "mod") {
-        let desc = [];
-
-        for (let option of command[1].options) {
-          if (option.type === "SUB_COMMAND_GROUP") {
-            desc.push(`\n \`${option.name}\` - ${option.description}`);
-            for (let subcmd of option.options) {
-              desc.push(
-                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
-              );
-            }
-            desc.push("\n");
-          } else if (option.type === "SUB_COMMAND") {
-            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
-          }
-        }
-
-        desc.unshift(`${command[1].description} \n`);
-
-        desc = desc.join("");
-
-        modEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
-      } else if (command[1].type === "ms") {
-        let desc = [];
-
-        for (let option of command[1].options) {
-          if (option.type === "SUB_COMMAND_GROUP") {
-            desc.push(`\n \`${option.name}\` - ${option.description}`);
-            for (let subcmd of option.options) {
-              desc.push(
-                `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
-              );
-            }
-            desc.push("\n");
-          } else if (option.type === "SUB_COMMAND") {
-            desc.push(`\n \`${option.name}\` - ${option.description} \n`);
-          }
-        }
-
-        desc.unshift(`${command[1].description} \n`);
-
-        desc = desc.join("");
-
-        msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
       }
-    }
-    let latestEmbed = new Discord.MessageEmbed()
-      .setTitle("Singularity Help")
-      .setColor(0x000000)
-      .setDescription(
-        `
+
+      let currentDate = new Date(Date.now());
+      if (!interaction.options.get("argument")?.value) {
+        let argString;
+
+        if (command.options.length > 0) {
+          argString = ``;
+          for (let arg of command.options) {
+            argString = argString + `<${!arg.required ? "!" : ""}${arg.name}> `;
+          }
+        } else {
+          argString = `none`;
+        }
+
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(`${command.name} - ${command.type.toUpperCase()}`)
+          .setDescription(
+            `${command.description}
+
+          **Usage**:
+          \`\`\`${serverDoc.prefix}${command.name} ${argString}\`\`\`
+          **Example:**
+          \`\`\`${serverDoc.prefix}${command.example}\`\`\`
+          **Notes:**
+          \`\`\`${command.notes ? command.notes : "none"}\`\`\`
+      `
+          )
+          .setFooter(
+            `Arguments marked with ! are optional - Multi-word arguments should be surrounded with doublequotes - command info requested by ${
+              interaction.user.tag
+            } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+            interaction.user.displayAvatarURL()
+          );
+        interaction.editReply({ embeds: [embed] });
+      } else {
+        let argument = null;
+        const arg = client.commands.find((command) =>
+          command.options.find((option) => {
+            if (option.type === "SUB_COMMAND_GROUP") {
+              return option.options.find((grp) =>
+                grp.find((cmd) =>
+                  cmd.options.find((opt) => {
+                    if (opt.name === interaction.options.get("argument").value)
+                      argument === opt;
+                    return (
+                      opt.name === interaction.options.get("argument").value
+                    );
+                  })
+                )
+              );
+            } else if (option.type === "SUB_COMMAND") {
+              return option.options.find((opt) => {
+                if (opt.name === interaction.options.get("argument").value)
+                  argument = opt;
+                return opt.name === interaction.options.get("argument").value;
+              });
+            } else {
+              if (option.name === interaction.options.get("argument").value)
+                argument = option;
+              return option.name === interaction.options.get("argument").value;
+            }
+          })
+        );
+
+        if (!arg) {
+          const argNotFoundEmbed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription(
+              "That argument does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
+            );
+
+          return interaction.editReply({ embeds: [argNotFoundEmbed] });
+        } else {
+          console.log(argument);
+          const argEmbed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setTitle(`Argument "${argument.name}"`)
+            .addFields([
+              {
+                name: "Description",
+                value: argument.description,
+              },
+              {
+                name: "Type",
+                value: `${argument.type}`,
+              },
+              {
+                name: "Required",
+                value: argument.required?.toString() ?? "False",
+              },
+            ])
+            .setFooter(
+              `command info requested by ${
+                interaction.user.tag
+              } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+              interaction.user.displayAvatarURL()
+            );
+
+          return interaction.editReply({ embeds: [argEmbed] });
+        }
+      }
+    } else {
+      let generalEmbed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setTitle("Singularity General Commands")
+        .setFooter(
+          `General help requested by ${
+            interaction.user.tag
+          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+          interaction.user.displayAvatarURL()
+        );
+
+      let modEmbed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setColor(0x000000)
+        .setTitle("Singularity Moderation Commands")
+        .setFooter(
+          `Moderation help requested by ${
+            interaction.user.tag
+          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+          interaction.user.displayAvatarURL()
+        );
+
+      let msEmbed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setColor(0x000000)
+        .setTitle("My Singularity Commands")
+        .setFooter(
+          `My Singularity help requested by ${
+            interaction.user.tag
+          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+          interaction.user.displayAvatarURL()
+        );
+
+      for (let command of client.commands) {
+        if (command[1].type === "general") {
+          let desc = [];
+
+          for (let option of command[1].options) {
+            if (option.type === "SUB_COMMAND_GROUP") {
+              desc.push(`\n \`${option.name}\` - ${option.description}`);
+              for (let subcmd of option.options) {
+                desc.push(
+                  `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+                );
+              }
+              desc.push("\n");
+            } else if (option.type === "SUB_COMMAND") {
+              desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+            }
+          }
+
+          desc.unshift(`${command[1].description} \n`);
+
+          desc = desc.join("");
+
+          generalEmbed.addField(
+            `\`${serverDoc.prefix}${command[1].name}\``,
+            desc
+          );
+        } else if (command[1].type === "mod") {
+          let desc = [];
+
+          for (let option of command[1].options) {
+            if (option.type === "SUB_COMMAND_GROUP") {
+              desc.push(`\n \`${option.name}\` - ${option.description}`);
+              for (let subcmd of option.options) {
+                desc.push(
+                  `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+                );
+              }
+              desc.push("\n");
+            } else if (option.type === "SUB_COMMAND") {
+              desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+            }
+          }
+
+          desc.unshift(`${command[1].description} \n`);
+
+          desc = desc.join("");
+
+          modEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
+        } else if (command[1].type === "ms") {
+          let desc = [];
+
+          for (let option of command[1].options) {
+            if (option.type === "SUB_COMMAND_GROUP") {
+              desc.push(`\n \`${option.name}\` - ${option.description}`);
+              for (let subcmd of option.options) {
+                desc.push(
+                  `\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+                );
+              }
+              desc.push("\n");
+            } else if (option.type === "SUB_COMMAND") {
+              desc.push(`\n \`${option.name}\` - ${option.description} \n`);
+            }
+          }
+
+          desc.unshift(`${command[1].description} \n`);
+
+          desc = desc.join("");
+
+          msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
+        }
+      }
+      let latestEmbed = new Discord.MessageEmbed()
+        .setTitle("Singularity Help")
+        .setColor(0x000000)
+        .setDescription(
+          `
             **This server's prefix is:** \`${serverDoc.prefix}\`
             *Use ${serverDoc.prefix}command <COMMAND_NAME> to learn more about a command* \n
         `
-      )
-      .addFields(
-        {
-          name: "General Help",
-          value: `\`${serverDoc.prefix}help general\``,
-          inline: true,
-        },
-        {
-          name: "Moderation Help",
-          value: `\`${serverDoc.prefix}help mod\``,
-          inline: true,
-        },
-        {
-          name: "My Singularity Help",
-          value: `\`${serverDoc.prefix}help ms\``,
-          inline: true,
-        }
-      )
-      .setFooter(
-        `Help requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
-
-    let components = [
-      {
-        type: "ACTION_ROW",
-        components: [
+        )
+        .addFields(
           {
-            type: "SELECT_MENU",
-            label: "Command Category",
-            custom_id: "type",
-            options: [
-              {
-                label: "General",
-                value: "general",
-                description: "General Singularity Commands",
-              },
-              {
-                label: "Moderation",
-                value: "mod",
-                description: "Moderation Singularity Commands",
-              },
-              {
-                label: "My Singularity",
-                value: "ms",
-                description: "My Singularity Commands",
-              },
-            ],
+            name: "General Help",
+            value: `\`${serverDoc.prefix}help general\``,
+            inline: true,
           },
-        ],
-      },
-    ];
+          {
+            name: "Moderation Help",
+            value: `\`${serverDoc.prefix}help mod\``,
+            inline: true,
+          },
+          {
+            name: "My Singularity Help",
+            value: `\`${serverDoc.prefix}help ms\``,
+            inline: true,
+          }
+        )
+        .setFooter(
+          `Help requested by ${
+            interaction.user.tag
+          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+          interaction.user.displayAvatarURL()
+        );
 
-    interaction
-      .editReply({
-        embeds: [latestEmbed],
-        components: components,
-      })
-      .then((sent) => {
-        let collector = sent.createMessageComponentCollector({
-          componentType: "SELECT_MENU",
-          time: 300000,
-          dispose: true,
-        });
+      let components = [
+        {
+          type: "ACTION_ROW",
+          components: [
+            {
+              type: "SELECT_MENU",
+              label: "Command Category",
+              custom_id: "type",
+              options: [
+                {
+                  label: "General",
+                  value: "general",
+                  description: "General Singularity Commands",
+                },
+                {
+                  label: "Moderation",
+                  value: "mod",
+                  description: "Moderation Singularity Commands",
+                },
+                {
+                  label: "My Singularity",
+                  value: "ms",
+                  description: "My Singularity Commands",
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
-        collector.on("collect", async (selection) => {
-          await selection.deferUpdate();
+      interaction
+        .editReply({
+          embeds: [latestEmbed],
+          components: components,
+        })
+        .then((sent) => {
+          let collector = sent.createMessageComponentCollector({
+            componentType: "SELECT_MENU",
+            time: 300000,
+            dispose: true,
+          });
 
-          console.log(selection.values);
-          latestEmbed =
-            selection.values[0] === "general"
-              ? generalEmbed
-              : selection.values[0] === "mod"
-              ? modEmbed
-              : msEmbed;
+          collector.on("collect", async (selection) => {
+            await selection.deferUpdate();
 
-          selection.editReply({
-            embeds: [latestEmbed],
-            components: components,
+            latestEmbed =
+              selection.values[0] === "general"
+                ? generalEmbed
+                : selection.values[0] === "mod"
+                ? modEmbed
+                : msEmbed;
+
+            selection.editReply({
+              embeds: [latestEmbed],
+              components: components,
+            });
+          });
+
+          collector.on("end", () => {
+            interaction.editReply({
+              embeds: [latestEmbed],
+              components: components,
+            });
           });
         });
-
-        collector.on("end", () => {
-          interaction.editReply({
-            embeds: [latestEmbed],
-            components: components,
-          });
-        });
-      });
+    }
   },
 };
