@@ -10,6 +10,7 @@ module.exports = {
       required: true,
     },
   ],
+  example: "infractions @user",
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
 

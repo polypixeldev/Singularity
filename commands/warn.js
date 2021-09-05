@@ -17,6 +17,7 @@ module.exports = {
       required: false,
     },
   ],
+  example: "warn @user spam",
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply();
 
