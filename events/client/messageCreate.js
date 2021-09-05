@@ -104,5 +104,14 @@ module.exports = async (Discord, client, msg) => {
     return msg.channel.send({ embeds: [embed] });
   }
 
+  const warning = new Discord.MessageEmbed()
+    .setColor(0x000000)
+    .setTitle("Message-Based Command Deprecation")
+    .setDescription(
+      "Uhoh! It look like you're using Singularity's old message-based commands. At the moment, **these are only for legacy purpose, and will be removed in April 2022.** Please switch to using Singularity's brand-new slash commands!"
+    );
+
+  msg.author.send({ embeds: [warning] });
+
   command.execute(client, Discord, msg, args, serverDoc);
 };
