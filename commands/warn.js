@@ -41,19 +41,28 @@ module.exports = {
       serverDoc,
       user.user.id
     );
-    userDoc.warnings.push({
-      warner: interaction.user.id,
+    userDoc.infractions.push({
+      modID: interaction.user.id,
+      modTag: interaction.user.tag,
+      type: "Warning",
       timestamp: interaction.createdTimestamp,
       message:
         interaction.options.get("warning")?.value ??
         `User warned by ${interaction.user.tag}`,
     });
-    client.utils.updateServer(
-      client,
-      serverDoc.guildID,
-      userDoc.userID,
-      userDoc
-    );
+    client.utils.updateUser(client, serverDoc.guildID, userDoc.userID, userDoc);
+
+    const warnedEmbed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setDescription(
+        `You have been warned in **${interaction.guild.name}** for \`${
+          interaction.options.get("reason")?.value ??
+          `User banned by ${interaction.user.tag}`
+        }\``
+      );
+
+    user.user.send({ embeds: [warnedEmbed] });
+
     const embed = new Discord.MessageEmbed()
       .setColor(0x000000)
       .setDescription(

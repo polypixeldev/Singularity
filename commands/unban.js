@@ -8,7 +8,14 @@ module.exports = {
       description:
         'The tag of the user you want to unban, or "list" to see a list of banned users',
       type: "STRING",
-      required: true,
+      required: false,
+    },
+    {
+      name: "id",
+      description:
+        "If provided, the user matching the id will be unbanned instead of by user tag",
+      type: "STRING",
+      required: false,
     },
     {
       name: "reason",
@@ -109,6 +116,13 @@ module.exports = {
   },
   async slashExecute(client, Discord, interaction) {
     await interaction.deferReply({ ephemeral: true });
+    if (!interaction.options.get("tag") && !interaction.options.get("id")) {
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setDescription("You must provide either a user tag or a user id!");
+
+      return interaction.editReply({ embeds: [embed] });
+    }
     const bans = await interaction.guild.bans.fetch();
     if (interaction.options.get("tag").value === "list") {
       if (!interaction.member.permissions.has("BAN_MEMBERS")) {
@@ -145,8 +159,11 @@ module.exports = {
       return interaction.editReply({ embeds: [listEmbed] });
     }
 
-    const banInfo = bans.find(
-      (ban) => ban.user.tag === interaction.options.get("tag").value
+    const banInfo = bans.find((ban) =>
+      interaction.options.get("id")
+        ? ban.user.id
+        : ban.user.tag === interaction.options.get("id")?.value ??
+          interaction.options.get("tag")?.value
     );
 
     const reason = interaction.options.get("reason")?.value;

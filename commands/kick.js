@@ -93,8 +93,8 @@ module.exports = {
       msg.channel.send({ embeds: [mentionEmbed] });
     }
   },
-  async slashExecute(client, Discord, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+  async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply();
     let user = interaction.options.get("user");
 
     const reason = interaction.options.get("reason");
@@ -117,9 +117,40 @@ module.exports = {
       return interaction.editReply({ embeds: [permsEmbed] });
     }
 
+    const kickedEmbed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setDescription(
+        `You have been kicked from **${interaction.guild.name}** for \`${
+          interaction.options.get("reason")?.value ??
+          `User banned by ${interaction.user.tag}`
+        }\``
+      );
+
+    user.user.send({ embeds: [kickedEmbed] });
+
     user.member
       .kick(reason?.value ?? `User kicked by ${interaction.user.tag}`)
-      .then(() => {
+      .then(async () => {
+        const userDoc = await client.utils.loadUserInfo(
+          client,
+          serverDoc,
+          user.user.id
+        );
+        userDoc.infractions.push({
+          modID: interaction.user.id,
+          modTag: interaction.user.tag,
+          timestamp: interaction.createdTimestamp,
+          type: "Kick",
+          message:
+            interaction.options.get("reason")?.value ??
+            `User kicked by ${interaction.user.tag}`,
+        });
+        client.utils.updateUser(
+          client,
+          userDoc.guildID,
+          userDoc.userID,
+          userDoc
+        );
         const successEmbed = new Discord.MessageEmbed()
           .setDescription(`Successfully kicked **${user.user.tag}**`)
           .setColor(0x000000);

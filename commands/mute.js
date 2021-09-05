@@ -145,8 +145,8 @@ module.exports = {
       msg.channel.send({ embeds: [embed] });
     }
   },
-  async slashExecute(client, Discord, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+  async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply();
     let user = interaction.options.get("user");
 
     if (user.member.permissions.has("ADMINISTRATOR")) {
@@ -230,7 +230,39 @@ module.exports = {
         interaction.options.get("reason")?.value ??
           `User muted by ${interaction.user.tag}`
       )
-      .then(() => {
+      .then(async () => {
+        const userDoc = await client.utils.loadUserInfo(
+          client,
+          serverDoc,
+          user.user.id
+        );
+        userDoc.infractions.push({
+          modID: interaction.user.id,
+          modTag: interaction.user.tag,
+          timestamp: interaction.createdTimestamp,
+          type: "Mute",
+          message:
+            interaction.options.get("reason")?.value ??
+            `User muted by ${interaction.user.tag}`,
+        });
+        client.utils.updateUser(
+          client,
+          userDoc.guildID,
+          userDoc.userID,
+          userDoc
+        );
+
+        const mutedEmbed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription(
+            `You have been muted in **${interaction.guild.name}** for \`${
+              interaction.options.get("reason")?.value ??
+              `User banned by ${interaction.user.tag}`
+            }\``
+          );
+
+        user.user.send({ embeds: [mutedEmbed] });
+
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setDescription(`Successfully muted **${user.user.tag}**`);

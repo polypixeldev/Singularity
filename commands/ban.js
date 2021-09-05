@@ -192,8 +192,8 @@ module.exports = {
       msg.channel.send({ embeds: [embed] });
     }
   },
-  async slashExecute(client, Discord, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+  async slashExecute(client, Discord, interaction, serverDoc) {
+    await interaction.deferReply();
     let user = interaction.options.get("user");
 
     if (user.member.permissions.has("ADMINISTRATOR")) {
@@ -210,6 +210,17 @@ module.exports = {
       return interaction.editReply({ embeds: [permsEmbed] });
     }
 
+    const bannedEmbed = new Discord.MessageEmbed()
+      .setColor(0x000000)
+      .setDescription(
+        `You have been banned from **${interaction.guild.name}** for \`${
+          interaction.options.get("reason")?.value ??
+          `User banned by ${interaction.user.tag}`
+        }\``
+      );
+
+    await user.user.send({ embeds: [bannedEmbed] });
+
     return user.member
       .ban({
         reason:
@@ -217,7 +228,28 @@ module.exports = {
           `User banned by ${interaction.user.tag}`,
         days: interaction.options.get("days")?.value,
       })
-      .then(() => {
+      .then(async () => {
+        const userDoc = await client.utils.loadUserInfo(
+          client,
+          serverDoc,
+          user.user.id
+        );
+        userDoc.infractions.push({
+          modID: interaction.user.id,
+          modTag: interaction.user.tag,
+          timestamp: interaction.createdTimestamp,
+          type: "Ban",
+          message:
+            interaction.options.get("reason")?.value ??
+            `User banned by ${interaction.user.tag}`,
+        });
+        client.utils.updateUser(
+          client,
+          userDoc.guildID,
+          userDoc.userID,
+          userDoc
+        );
+
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
           .setDescription(`Successfully banned **${user.user.tag}**`);

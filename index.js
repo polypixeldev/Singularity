@@ -71,7 +71,7 @@ db.once("open", () => {
     powerUps: Array,
     active: Array,
     singularity: Object,
-    warnings: Array,
+    infractions: Array,
   });
 
   const serverSchema = new mongoose.Schema({
