@@ -159,12 +159,17 @@ module.exports = {
       return interaction.editReply({ embeds: [listEmbed] });
     }
 
-    const banInfo = bans.find((ban) =>
-      interaction.options.get("id")
-        ? ban.user.id
-        : ban.user.tag === interaction.options.get("id")?.value ??
-          interaction.options.get("tag")?.value
-    );
+    let banInfo;
+
+    if (interaction.options.get("id")) {
+      banInfo = bans.find(
+        (ban) => ban.user.id === interaction.options.get("id")?.value
+      );
+    } else {
+      banInfo = bans.find(
+        (ban) => ban.user.tag === interaction.options.get("tag")?.value
+      );
+    }
 
     const reason = interaction.options.get("reason")?.value;
 
