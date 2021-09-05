@@ -49,7 +49,7 @@ module.exports = {
       .then((reply) => {
         let collector = reply.createMessageComponentCollector({
           componentType: "BUTTON",
-          time: 30000,
+          time: 300000,
           dispose: true,
         });
 
