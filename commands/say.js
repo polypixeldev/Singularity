@@ -46,11 +46,16 @@ module.exports = {
 
       interaction.reply({ embeds: [embed], ephemeral: true });
     } else {
-      interaction.reply(
-        `**${interaction.user.tag}:** ${
+      interaction.reply({
+        content: `**${interaction.user.tag}:** ${
           interaction.options.get("message").value
-        }`
-      );
+        }`,
+        allowedMentions: {
+          parse: ["everyone", "roles", "users"],
+          users: [],
+          roles: [],
+        },
+      });
     }
   },
 };
