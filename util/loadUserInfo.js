@@ -22,6 +22,7 @@ module.exports = (client, serverDoc, id) => {
                 ferocity: 0,
                 prestige: 0,
               },
+              warnings: [],
             })
             .then((userDoc) => {
               serverDoc.ms.push(userDoc._id);
