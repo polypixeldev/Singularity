@@ -82,7 +82,7 @@ module.exports = {
     }
   },
   async slashExecute(client, Discord, interaction) {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply();
     let user = interaction.options.get("user").user;
 
     const member = interaction.guild.members.resolve(user);
