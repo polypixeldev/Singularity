@@ -2,14 +2,7 @@ module.exports = {
   name: "help",
   description: "Singularity Help",
   defaultPermission: true,
-  options: [
-    {
-      name: "type",
-      description: "The type of command you want to view",
-      type: "STRING",
-      required: false,
-    },
-  ],
+  options: [],
   type: "general",
   args: ["!<command type>"],
   aliases: [],
@@ -271,48 +264,104 @@ module.exports = {
         msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
       }
     }
-
-    if (interaction.options.get("type")?.value === "general") {
-      interaction.editReply({ embeds: [generalEmbed] });
-    } else if (interaction.options.get("type")?.value === "mod") {
-      interaction.editReply({ embeds: [modEmbed] });
-    } else if (interaction.options.get("type")?.value === "ms") {
-      interaction.editReply({ embeds: [msEmbed] });
-    } else {
-      const embed = new Discord.MessageEmbed()
-        .setTitle("Singularity Help")
-        .setColor(0x000000)
-        .setDescription(
-          `
+    let latestEmbed = new Discord.MessageEmbed()
+      .setTitle("Singularity Help")
+      .setColor(0x000000)
+      .setDescription(
+        `
             **This server's prefix is:** \`${serverDoc.prefix}\`
             *Use ${serverDoc.prefix}command <COMMAND_NAME> to learn more about a command* \n
         `
-        )
-        .addFields(
-          {
-            name: "General Help",
-            value: `\`${serverDoc.prefix}help general\``,
-            inline: true,
-          },
-          {
-            name: "Moderation Help",
-            value: `\`${serverDoc.prefix}help mod\``,
-            inline: true,
-          },
-          {
-            name: "My Singularity Help",
-            value: `\`${serverDoc.prefix}help ms\``,
-            inline: true,
-          }
-        )
-        .setFooter(
-          `Help requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      )
+      .addFields(
+        {
+          name: "General Help",
+          value: `\`${serverDoc.prefix}help general\``,
+          inline: true,
+        },
+        {
+          name: "Moderation Help",
+          value: `\`${serverDoc.prefix}help mod\``,
+          inline: true,
+        },
+        {
+          name: "My Singularity Help",
+          value: `\`${serverDoc.prefix}help ms\``,
+          inline: true,
+        }
+      )
+      .setFooter(
+        `Help requested by ${
+          interaction.user.tag
+        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+        interaction.user.displayAvatarURL()
+      );
 
-      interaction.editReply({ embeds: [embed] });
-    }
+    let components = [
+      {
+        type: "ACTION_ROW",
+        components: [
+          {
+            type: "SELECT_MENU",
+            label: "Command Category",
+            custom_id: "type",
+            options: [
+              {
+                label: "General",
+                value: "general",
+                description: "General Singularity Commands",
+              },
+              {
+                label: "Moderation",
+                value: "mod",
+                description: "Moderation Singularity Commands",
+              },
+              {
+                label: "My Singularity",
+                value: "ms",
+                description: "My Singularity Commands",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    interaction
+      .editReply({
+        embeds: [latestEmbed],
+        components: components,
+      })
+      .then((sent) => {
+        let collector = sent.createMessageComponentCollector({
+          componentType: "SELECT_MENU",
+          time: 300000,
+          dispose: true,
+        });
+
+        collector.on("collect", async (selection) => {
+          await selection.deferUpdate();
+
+          console.log(selection.values);
+          latestEmbed =
+            selection.values[0] === "general"
+              ? generalEmbed
+              : selection.values[0] === "mod"
+              ? modEmbed
+              : msEmbed;
+
+          selection.editReply({
+            embeds: [latestEmbed],
+            components: components,
+          });
+        });
+
+        collector.on("end", () => {
+          interaction.editReply({
+            embeds: [latestEmbed],
+            components: components,
+          });
+        });
+      });
   },
 };
