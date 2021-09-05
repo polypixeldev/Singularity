@@ -1,6 +1,6 @@
 module.exports = {
   name: "ban",
-  description: "Bans the mentioned user h ",
+  description: "Bans the mentioned user",
   defaultPermission: true,
   options: [
     {
