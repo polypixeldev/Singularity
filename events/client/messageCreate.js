@@ -50,18 +50,21 @@ module.exports = async (Discord, client, msg) => {
 
     const prevExp = userMS.atoms;
     if (cooldowns[msg.author.id] === 0) {
-      let protonBoosts = userMS.active.filter(
-        (powerup) => powerup.name === "2x Proton Boost"
-      ).length;
-      let electronBoosts = userMS.active.filter(
-        (powerup) => powerup.name === "2x Electron Boost"
-      ).length;
       let addProton = Math.floor(5 + Math.random() * 5);
       let addElectron = Math.floor(5 + Math.random());
-      userMS.protons +=
-        addProton * (protonBoosts * 2 === 0 ? 1 : protonBoosts * 2);
-      userMS.electrons +=
-        addElectron * (electronBoosts * 2 === 0 ? 1 : electronBoosts * 2);
+      let addDarkMatter = 0;
+      console.log([addProton, addElectron, addDarkMatter]);
+      [addProton, addElectron, addDarkMatter] = client.utils.manageUse.message(
+        msg,
+        userMS,
+        addProton,
+        addElectron,
+        addDarkMatter
+      );
+      console.log([addProton, addElectron, addDarkMatter]);
+      userMS.protons += addProton;
+      userMS.electrons += addElectron;
+      userMS.darkMatter += addDarkMatter;
       userMS.lifeExp += Math.floor(10 + addProton + addElectron * 2.5);
       cooldowns[msg.author.id] = 60;
     }

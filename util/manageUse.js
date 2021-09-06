@@ -8,6 +8,7 @@ module.exports = {
     }
 
     if (item.time > 0) {
+      userDoc.active.push(item);
       setTimeout(async () => {
         let newServerDoc = await client.utils.loadGuildInfo(
           client,
@@ -52,6 +53,11 @@ module.exports = {
         break;
       }
       case "lasting":
+        embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
+          Lasting Boost used!
+
+          You will now gain extra protons and electrons for 60 seconds
+        `);
         break;
       default:
         console.log("hmmm");
@@ -61,5 +67,12 @@ module.exports = {
 
     return embed;
   },
-  message() {},
+  message(msg, userDoc, addProton, addElectron, addDarkMatter) {
+    if (userDoc.active.find((item) => item.name === "lasting")) {
+      addProton *= 2;
+      addElectron *= 2;
+      addDarkMatter *= 2;
+    }
+    return [addProton, addElectron, addDarkMatter];
+  },
 };
