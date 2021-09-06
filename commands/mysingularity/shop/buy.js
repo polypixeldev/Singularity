@@ -94,7 +94,7 @@ module.exports = {
       return msg.channel.send({ embeds: [embed] });
     }
   },
-  async slashExecute(client, Discord, interaction, serverDoc, items, powerUps) {
+  async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
     let userMS = await client.utils.loadUserInfo(
       client,
@@ -103,15 +103,11 @@ module.exports = {
     );
     let selectedItem;
 
-    for (let item in items) {
-      if (items[item].name === interaction.options.get("item").value) {
-        selectedItem = ["item", items[item]];
-      }
-    }
+    const items = serverDoc.items;
 
-    for (let powerup in powerUps) {
-      if (powerUps[powerup].name === interaction.options.get("item").value) {
-        selectedItem = ["powerup", powerUps[powerup]];
+    for (let item of items) {
+      if (item.name === interaction.options.get("item").value) {
+        selectedItem = item;
       }
     }
 
@@ -128,18 +124,15 @@ module.exports = {
     if (!quantity) quantity = 1;
 
     if (
-      userMS.protons >= selectedItem[1].protons * quantity &&
-      userMS.electrons >= selectedItem[1].electrons * quantity &&
-      userMS.darkMatter >= selectedItem[1].darkMatter * quantity
+      userMS.protons >= selectedItem.protons * quantity &&
+      userMS.electrons >= selectedItem.electrons * quantity &&
+      userMS.darkMatter >= selectedItem.darkMatter * quantity
     ) {
-      userMS.protons -= selectedItem[1].protons * quantity;
-      userMS.electrons -= selectedItem[1].electrons * quantity;
-      userMS.darkMatter -= selectedItem[1].darkMatter * quantity;
-      if (selectedItem[0] === "item") {
-        userMS.items.push(interaction.options.get("item").value);
-      } else {
-        userMS.powerUps.push(interaction.options.get("item").value);
-      }
+      userMS.protons -= selectedItem.protons * quantity;
+      userMS.electrons -= selectedItem.electrons * quantity;
+      userMS.darkMatter -= selectedItem.darkMatter * quantity;
+
+      userMS.items.push(interaction.options.get("item").value);
 
       client.utils
         .updateUser(client, serverDoc.guildID, userMS.userID, userMS)
@@ -149,9 +142,9 @@ module.exports = {
 					Purchase completed!
 
 					\t + **${quantity}** ${interaction.options.get("item").value}
-					\t - **${selectedItem[1].protons * quantity}** Protons
-					\t - **${selectedItem[1].electrons * quantity}** Electrons
-					\t - **${selectedItem[1].darkMatter * quantity}** Dark Matter
+					\t - **${selectedItem.protons * quantity}** Protons
+					\t - **${selectedItem.electrons * quantity}** Electrons
+					\t - **${selectedItem.darkMatter * quantity}** Dark Matter
 
 					You now have:
 					\t **${userMS.protons}** Protons
@@ -163,9 +156,9 @@ module.exports = {
         });
     } else {
       let missingArr = [
-        userMS.protons - selectedItem[1].protons * quantity,
-        userMS.electrons - selectedItem[1].electrons * quantity,
-        userMS.darkMatter - selectedItem[1].darkMatter * quantity,
+        userMS.protons - selectedItem.protons * quantity,
+        userMS.electrons - selectedItem.electrons * quantity,
+        userMS.darkMatter - selectedItem.darkMatter * quantity,
       ];
 
       missingArr = missingArr.map((type) => {

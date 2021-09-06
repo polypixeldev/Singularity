@@ -110,7 +110,7 @@ module.exports = {
         return msg.channel.send({ embeds: [embed] });
       });
   },
-  async slashExecute(client, Discord, interaction, serverDoc, items, powerUps) {
+  async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
     let userMS = await client.utils.loadUserInfo(
       client,
@@ -119,15 +119,11 @@ module.exports = {
     );
     let selectedItem;
 
-    for (let item in items) {
-      if (items[item].name === interaction.options.get("item").value) {
-        selectedItem = ["item", items[item]];
-      }
-    }
+    const items = serverDoc.items;
 
-    for (let powerup in powerUps) {
-      if (powerUps[powerup].name === interaction.options.get("item").value) {
-        selectedItem = ["powerup", powerUps[powerup]];
+    for (let item of items) {
+      if (item.name === interaction.options.get("item").value) {
+        selectedItem = item;
       }
     }
 
@@ -139,10 +135,7 @@ module.exports = {
       return interaction.editReply({ embeds: [embed] });
     }
 
-    if (
-      !userMS.items.includes(interaction.options.get("item").value) &&
-      !userMS.powerUps.includes(interaction.options.get("item").value)
-    ) {
+    if (!userMS.items.includes(interaction.options.get("item").value)) {
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setDescription("You do not own this item!");
@@ -154,30 +147,19 @@ module.exports = {
 
     if (!quantity) quantity = 1;
 
-    let protons = (selectedItem[1].protons * quantity) / 2;
-    let electrons = (selectedItem[1].electrons * quantity) / 2;
-    let darkMatter = (selectedItem[1].darkMatter * quantity) / 2;
+    let protons = (selectedItem.protons * quantity) / 2;
+    let electrons = (selectedItem.electrons * quantity) / 2;
+    let darkMatter = (selectedItem.darkMatter * quantity) / 2;
 
     let removed = 0;
-    if (selectedItem[0] === "item") {
-      for (let i = 0; i < userMS.items.length; i++) {
-        if (
-          userMS.items[i] === interaction.options.get("item").value &&
-          removed <= quantity
-        ) {
-          userMS.items.splice(i, 1);
-          removed++;
-        }
-      }
-    } else {
-      for (let i = 0; i < userMS.powerUps.length; i++) {
-        if (
-          userMS.powerUps[i] === interaction.options.get("item").value &&
-          removed <= quantity
-        ) {
-          userMS.powerUps.splice(i, 1);
-          removed++;
-        }
+
+    for (let i = 0; i < userMS.items.length; i++) {
+      if (
+        userMS.items[i] === interaction.options.get("item").value &&
+        removed <= quantity
+      ) {
+        userMS.items.splice(i, 1);
+        removed++;
       }
     }
 
@@ -197,7 +179,7 @@ module.exports = {
       .then(() => {
         const embed = new Discord.MessageEmbed().setColor(0x000000)
           .setDescription(`
-				Sell completed!
+				Sale completed!
 
 				\t - **${quantity}** ${interaction.options.get("item").value}
 				\t + **${protons}** Protons
