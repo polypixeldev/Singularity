@@ -16,6 +16,16 @@ module.exports = (client, guildResolvable) => {
               leaveMessage: "{member-tag} has left the server :(",
               reactionRoles: [],
               ms: [],
+              items: [
+                {
+                  name: "lol",
+                  description: "lolol",
+                  effects: "None",
+                  protons: 1,
+                  electrons: 1,
+                  darkMatter: 0,
+                },
+              ],
             },
             (err, newServer) => {
               if (err) {

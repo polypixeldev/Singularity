@@ -1,12 +1,18 @@
 const buy = require("./buy.js");
 const sell = require("./sell.js");
+
 module.exports = {
   name: "view",
   description: "The Singularity Shop",
   type: "ms",
-  options: [],
-  args: [],
-  aliases: [],
+  options: [
+    {
+      name: "item",
+      description: "The name of the item you wish to view",
+      type: "STRING",
+      required: false,
+    },
+  ],
   example: "ms shop",
   execute(client, Discord, msg, args, serverDoc, items, powerUps) {
     if (args[1] === "buy") {
@@ -52,26 +58,55 @@ module.exports = {
       return msg.channel.send(embed);
     }
   },
-  async slashExecute(client, Discord, interaction, serverDoc, items, powerUps) {
+  async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
-    if (interaction.options.getSubcommand(false) === "buy") {
-      buy.slashExecute(
-        client,
-        Discord,
-        interaction,
-        serverDoc,
-        items,
-        powerUps
+
+    const items = serverDoc.items;
+    const currentDate = new Date(Date.now());
+
+    if (interaction.options.get("item")) {
+      const item = items.find(
+        (item) => item.name === interaction.options.get("item").value
       );
-    } else if (interaction.options.getSubcommand(false) === "sell") {
-      sell.slashExecute(
-        client,
-        Discord,
-        interaction,
-        serverDoc,
-        items,
-        powerUps
-      );
+      if (item) {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setTitle(`Singularity Shop - ${item.name}`)
+          .setDescription(
+            `*Use \`${serverDoc.prefix}ms shop buy ${item.name} <!quantity>\` to buy this item!*`
+          )
+          .addFields([
+            {
+              name: "Description",
+              value: item.description,
+              inline: true,
+            },
+            {
+              name: "Price",
+              value: `${item.protons} Protons, ${item.electrons} Electrons, ${item.darkMatter} Dark Matter`,
+              inline: true,
+            },
+            {
+              name: "Effects",
+              value: item.effects,
+              inline: true,
+            },
+          ])
+          .setFooter(
+            `Singularity Shop item requested by ${
+              interaction.user.tag
+            } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+            interaction.user.displayAvatarURL()
+          );
+
+        return interaction.editReply({ embeds: [embed] });
+      } else {
+        const embed = new Discord.MessageEmbed()
+          .setColor(0x000000)
+          .setDescription("The specified item does not exist!");
+
+        return interaction.editReply({ embeds: [embed] });
+      }
     } else {
       let itemStr = "";
       for (let item in items) {
@@ -80,26 +115,16 @@ module.exports = {
           `**${items[item].name}**: *${items[item].protons} Protons, ${items[item].electrons} Electrons, ${items[item].darkMatter} Dark Matter* \n`;
       }
 
-      let powerStr = "";
-      for (let powerup in powerUps) {
-        powerStr =
-          powerStr +
-          `**${powerUps[powerup].name}**: *${powerUps[powerup].protons} Protons, ${powerUps[powerup].electrons} Electrons, ${powerUps[powerup].darkMatter} Dark Matter* \n `;
-      }
-
-      let currentDate = new Date(Date.now());
-
       const embed = new Discord.MessageEmbed()
         .setColor(0x000000)
         .setTitle(`Singularity Shop`)
         .setDescription(
           `
-				**Items: **
-				${itemStr}
-				**Power-Ups: **
-				${powerStr}
-				*Use \`${serverDoc.prefix}singularity shop buy "<item_name>" <!quantity>\` to buy an item!*
-			`
+        *Use \`${serverDoc.prefix}ms shop view <item_name>\` to get a closer look at an item!
+      **Items: **
+      ${itemStr}
+      *Use \`${serverDoc.prefix}singularity shop buy "<item_name>" <!quantity>\` to buy an item!*
+    `
         )
         .setFooter(
           `Singularity Shop requested by ${

@@ -68,7 +68,6 @@ db.once("open", () => {
     lifeExp: Number,
     items: Array,
     rareItems: Array,
-    powerUps: Array,
     active: Array,
     singularity: Object,
     infractions: Array,
@@ -83,6 +82,7 @@ db.once("open", () => {
     leaveMessage: String,
     reactionRoles: Array,
     ms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
+    items: Array,
   });
 
   client.userModel = mongoose.model("Users", userSchema);

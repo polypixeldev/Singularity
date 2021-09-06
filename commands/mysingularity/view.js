@@ -129,12 +129,6 @@ module.exports = {
     }
     if (itemStr === "\n") itemStr = "**None**";
 
-    let pStr = "\n";
-    for (let p of userMS.powerUps) {
-      pStr = pStr + `- **${p}** \n `;
-    }
-    if (pStr === "\n") pStr = "**None**";
-
     let aStr = "\n";
     for (let a of userMS.active) {
       aStr =
@@ -164,7 +158,6 @@ module.exports = {
 			Dark Matter: **${userMS.darkMatter}**
 			Items: ${itemStr}
 			Rare Items: ${rareStr}
-			Power-Ups: ${pStr}
 			Active Power-Ups: ${aStr}
 			Lifetime Experience: **${userMS.lifeExp}**
 		`
