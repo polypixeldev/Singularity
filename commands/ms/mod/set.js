@@ -43,6 +43,17 @@ module.exports = {
   example: "ms mod set @user protons +100",
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
+
+    if (!interaction.member.permissions.has("ADMINISTRATOR")) {
+      const embed = new Discord.MessageEmbed()
+        .setColor(0x000000)
+        .setDescription(
+          "You do not have permission to execute My Singularity moderation commands!"
+        );
+
+      return interaction.editReply({ embeds: [embed] });
+    }
+
     let user = interaction.options.get("user").user;
     let type = interaction.options.get("type").value;
     let value = interaction.options.get("value").value;
