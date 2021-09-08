@@ -243,12 +243,9 @@ module.exports = {
             interaction.options.get("reason")?.value ??
             `User banned by ${interaction.user.tag}`,
         });
-        client.utils.updateUser(
-          client,
-          userDoc.guildID,
-          userDoc.userID,
-          userDoc
-        );
+        client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+          infractions: userDoc.infractions,
+        });
 
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)

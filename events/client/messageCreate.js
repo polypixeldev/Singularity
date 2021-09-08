@@ -78,12 +78,12 @@ module.exports = async (Discord, client, msg) => {
       index++;
     }
 
-    await client.utils.updateUser(
-      client,
-      serverDoc.guildID,
-      userMS.userID,
-      userMS
-    );
+    await client.utils.updateUser(client, serverDoc.guildID, userMS.userID, {
+      protons: userMS.protons,
+      electrons: userMS.electrons,
+      darkMatter: userMS.darkMatter,
+      lifeExp: userMS.lifeExp,
+    });
   }
 
   if (!msg.content.startsWith(prefix) || msg.author.bot) return;

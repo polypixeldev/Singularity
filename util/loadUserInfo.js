@@ -28,7 +28,9 @@ module.exports = (client, serverDoc, id) => {
             .then((userDoc) => {
               serverDoc.ms.push(userDoc._id);
               client.utils
-                .updateServer(client, serverDoc.guildID, serverDoc)
+                .updateServer(client, serverDoc.guildID, {
+                  ms: serverDoc.ms,
+                })
                 .then(() => {
                   resolve(userDoc);
                 })

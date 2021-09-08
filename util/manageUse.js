@@ -31,7 +31,9 @@ module.exports = {
           client,
           newServerDoc.guildID,
           newUserDoc.userID,
-          newUserDoc
+          {
+            active: newUserDoc.active,
+          }
         );
       }, item.time * 1000);
     }

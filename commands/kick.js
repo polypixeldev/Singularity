@@ -145,12 +145,9 @@ module.exports = {
             interaction.options.get("reason")?.value ??
             `User kicked by ${interaction.user.tag}`,
         });
-        client.utils.updateUser(
-          client,
-          userDoc.guildID,
-          userDoc.userID,
-          userDoc
-        );
+        client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+          infractions: userDoc.infractions,
+        });
         const successEmbed = new Discord.MessageEmbed()
           .setDescription(`Successfully kicked **${user.user.tag}**`)
           .setColor(0x000000);

@@ -51,7 +51,9 @@ module.exports = {
         interaction.options.get("warning")?.value ??
         `User warned by ${interaction.user.tag}`,
     });
-    client.utils.updateUser(client, serverDoc.guildID, userDoc.userID, userDoc);
+    client.utils.updateUser(client, serverDoc.guildID, userDoc.userID, {
+      infractions: userDoc.infractions,
+    });
 
     const warnedEmbed = new Discord.MessageEmbed()
       .setColor(0x000000)

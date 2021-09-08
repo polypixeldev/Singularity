@@ -60,7 +60,12 @@ module.exports = {
       userMS.items.push(interaction.options.get("item").value);
 
       client.utils
-        .updateUser(client, serverDoc.guildID, userMS.userID, userMS)
+        .updateUser(client, serverDoc.guildID, userMS.userID, {
+          protons: userMS.protons,
+          electrons: userMS.electrons,
+          darkMatter: userMS.darkMatter,
+          items: userMS.items,
+        })
         .then(() => {
           const embed = new Discord.MessageEmbed().setColor(0x000000)
             .setDescription(`

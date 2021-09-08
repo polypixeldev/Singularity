@@ -245,12 +245,9 @@ module.exports = {
             interaction.options.get("reason")?.value ??
             `User muted by ${interaction.user.tag}`,
         });
-        client.utils.updateUser(
-          client,
-          userDoc.guildID,
-          userDoc.userID,
-          userDoc
-        );
+        client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+          infractions: userDoc.infractions,
+        });
 
         const mutedEmbed = new Discord.MessageEmbed()
           .setColor(0x000000)

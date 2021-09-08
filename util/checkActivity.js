@@ -13,6 +13,9 @@ module.exports = async (client) => {
   });
 
   changed.forEach((userDoc) => {
-    client.utils.updateUser(client, userDoc.guildID, userDoc.userID, userDoc);
+    client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+      protons: userDoc.protons,
+      electrons: userDoc.electrons,
+    });
   });
 };

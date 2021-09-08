@@ -82,7 +82,9 @@ module.exports = {
     }
 
     client.utils
-      .updateUser(client, serverDoc.guildID, userMS.userID, userMS)
+      .updateUser(client, serverDoc.guildID, userMS.userID, {
+        [type]: userMS[type],
+      })
       .then(() => {
         const embed = new Discord.MessageEmbed().setColor(0x000000)
           .setDescription(`
