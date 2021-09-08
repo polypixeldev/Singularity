@@ -16,6 +16,7 @@ module.exports = (client, serverDoc, id) => {
               lifeExp: 0,
               darkMatter: 0,
               active: [],
+              activity: new Date(Date.now()),
               singularity: {
                 type: "Black",
                 size: 10,

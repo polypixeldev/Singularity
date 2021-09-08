@@ -27,6 +27,7 @@ Sentry.configureScope((scope) => {
 
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
+const cron = require("node-cron");
 const APIClient = require("./website/server.js");
 
 const client = new Discord.Client({
@@ -69,6 +70,7 @@ db.once("open", () => {
     items: Array,
     rareItems: Array,
     active: Array,
+    activity: Date,
     singularity: Object,
     infractions: Array,
   });
@@ -101,13 +103,20 @@ db.once("open", () => {
 
   client.once("ready", () => {
     console.log("Singularity is now online");
+
     client.user.setPresence({
       activities: [{ name: "singularitybot.glitch.me", type: "WATCHING" }],
       status: "online",
     });
+
     ["command_handler", "event_handler", "util_handler"].forEach((handler) => {
       require(`./handlers/${handler}`)(Discord, client, api);
     });
+
+    cron.schedule("0 0 * * *", () => client.utils.checkActivity(client), {
+      timezone: "America/New_York",
+    });
+
     loginTransaction.finish();
   });
 });
