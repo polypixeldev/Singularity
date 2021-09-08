@@ -45,9 +45,10 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true });
     await serverDoc.populate("ms");
     let xpArr = [];
+    console.log(serverDoc.ms);
     for (let user of serverDoc.ms) {
       if (user.userID) {
-        let member = interaction.guild.members.resolve(user.userID);
+        let member = await interaction.guild.members.fetch(user.userID);
         if (member) {
           xpArr.push([member.user.tag, user.lifeExp]);
         }
