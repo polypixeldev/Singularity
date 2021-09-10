@@ -123,19 +123,25 @@ module.exports = {
     const poll = new Discord.MessageEmbed()
       .setColor(`#${colorStr}`)
       .setTitle(title)
-      .setDescription(
-        `
-			${description}
-
-			${optStr}
-		`
-      )
       .setFooter(
         `Poll created by ${
           interaction.user.tag
         } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
         interaction.user.displayAvatarURL()
       );
+
+    if (description !== "")
+      poll.addFields({
+        name: "Description",
+        value: description,
+        inline: false,
+      });
+
+    poll.addFields({
+      name: "Options",
+      value: optStr,
+      inline: false,
+    });
 
     interaction.editReply({ embeds: [poll] }).then((sent) => {
       let sentEmbed = sent.embeds[0];
