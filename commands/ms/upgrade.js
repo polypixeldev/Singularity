@@ -46,52 +46,54 @@ module.exports = {
 
 			**Maximum Upgrades Available: ** *${limit}*
 
-			*Respond with the desired number of upgrades within 30 seconds, or respond with 0 to abort*
+			*Respond with the desired number of upgrades within 30 seconds*
 		`
     );
 
-    interaction
-      .editReply({
-        embeds: [embed],
+    let components = [
+      {
+        type: "ACTION_ROW",
         components: [
           {
-            type: "ACTION_ROW",
-            components: [
+            type: "SELECT_MENU",
+            label: "Upgrade Quantity",
+            custom_id: "quantity",
+            options: [
               {
-                type: "SELECT_MENU",
-                label: "Upgrade Quantity",
-                custom_id: "quantity",
-                options: [
-                  {
-                    label: "1x Upgrade",
-                    value: "1",
-                    description: "Upgrade your Singularity once",
-                  },
-                  {
-                    label: "2x Upgrade",
-                    value: "2",
-                    description: "Upgrade your Singularity twice",
-                  },
-                  {
-                    label: "3x Upgrade",
-                    value: "3",
-                    description: "Upgrade your Singularity thrice",
-                  },
-                  {
-                    label: "5x Upgrade",
-                    value: "5",
-                    description: "Upgrade your Singularity 5 times",
-                  },
-                  {
-                    label: "10x Upgrade",
-                    value: "10",
-                    description: "Upgrade your Singularity 10 times",
-                  },
-                ],
+                label: "1x Upgrade",
+                value: "1",
+                description: "Upgrade your Singularity once",
+              },
+              {
+                label: "2x Upgrade",
+                value: "2",
+                description: "Upgrade your Singularity twice",
+              },
+              {
+                label: "3x Upgrade",
+                value: "3",
+                description: "Upgrade your Singularity thrice",
+              },
+              {
+                label: "5x Upgrade",
+                value: "5",
+                description: "Upgrade your Singularity 5 times",
+              },
+              {
+                label: "10x Upgrade",
+                value: "10",
+                description: "Upgrade your Singularity 10 times",
               },
             ],
           },
         ],
+      },
+    ];
+
+    interaction
+      .editReply({
+        embeds: [embed],
+        components: components,
       })
       .then((sent) => {
         sent
@@ -102,6 +104,11 @@ module.exports = {
           })
           .then(async (selectionInteraction) => {
             await selectionInteraction.deferUpdate();
+            components[0].components[0].disabled = true;
+            interaction.editReply({
+              embeds: [embed],
+              components: components,
+            });
             let num = Number(selectionInteraction.values[0]);
 
             if (num > limit) {
