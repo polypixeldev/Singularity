@@ -26,12 +26,11 @@ module.exports = {
       ((userMS.singularity.prestige + 2) * 2);
 
     if (interaction.options.get("info") === "info") {
-      let currentDate = new Date(Date.now());
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle("Singularity Prestige")
-        .setDescription(
-          `
+      const embed = new client.utils.BaseEmbed(
+        "Singularity Prestige",
+        interaction.user
+      ).setDescription(
+        `
 				Is your Singularity so big that the universe is beginning to collapse in on itself? If so, it may be time to prestige.
 
 				**What is Singularity Prestige?**
@@ -49,18 +48,12 @@ module.exports = {
 				This prestige will get you **${
           userMS.singularity.prestige + 2
         }** random items from the Rare Items list (\`${
-            serverDoc.prefix
-          }ms rare\`), as well as a new type of Singularity
+          serverDoc.prefix
+        }ms rare\`), as well as a new type of Singularity
 			
 				*Your Lifetime Experience will not be affected*
 			`
-        )
-        .setFooter(
-          `Singularity Prestige Info requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      );
 
       return interaction.editReply({ embeds: [embed] });
     } else {

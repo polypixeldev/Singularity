@@ -26,12 +26,11 @@ module.exports = {
       limit++;
     } while (remaining.protons > 0 && remaining.electrons > 0);
 
-    let currentDate = new Date(Date.now());
-
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setDescription(
-        `
+    const embed = new client.utils.BaseEmbed(
+      "Singularity Upgrade",
+      interaction.user
+    ).setDescription(
+      `
 			**Current Singularity Size:** *${userMS.singularity.size}*
 			**Current Protons:** *${userMS.protons}*
 			**Current Electrons:** *${userMS.electrons}*
@@ -39,8 +38,8 @@ module.exports = {
 			**Amount of Protons Per Additional Upgrade:** *1000*
 			**Amount of Electrons Per Additional Upgrade:** *250*
 			**Current Size Fee:** *${userMS.singularity.size * 25} Protons & ${
-          userMS.singularity.size * 7
-        } Electons*
+        userMS.singularity.size * 7
+      } Electons*
 			**Amount Needed for 1 Upgrade:** *${
         5000 + userMS.singularity.size * 25
       } Protons & ${1000 + userMS.singularity.size * 7} Electrons*
@@ -49,13 +48,8 @@ module.exports = {
 
 			*Respond with the desired number of upgrades within 30 seconds, or respond with 0 to abort*
 		`
-      )
-      .setFooter(
-        `Upgrade info requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
+    );
+
     interaction
       .editReply({
         embeds: [embed],

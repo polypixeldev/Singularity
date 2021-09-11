@@ -20,7 +20,9 @@ module.exports = {
     } else {
       let currentDate = new Date(Date.now());
 
-      const embed = new Discord.MessageEmbed()
+      const embed = new client.utils.BaseEmbed(
+        `Singularity Bot Settings - ${msg.guild.name}`
+      )
         .setColor(0x000000)
         .setTitle(`Singularity Bot Settings - ${msg.guild.name}`)
         .setDescription(
@@ -55,13 +57,11 @@ module.exports = {
     } else if (interaction.options.getSubcommand(false) === "kick") {
       kick.slashExecute(client, Discord, interaction);
     } else {
-      let currentDate = new Date(Date.now());
-
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle(`Singularity Bot Settings - ${interaction.guild.name}`)
-        .setDescription(
-          `
+      const embed = new client.utils.BaseEmbed(
+        `Singularity Bot Settings - ${interaction.guild.name}`,
+        interaction.user
+      ).setDescription(
+        `
 				**Change Prefix:** \`${serverDoc.prefix}settings bot prefix <prefix>\`
 				 *- Current Setting:* \`${serverDoc.prefix}\`
 				**Nickname Me:**  \`${serverDoc.prefix}settings bot nickname <nickname>\`
@@ -72,13 +72,7 @@ module.exports = {
          }\`
 				**Kick Me:** \`${serverDoc.prefix}settings bot kick\`
 			`
-        )
-        .setFooter(
-          `Singularity Bot Settings requested by ${
-            interaction.user.tag
-          }  • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      );
 
       return interaction.editReply({ embeds: [embed] });
     }

@@ -185,7 +185,6 @@ module.exports = {
   },
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
-    let currentDate = new Date(Date.now());
     if (interaction.options.get("command")) {
       let command;
       let subcommand;
@@ -247,7 +246,6 @@ module.exports = {
         }
       }
 
-      let currentDate = new Date(Date.now());
       if (!interaction.options.get("argument")?.value) {
         if (command && ((group && subcommand) || (!group && !subcommand))) {
           let argString;
@@ -270,8 +268,10 @@ module.exports = {
             argString = ``;
           }
 
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
+          const embed = new client.utils.BaseEmbed(
+            "Singularity Help",
+            interaction.user
+          )
             .setTitle(
               `${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
                 subcommand ? `Subcommand "${subcommand.name}" - ` : ""
@@ -294,13 +294,8 @@ module.exports = {
             **Subcommands:**
             \`\`\`${subStr !== "" ? subStr : "None"}\`\`\`
         `
-            )
-            .setFooter(
-              `Arguments marked with ! are optional - use the argument option to inspect an argument - command info requested by ${
-                interaction.user.tag
-              } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-              interaction.user.displayAvatarURL()
             );
+
           return interaction.editReply({ embeds: [embed] });
         } else if (group) {
           let subStr = "";
@@ -308,8 +303,10 @@ module.exports = {
             subStr = subStr + ` - **${subcmd.name}** \n`;
           }
 
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
+          const embed = new client.utils.BaseEmbed(
+            "Singularity Help",
+            interaction.user
+          )
             .setTitle(
               `${command.name} - Group "${
                 group.name
@@ -321,13 +318,8 @@ module.exports = {
             **Subcommands:**
             ${subStr}
             `
-            )
-            .setFooter(
-              `Group info requested by ${
-                interaction.user.tag
-              } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-              interaction.user.displayAvatarURL()
             );
+
           return interaction.editReply({ embeds: [embed] });
         }
       } else {
@@ -352,8 +344,10 @@ module.exports = {
             (option) =>
               option.name === interaction.options.get("argument").value
           );
-          const argEmbed = new Discord.MessageEmbed()
-            .setColor(0x000000)
+          const argEmbed = new client.utils.BaseEmbed(
+            "Singularity Help",
+            interaction.user
+          )
             .setTitle(
               `${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
                 subcommand ? `Subcommand "${subcommand.name}" - ` : ""
@@ -372,49 +366,26 @@ module.exports = {
                 name: "Required",
                 value: argument.required?.toString() ?? "False",
               },
-            ])
-            .setFooter(
-              `Argument info requested by ${
-                interaction.user.tag
-              } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-              interaction.user.displayAvatarURL()
-            );
+            ]);
 
           return interaction.editReply({ embeds: [argEmbed] });
         }
       }
     } else {
-      let generalEmbed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle("Singularity General Commands")
-        .setFooter(
-          `General help requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      let generalEmbed = new client.utils.BaseEmbed(
+        "Singularity Help",
+        interaction.user
+      ).setTitle("Singularity General Commands");
 
-      let modEmbed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setColor(0x000000)
-        .setTitle("Singularity Moderation Commands")
-        .setFooter(
-          `Moderation help requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      let modEmbed = new client.utils.BaseEmbed(
+        "Singularity Help",
+        interaction.user
+      ).setTitle("Singularity Moderation Commands");
 
-      let msEmbed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setColor(0x000000)
-        .setTitle("My Singularity Commands")
-        .setFooter(
-          `My Singularity help requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      let msEmbed = new client.utils.BaseEmbed(
+        "Singularity Help",
+        interaction.user
+      ).setTitle("My Singularity Commands");
 
       for (let command of client.commands) {
         if (command[1].type === "general") {
@@ -488,9 +459,10 @@ module.exports = {
           msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
         }
       }
-      let latestEmbed = new Discord.MessageEmbed()
-        .setTitle("Singularity Help")
-        .setColor(0x000000)
+      let latestEmbed = new client.utils.BaseEmbed(
+        "Singularity Help",
+        interaction.user
+      )
         .setDescription(
           `
             **This server's prefix is:** \`${serverDoc.prefix}\`
@@ -513,12 +485,6 @@ module.exports = {
             value: `\`${serverDoc.prefix}help ms\``,
             inline: true,
           }
-        )
-        .setFooter(
-          `Help requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
         );
 
       let components = [

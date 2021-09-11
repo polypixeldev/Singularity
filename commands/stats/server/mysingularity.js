@@ -19,19 +19,12 @@ module.exports = {
       0
     );
 
-    const currentDate = new Date(Date.now());
-
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(`${interaction.guild.name} - My Singularity Stats`)
+    const embed = new client.utils.BaseEmbed(
+      `${interaction.guild.name} - My Singularity Stats`,
+      interaction.user
+    )
       .setDescription("My Singularity statistics for this server")
       .setThumbnail(interaction.guild.iconURL())
-      .setFooter(
-        `${interaction.guild.name} My Singularity Stats requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      )
       .addFields([
         {
           name: "Total Protons",

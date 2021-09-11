@@ -26,8 +26,7 @@ module.exports = {
           Date.now() - interaction.createdTimestamp
         }ms. API Latency is ${Math.round(client.ws.ping)}ms`
       )
-      .setColor(0x000000)
-      .setFooter("get ponged lol");
+      .setColor(0x000000);
 
     interaction
       .editReply({
@@ -69,8 +68,7 @@ module.exports = {
                   Date.now() - press.createdTimestamp
                 }ms. API Latency is ${Math.round(client.ws.ping)}ms`
               )
-              .setColor(0x000000)
-              .setFooter("get ponged again lol");
+              .setColor(0x000000);
 
             latestEmbed = embed;
 

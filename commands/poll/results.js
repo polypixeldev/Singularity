@@ -58,17 +58,11 @@ module.exports = {
     }
     console.log(options, data);
 
-    const currentDate = new Date(Date.now());
-    const results = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(`Poll Results`)
-      .setDescription(`Results for poll \`${embed.title}\``)
-      .setFooter(
-        `Poll results requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
+    const results = new client.utils.BaseEmbed(
+      "Poll Results",
+      interaction.user
+    ).setDescription(`Results for poll \`${embed.title}\``);
+
     for (let i = 0; i < options.length; i++) {
       results.addField(options[i], `**${data[i]}** vote(s)`, true);
     }

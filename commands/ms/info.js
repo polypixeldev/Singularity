@@ -8,16 +8,11 @@ module.exports = {
   example: "ms info",
   async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
-    let currentDate = new Date(Date.now());
-    const embed = new Discord.MessageEmbed()
-      .setTitle("My Singularity")
-      .setColor(0x000000)
-      .setFooter(
-        `My Singularity info requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      )
+
+    const embed = new client.utils.BaseEmbed(
+      "My Singularity Info",
+      interaction.user
+    )
       .setDescription(
         `
 			***My Singularity is the new best way to show off what you've done for a server!***
@@ -62,6 +57,7 @@ module.exports = {
           inline: false,
         }
       );
+
     interaction.editReply({ embeds: [embed] });
   },
 };

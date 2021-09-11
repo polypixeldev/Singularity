@@ -35,9 +35,10 @@ module.exports = {
     ); //add 6 days to get last day
     let timeRemaining = getTimeRemaining(weekEnd);
 
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle("My Singularity Explore Status")
+    const embed = new client.utils.BaseEmbed(
+      "My Singularity Explore Status",
+      interaction.user
+    )
       .setDescription(
         `**Explore status for the week of ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()}**`
       )
@@ -57,12 +58,6 @@ module.exports = {
           value: `*(to be implemented)*`,
           inline: true,
         }
-      )
-      .setFooter(
-        `My Singularity Explore info requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
       );
 
     interaction.editReply({ embeds: [embed] });

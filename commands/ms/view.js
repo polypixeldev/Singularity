@@ -46,11 +46,8 @@ module.exports = {
     }
     if (rareStr === "") rareStr = "**None**";
 
-    let currentDate = new Date(Date.now());
-    const embed = new Discord.MessageEmbed()
-      .setTitle(`${user.tag}'s Singularity`)
-      .setColor(0x000000)
-      //.setThumbnail('https://cdn.discordapp.com/avatars/835256019336036423/05dde3d48f1a67659be4837607746eb7.webp')
+    const embed = client.utils
+      .BaseEmbed(`${user.tag}'s Singularity`, interaction.user)
       .setThumbnail(user.displayAvatarURL())
       .addField(
         "User Stats",
@@ -72,29 +69,6 @@ module.exports = {
 			Singularity Ferocity: **${userMS.singularity.ferocity}**
 			Times Prestiged: **${userMS.singularity.prestige}**
 		`
-      )
-      // .setDescription(`
-      // 	***----USER STATS----***
-      // 	Protons: **${userMS.protons}**
-      // 	Electrons: **${userMS.electrons}**
-      // 	Dark Matter: **${userMS.darkMatter}**
-      // 	Items: ${itemStr}
-      // 	Rare Items: ${rareStr}
-      // 	Power-Ups: ${pStr}
-      // 	Active Power-Ups: ${aStr}
-      // 	Lifetime Experience: **${userMS.lifeExp}**
-
-      // 	***----SINGULARITY STATS----***
-      // 	Singularity Type: **${userMS.singularity.type}**
-      // 	Singularity Size: **${userMS.singularity.size}**
-      // 	Singularity Ferocity: **${userMS.singularity.ferocity}**
-      // 	Times Prestiged: **${userMS.singularity.prestige}**
-      // `)
-      .setFooter(
-        `${user.tag}'s Singularity requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
       );
 
     interaction.editReply({ embeds: [embed] });

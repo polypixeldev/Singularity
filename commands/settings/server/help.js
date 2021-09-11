@@ -51,32 +51,25 @@ module.exports = {
     } else if (interaction.options.getSubcommand(false) === "leavemessage") {
       leaveMessage.slashExecute(client, Discord, interaction, serverDoc);
     } else {
-      let currentDate = new Date(Date.now());
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle(`Singularity Server Settings - ${interaction.guild.name}`)
-        .setDescription(
-          `
+      const embed = new client.utils.BaseEmbed(
+        `Singularity Server Settings - ${interaction.guild.name}`,
+        interaction.user
+      ).setDescription(
+        `
 				**Set/Toggle a Welcome Message:** \`${
           serverDoc.prefix
         }settings server welcome <channel> <message>\`
 				 *- Current Setting:* \`${serverDoc.welcomeMessage}\` *in* \`${
-            interaction.guild.channels.resolve(serverDoc.welcomeChannelID).name
-          }\`
+          interaction.guild.channels.resolve(serverDoc.welcomeChannelID).name
+        }\`
 				**Set/Toggle a Leave Message:** \`${
           serverDoc.prefix
         }settings server leave <channel> <message>\`
 				 *- Current Setting:* \`${serverDoc.leaveMessage}\` *in* \`${
-            interaction.guild.channels.resolve(serverDoc.leaveChannelID).name
-          }\`
+          interaction.guild.channels.resolve(serverDoc.leaveChannelID).name
+        }\`
 			`
-        )
-        .setFooter(
-          `Singularity Server Settings requested by ${
-            interaction.user.tag
-          } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      );
 
       return interaction.editReply({ embeds: [embed] });
     }

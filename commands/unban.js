@@ -147,14 +147,10 @@ module.exports = {
         return interaction.editReply({ embeds: [embed] });
       }
 
-      const listEmbed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle(`Bans for ${interaction.guild.name}`)
-        .setDescription(banListStr)
-        .setFooter(
-          `Ban list requested by ${interaction.user.tag}`,
-          interaction.user.displayAvatarURL()
-        );
+      const listEmbed = new client.utils.BaseEmbed(
+        `Bans for ${interaction.guild.name}`,
+        interaction.user
+      ).setDescription(banListStr);
 
       return interaction.editReply({ embeds: [listEmbed] });
     }

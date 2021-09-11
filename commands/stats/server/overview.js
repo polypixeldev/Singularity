@@ -5,19 +5,10 @@ module.exports = {
   async slashExecute(client, Discord, interaction) {
     await interaction.deferReply({ ephemeral: true });
 
-    const currentDate = new Date(Date.now());
-
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(`${interaction.guild.name} - Server Stats`)
+    const embed = client.utils
+      .BaseEmbed(`${interaction.guild.name} - Server Stats`, interaction.user)
       .setDescription("Various statistics about this server")
       .setThumbnail(interaction.guild.iconURL())
-      .setFooter(
-        `${interaction.guild.name} Server Stats requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      )
       .addFields([
         {
           name: "Member Count",

@@ -63,18 +63,10 @@ module.exports = {
         lbStr + `**${i + 1}.** **${sort[i][0]}** - **${sort[i][1]} EXP** \n`;
     }
 
-    let currentDate = new Date(Date.now());
-
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(`${interaction.guild.name}'s Leaderboard`)
-      .setDescription(lbStr)
-      .setFooter(
-        `${interaction.guild.name}'s leaderboard requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
+    const embed = new client.utils.BaseEmbed(
+      `${interaction.guild.name}'s Leaderboard`,
+      interaction.user
+    ).setDescription(lbStr);
 
     return interaction.editReply({ embeds: [embed] });
   },

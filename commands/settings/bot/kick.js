@@ -98,10 +98,10 @@ module.exports = {
       .then((collection) => {
         let message = collection.first();
         if (message.content === "Y") {
-          let currentDate = new Date(Date.now());
-
-          const embed = new Discord.MessageEmbed()
-            .setColor(0x000000)
+          const embed = new client.utils.BaseEmbed(
+            "Singularity Kick",
+            interaction.user
+          )
             .setTitle("Goodbye")
             .setDescription(
               `
@@ -116,12 +116,6 @@ module.exports = {
 					*Sincerely,
 					The Singularity Team*
 				`
-            )
-            .setFooter(
-              `Singularity was kicked by ${
-                interaction.user.tag
-              }  • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-              interaction.user.displayAvatarURL()
             );
 
           interaction.editReply({ embeds: [embed] }).then(() => {

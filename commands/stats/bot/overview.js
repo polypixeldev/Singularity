@@ -10,18 +10,12 @@ module.exports = {
       client.userModel.distinct("userID").exec((err, count) => {
         if (err) throw err;
 
-        const currentDate = new Date(Date.now());
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle("Singularity - Bot Stats")
+        const embed = new client.utils.BaseEmbed(
+          "Singularity Bot Stats",
+          interaction.user
+        )
           .setDescription("Various statistics about Singularity")
           .setThumbnail(client.user.displayAvatarURL())
-          .setFooter(
-            `Singularity Bot Stats requested by ${
-              interaction.user.tag
-            } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-            interaction.user.displayAvatarURL()
-          )
           .addFields([
             {
               name: "Uptime",

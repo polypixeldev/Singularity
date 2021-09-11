@@ -50,44 +50,4 @@ module.exports = {
       }
     }
   },
-  async slashExecute(client, Discord, interaction, serverDoc) {
-    await interaction.deferReply({ ephemeral: true });
-    if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setDescription("You do not have permission to view settings!");
-
-      return interaction.editReply({ embeds: [embed] });
-    } else {
-      if (interaction.options.getSubcommandGroup(false) === "bot") {
-        BotSettings.slashExecute(client, Discord, interaction, serverDoc);
-      } else if (interaction.options.getSubcommandGroup(false) === "server") {
-        ServerSettings.slashExecute(client, Discord, interaction, serverDoc);
-      } else if (interaction.options.getSubcommandGroup(false) === "mod") {
-        ModSettings.slashExecute(client, Discord, interaction, serverDoc);
-      } else {
-        let currentDate = new Date(Date.now());
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setTitle(`Singularity Settings - ${interaction.guild.name}`)
-          .setDescription(
-            `
-					**Bot Settings:** \`${serverDoc.prefix}settings bot\`
-	
-					**Server Settings:** \`${serverDoc.prefix}settings server\`
-	
-					**Moderation Settings:** \`${serverDoc.prefix}settings mod\`
-				`
-          )
-          .setFooter(
-            `Singularity Settings requested by ${
-              interaction.user.tag
-            } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-            interaction.user.displayAvatarURL()
-          );
-
-        return interaction.editReply({ embeds: [embed] });
-      }
-    }
-  },
 };

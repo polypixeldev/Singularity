@@ -36,16 +36,10 @@ module.exports = {
       user.user.id
     );
 
-    const currentDate = new Date(Date.now());
-    const embed = new Discord.MessageEmbed()
-      .setColor(0x000000)
-      .setTitle(`Infractions for ${user.user.tag}`)
-      .setFooter(
-        `${user.user.tag}'s infractions requested by ${
-          interaction.user.tag
-        } • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-        interaction.user.displayAvatarURL()
-      );
+    const embed = new client.utils.BaseEmbed(
+      `Infractions for ${user.user.tag}`,
+      interaction.user
+    );
 
     if (userDoc.infractions.length > 0) {
       for (let infraction of userDoc.infractions) {

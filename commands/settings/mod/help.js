@@ -34,21 +34,14 @@ module.exports = {
     if (interaction.options.getSubcommand(false) === "") {
       //eslint-disable-line
     } else {
-      let currentDate = new Date(Date.now());
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle(`Singularity Mod Settings - ${interaction.guild.name}`)
-        .setDescription(
-          `
+      const embed = new client.utils.BaseEmbed(
+        `Singularity Mod Settings - ${interaction.guild.name}`,
+        interaction.user
+      ).setDescription(
+        `
 	
 			`
-        )
-        .setFooter(
-          `Singularity Mod Settings requested by ${
-            interaction.user.tag
-          }  • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-          interaction.user.displayAvatarURL()
-        );
+      );
 
       return interaction.editReply({ embeds: [embed] });
     }
