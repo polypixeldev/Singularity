@@ -21,30 +21,40 @@ module.exports = {
         (item) => item.name === interaction.options.get("item").value
       );
       if (item) {
-        const embed = client.utils
-          .BaseEmbed(`Singularity Shop - ${item.name}`, interaction.user)
-          .setDescription(
-            `*Use \`${serverDoc.prefix}ms shop buy ${item.name} <!quantity>\` to buy this item!*`
-          )
-          .addFields([
-            {
-              name: "Description",
-              value: item.description,
-              inline: true,
-            },
-            {
-              name: "Price",
-              value: `${item.protons} Protons, ${item.electrons} Electrons, ${item.darkMatter} Dark Matter`,
-              inline: true,
-            },
-            {
-              name: "Effects",
-              value: item.effects,
-              inline: true,
-            },
-          ]);
+        if (item.rare === true) {
+          const embed = new Discord.MessageEmbed()
+            .setColor(0x000000)
+            .setDescription(
+              `The specified item is rare and cannot be viewed from the Singularity Shop. Use \`${serverDoc.prefix}ms rare\` to view this item`
+            );
 
-        return interaction.editReply({ embeds: [embed] });
+          return interaction.editReply({ embeds: [embed] });
+        } else {
+          const embed = client.utils
+            .BaseEmbed(`Singularity Shop - ${item.name}`, interaction.user)
+            .setDescription(
+              `*Use \`${serverDoc.prefix}ms shop buy ${item.name} <!quantity>\` to buy this item!*`
+            )
+            .addFields([
+              {
+                name: "Description",
+                value: item.description,
+                inline: true,
+              },
+              {
+                name: "Price",
+                value: `${item.protons} Protons, ${item.electrons} Electrons, ${item.darkMatter} Dark Matter`,
+                inline: true,
+              },
+              {
+                name: "Effects",
+                value: item.effects,
+                inline: true,
+              },
+            ]);
+
+          return interaction.editReply({ embeds: [embed] });
+        }
       } else {
         const embed = new Discord.MessageEmbed()
           .setColor(0x000000)
@@ -55,9 +65,11 @@ module.exports = {
     } else {
       let itemStr = "";
       for (let item in items) {
-        itemStr =
-          itemStr +
-          `**${items[item].name}**: *${items[item].protons} Protons, ${items[item].electrons} Electrons, ${items[item].darkMatter} Dark Matter* \n`;
+        if (item.rare !== true) {
+          itemStr =
+            itemStr +
+            `**${items[item].name}**: *${items[item].protons} Protons, ${items[item].electrons} Electrons, ${items[item].darkMatter} Dark Matter* \n`;
+        }
       }
 
       const embed = new client.utils.BaseEmbed(

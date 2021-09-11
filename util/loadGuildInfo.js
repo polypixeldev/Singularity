@@ -37,7 +37,31 @@ module.exports = (client, guildResolvable) => {
                   electrons: 2,
                   darkMatter: 0,
                 },
+                {
+                  name: "Wormhole Relic",
+                  description:
+                    "An ancient relic from the early days of the universe when wormholes were common",
+                  effects: "None",
+                  useable: false,
+                  rare: true,
+                },
+                {
+                  name: "Space String",
+                  description:
+                    "A piece of the string that holds spacetime together",
+                  effects: "None",
+                  useable: false,
+                  rare: true,
+                },
+                {
+                  name: "???",
+                  description: "Nobody knows exactly what this is...",
+                  effects: "None",
+                  useable: false,
+                  rare: true,
+                },
               ],
+              types: ["Black", "White", "Ethereal"],
             },
             (err, newServer) => {
               if (err) {

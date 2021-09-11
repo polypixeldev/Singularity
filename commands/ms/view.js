@@ -46,8 +46,10 @@ module.exports = {
     }
     if (rareStr === "") rareStr = "**None**";
 
-    const embed = client.utils
-      .BaseEmbed(`${user.tag}'s Singularity`, interaction.user)
+    const embed = new client.utils.BaseEmbed(
+      `${user.tag}'s Singularity`,
+      interaction.user
+    )
       .setThumbnail(user.displayAvatarURL())
       .addField(
         "User Stats",

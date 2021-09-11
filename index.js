@@ -85,6 +85,7 @@ db.once("open", () => {
     reactionRoles: Array,
     ms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
     items: Array,
+    types: Array,
   });
 
   client.userModel = mongoose.model("Users", userSchema);

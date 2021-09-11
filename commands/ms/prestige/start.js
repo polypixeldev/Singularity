@@ -3,7 +3,7 @@ module.exports = {
   description: "Start prestiging your Singularity!",
   options: [],
   example: "ms prestige start",
-  async slashExecute(client, Discord, interaction, serverDoc, rareItems) {
+  async slashExecute(client, Discord, interaction, serverDoc) {
     await interaction.deferReply({ ephemeral: true });
 
     let userMS = await client.utils.loadUserInfo(
@@ -72,20 +72,32 @@ module.exports = {
               interaction.user.id
             );
 
+            const rareItems = newServerDoc.items.filter(
+              (item) => item.rare === true
+            );
+
             newUserMS.userID = interaction.user.id;
             newUserMS.protons = 0;
             newUserMS.electrons = 0;
             newUserMS.items = [];
             for (let i = 0; i < newUserMS.singularity.prestige + 2; i++) {
               newUserMS.rareItems.push(
-                rareItems[Math.floor(Math.random() * rareItems.length - 1)]
+                rareItems[
+                  Math.abs(Math.floor(Math.random() * rareItems.length))
+                ] ?? rareItems[rareItems.length - 1]
               );
+              console.log(newUserMS.rareItems);
             }
             newUserMS.powerUps = [];
             newUserMS.darkMatter = 0;
             newUserMS.active = [];
             newUserMS.singularity = {
-              type: "White",
+              type:
+                newServerDoc.types[
+                  Math.abs(
+                    Math.floor(Math.random() * newServerDoc.types.length)
+                  )
+                ] ?? newServerDoc.types[newServerDoc.types.length - 1],
               size: 10,
               ferocity: newUserMS.singularity.ferocity + 5,
               prestige: newUserMS.singularity.prestige + 1,

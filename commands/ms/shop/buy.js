@@ -31,7 +31,10 @@ module.exports = {
     const items = serverDoc.items;
 
     for (let item of items) {
-      if (item.name === interaction.options.get("item").value) {
+      if (
+        item.name === interaction.options.get("item").value &&
+        item.rare !== true
+      ) {
         selectedItem = item;
       }
     }
