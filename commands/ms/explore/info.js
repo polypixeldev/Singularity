@@ -17,7 +17,7 @@ module.exports = {
         {
           name: "What is My Singularity Explore?",
           value: `
-					*(not yet implemented, check back here later for more information)*
+					My Singularity Explore is a way of earning rewards through learning. Every week, you have a chance to complete a small activity on a topic of your choice. If you complete an activity before the end of the week, you will receive a base set of rewards and be entered in a raffle to win more!
 				`,
           inline: false,
         },

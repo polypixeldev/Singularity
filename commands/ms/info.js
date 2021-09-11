@@ -48,7 +48,7 @@ module.exports = {
             In addition to protons and electrons, you may get *dark matter*. This is an extremely rare substance, and can only be acquired naturally in 2 ways:
             
             **1.** While chatting, a unique and rare phenomenon called "quantum tunneling" may occur. When this occurs, you will recieve 1 Dark Matter.
-            **2.** Once daily, you may "explore" to get a chance at getting dark matter. More information on this feature is in \`${serverDoc.prefix}ms explore\`.
+            **2.** Once weekly, you may "explore" to get a chance at getting dark matter. More information on this feature is in \`${serverDoc.prefix}ms explore\`.
           `,
           inline: false,
         },
