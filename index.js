@@ -88,6 +88,9 @@ db.once("open", () => {
     types: Array,
   });
 
+  userSchema.index({ guildID: 1, userID: -1 });
+  serverSchema.index({ guildID: 1 });
+
   client.userModel = mongoose.model("Users", userSchema);
   client.serverModel = mongoose.model("Servers", serverSchema);
 
