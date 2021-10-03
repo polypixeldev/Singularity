@@ -1,3 +1,3 @@
 module.exports = {
-  description: "Server Statistics",
+	description: "Server Statistics",
 };

@@ -1,3 +1,3 @@
 module.exports = {
-  description: "Singularity Statistics",
+	description: "Singularity Statistics",
 };

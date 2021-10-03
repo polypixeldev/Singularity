@@ -1,3 +1,3 @@
 module.exports = {
-  description: "The My Singularity Shop",
+	description: "The My Singularity Shop",
 };

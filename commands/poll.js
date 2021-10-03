@@ -1,5 +1,5 @@
 module.exports = {
-  name: "poll",
-  description: "Manage polls",
-  options: [],
+	name: "poll",
+	description: "Manage polls",
+	options: [],
 };

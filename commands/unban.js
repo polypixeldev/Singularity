@@ -1,222 +1,222 @@
 module.exports = {
-  name: "unban",
-  description: "Unbans the tagged user",
-  defaultPermission: true,
-  options: [
-    {
-      name: "tag",
-      description:
-        'The tag of the user you want to unban, or "list" to see a list of banned users',
-      type: "STRING",
-      required: false,
-    },
-    {
-      name: "id",
-      description:
-        "If provided, the user matching the id will be unbanned instead of by user tag",
-      type: "STRING",
-      required: false,
-    },
-    {
-      name: "reason",
-      description: `The reason for unbanning this user - defaults to "Unbanned by <your tag>" if omitted}`,
-      type: "STRING",
-      required: false,
-    },
-  ],
-  type: "mod",
-  args: ["<user#tag to unban>", "!<reason>"],
-  aliases: [],
-  example: "unban @poly not spamming",
-  notes: "user must be tagged in form user#tag",
-  async execute(client, Discord, msg, args) {
-    const bans = await msg.guild.bans.fetch();
-    if (args[0] === "list") {
-      let banArr = bans.map((banInfo) => banInfo.user.tag);
-      let banListStr = "";
+	name: "unban",
+	description: "Unbans the tagged user",
+	defaultPermission: true,
+	options: [
+		{
+			name: "tag",
+			description:
+				'The tag of the user you want to unban, or "list" to see a list of banned users',
+			type: "STRING",
+			required: false,
+		},
+		{
+			name: "id",
+			description:
+				"If provided, the user matching the id will be unbanned instead of by user tag",
+			type: "STRING",
+			required: false,
+		},
+		{
+			name: "reason",
+			description: `The reason for unbanning this user - defaults to "Unbanned by <your tag>" if omitted}`,
+			type: "STRING",
+			required: false,
+		},
+	],
+	type: "mod",
+	args: ["<user#tag to unban>", "!<reason>"],
+	aliases: [],
+	example: "unban @poly not spamming",
+	notes: "user must be tagged in form user#tag",
+	async execute(client, Discord, msg, args) {
+		const bans = await msg.guild.bans.fetch();
+		if (args[0] === "list") {
+			let banArr = bans.map((banInfo) => banInfo.user.tag);
+			let banListStr = "";
 
-      for (let ban of banArr) {
-        banListStr = banListStr + ` **- ${ban}** \n`;
-      }
+			for (let ban of banArr) {
+				banListStr = banListStr + ` **- ${ban}** \n`;
+			}
 
-      if (banListStr === "") {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setDescription("No users are banned in this server!");
+			if (banListStr === "") {
+				const embed = new Discord.MessageEmbed()
+					.setColor(0x000000)
+					.setDescription("No users are banned in this server!");
 
-        return msg.channel.send({ embeds: [embed] });
-      }
+				return msg.channel.send({ embeds: [embed] });
+			}
 
-      const listEmbed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setTitle(`Bans for ${msg.guild.name}`)
-        .setDescription(banListStr)
-        .setFooter(
-          `Ban list requested by ${msg.author.tag}`,
-          msg.author.displayAvatarURL()
-        );
+			const listEmbed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setTitle(`Bans for ${msg.guild.name}`)
+				.setDescription(banListStr)
+				.setFooter(
+					`Ban list requested by ${msg.author.tag}`,
+					msg.author.displayAvatarURL()
+				);
 
-      return msg.channel.send({ embeds: [listEmbed] });
-    }
+			return msg.channel.send({ embeds: [listEmbed] });
+		}
 
-    const banInfo = bans.find((ban) => ban.user.tag === args[0]);
+		const banInfo = bans.find((ban) => ban.user.tag === args[0]);
 
-    args.shift();
-    const reason = args.join(" ");
+		args.shift();
+		const reason = args.join(" ");
 
-    if (banInfo) {
-      const user = banInfo.user;
-      if (
-        !msg.member.permissions.has("BAN_MEMBERS") &&
-        !msg.member.permissions.has("ADMINISTRATOR")
-      ) {
-        const permsEmbed = new Discord.MessageEmbed()
-          .setDescription("You do not have permissions to unban!")
-          .setColor(0x000000);
+		if (banInfo) {
+			const user = banInfo.user;
+			if (
+				!msg.member.permissions.has("BAN_MEMBERS") &&
+				!msg.member.permissions.has("ADMINISTRATOR")
+			) {
+				const permsEmbed = new Discord.MessageEmbed()
+					.setDescription("You do not have permissions to unban!")
+					.setColor(0x000000);
 
-        return msg.channel.send({ embeds: [permsEmbed] });
-      }
+				return msg.channel.send({ embeds: [permsEmbed] });
+			}
 
-      msg.guild.members
-        .unban(
-          user,
-          reason ? reason : `${user.tag} unbanned by ${msg.author.tag}`
-        )
-        .then(() => {
-          const successEmbed = new Discord.MessageEmbed()
-            .setDescription(`Successfully unbanned **${user.tag}**`)
-            .setColor(0x000000);
+			msg.guild.members
+				.unban(
+					user,
+					reason ? reason : `${user.tag} unbanned by ${msg.author.tag}`
+				)
+				.then(() => {
+					const successEmbed = new Discord.MessageEmbed()
+						.setDescription(`Successfully unbanned **${user.tag}**`)
+						.setColor(0x000000);
 
-          msg.channel.send({ embeds: [successEmbed] });
-        })
-        .catch((err) => {
-          if (err.message === "Missing Permissions") {
-            const embed = new Discord.MessageEmbed()
-              .setColor(0x000000)
-              .setDescription("I don't have permissions to unban this user!");
+					msg.channel.send({ embeds: [successEmbed] });
+				})
+				.catch((err) => {
+					if (err.message === "Missing Permissions") {
+						const embed = new Discord.MessageEmbed()
+							.setColor(0x000000)
+							.setDescription("I don't have permissions to unban this user!");
 
-            return msg.channel.send({ embeds: [embed] });
-          }
+						return msg.channel.send({ embeds: [embed] });
+					}
 
-          const errEmbed = new Discord.MessageEmbed().setDescription(
-            "I was unable to unban the member because: \n`" + err + "`"
-          );
+					const errEmbed = new Discord.MessageEmbed().setDescription(
+						"I was unable to unban the member because: \n`" + err + "`"
+					);
 
-          msg.channel.send({ embeds: [errEmbed] });
+					msg.channel.send({ embeds: [errEmbed] });
 
-          console.log(err);
-        });
-    } else {
-      const mentionEmbed = new Discord.MessageEmbed()
-        .setDescription("The tagged user is not banned!")
-        .setColor(0x000000);
+					console.log(err);
+				});
+		} else {
+			const mentionEmbed = new Discord.MessageEmbed()
+				.setDescription("The tagged user is not banned!")
+				.setColor(0x000000);
 
-      msg.channel.send({ embeds: [mentionEmbed] });
-    }
-  },
-  async slashExecute(client, Discord, interaction) {
-    await interaction.deferReply({ ephemeral: true });
-    if (!interaction.options.get("tag") && !interaction.options.get("id")) {
-      const embed = new Discord.MessageEmbed()
-        .setColor(0x000000)
-        .setDescription("You must provide either a user tag or a user id!");
+			msg.channel.send({ embeds: [mentionEmbed] });
+		}
+	},
+	async slashExecute(client, Discord, interaction) {
+		await interaction.deferReply({ ephemeral: true });
+		if (!interaction.options.get("tag") && !interaction.options.get("id")) {
+			const embed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription("You must provide either a user tag or a user id!");
 
-      return interaction.editReply({ embeds: [embed] });
-    }
-    const bans = await interaction.guild.bans.fetch();
-    if (interaction.options.get("tag")?.value === "list") {
-      if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setDescription("You do not have permission to view the ban list!");
+			return interaction.editReply({ embeds: [embed] });
+		}
+		const bans = await interaction.guild.bans.fetch();
+		if (interaction.options.get("tag")?.value === "list") {
+			if (!interaction.member.permissions.has("BAN_MEMBERS")) {
+				const embed = new Discord.MessageEmbed()
+					.setColor(0x000000)
+					.setDescription("You do not have permission to view the ban list!");
 
-        return interaction.editReply({ embeds: [embed] });
-      }
-      let banArr = bans.map((banInfo) => banInfo.user.tag);
-      let banListStr = "";
+				return interaction.editReply({ embeds: [embed] });
+			}
+			let banArr = bans.map((banInfo) => banInfo.user.tag);
+			let banListStr = "";
 
-      for (let ban of banArr) {
-        banListStr = banListStr + ` **- ${ban}** \n`;
-      }
+			for (let ban of banArr) {
+				banListStr = banListStr + ` **- ${ban}** \n`;
+			}
 
-      if (banListStr === "") {
-        const embed = new Discord.MessageEmbed()
-          .setColor(0x000000)
-          .setDescription("No users are banned in this server!");
+			if (banListStr === "") {
+				const embed = new Discord.MessageEmbed()
+					.setColor(0x000000)
+					.setDescription("No users are banned in this server!");
 
-        return interaction.editReply({ embeds: [embed] });
-      }
+				return interaction.editReply({ embeds: [embed] });
+			}
 
-      const listEmbed = new client.utils.BaseEmbed(
-        `Bans for ${interaction.guild.name}`,
-        interaction.user
-      ).setDescription(banListStr);
+			const listEmbed = new client.utils.BaseEmbed(
+				`Bans for ${interaction.guild.name}`,
+				interaction.user
+			).setDescription(banListStr);
 
-      return interaction.editReply({ embeds: [listEmbed] });
-    }
+			return interaction.editReply({ embeds: [listEmbed] });
+		}
 
-    let banInfo;
+		let banInfo;
 
-    if (interaction.options.get("id")) {
-      banInfo = bans.find(
-        (ban) => ban.user.id === interaction.options.get("id")?.value
-      );
-    } else {
-      banInfo = bans.find(
-        (ban) => ban.user.tag === interaction.options.get("tag")?.value
-      );
-    }
+		if (interaction.options.get("id")) {
+			banInfo = bans.find(
+				(ban) => ban.user.id === interaction.options.get("id")?.value
+			);
+		} else {
+			banInfo = bans.find(
+				(ban) => ban.user.tag === interaction.options.get("tag")?.value
+			);
+		}
 
-    const reason = interaction.options.get("reason")?.value;
+		const reason = interaction.options.get("reason")?.value;
 
-    if (banInfo) {
-      const user = banInfo.user;
-      if (
-        !interaction.member.permissions.has("BAN_MEMBERS") &&
-        !interaction.member.permissions.has("ADMINISTRATOR")
-      ) {
-        const permsEmbed = new Discord.MessageEmbed()
-          .setDescription("You do not have permissions to unban!")
-          .setColor(0x000000);
+		if (banInfo) {
+			const user = banInfo.user;
+			if (
+				!interaction.member.permissions.has("BAN_MEMBERS") &&
+				!interaction.member.permissions.has("ADMINISTRATOR")
+			) {
+				const permsEmbed = new Discord.MessageEmbed()
+					.setDescription("You do not have permissions to unban!")
+					.setColor(0x000000);
 
-        return interaction.editReply({ embeds: [permsEmbed] });
-      }
+				return interaction.editReply({ embeds: [permsEmbed] });
+			}
 
-      interaction.guild.members
-        .unban(
-          user,
-          reason ?? `${user.tag} unbanned by ${interaction.user.tag}`
-        )
-        .then(() => {
-          const successEmbed = new Discord.MessageEmbed()
-            .setDescription(`Successfully unbanned **${user.tag}**`)
-            .setColor(0x000000);
+			interaction.guild.members
+				.unban(
+					user,
+					reason ?? `${user.tag} unbanned by ${interaction.user.tag}`
+				)
+				.then(() => {
+					const successEmbed = new Discord.MessageEmbed()
+						.setDescription(`Successfully unbanned **${user.tag}**`)
+						.setColor(0x000000);
 
-          interaction.editReply({ embeds: [successEmbed] });
-        })
-        .catch((err) => {
-          if (err.message === "Missing Permissions") {
-            const embed = new Discord.MessageEmbed()
-              .setColor(0x000000)
-              .setDescription("I don't have permissions to unban this user!");
+					interaction.editReply({ embeds: [successEmbed] });
+				})
+				.catch((err) => {
+					if (err.message === "Missing Permissions") {
+						const embed = new Discord.MessageEmbed()
+							.setColor(0x000000)
+							.setDescription("I don't have permissions to unban this user!");
 
-            return interaction.editReply({ embeds: [embed] });
-          }
+						return interaction.editReply({ embeds: [embed] });
+					}
 
-          const errEmbed = new Discord.MessageEmbed().setDescription(
-            "I was unable to unban the member because: \n`" + err + "`"
-          );
+					const errEmbed = new Discord.MessageEmbed().setDescription(
+						"I was unable to unban the member because: \n`" + err + "`"
+					);
 
-          interaction.editReply({ embeds: [errEmbed] });
+					interaction.editReply({ embeds: [errEmbed] });
 
-          console.log(err);
-        });
-    } else {
-      const mentionEmbed = new Discord.MessageEmbed()
-        .setDescription("The tagged user is not banned!")
-        .setColor(0x000000);
+					console.log(err);
+				});
+		} else {
+			const mentionEmbed = new Discord.MessageEmbed()
+				.setDescription("The tagged user is not banned!")
+				.setColor(0x000000);
 
-      interaction.editReply({ embeds: [mentionEmbed] });
-    }
-  },
+			interaction.editReply({ embeds: [mentionEmbed] });
+		}
+	},
 };

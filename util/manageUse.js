@@ -1,80 +1,80 @@
 module.exports = {
-  activate(client, Discord, userDoc, item) {
-    for (let i = 0; i < userDoc.items.length; i++) {
-      if (userDoc.items[i] === item.name) {
-        userDoc.items.splice(i, 1);
-        break;
-      }
-    }
+	activate(client, Discord, userDoc, item) {
+		for (let i = 0; i < userDoc.items.length; i++) {
+			if (userDoc.items[i] === item.name) {
+				userDoc.items.splice(i, 1);
+				break;
+			}
+		}
 
-    if (item.time > 0) {
-      userDoc.active.push(item);
-      setTimeout(async () => {
-        let newServerDoc = await client.utils.loadGuildInfo(
-          client,
-          userDoc.guildID
-        );
-        let newUserDoc = await client.utils.loadUserInfo(
-          client,
-          newServerDoc,
-          userDoc.userID
-        );
+		if (item.time > 0) {
+			userDoc.active.push(item);
+			setTimeout(async () => {
+				let newServerDoc = await client.utils.loadGuildInfo(
+					client,
+					userDoc.guildID
+				);
+				let newUserDoc = await client.utils.loadUserInfo(
+					client,
+					newServerDoc,
+					userDoc.userID
+				);
 
-        for (let i = 0; i < newUserDoc.active.length; i++) {
-          if (newUserDoc.active[i].name === item.name) {
-            newUserDoc.active.splice(i, 1);
-            break;
-          }
-        }
+				for (let i = 0; i < newUserDoc.active.length; i++) {
+					if (newUserDoc.active[i].name === item.name) {
+						newUserDoc.active.splice(i, 1);
+						break;
+					}
+				}
 
-        client.utils.updateUser(
-          client,
-          newServerDoc.guildID,
-          newUserDoc.userID,
-          {
-            active: newUserDoc.active,
-          }
-        );
-      }, item.time * 1000);
-    }
+				client.utils.updateUser(
+					client,
+					newServerDoc.guildID,
+					newUserDoc.userID,
+					{
+						active: newUserDoc.active,
+					}
+				);
+			}, item.time * 1000);
+		}
 
-    let embed;
+		let embed;
 
-    switch (item.name) {
-      case "instant": {
-        let random = Math.round(Math.random() * 100);
-        userDoc.protons += random;
-        userDoc.electrons += Math.round(random / 2.5);
+		switch (item.name) {
+			case "instant": {
+				let random = Math.round(Math.random() * 100);
+				userDoc.protons += random;
+				userDoc.electrons += Math.round(random / 2.5);
 
-        embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
+				embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
 					Instant Boost used!
 
 					+**${random}** Protons
 					+**${Math.round(random / 2.5)}** Electrons
 				`);
-        break;
-      }
-      case "lasting":
-        embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
+				break;
+			}
+			case "lasting":
+				embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
           Lasting Boost used!
 
           You will now gain extra protons and electrons for 60 seconds
         `);
-        break;
-      default:
-        console.log("hmmm");
-    }
+				break;
+			default:
+				console.log("hmmm");
+		}
 
-    client.utils.updateUser(client, userDoc.guildID, userDoc.userID, userDoc);
+		client.utils.updateUser(client, userDoc.guildID, userDoc.userID, userDoc);
 
-    return embed;
-  },
-  message(msg, userDoc, addProton, addElectron, addDarkMatter) {
-    if (userDoc.active.find((item) => item.name === "lasting")) {
-      addProton *= 2;
-      addElectron *= 2;
-      addDarkMatter *= 2;
-    }
-    return [addProton, addElectron, addDarkMatter];
-  },
+		return embed;
+	},
+	message(msg, userDoc, addProton, addElectron, addDarkMatter) {
+		if (userDoc.active.find((item) => item.name === "lasting")) {
+			addProton *= 2;
+			addElectron *= 2;
+			addDarkMatter *= 2;
+		}
+		return [addProton, addElectron, addDarkMatter];
+	},
 };

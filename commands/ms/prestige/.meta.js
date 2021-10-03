@@ -1,3 +1,3 @@
 module.exports = {
-  description: "Prestige your Singularity!",
+	description: "Prestige your Singularity!",
 };

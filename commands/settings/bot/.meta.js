@@ -1,3 +1,3 @@
 module.exports = {
-  description: "Singularity Bot Settings",
+	description: "Singularity Bot Settings",
 };
