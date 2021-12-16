@@ -18,14 +18,14 @@ module.exports = {
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
-				.setDescription("You cannot warn a moderator!")
+				.setDescription("Moderators cannot have infractions!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
 		if (!interaction.member.permissions.has("BAN_MEMBERS")) {
 			const permsEmbed = new Discord.MessageEmbed()
-				.setDescription("You do not have permission to warn!")
+				.setDescription("You do not have permission to view infractions!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
