@@ -32,6 +32,7 @@ module.exports = {
 					newServerDoc.guildID,
 					newUserDoc.userID,
 					{
+						...newUserDoc.toObject(),
 						active: newUserDoc.active,
 					}
 				);

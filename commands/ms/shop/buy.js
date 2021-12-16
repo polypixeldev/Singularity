@@ -64,6 +64,7 @@ module.exports = {
 
 			client.utils
 				.updateUser(client, serverDoc.guildID, userMS.userID, {
+					...userMS.toObject(),
 					protons: userMS.protons,
 					electrons: userMS.electrons,
 					darkMatter: userMS.darkMatter,

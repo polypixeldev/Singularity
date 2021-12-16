@@ -146,6 +146,7 @@ module.exports = {
 						`User kicked by ${interaction.user.tag}`,
 				});
 				client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+					...userDoc.toObject(),
 					infractions: userDoc.infractions,
 				});
 				const successEmbed = new Discord.MessageEmbed()

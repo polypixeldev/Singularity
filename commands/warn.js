@@ -52,6 +52,7 @@ module.exports = {
 				`User warned by ${interaction.user.tag}`,
 		});
 		client.utils.updateUser(client, serverDoc.guildID, userDoc.userID, {
+			...userDoc.toObject(),
 			infractions: userDoc.infractions,
 		});
 

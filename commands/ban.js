@@ -244,6 +244,7 @@ module.exports = {
 						`User banned by ${interaction.user.tag}`,
 				});
 				client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+					...userDoc.toObject(),
 					infractions: userDoc.infractions,
 				});
 
