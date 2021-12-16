@@ -29,7 +29,7 @@ body:
     attributes:
       label: How to reproduce
       description: How can we reproduce this bug?
-      placeholder: ex. Step 1: , Step 2: 
+      placeholder: ex. Step 1, Step 2... 
     validations:
       required: false
   - type: textarea
