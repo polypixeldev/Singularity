@@ -455,7 +455,7 @@ module.exports = {
 
 					desc = desc.join("");
 
-					msEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
+					msEmbed.setDescription(`\`${serverDoc.prefix}ms\`\n ${desc}`);
 				}
 			}
 			let latestEmbed = new client.utils.BaseEmbed(
