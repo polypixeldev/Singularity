@@ -92,7 +92,8 @@ module.exports = {
 					});
 				})
 
-				.catch(() => {
+				.catch((err) => {
+					console.error(err);
 					const embed = new Discord.MessageEmbed()
 						.setDescription(
 							"At this time, you cannot delete messages that are over 14 days old."
@@ -114,7 +115,7 @@ module.exports = {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		if (isNaN(Number(interaction.options.get("amount").value))) {
+		if (!Number.isInteger(Number(interaction.options.get("amount").value))) {
 			if (interaction.options.get("amount").value === "all") {
 				interaction.channel
 					.clone({
@@ -139,7 +140,7 @@ module.exports = {
 			} else {
 				const embed = new Discord.MessageEmbed()
 					.setColor(0x000000)
-					.setDescription("Please enter an actual number!");
+					.setDescription("Please enter a valid integer!");
 				return interaction.editReply({ embeds: [embed] });
 			}
 		}
@@ -175,7 +176,8 @@ module.exports = {
 
 				interaction.editReply({ embeds: [embed] });
 			})
-			.catch(() => {
+			.catch((err) => {
+				console.error(err);
 				const embed = new Discord.MessageEmbed()
 					.setDescription("An error occured while clearing the messages.")
 					.setColor(0x000000);
