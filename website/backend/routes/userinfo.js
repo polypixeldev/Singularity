@@ -48,23 +48,19 @@ module.exports = (discord, client, req, res) => {
 								data: apiRes.data,
 							});
 						})
-						.catch((err) => {
-							console.log(err.stack);
-							console.log(err.response);
+						.catch(() => {
 							res.json({
 								code: 1,
 							});
 						});
 				})
-				.catch((err) => {
-					console.log(err.message);
+				.catch(() => {
 					res.json({
 						code: 1,
 					});
 				});
 		})
-		.catch((err) => {
-			console.log(err.message);
+		.catch(() => {
 			res.json({
 				code: 1,
 			});

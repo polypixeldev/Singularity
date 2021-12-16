@@ -62,7 +62,7 @@ module.exports = {
         `);
 				break;
 			default:
-				console.log("hmmm");
+				console.log(`Unknown item name: ${item.name}`);
 		}
 
 		client.utils.updateUser(client, userDoc.guildID, userDoc.userID, userDoc);

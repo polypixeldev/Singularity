@@ -14,7 +14,7 @@ module.exports = async (Discord, client, reaction, user) => {
 		reaction.message.guild
 	);
 	const roleListener = serverDoc.reactionRoles;
-	//console.log(`Reaction added: ${reaction.emoji.name} on ${reaction.message.content} by ${reaction.message.author.tag} in ${reaction.message.channel} in ${reaction.message.channel.guild}`);
+
 	for (let i = 0; i < roleListener.length; i++) {
 		if (
 			reaction.message.id === roleListener[i][2] &&

@@ -76,7 +76,7 @@ module.exports = {
 						);
 						msg.channel.send({ embeds: [errEmbed] });
 
-						console.log(err);
+						console.error(err);
 					});
 			} else {
 				const naEmbed = new Discord.MessageEmbed()
@@ -169,7 +169,7 @@ module.exports = {
 					);
 				interaction.editReply({ embeds: [errEmbed] });
 
-				console.log(err);
+				console.error(err);
 			});
 	},
 };

@@ -339,7 +339,6 @@ module.exports = {
 					return interaction.editReply({ embeds: [argNotFoundEmbed] });
 				} else {
 					const main = subcommand ?? command;
-					console.log(main.options);
 					const argument = main.options.find(
 						(option) =>
 							option.name === interaction.options.get("argument").value

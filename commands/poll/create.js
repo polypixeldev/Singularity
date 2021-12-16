@@ -153,7 +153,6 @@ module.exports = {
 			);
 			sent.edit({ embeds: [sentEmbed] }).then((newSent) => {
 				for (let i = 0; i < cleanOptions.length; i++) {
-					console.log(optMapping[`${i + 1}`]);
 					newSent.react(optMapping[`${i + 1}`]);
 				}
 			});

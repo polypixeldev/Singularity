@@ -98,9 +98,7 @@ module.exports = {
 				if (type > 0) {
 					type = 0;
 				} else {
-					console.log(type);
 					type = Math.abs(type);
-					console.log(type);
 				}
 
 				return type;

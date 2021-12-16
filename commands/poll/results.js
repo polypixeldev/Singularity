@@ -41,7 +41,6 @@ module.exports = {
 
 		if (!pollMessage) return interaction.editReply({ embeds: [invalidPoll] });
 		let embed = pollMessage.embeds[0];
-		console.log(pollMessage);
 		if (!embed) return interaction.editReply({ embeds: [invalidPoll] });
 		let options = [];
 		let data = [];
@@ -56,7 +55,6 @@ module.exports = {
 				pollMessage.reactions.cache.get(optMapping[`${i + 1}`]).count - 1
 			);
 		}
-		console.log(options, data);
 
 		const results = new client.utils.BaseEmbed(
 			"Poll Results",

@@ -30,15 +30,10 @@ module.exports = (client) => {
 			} else {
 				let exec = require(`./routes/${routeArr.join("/")}/${ent.name}`);
 
-				console.log(
-					`${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`
-				);
-
 				router.all(
 					`${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`,
 					CORS(corsOptions),
 					(req, res) => {
-						console.log(req.body);
 						const apiInstance = axios.create({
 							headers: {
 								Authorization: `Bearer ${req.query?.token ?? req.body?.token}`,

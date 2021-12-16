@@ -104,7 +104,7 @@ module.exports = {
 
 					msg.channel.send({ embeds: [errEmbed] });
 
-					console.log(err);
+					console.error(err);
 				});
 		} else {
 			const mentionEmbed = new Discord.MessageEmbed()
@@ -209,7 +209,7 @@ module.exports = {
 
 					interaction.editReply({ embeds: [errEmbed] });
 
-					console.log(err);
+					console.error(err);
 				});
 		} else {
 			const mentionEmbed = new Discord.MessageEmbed()

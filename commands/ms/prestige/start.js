@@ -86,7 +86,6 @@ module.exports = {
 									Math.abs(Math.floor(Math.random() * rareItems.length))
 								] ?? rareItems[rareItems.length - 1]
 							);
-							console.log(newUserMS.rareItems);
 						}
 						newUserMS.powerUps = [];
 						newUserMS.darkMatter = 0;

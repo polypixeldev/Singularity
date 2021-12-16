@@ -53,7 +53,6 @@ module.exports = async (Discord, client, msg) => {
 			let addProton = Math.floor(5 + Math.random() * 5);
 			let addElectron = Math.floor(5 + Math.random());
 			let addDarkMatter = Math.random() < 0.001 ? 1 : 0;
-			console.log([addProton, addElectron, addDarkMatter]);
 			[addProton, addElectron, addDarkMatter] = client.utils.manageUse.message(
 				msg,
 				userMS,
@@ -61,7 +60,6 @@ module.exports = async (Discord, client, msg) => {
 				addElectron,
 				addDarkMatter
 			);
-			console.log([addProton, addElectron, addDarkMatter]);
 			userMS.protons += addProton;
 			userMS.electrons += addElectron;
 			userMS.darkMatter += addDarkMatter;
