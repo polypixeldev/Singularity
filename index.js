@@ -48,7 +48,7 @@ const api = new APIClient({
 	port: process.env.API_PORT,
 });
 
-const url = "mongodb://127.0.0.1:27017/Singularity";
+const url = process.env.MONGODB_URI;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const databaseConnectionTransaction = startupTransaction.startChild({
