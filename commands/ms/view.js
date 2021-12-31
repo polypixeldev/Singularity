@@ -35,7 +35,9 @@ module.exports = {
 		for (let a of userMS.active) {
 			aStr =
 				aStr +
-				`- **${a.name}** - ${prettyMS(a.time - (Date.now() - a.start))}** \n `;
+				`- **${a.name}** - ${prettyMS(
+					a.time * 1000 - (Date.now() - a.start)
+				)} left \n `;
 		}
 		if (aStr === "\n") aStr = "**None**";
 
