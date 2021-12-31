@@ -48,9 +48,10 @@ const api = new APIClient({
 	port: process.env.API_PORT,
 });
 
-const url = "mongodb://127.0.0.1:27017/Singularity";
-
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 const databaseConnectionTransaction = startupTransaction.startChild({
 	op: "connection",
 	name: "Database Connection",
@@ -59,7 +60,7 @@ const databaseConnectionTransaction = startupTransaction.startChild({
 const db = mongoose.connection;
 db.once("open", () => {
 	databaseConnectionTransaction.finish();
-	console.log("Database connected:", url);
+	console.log("Database connected:", process.env.MONGODB_URI);
 	const userSchema = new mongoose.Schema({
 		userID: String,
 		guildID: String,
