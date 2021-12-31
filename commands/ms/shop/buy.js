@@ -50,6 +50,13 @@ module.exports = {
 
 		let quantity = interaction.options.get("quantity")?.value;
 		if (!quantity) quantity = 1;
+		if (quantity < 1) {
+			const embed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription("You must specify a positive quantity!");
+
+			return interaction.editReply({ embeds: [embed] });
+		}
 
 		if (
 			userMS.protons >= selectedItem.protons * quantity &&
@@ -64,6 +71,7 @@ module.exports = {
 
 			client.utils
 				.updateUser(client, serverDoc.guildID, userMS.userID, {
+					...userMS.toObject(),
 					protons: userMS.protons,
 					electrons: userMS.electrons,
 					darkMatter: userMS.darkMatter,

@@ -14,6 +14,7 @@ module.exports = async (client) => {
 
 	changed.forEach((userDoc) => {
 		client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+			...userDoc.toObject(),
 			protons: userDoc.protons,
 			electrons: userDoc.electrons,
 		});

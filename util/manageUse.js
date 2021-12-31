@@ -8,7 +8,10 @@ module.exports = {
 		}
 
 		if (item.time > 0) {
-			userDoc.active.push(item);
+			userDoc.active.push({
+				...item,
+				start: Date.now(),
+			});
 			setTimeout(async () => {
 				let newServerDoc = await client.utils.loadGuildInfo(
 					client,
@@ -32,6 +35,7 @@ module.exports = {
 					newServerDoc.guildID,
 					newUserDoc.userID,
 					{
+						...newUserDoc.toObject(),
 						active: newUserDoc.active,
 					}
 				);

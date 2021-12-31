@@ -60,13 +60,15 @@ module.exports = {
 					serverDoc.prefix
 				}settings server welcome <channel> <message>\`
 				 *- Current Setting:* \`${serverDoc.welcomeMessage}\` *in* \`${
-					interaction.guild.channels.resolve(serverDoc.welcomeChannelID).name
+					interaction.guild.channels.resolve(serverDoc.welcomeChannelID)
+						?.name ?? "None"
 				}\`
 				**Set/Toggle a Leave Message:** \`${
 					serverDoc.prefix
 				}settings server leave <channel> <message>\`
 				 *- Current Setting:* \`${serverDoc.leaveMessage}\` *in* \`${
-					interaction.guild.channels.resolve(serverDoc.leaveChannelID).name
+					interaction.guild.channels.resolve(serverDoc.leaveChannelID)?.name ??
+					"None"
 				}\`
 			`
 			);

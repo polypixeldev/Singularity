@@ -130,7 +130,9 @@ module.exports = {
 							userMS.protons -= num * 1000;
 							userMS.electrons -= userMS.singularity.size * 7;
 							userMS.protons -= userMS.singularity.size * 25;
-							userMS.singularity.size += Math.floor(Math.random() * 9 + 1);
+							for (let i = 0; i < num; i++) {
+								userMS.singularity.size += Math.floor(Math.random() * 9 + 1);
+							}
 							client.utils
 								.updateUser(client, serverDoc.guildID, userMS.userID, userMS)
 								.then(() => {

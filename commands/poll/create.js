@@ -121,7 +121,6 @@ module.exports = {
 
 		const currentDate = new Date(Date.now());
 		const poll = new Discord.MessageEmbed()
-			.setColor(`#${colorStr}`)
 			.setTitle(title)
 			.setFooter(
 				`Poll created by ${
@@ -129,6 +128,16 @@ module.exports = {
 				} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
 				interaction.user.displayAvatarURL()
 			);
+
+		try {
+			poll.setColor(`#${colorStr}`);
+		} catch {
+			const embed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription("Invalid hex color provided");
+
+			return interaction.editReply({ embeds: [embed] });
+		}
 
 		if (description !== "")
 			poll.addFields({

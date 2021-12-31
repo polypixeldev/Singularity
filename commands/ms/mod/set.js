@@ -83,6 +83,7 @@ module.exports = {
 
 		client.utils
 			.updateUser(client, serverDoc.guildID, userMS.userID, {
+				...userMS.toObject(),
 				[type]: userMS[type],
 			})
 			.then(() => {

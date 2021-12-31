@@ -12,7 +12,7 @@ module.exports = {
 		{
 			name: "message",
 			description:
-				'{member-tag/name} are valid placeholders - "none" to turn off leave messages',
+				'{tag} and {name} are valid placeholders - "none" to turn off leave messages',
 			type: "STRING",
 			required: true,
 		},

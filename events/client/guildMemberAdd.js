@@ -2,9 +2,9 @@ module.exports = async (Discord, client, member) => {
 	const serverDoc = await client.utils.loadGuildInfo(client, member.guild);
 	const channel = member.guild.channels.resolve(serverDoc.welcomeChannelID);
 	if (!channel) return;
-	const tagRegex = /{member-tag}/g;
-	const nameRegex = /{member-name}/g;
-	const mentionRegex = /{member-mention}/g;
+	const tagRegex = /{tag}/g;
+	const nameRegex = /{name}/g;
+	const mentionRegex = /{mention}/g;
 	let welcomeMsg = serverDoc.welcomeMessage.replace(
 		tagRegex,
 		`${member.user.tag}`

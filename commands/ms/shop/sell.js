@@ -42,7 +42,7 @@ module.exports = {
 		if (!selectedItem) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
-				.setDescription("Please enter the name of the item you wish to sell!");
+				.setDescription("That is not a valid item!");
 
 			return interaction.editReply({ embeds: [embed] });
 		}
@@ -56,8 +56,14 @@ module.exports = {
 		}
 
 		let quantity = interaction.options.get("quantity")?.value;
-
 		if (!quantity) quantity = 1;
+		if (quantity < 1) {
+			const embed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription("You must specify a positive quantity!");
+
+			return interaction.editReply({ embeds: [embed] });
+		}
 
 		let protons = (selectedItem.protons * quantity) / 2;
 		let electrons = (selectedItem.electrons * quantity) / 2;
@@ -70,7 +76,7 @@ module.exports = {
 				userMS.items[i] === interaction.options.get("item").value &&
 				removed <= quantity
 			) {
-				userMS.items.splice(i, 1);
+				userMS.items[i] = null;
 				removed++;
 			}
 		}
@@ -88,10 +94,11 @@ module.exports = {
 
 		client.utils
 			.updateUser(client, serverDoc.guildID, userMS.userID, {
+				...userMS.toObject(),
 				protons: userMS.protons,
 				electrons: userMS.electrons,
 				darkMatter: userMS.darkMatter,
-				items: userMS.items,
+				items: userMS.items.filter((item) => item !== null),
 			})
 			.then(() => {
 				const embed = new Discord.MessageEmbed().setColor(0x000000)
