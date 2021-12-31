@@ -1,6 +1,5 @@
 const BotSettings = require("./settings/bot/help.js");
 const ServerSettings = require("./settings/server/help.js");
-const ModSettings = require("./settings/mod/help.js");
 
 module.exports = {
 	name: "settings",
@@ -23,8 +22,6 @@ module.exports = {
 				BotSettings.execute(client, Discord, msg, args, serverDoc);
 			} else if (args[0] === "server") {
 				ServerSettings.execute(client, Discord, msg, args, serverDoc);
-			} else if (args[0] === "mod") {
-				ModSettings.execute(client, Discord, msg, args, serverDoc);
 			} else {
 				let currentDate = new Date(Date.now());
 				const embed = new Discord.MessageEmbed()
