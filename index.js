@@ -52,6 +52,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
+
 const databaseConnectionTransaction = startupTransaction.startChild({
 	op: "connection",
 	name: "Database Connection",
