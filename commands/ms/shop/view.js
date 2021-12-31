@@ -64,11 +64,11 @@ module.exports = {
 			}
 		} else {
 			let itemStr = "";
-			for (let item in items) {
+			for (let item of items) {
 				if (item.rare !== true) {
 					itemStr =
 						itemStr +
-						`**${items[item].name}**: *${items[item].protons} Protons, ${items[item].electrons} Electrons, ${items[item].darkMatter} Dark Matter* \n`;
+						`**${item.name}**: *${item.protons} Protons, ${item.electrons} Electrons, ${item.darkMatter} Dark Matter* \n`;
 				}
 			}
 
