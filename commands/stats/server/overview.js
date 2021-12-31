@@ -5,8 +5,10 @@ module.exports = {
 	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const embed = client.utils
-			.BaseEmbed(`${interaction.guild.name} - Server Stats`, interaction.user)
+		const embed = new client.utils.BaseEmbed(
+			`${interaction.guild.name} - Server Stats`,
+			interaction.user
+		)
 			.setDescription("Various statistics about this server")
 			.setThumbnail(interaction.guild.iconURL())
 			.addFields([
