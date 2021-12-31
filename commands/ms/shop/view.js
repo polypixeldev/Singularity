@@ -30,8 +30,10 @@ module.exports = {
 
 					return interaction.editReply({ embeds: [embed] });
 				} else {
-					const embed = client.utils
-						.BaseEmbed(`Singularity Shop - ${item.name}`, interaction.user)
+					const embed = new client.utils.BaseEmbed(
+						`Singularity Shop - ${item.name}`,
+						interaction.user
+					)
 						.setDescription(
 							`*Use \`${serverDoc.prefix}ms shop buy ${item.name} <!quantity>\` to buy this item!*`
 						)
@@ -68,7 +70,7 @@ module.exports = {
 				if (item.rare !== true) {
 					itemStr =
 						itemStr +
-						`**${item.name}**: *${item.protons} Protons, ${item.electrons} Electrons, ${item.darkMatter} Dark Matter* \n`;
+						`- **${item.name}**: *${item.protons} Protons, ${item.electrons} Electrons, ${item.darkMatter} Dark Matter* \n`;
 				}
 			}
 
@@ -77,10 +79,11 @@ module.exports = {
 				interaction.user
 			).setDescription(
 				`
-        *Use \`${serverDoc.prefix}ms shop view <item_name>\` to get a closer look at an item!
+        *Use \`${serverDoc.prefix}ms shop view <item_name>\` to get a closer look at an item!*
+
       **Items: **
       ${itemStr}
-      *Use \`${serverDoc.prefix}singularity shop buy "<item_name>" <!quantity>\` to buy an item!*
+      *Use \`${serverDoc.prefix}ms shop buy "<item_name>" <!quantity>\` to buy an item!*
     `
 			);
 
