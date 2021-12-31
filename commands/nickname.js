@@ -132,7 +132,7 @@ module.exports = {
 		const prevName = member.nickname;
 
 		member
-			.setNickname(interaction.options.get("nickname") ?? null)
+			.setNickname(interaction.options.get("nickname")?.value ?? null)
 			.then(() => {
 				const embed = new Discord.MessageEmbed()
 					.setColor(0x000000)
