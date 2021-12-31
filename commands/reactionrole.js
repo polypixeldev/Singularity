@@ -93,10 +93,22 @@ module.exports = {
 			serverDoc.reactionRoles.push([role.name, emoji, sent.id]);
 			serverDoc.markModified("reactionRoles");
 		});
+
 		await client.utils.updateServer(client, serverDoc.guildID, {
 			reactionRoles: serverDoc.reactionRoles,
 		});
-		sentMessage.react(emoji);
+
+		try {
+			await sentMessage.react(emoji);
+		} catch {
+			sentMessage.delete();
+
+			const embed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription("Invalid emoji");
+			return interaction.editReply({ embeds: [embed] });
+		}
+
 		const successEmbed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription("Reaction role added!");
