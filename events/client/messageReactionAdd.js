@@ -18,7 +18,7 @@ module.exports = async (Discord, client, reaction, user) => {
 	for (let i = 0; i < roleListener.length; i++) {
 		if (
 			reaction.message.id === roleListener[i][2] &&
-			user.tag !== "Singularity#9601"
+			user.id !== process.env.CLIENT_ID
 		) {
 			if (reaction.emoji.name === roleListener[i][1]) {
 				const member = reaction.message.guild.members.resolve(user);
