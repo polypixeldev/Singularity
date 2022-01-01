@@ -104,6 +104,8 @@ db.once("open", () => {
 	client.once("ready", () => {
 		console.log("Singularity is now online");
 
+		console.log(client.user.displayAvatarURL());
+
 		client.user.setPresence({
 			activities: [{ name: "singularitybot.glitch.me", type: "WATCHING" }],
 			status: "online",
