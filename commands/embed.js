@@ -6,20 +6,20 @@ module.exports = {
 		{
 			name: "title",
 			description: "The title for the embed you want to create",
-			type: "USER",
+			type: "STRING",
 			required: true,
 		},
 		{
 			name: "color",
 			description: "The color that you want to make the embed",
 			type: "STRING",
-			required: false,
+			required: true,
 		},
 		{
 			name: "content",
 			description: "The main context for the embed",
 			type: "STRING",
-			required: false,
+			required: true,
 		},
 	],
 	type: "mod",
@@ -29,20 +29,26 @@ module.exports = {
 		'sayembed "Singularity Rating" BLUE Wow Singularity is a very cool bot',
 	notes: "multi-word titles must be surrounded in doubles quotes",
 	async slashExecute(client, Discord, interaction) {
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply({ ephemeral: false });
 
-		const title = interaction.options.get("title");
-		const color = interaction.options.get("color");
-		const content = interaction.options.get("content");
+		const title = interaction.options.get("title").value;
+		const color = interaction.options.get("color").value;
+		const content = interaction.options.get("content").value;
 
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(
-				"https://cdn.discordapp.com/avatars/879180094650863727/3040c2fb097ef6a9fb59005cab44626c.webp"
-			)
 			.setTitle(title)
-			.setColor(color)
 			.setDescription(content);
 
-		return interaction.deferReply({ embeds: [embed] });
+		try {
+			embed.setColor(color);
+		} catch (err) {
+			const errorEmbed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription("This color doesnt exist, please enter another color!");
+
+			return interaction.editReply({ embeds: [errorEmbed] });
+		}
+
+		return interaction.editReply({ embeds: [embed] });
 	},
 };
