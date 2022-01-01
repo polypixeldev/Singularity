@@ -74,7 +74,6 @@ db.once("open", () => {
 
 	const serverSchema = new mongoose.Schema({
 		guildID: String,
-		prefix: String,
 		welcomeMessage: String,
 		welcomeChannelID: String,
 		leaveChannelID: String,

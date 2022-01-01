@@ -6,7 +6,7 @@ module.exports = {
 	args: [],
 	aliases: [],
 	example: "ms info",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const embed = new client.utils.BaseEmbed(
@@ -33,17 +33,16 @@ module.exports = {
         By being active in a server, you can gain *protons* and *electrons*. These protons and electrons are a sort of currency in the My Singularity system. \
         You can use them to make your black hole bigger, or to trade them in for better items. The Developers (poly#3622 and Redstone#1165) will always be adding new features to My Singularity to keep your black hole growing!
         
-        *Use \`${serverDoc.prefix}help ms\` to get a full list of My Singularity commands*
+        *Select the My Singularity option in \`/help\` to get a full list of My Singularity commands*
       `,
 					inline: false,
 				},
 				{
 					name: "Dark Matter",
 					value: `
-            In addition to protons and electrons, you may get *dark matter*. This is an extremely rare substance, and can only be acquired naturally in 2 ways:
+            In addition to protons and electrons, you may get *dark matter*. This is an extremely rare substance, and can only be acquired naturally in 1 way (more coming soon!):
             
-            **1.** While chatting, a unique and rare phenomenon called "quantum tunneling" may occur. When this occurs, you will recieve 1 Dark Matter.
-            **2.** Once weekly, you may "explore" to get a chance at getting dark matter. More information on this feature is in \`${serverDoc.prefix}ms explore\`.
+            - While chatting, a unique and rare phenomenon called "quantum tunneling" may occur. When this occurs, you will recieve 1 Dark Matter.
           `,
 					inline: false,
 				},

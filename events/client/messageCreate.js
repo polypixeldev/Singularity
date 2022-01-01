@@ -41,7 +41,6 @@ module.exports = async (Discord, client, msg) => {
 		userMS = await client.utils.loadUserInfo(client, server, msg.author.id);
 	});
 	if (serverDoc === "err") return;
-	const prefix = serverDoc.prefix;
 
 	if (!msg.author.bot) {
 		if (!cooldowns[msg.author.id]) {
@@ -85,9 +84,9 @@ module.exports = async (Discord, client, msg) => {
 		});
 	}
 
-	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+	if (!msg.content.startsWith(".") || msg.author.bot) return;
 
-	const args = splitCommandLine(msg.content.slice(prefix.length));
+	const args = splitCommandLine(msg.content.slice(1));
 	const cmd = args.shift().toLowerCase();
 
 	const command =

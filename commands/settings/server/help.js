@@ -20,16 +20,12 @@ module.exports = {
 				interaction.user
 			).setDescription(
 				`
-				**Set/Toggle a Welcome Message:** \`${
-					serverDoc.prefix
-				}settings server welcome <channel> <message>\`
+				**Set/Toggle a Welcome Message:** \`/settings server welcome <channel> <message>\`
 				 *- Current Setting:* \`${serverDoc.welcomeMessage}\` *in* \`${
 					interaction.guild.channels.resolve(serverDoc.welcomeChannelID)
 						?.name ?? "None"
 				}\`
-				**Set/Toggle a Leave Message:** \`${
-					serverDoc.prefix
-				}settings server leave <channel> <message>\`
+				**Set/Toggle a Leave Message:** \`/settings server leave <channel> <message>\`
 				 *- Current Setting:* \`${serverDoc.leaveMessage}\` *in* \`${
 					interaction.guild.channels.resolve(serverDoc.leaveChannelID)?.name ??
 					"None"

@@ -33,7 +33,7 @@ module.exports = {
 	args: ["!<command type>"],
 	aliases: [],
 	example: "help general",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 		if (interaction.options.get("command")) {
 			let command;
@@ -130,13 +130,11 @@ module.exports = {
 						.setDescription(
 							`${subcommand?.description ?? command.description}
             **Usage**:
-            \`\`\`${serverDoc.prefix}${command.name} ${
-								group ? `${group.name} ` : ""
-							}${subcommand ? `${subcommand.name} ` : ""} ${argString}\`\`\`
+            \`\`\`/${command.name} ${group ? `${group.name} ` : ""}${
+								subcommand ? `${subcommand.name} ` : ""
+							} ${argString}\`\`\`
             **Example:**
-            \`\`\`${serverDoc.prefix}${
-								subcommand?.example ?? command.example
-							}\`\`\`
+            \`\`\`${subcommand?.example ?? command.example}\`\`\`
             **Notes:**
             \`\`\`${subcommand?.notes ?? command.notes ?? "none"}\`\`\`
             **Subcommand Groups:**
@@ -258,10 +256,7 @@ module.exports = {
 
 					desc = desc.join("");
 
-					generalEmbed.addField(
-						`\`${serverDoc.prefix}${command[1].name}\``,
-						desc
-					);
+					generalEmbed.addField(`\`/${command[1].name}\``, desc);
 				} else if (command[1].type === "mod") {
 					let desc = [];
 
@@ -283,7 +278,7 @@ module.exports = {
 
 					desc = desc.join("");
 
-					modEmbed.addField(`\`${serverDoc.prefix}${command[1].name}\``, desc);
+					modEmbed.addField(`\`/${command[1].name}\``, desc);
 				} else if (command[1].type === "ms") {
 					let desc = [];
 
@@ -305,36 +300,19 @@ module.exports = {
 
 					desc = desc.join("");
 
-					msEmbed.setDescription(`\`${serverDoc.prefix}ms\`\n ${desc}`);
+					msEmbed.setDescription(`\`/ms\`\n ${desc}`);
 				}
 			}
 			let latestEmbed = new client.utils.BaseEmbed(
 				"Singularity Help",
 				interaction.user
-			)
-				.setDescription(
-					`
-            **This server's prefix is:** \`${serverDoc.prefix}\`
-            *Use ${serverDoc.prefix}command <COMMAND_NAME> to learn more about a command* \n
-        `
-				)
-				.addFields(
-					{
-						name: "General Help",
-						value: `\`${serverDoc.prefix}help general\``,
-						inline: true,
-					},
-					{
-						name: "Moderation Help",
-						value: `\`${serverDoc.prefix}help mod\``,
-						inline: true,
-					},
-					{
-						name: "My Singularity Help",
-						value: `\`${serverDoc.prefix}help ms\``,
-						inline: true,
-					}
-				);
+			).setDescription(
+				`
+            			*Use \`/help <command>\` to learn more about a command*
+
+						Select a category from the select menu below to explore available commands!
+        			`
+			);
 
 			let components = [
 				{

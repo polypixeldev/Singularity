@@ -181,9 +181,7 @@ module.exports = {
 					  - **${baseReq * 41666}** Electrons
 					  - **${baseReq * 6}** Dark Matter
   
-					  *Enter \`${
-							serverDoc.prefix
-						}ms prestige info\` to learn more about Singularity Prestige*
+					  *Enter \`/ms prestige info\` to learn more about Singularity Prestige*
 				  `);
 
 			return interaction.editReply({ embeds: [embed] });

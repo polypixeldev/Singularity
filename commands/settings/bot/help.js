@@ -1,4 +1,3 @@
-const prefix = require("./prefix.js");
 const nickname = require("../../nickname.js");
 const kick = require("./kick.js");
 module.exports = {
@@ -11,9 +10,8 @@ module.exports = {
 	example: "settings bot",
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		if (interaction.options.getSubcommand(false) === "prefix") {
-			prefix.slashExecute(client, Discord, interaction, serverDoc);
-		} else if (interaction.options.getSubcommand(false) === "nickname") {
+
+		if (interaction.options.getSubcommand(false) === "nickname") {
 			nickname.slashExecute(client, Discord, interaction, serverDoc);
 		} else if (interaction.options.getSubcommand(false) === "kick") {
 			kick.slashExecute(client, Discord, interaction);
@@ -23,15 +21,13 @@ module.exports = {
 				interaction.user
 			).setDescription(
 				`
-				**Change Prefix:** \`${serverDoc.prefix}settings bot prefix <prefix>\`
-				 *- Current Setting:* \`${serverDoc.prefix}\`
-				**Nickname Me:**  \`${serverDoc.prefix}settings bot nickname <nickname>\`
+				**Nickname Me:**  \`/settings bot nickname <nickname>\`
 				 *- Current Setting:* \`${
 						interaction.guild.members.resolve(client.user).nickname
 							? interaction.guild.members.resolve(client.user).nickname
 							: "None"
 					}\`
-				**Kick Me:** \`${serverDoc.prefix}settings bot kick\`
+				**Kick Me:** \`/settings bot kick\`
 			`
 			);
 
