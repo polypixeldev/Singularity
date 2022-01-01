@@ -1,8 +1,3 @@
-/*
-REMINDERS:
-  - Fix undocumented commands
-  - Fix nickname
-*/
 require("dotenv").config();
 
 const Sentry = require("@sentry/node");
