@@ -36,9 +36,7 @@ module.exports = {
 			**Effects:**
 			This prestige will get you **${
 				userMS.singularity.prestige + 2
-			}** random items from the Rare Items list (\`${
-				serverDoc.prefix
-			}ms rare\`), as well as a new type of Singularity
+			}** random items from the Rare Items list (\`/ms rare\`), as well as a new type of Singularity
 		
 			*Your Lifetime Experience will not be affected*
 			`

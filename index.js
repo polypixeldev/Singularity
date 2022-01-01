@@ -1,8 +1,3 @@
-/*
-REMINDERS:
-  - Fix undocumented commands
-  - Fix nickname
-*/
 require("dotenv").config();
 
 const Sentry = require("@sentry/node");
@@ -79,7 +74,6 @@ db.once("open", () => {
 
 	const serverSchema = new mongoose.Schema({
 		guildID: String,
-		prefix: String,
 		welcomeMessage: String,
 		welcomeChannelID: String,
 		leaveChannelID: String,

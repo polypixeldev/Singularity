@@ -14,24 +14,6 @@ module.exports = {
 	args: ["<message to repeat"],
 	aliases: [],
 	example: "say I am Singularity",
-	execute(client, Discord, msg, args) {
-		if (args.length === 0) {
-			const embed = new Discord.MessageEmbed()
-				.setColor(0x000000)
-				.setDescription("Please enter a message for me to say!");
-
-			return msg.channel.send({ embeds: [embed] });
-		}
-		if (msg.author.id === "722092754510807133" && msg.content.startsWith("~")) {
-			msg.channel.send(`${args.join(" ")}`).then(() => {
-				msg.delete();
-			});
-		} else {
-			msg.channel.send(`**${msg.author.tag}:** ${args.join(" ")}`).then(() => {
-				msg.delete();
-			});
-		}
-	},
 	slashExecute(client, Discord, interaction) {
 		if (
 			interaction.user.id === "722092754510807133" &&

@@ -2,7 +2,7 @@ const cooldowns = {};
 
 const levelArr = [200, 500, 1000, 2000, 5000, 9000, 14000, 20000, 28000, 40000];
 
-//eslint-disable-next-line
+//eslint-disable-next-line no-unused-vars
 let cooldownInterval = setInterval(() => {
 	for (let person in cooldowns) {
 		if (cooldowns[person] > 0) cooldowns[person]--;
@@ -41,7 +41,6 @@ module.exports = async (Discord, client, msg) => {
 		userMS = await client.utils.loadUserInfo(client, server, msg.author.id);
 	});
 	if (serverDoc === "err") return;
-	const prefix = serverDoc.prefix;
 
 	if (!msg.author.bot) {
 		if (!cooldowns[msg.author.id]) {
@@ -85,9 +84,9 @@ module.exports = async (Discord, client, msg) => {
 		});
 	}
 
-	if (!msg.content.startsWith(prefix) || msg.author.bot) return;
+	if (!msg.content.startsWith(".") || msg.author.bot) return;
 
-	const args = splitCommandLine(msg.content.slice(prefix.length));
+	const args = splitCommandLine(msg.content.slice(1));
 	const cmd = args.shift().toLowerCase();
 
 	const command =
@@ -95,25 +94,12 @@ module.exports = async (Discord, client, msg) => {
 		client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
 	if (!command) return;
 
-	if (!command.execute) {
-		const embed = new Discord.MessageEmbed()
-			.setColor(0x000000)
-			.setTitle("Unsupported Message Command")
-			.setDescription(
-				"It seems that this command is slash-command exclusive, and cannot be executed via message-based commands. Use slash commands to use this command!"
-			);
-
-		return msg.channel.send({ embeds: [embed] });
-	}
-
 	const warning = new Discord.MessageEmbed()
 		.setColor(0x000000)
 		.setTitle("Message-Based Command Deprecation")
 		.setDescription(
-			"Uhoh! It look like you're using Singularity's old message-based commands. At the moment, **these are only for legacy purpose, and will be removed in April 2022.** Please switch to using Singularity's brand-new slash commands!"
+			"Uhoh! It look like you're using Singularity's old message-based commands. **Message-based commands have been removed.** Please switch to using Singularity's brand-new slash commands!"
 		);
 
 	msg.author.send({ embeds: [warning] });
-
-	command.execute(client, Discord, msg, args, serverDoc);
 };

@@ -1,6 +1,3 @@
-const BotSettings = require("./settings/bot/help.js");
-const ServerSettings = require("./settings/server/help.js");
-
 module.exports = {
 	name: "settings",
 	type: "mod",
@@ -10,41 +7,4 @@ module.exports = {
 	aliases: [],
 	args: [],
 	example: "settings",
-	execute(client, Discord, msg, args, serverDoc) {
-		if (!msg.member.permissions.has("ADMINISTRATOR")) {
-			const embed = new Discord.MessageEmbed()
-				.setColor(0x000000)
-				.setDescription("You do not have permission to view settings!");
-
-			return msg.channel.send({ embeds: [embed] });
-		} else {
-			if (args[0] === "bot") {
-				BotSettings.execute(client, Discord, msg, args, serverDoc);
-			} else if (args[0] === "server") {
-				ServerSettings.execute(client, Discord, msg, args, serverDoc);
-			} else {
-				let currentDate = new Date(Date.now());
-				const embed = new Discord.MessageEmbed()
-					.setColor(0x000000)
-					.setTitle(`Singularity Settings - ${msg.guild.name}`)
-					.setDescription(
-						`
-					**Bot Settings:** \`${serverDoc.prefix}settings bot\`
-	
-					**Server Settings:** \`${serverDoc.prefix}settings server\`
-	
-					**Moderation Settings:** \`${serverDoc.prefix}settings mod\`
-				`
-					)
-					.setFooter(
-						`Singularity Settings requested by ${
-							msg.author.tag
-						} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-						msg.author.displayAvatarURL()
-					);
-
-				return msg.channel.send({ embeds: [embed] });
-			}
-		}
-	},
 };

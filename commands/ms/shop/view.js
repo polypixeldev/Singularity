@@ -25,7 +25,7 @@ module.exports = {
 					const embed = new Discord.MessageEmbed()
 						.setColor(0x000000)
 						.setDescription(
-							`The specified item is rare and cannot be viewed from the Singularity Shop. Use \`${serverDoc.prefix}ms rare\` to view this item`
+							`The specified item is rare and cannot be viewed from the Singularity Shop. Use \`/ms rare\` to view this item`
 						);
 
 					return interaction.editReply({ embeds: [embed] });
@@ -35,7 +35,7 @@ module.exports = {
 						interaction.user
 					)
 						.setDescription(
-							`*Use \`${serverDoc.prefix}ms shop buy ${item.name} <!quantity>\` to buy this item!*`
+							`*Use \`/ms shop buy <item: ${item.name}> <!quantity>\` to buy this item!*`
 						)
 						.addFields([
 							{
@@ -79,11 +79,11 @@ module.exports = {
 				interaction.user
 			).setDescription(
 				`
-        *Use \`${serverDoc.prefix}ms shop view <item_name>\` to get a closer look at an item!*
+        *Use \`/ms shop view <item>\` to get a closer look at an item!*
 
       **Items: **
       ${itemStr}
-      *Use \`${serverDoc.prefix}ms shop buy "<item_name>" <!quantity>\` to buy an item!*
+      *Use \`/ms shop buy <item> <!quantity>\` to buy an item!*
     `
 			);
 
