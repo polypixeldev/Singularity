@@ -12,14 +12,17 @@ A free, easy to use Discord bot
 - Customizable Reaction Roles
 - Moderation Commands
   - Ban
-  - Temp-ban
   - Kick
   - Mute
   - Unmute
   - Clear (bulk deletes messages)
+  - Warn
   - Nicknaming
-- Leveling
+  - View infractions
+- Polls
+- Stats
 - My Singularity (more info on this [here](https://singularitybot.glitch.me/mysingularity))
+- ...and more!
 
 ## What's the invite link?
 
