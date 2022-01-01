@@ -27,18 +27,18 @@ module.exports = {
 						{
 							name: "Latency",
 							value: `
-						Bot Latency: **${Date.now() - interaction.createdTimestamp}** ms
-						API Latency: **${Math.round(client.ws.ping)}** ms
+						Bot Latency: \`${Date.now() - interaction.createdTimestamp}\` ms
+						API Latency: \`${Math.round(client.ws.ping)}\` ms
 					`,
 							inline: true,
 						},
 						{
 							name: "System",
 							value: `
-						CPU Usage: **${Math.round((percentage * 100) / os.cpuCount())}%**
-						Memory Usage: **${
+						CPU Usage: \`${Math.round((percentage * 100) / os.cpuCount())}%\`
+						Memory Usage: \`${
 							Math.round((process.memoryUsage().rss / 1024 / 1024) * 100) / 100
-						}** MB
+						}\` MB
 					`,
 							inline: true,
 						},
