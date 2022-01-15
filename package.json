@@ -36,7 +36,7 @@
 		"start": "node .",
 		"lint": "eslint .",
 		"prepare": "husky install",
-		"build": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build"
+		"build": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod"
 	},
 	"keywords": [],
 	"author": "",

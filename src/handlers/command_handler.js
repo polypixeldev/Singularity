@@ -38,7 +38,7 @@ export default async (Discord, client) => {
 				if (ent.isDirectory()) {
 					if (ent.name === command.name) continue;
 					let grp_meta = (
-						await import(`../commands/${command.name}/${ent.name}/.meta.js`)
+						await import(`../commands/${command.name}/${ent.name}/meta.json`)
 					).default;
 					let index =
 						slashCmd.options.push({
