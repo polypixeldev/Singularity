@@ -111,7 +111,9 @@ db.once("open", () => {
 		});
 
 		["command_handler", "event_handler", "util_handler"].forEach((handler) => {
-			require(`./handlers/${handler}`)(Discord, client, api);
+			import(`./handlers/${handler}`).then((func) =>
+				func.default(Discord, client, api)
+			);
 		});
 
 		cron.schedule("0 0 * * *", () => client.utils.checkActivity(client), {
