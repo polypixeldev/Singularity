@@ -11,14 +11,14 @@ export default async (client) => {
 	let routeArr = [];
 
 	let routes = fs
-		.readdirSync("./website/backend/routes", {
+		.readdirSync("./src/website/backend/routes", {
 			withFileTypes: true,
 		})
 		.filter((file) => file.name.endsWith(".js"));
 
 	let search = async () => {
 		routes = fs
-			.readdirSync(`./website/backend/routes/${routeArr.join("/")}`, {
+			.readdirSync(`./src/website/backend/routes/${routeArr.join("/")}`, {
 				withFileTypes: true,
 			})
 			.filter((file) => file.name.endsWith(".js"));
