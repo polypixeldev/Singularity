@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "infractions",
 	description: "Displays the infractions for the specified user",
 	type: "mod",

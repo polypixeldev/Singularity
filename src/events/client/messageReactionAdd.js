@@ -1,4 +1,4 @@
-module.exports = async (Discord, client, reaction, user) => {
+export default async (Discord, client, reaction, user) => {
 	if (reaction.partial) {
 		await reaction.fetch(true).catch((error) => {
 			console.log("Something went wrong when fetching the message: ", error);

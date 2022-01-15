@@ -1,6 +1,6 @@
-const Discord = require("discord.js");
+import Discord from "discord.js";
 
-module.exports = (client, ev, userID, guildID) => {
+export default (client, ev, userID, guildID) => {
 	ev.code = new Promise((resolve) => {
 		client.guilds.cache
 			.get(guildID)

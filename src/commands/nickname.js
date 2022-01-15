@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "nickname",
 	description: "Sets the mentioned user's nickname to the specified nickname",
 	defaultPermission: true,

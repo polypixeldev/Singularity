@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "view",
 	description: "The Singularity Shop",
 	type: "ms",

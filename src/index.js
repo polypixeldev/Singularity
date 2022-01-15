@@ -1,7 +1,11 @@
-require("dotenv").config();
+import APIClient from "./website/server";
+import cron from "node-cron";
+import dotenv from "dotenv";
+import Discord from "discord.js";
+import mongoose from "mongoose";
+import * as Sentry from "@sentry/node";
 
-const Sentry = require("@sentry/node");
-const Tracing = require("@sentry/tracing"); //eslint-disable-line
+dotenv.config();
 
 Sentry.init({
 	dsn: "https://d38245378f464bdeb3d02ca1cb6af6f9@o920118.ingest.sentry.io/5865017",
@@ -19,11 +23,6 @@ const startupTransaction = Sentry.startTransaction({
 Sentry.configureScope((scope) => {
 	scope.setSpan(startupTransaction);
 });
-
-const Discord = require("discord.js");
-const mongoose = require("mongoose");
-const cron = require("node-cron");
-const APIClient = require("./website/server.js");
 
 const client = new Discord.Client({
 	partials: ["REACTION", "MESSAGE", "CHANNEL"],

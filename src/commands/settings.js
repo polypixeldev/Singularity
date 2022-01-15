@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "settings",
 	type: "mod",
 	defaultPermission: true,

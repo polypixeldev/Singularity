@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "start",
 	description: "Start prestiging your Singularity!",
 	options: [],

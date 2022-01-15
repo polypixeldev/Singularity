@@ -1,4 +1,4 @@
-module.exports = (client, ev, userID, guildID, data) => {
+export default (client, ev, userID, guildID, data) => {
 	ev.code = new Promise((resolve) => {
 		client.guilds.cache
 			.get(guildID)

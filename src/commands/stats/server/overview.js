@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "overview",
 	description: "An overview of the current server's statistics",
 	options: [],

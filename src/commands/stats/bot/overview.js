@@ -1,6 +1,6 @@
-const prettyMS = require("pretty-ms");
-const os = require("os-utils");
-module.exports = {
+import prettyMS from "pretty-ms";
+import os from "os-utils";
+export default {
 	name: "overview",
 	description: "An overview of Singularity's statistics",
 	options: [],

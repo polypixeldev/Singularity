@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "reactionrole",
 	description: "Instantiates a new reaction role",
 	defaultPermission: true,

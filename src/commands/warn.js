@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "warn",
 	description: "Warn the specified user for the specified reason",
 	type: "mod",

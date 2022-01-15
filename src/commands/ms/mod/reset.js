@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "reset",
 	description: "Reset a user's or the entire server's My Singularity data",
 	options: [

@@ -1,11 +1,10 @@
-const Express = require("express");
-const EventEmitter = require("events");
-const bodyParser = require("body-parser");
-const fs = require("fs");
+import Express from "express";
+import { EventEmitter } from "events";
+import bodyParser from "body-parser";
+import fs from "fs";
+import apiRouter from "./backend/router";
 
-const apiRouter = require("./backend/router.js");
-
-class APIClient extends EventEmitter {
+export default class APIClient extends EventEmitter {
 	constructor(props) {
 		super(props);
 
@@ -46,9 +45,9 @@ class APIClient extends EventEmitter {
 		});
 	}
 
-	startBackend() {
+	async startBackend() {
 		this.app.use(bodyParser.json());
-		this.app.use("/api", apiRouter(this));
+		this.app.use("/api", await apiRouter(this));
 	}
 
 	startFrontend() {
@@ -59,16 +58,14 @@ class APIClient extends EventEmitter {
 		});
 	}
 
-	startFull() {
+	async startFull() {
 		let html = fs.readFileSync(__dirname + "/frontend/build/index.html");
 		this.app.use(Express.static(__dirname + "/frontend/build/"));
 
-		this.app.use("/api", apiRouter(this));
+		this.app.use("/api", await apiRouter(this));
 
 		this.app.use((req, res) => {
 			res.send(html);
 		});
 	}
 }
-
-module.exports = APIClient;

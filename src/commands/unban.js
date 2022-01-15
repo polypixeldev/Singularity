@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "unban",
 	description: "Unbans the tagged user",
 	defaultPermission: true,

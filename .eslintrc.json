@@ -5,7 +5,8 @@
 		"es6": true
 	},
 	"parserOptions": {
-		"ecmaVersion": 12
+		"ecmaVersion": 12,
+		"sourceType": "module"
 	},
 	"ignorePatterns": ["src/website/frontend/build/**/*"],
 	"rules": {}

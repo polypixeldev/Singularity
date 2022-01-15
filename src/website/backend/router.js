@@ -1,9 +1,9 @@
-const Express = require("express");
-const CORS = require("cors");
-const axios = require("axios").default;
-const fs = require("fs");
+import Express from "express";
+import CORS from "cors";
+import axios from "axios";
+import fs from "fs";
 
-module.exports = (client) => {
+export default async (client) => {
 	const router = Express.Router();
 
 	let corsOptions = {};
@@ -16,7 +16,7 @@ module.exports = (client) => {
 		})
 		.filter((file) => file.name.endsWith(".js"));
 
-	let search = () => {
+	let search = async () => {
 		routes = fs
 			.readdirSync(`./website/backend/routes/${routeArr.join("/")}`, {
 				withFileTypes: true,
@@ -28,7 +28,7 @@ module.exports = (client) => {
 				routeArr.push(ent.name);
 				search();
 			} else {
-				let exec = require(`./routes/${routeArr.join("/")}/${ent.name}`);
+				let exec = await import(`./routes/${routeArr.join("/")}/${ent.name}`);
 
 				router.all(
 					`${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`,
@@ -47,7 +47,7 @@ module.exports = (client) => {
 		}
 	};
 
-	search();
+	await search();
 
 	return router;
 };

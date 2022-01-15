@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "say",
 	description: "The bot says the message you pass in",
 	defaultPermission: true,

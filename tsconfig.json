@@ -2,7 +2,10 @@
 	"compilerOptions": {
 		"outDir": "./prod",
 		"allowJs": true,
-		"target": "es6"
+		"target": "ES6",
+		"module": "CommonJS",
+		"esModuleInterop": true,
+		"skipLibCheck": true
 	},
 	"include": ["./src/**/*"]
 }

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "leavemessage",
 	description: "Change the server's message for when a member leaves",
 	type: "mod",

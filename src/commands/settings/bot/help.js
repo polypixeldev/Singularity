@@ -1,6 +1,6 @@
-const nickname = require("../../nickname.js");
-const kick = require("./kick.js");
-module.exports = {
+import nickname from "../../nickname";
+import kick from "./kick";
+export default {
 	name: "help",
 	description: "Singularity Bot Settings",
 	type: "mod",

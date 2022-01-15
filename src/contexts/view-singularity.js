@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "View Singularity",
 	type: "USER",
 	execute(client, Discord, interaction, serverDoc) {

@@ -1,4 +1,4 @@
-module.exports = async (client) => {
+export default async (client) => {
 	const inactivityTimeout = 1000 * 60 * 60 * 24 * 14;
 	let inactives = await client.userModel.find({
 		activity: { $lte: new Date(new Date().getTime() - inactivityTimeout) },

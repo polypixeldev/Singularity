@@ -1,5 +1,6 @@
-const { BitField } = require("discord.js");
-module.exports = (discord, client, req, res) => {
+import { BitField } from "discord.js";
+
+export default (discord, client, req, res) => {
 	discord
 		.get("https://discord.com/api/users/@me")
 		.then((apiRes) => {

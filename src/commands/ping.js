@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "ping",
 	description: "Responds with the bot's latency and the API latency",
 	defaultPermission: true,

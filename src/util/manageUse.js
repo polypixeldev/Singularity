@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	activate(client, Discord, userDoc, item) {
 		for (let i = 0; i < userDoc.items.length; i++) {
 			if (userDoc.items[i] === item.name) {

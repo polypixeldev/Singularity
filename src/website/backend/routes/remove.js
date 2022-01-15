@@ -1,4 +1,4 @@
-module.exports = (discord, client, req, res) => {
+export default (discord, client, req, res) => {
 	discord
 		.get("https://discord.com/api/users/@me")
 		.then(async (apiRes) => {

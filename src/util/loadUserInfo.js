@@ -1,4 +1,4 @@
-module.exports = (client, serverDoc, id) => {
+export default (client, serverDoc, id) => {
 	return new Promise((resolve, reject) => {
 		client.userModel
 			.findOne({ userID: id, guildID: serverDoc.guildID })

@@ -14,7 +14,7 @@ function getTimeRemaining(endtime) {
 	};
 }
 
-module.exports = {
+export default {
 	name: "status",
 	description: "Displays the current Explore status",
 	options: [],

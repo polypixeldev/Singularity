@@ -1,6 +1,6 @@
-const prettyMS = require("pretty-ms");
+import prettyMS from "pretty-ms";
 
-module.exports = {
+export default {
 	name: "view",
 	description: "View people's Singularity!",
 	options: [

@@ -3,10 +3,11 @@
 	"version": "0.1.0",
 	"description": "A free, easy to use Discord bot",
 	"repository": "https://github.com/Poly-Pixel/Singularity",
-	"main": "index.js",
+	"main": "./prod/index.js",
 	"dependencies": {
 		"@sentry/node": "^6.16.1",
 		"@sentry/tracing": "^6.15.0",
+		"@types/node": "^17.0.8",
 		"axios": "^0.24.0",
 		"body-parser": "^1.19.1",
 		"bufferutil": "^4.0.6",

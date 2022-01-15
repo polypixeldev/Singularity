@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "sell",
 	description: "Sell an item to the Singularity Shop!",
 	type: "ms",

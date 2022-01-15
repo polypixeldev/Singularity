@@ -1,4 +1,4 @@
-module.exports = (client, guildResolvable) => {
+export default (client, guildResolvable) => {
 	return new Promise((resolve, reject) => {
 		let guild = client.guilds.resolve(guildResolvable);
 		client.serverModel

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "kick",
 	description: "Kicks the mentioned user",
 	defaultPermission: true,

@@ -1,6 +1,6 @@
-const fs = require("fs");
+import fs from "fs";
 
-module.exports = (Discord, client) => {
+export default async (Discord, client) => {
 	console.log("Loading Slash (/) Command Data...");
 	console.time("Finished Loading Slash (/) Command Data in");
 
@@ -10,7 +10,7 @@ module.exports = (Discord, client) => {
 
 	let basicCmds = new Discord.Collection();
 	for (const file of command_files) {
-		const command = require(`../commands/${file}`);
+		const command = await import(`../commands/${file}`);
 		if (command.name) {
 			basicCmds.set(command.name, command);
 		} else {

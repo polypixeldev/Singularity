@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "credits",
 	description: "Credits to the makers of this bot",
 	defaultPermission: true,

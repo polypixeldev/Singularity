@@ -1,3 +1,3 @@
-module.exports = {
+export default {
 	description: "Singularity Server Settings",
 };

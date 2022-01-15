@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "set",
 	description:
 		"Set the protons/electrons/dark matter of other My Singularity users",

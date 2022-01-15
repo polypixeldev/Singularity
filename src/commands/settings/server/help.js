@@ -1,6 +1,6 @@
-const welcomeMessage = require("./welcomemessage.js");
-const leaveMessage = require("./leavemessage.js");
-module.exports = {
+import welcomeMessage from "./welcomemessage";
+import leaveMessage from "./leavemessage";
+export default {
 	name: "help",
 	description: "Singularity Server Settings",
 	type: "ms",

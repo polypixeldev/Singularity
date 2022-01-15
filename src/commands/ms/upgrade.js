@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "upgrade",
 	description: "Upgrade your Singularity!",
 	type: "ms",

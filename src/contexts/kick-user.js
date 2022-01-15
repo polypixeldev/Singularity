@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "Kick User",
 	type: "USER",
 	execute(client, Discord, interaction, serverDoc) {

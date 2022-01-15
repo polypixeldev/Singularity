@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "leaderboard",
 	description: "Shows the server leaderboard",
 	defaultPermission: true,

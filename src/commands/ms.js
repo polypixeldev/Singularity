@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "ms",
 	description: "Manage your Singularity and view the Singularities of others!",
 	defaultPermission: true,

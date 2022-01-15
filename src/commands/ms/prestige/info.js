@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "info",
 	description: "Provides information on My Singularity Prestige",
 	options: [],

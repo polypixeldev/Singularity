@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "rare",
 	description: "Display the list of Rare Items",
 	type: "ms",

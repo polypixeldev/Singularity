@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "info",
 	description: "Display information about My Singularity",
 	defaultPermission: true,

@@ -1,6 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+import { MessageEmbed } from "discord.js";
 
-class BaseEmbed extends MessageEmbed {
+export default class BaseEmbed extends MessageEmbed {
 	constructor(title, user) {
 		super();
 		const currentDate = new Date(Date.now());
@@ -14,5 +14,3 @@ class BaseEmbed extends MessageEmbed {
 		);
 	}
 }
-
-module.exports = BaseEmbed;

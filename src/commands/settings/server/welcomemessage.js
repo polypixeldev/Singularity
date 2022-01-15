@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "welcomemessage",
 	description: "Change the server's message for when a memeber joins",
 	type: "mod",

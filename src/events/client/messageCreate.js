@@ -2,8 +2,7 @@ const cooldowns = {};
 
 const levelArr = [200, 500, 1000, 2000, 5000, 9000, 14000, 20000, 28000, 40000];
 
-//eslint-disable-next-line no-unused-vars
-let cooldownInterval = setInterval(() => {
+setInterval(() => {
 	for (let person in cooldowns) {
 		if (cooldowns[person] > 0) cooldowns[person]--;
 	}
@@ -32,7 +31,7 @@ function splitCommandLine(commandLine) {
 	return paramArray;
 }
 
-module.exports = async (Discord, client, msg) => {
+export default async (Discord, client, msg) => {
 	if (msg.author.bot || msg.channel.type === "DM") return;
 	let userMS;
 	let serverDoc;

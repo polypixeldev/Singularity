@@ -1,4 +1,4 @@
-module.exports = async (Discord, client, channel) => {
+export default async (Discord, client, channel) => {
 	await channel.guild.roles.fetch();
 
 	let muteRole = channel.guild.roles.cache.find((rl) => rl.name === "Muted");

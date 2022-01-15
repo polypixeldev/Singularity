@@ -11,7 +11,7 @@ const optMapping = {
 	10: "🔟",
 };
 
-module.exports = {
+export default {
 	name: "results",
 	description: "Shows the results of a poll",
 	options: [

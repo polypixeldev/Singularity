@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "stats",
 	description: "Displays statistics about Singularity and the current server",
 	type: "general",

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	name: "poll",
 	description: "Manage polls",
 	type: "general",
