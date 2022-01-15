@@ -5,12 +5,12 @@ export default async (Discord, client) => {
 	console.time("Finished Loading Slash (/) Command Data in");
 
 	const command_files = fs
-		.readdirSync("./commands/")
+		.readdirSync("./prod/commands/")
 		.filter((file) => file.endsWith("js"));
 
 	let basicCmds = new Discord.Collection();
 	for (const file of command_files) {
-		const command = await import(`../commands/${file}`);
+		const command = (await import(`../commands/${file}`)).default;
 		if (command.name) {
 			basicCmds.set(command.name, command);
 		} else {
@@ -19,7 +19,7 @@ export default async (Discord, client) => {
 	}
 
 	client.user.id = process.env.CLIENT_ID;
-	let slashCommands = basicCmds.map((command) => {
+	let slashCommands = basicCmds.map(async (command) => {
 		let slashCmd = {
 			name: command.name,
 			type: command.type,
@@ -30,14 +30,16 @@ export default async (Discord, client) => {
 			notes: command.notes,
 			slashExecute: command.slashExecute,
 		};
-		if (fs.existsSync(`./commands/${command.name}/`)) {
-			let sub_dir = fs.readdirSync(`./commands/${command.name}/`, {
+		if (fs.existsSync(`./prod/commands/${command.name}/`)) {
+			let sub_dir = fs.readdirSync(`./prod/commands/${command.name}/`, {
 				withFileTypes: true,
 			});
 			for (let ent of sub_dir) {
 				if (ent.isDirectory()) {
 					if (ent.name === command.name) continue;
-					let grp_meta = require(`../commands/${command.name}/${ent.name}/.meta.js`);
+					let grp_meta = (
+						await import(`../commands/${command.name}/${ent.name}/.meta.js`)
+					).default;
 					let index =
 						slashCmd.options.push({
 							name: ent.name,
@@ -46,11 +48,13 @@ export default async (Discord, client) => {
 							options: [],
 						}) - 1;
 					let subgrp_cmds = fs
-						.readdirSync(`./commands/${command.name}/${ent.name}/`)
+						.readdirSync(`./prod/commands/${command.name}/${ent.name}/`)
 						.filter((file) => file.endsWith("js"));
 					for (let subgrp_cmd_name of subgrp_cmds) {
 						if (subgrp_cmd_name === ".meta.js") continue;
-						const subgrp_cmd = require(`../commands/${command.name}/${ent.name}/${subgrp_cmd_name}`);
+						const subgrp_cmd = await import(
+							`../commands/${command.name}/${ent.name}/${subgrp_cmd_name}`
+						);
 						slashCmd.options[index].options.push({
 							name: subgrp_cmd.name,
 							description: subgrp_cmd.description,
@@ -62,7 +66,9 @@ export default async (Discord, client) => {
 						});
 					}
 				} else if (ent.name.endsWith("js")) {
-					let sub_cmd = require(`../commands/${command.name}/${ent.name}`);
+					let sub_cmd = (
+						await import(`../commands/${command.name}/${ent.name}`)
+					).default;
 					slashCmd.options.push({
 						name: sub_cmd.name,
 						description: sub_cmd.description,
@@ -85,7 +91,7 @@ export default async (Discord, client) => {
 	console.time("Finished Loading Context Menu Data in");
 
 	const context_files = fs
-		.readdirSync("./contexts/")
+		.readdirSync("./prod/contexts/")
 		.filter((file) => file.endsWith("js"));
 
 	for (const file of context_files) {
