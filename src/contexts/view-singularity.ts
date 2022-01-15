@@ -1,8 +1,8 @@
 export default {
 	name: "View Singularity",
 	type: "USER",
-	execute(client, Discord, interaction, serverDoc) {
-		require("../commands/ms/view.js").slashExecute(
+	async execute(client, Discord, interaction, serverDoc) {
+		(await import("../commands/ms/view.js")).default.slashExecute(
 			client,
 			Discord,
 			interaction,

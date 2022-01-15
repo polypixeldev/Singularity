@@ -95,7 +95,7 @@ export default async (Discord, client) => {
 		.filter((file) => file.endsWith("js"));
 
 	for (const file of context_files) {
-		const context = require(`../contexts/${file}`);
+		const context = (await import(`../contexts/${file}`)).default;
 		if (context.name) {
 			client.contexts.set(context.name, context);
 			slashCommands.push({

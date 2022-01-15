@@ -1,8 +1,8 @@
 export default {
 	name: "Unmute User",
 	type: "USER",
-	execute(client, Discord, interaction, serverDoc) {
-		require("../commands/unmute.js").slashExecute(
+	async execute(client, Discord, interaction, serverDoc) {
+		(await import("../commands/unmute.js")).default.slashExecute(
 			client,
 			Discord,
 			interaction,

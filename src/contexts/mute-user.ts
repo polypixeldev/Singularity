@@ -1,8 +1,8 @@
 export default {
 	name: "Mute User",
 	type: "USER",
-	execute(client, Discord, interaction, serverDoc) {
-		require("../commands/mute.js").slashExecute(
+	async execute(client, Discord, interaction, serverDoc) {
+		(await import("../commands/mute.js")).default.slashExecute(
 			client,
 			Discord,
 			interaction,

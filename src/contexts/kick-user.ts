@@ -1,8 +1,8 @@
 export default {
 	name: "Kick User",
 	type: "USER",
-	execute(client, Discord, interaction, serverDoc) {
-		require("../commands/kick.js").slashExecute(
+	async execute(client, Discord, interaction, serverDoc) {
+		(await import("../commands/kick.js")).default.slashExecute(
 			client,
 			Discord,
 			interaction,
