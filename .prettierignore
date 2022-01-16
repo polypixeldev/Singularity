@@ -1,4 +1,5 @@
 .prettierignore
+.eslintignore
 .gitignore
 .husky
 LICENSE
