@@ -9,16 +9,16 @@ export default {
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 		await serverDoc.populate("ms");
-		let xpArr = [];
-		for (let user of serverDoc.ms) {
+		const xpArr = [];
+		for (const user of serverDoc.ms) {
 			if (user.userID) {
-				let member = await interaction.guild.members.fetch(user.userID);
+				const member = await interaction.guild.members.fetch(user.userID);
 				if (member) {
 					xpArr.push([member.user.tag, user.lifeExp]);
 				}
 			}
 		}
-		let sort = xpArr.sort((a, b) => b[1] - a[1]);
+		const sort = xpArr.sort((a, b) => b[1] - a[1]);
 
 		let lbStr = ``;
 

@@ -7,14 +7,17 @@ export default {
 
 		await serverDoc.populate("ms");
 
-		let totalProtons = serverDoc.ms.reduce((acc, val) => acc + val.protons, 0);
+		const totalProtons = serverDoc.ms.reduce(
+			(acc, val) => acc + val.protons,
+			0
+		);
 
-		let totalElectrons = serverDoc.ms.reduce(
+		const totalElectrons = serverDoc.ms.reduce(
 			(acc, val) => acc + val.electrons,
 			0
 		);
 
-		let totalDarkMatter = serverDoc.ms.reduce(
+		const totalDarkMatter = serverDoc.ms.reduce(
 			(acc, val) => acc + val.darkMatter,
 			0
 		);

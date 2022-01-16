@@ -21,7 +21,7 @@ export default {
 	example: "ms shop sell trophy",
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		let userMS = await client.utils.loadUserInfo(
+		const userMS = await client.utils.loadUserInfo(
 			client,
 			serverDoc,
 			interaction.user.id
@@ -30,7 +30,7 @@ export default {
 
 		const items = serverDoc.items;
 
-		for (let item of items) {
+		for (const item of items) {
 			if (
 				item.name === interaction.options.get("item").value &&
 				item.rare !== true
@@ -65,9 +65,9 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		let protons = (selectedItem.protons * quantity) / 2;
-		let electrons = (selectedItem.electrons * quantity) / 2;
-		let darkMatter = (selectedItem.darkMatter * quantity) / 2;
+		const protons = (selectedItem.protons * quantity) / 2;
+		const electrons = (selectedItem.electrons * quantity) / 2;
+		const darkMatter = (selectedItem.darkMatter * quantity) / 2;
 
 		let removed = 0;
 

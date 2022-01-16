@@ -47,7 +47,7 @@ export default {
 			}
 		}
 
-		let welcomeChannel = interaction.options.get("channel").channel;
+		const welcomeChannel = interaction.options.get("channel").channel;
 
 		if (!welcomeChannel.isText()) {
 			const embed = new Discord.MessageEmbed()

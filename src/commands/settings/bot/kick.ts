@@ -23,7 +23,7 @@ export default {
 				errors: ["time"],
 			})
 			.then((collection) => {
-				let message = collection.first();
+				const message = collection.first();
 				if (message.content === "Y") {
 					const embed = new client.utils.BaseEmbed(
 						"Singularity Kick",

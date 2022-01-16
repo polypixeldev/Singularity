@@ -61,7 +61,7 @@ export default {
 		"number of days cannot be longer than 7 - if days are omitted, mentioned user will be banned indefinitely",
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply();
-		let user = interaction.options.get("user");
+		const user = interaction.options.get("user");
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()

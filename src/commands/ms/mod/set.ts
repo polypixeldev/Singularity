@@ -54,10 +54,10 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		let user = interaction.options.get("user").user;
-		let type = interaction.options.get("type").value;
-		let value = interaction.options.get("value").value;
-		let mode = value.startsWith("+")
+		const user = interaction.options.get("user").user;
+		const type = interaction.options.get("type").value;
+		const value = interaction.options.get("value").value;
+		const mode = value.startsWith("+")
 			? "add"
 			: value.startsWith("-")
 			? "subtract"
@@ -71,7 +71,7 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
+		const userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
 
 		if (mode === "add") {
 			userMS[type] += Number(value.slice(1));

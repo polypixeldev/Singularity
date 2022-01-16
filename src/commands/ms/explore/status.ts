@@ -33,7 +33,7 @@ export default {
 				24 - currentDate.getHours()
 			)
 		); //add 6 days to get last day
-		let timeRemaining = getTimeRemaining(weekEnd);
+		const timeRemaining = getTimeRemaining(weekEnd);
 
 		const embed = new client.utils.BaseEmbed(
 			"My Singularity Explore Status",

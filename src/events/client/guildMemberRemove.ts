@@ -4,11 +4,11 @@ export default async (Discord, client, member) => {
 	if (!channel) return;
 	const tagRegex = /{tag}/g;
 	const nameRegex = /{name}/g;
-	let leaveMsg1 = serverDoc.leaveMessage.replace(
+	const leaveMsg1 = serverDoc.leaveMessage.replace(
 		tagRegex,
 		`${member.user.tag}`
 	);
-	let leaveMsg2 = leaveMsg1.replace(nameRegex, `${member.user.username}`);
+	const leaveMsg2 = leaveMsg1.replace(nameRegex, `${member.user.username}`);
 
 	channel.send({ content: leaveMsg2 });
 };

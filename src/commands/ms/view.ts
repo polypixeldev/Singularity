@@ -13,7 +13,7 @@ export default {
 	],
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		let user = interaction.options.get("user")?.user ?? interaction.user;
+		const user = interaction.options.get("user")?.user ?? interaction.user;
 		if (user.bot) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
@@ -23,16 +23,16 @@ export default {
 
 			return interaction.editReply({ embeds: [embed] });
 		}
-		let userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
+		const userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
 
 		let itemStr = "\n";
-		for (let item of userMS.items) {
+		for (const item of userMS.items) {
 			itemStr = itemStr + `- **${item}** \n `;
 		}
 		if (itemStr === "\n") itemStr = "**None**";
 
 		let aStr = "\n";
-		for (let a of userMS.active) {
+		for (const a of userMS.active) {
 			aStr =
 				aStr +
 				`- **${a.name}** - ${prettyMS(
@@ -42,7 +42,7 @@ export default {
 		if (aStr === "\n") aStr = "**None**";
 
 		let rareStr = "";
-		for (let rare of userMS.rareItems) {
+		for (const rare of userMS.rareItems) {
 			rareStr = rareStr + "\n";
 			rareStr = rareStr + `- **${rare.name}**`;
 		}

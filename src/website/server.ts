@@ -51,7 +51,7 @@ export default class APIClient extends EventEmitter {
 	}
 
 	startFrontend() {
-		let html = fs.readFileSync(__dirname + "/frontend/build/index.html");
+		const html = fs.readFileSync(__dirname + "/frontend/build/index.html");
 		this.app.use(Express.static("./frontend/build/"));
 		this.app.use((req, res) => {
 			res.send(html);
@@ -59,7 +59,7 @@ export default class APIClient extends EventEmitter {
 	}
 
 	async startFull() {
-		let html = fs.readFileSync(__dirname + "/frontend/build/index.html");
+		const html = fs.readFileSync(__dirname + "/frontend/build/index.html");
 		this.app.use(Express.static(__dirname + "/frontend/build/"));
 
 		this.app.use("/api", await apiRouter(this));

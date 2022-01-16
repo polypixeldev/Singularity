@@ -104,7 +104,7 @@ export default {
 
 					if (subcommand?.options.length ?? command.options.length > 0) {
 						argString = ``;
-						for (let arg of subcommand?.options ?? command.options) {
+						for (const arg of subcommand?.options ?? command.options) {
 							if (arg.type === "SUB_COMMAND_GROUP") {
 								subGrpStr = subGrpStr + ` - ${arg.name} \n`;
 							} else if (arg.type === "SUB_COMMAND") {
@@ -147,7 +147,7 @@ export default {
 					return interaction.editReply({ embeds: [embed] });
 				} else if (group) {
 					let subStr = "";
-					for (let subcmd of group.options) {
+					for (const subcmd of group.options) {
 						subStr = subStr + ` - **${subcmd.name}** \n`;
 					}
 
@@ -219,29 +219,29 @@ export default {
 				}
 			}
 		} else {
-			let generalEmbed = new client.utils.BaseEmbed(
+			const generalEmbed = new client.utils.BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setTitle("Singularity General Commands");
 
-			let modEmbed = new client.utils.BaseEmbed(
+			const modEmbed = new client.utils.BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setTitle("Singularity Moderation Commands");
 
-			let msEmbed = new client.utils.BaseEmbed(
+			const msEmbed = new client.utils.BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setTitle("My Singularity Commands");
 
-			for (let command of client.commands) {
+			for (const command of client.commands) {
 				if (command[1].type === "general") {
 					let desc = [];
 
-					for (let option of command[1].options) {
+					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
-							for (let subcmd of option.options) {
+							for (const subcmd of option.options) {
 								desc.push(
 									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
 								);
@@ -260,10 +260,10 @@ export default {
 				} else if (command[1].type === "mod") {
 					let desc = [];
 
-					for (let option of command[1].options) {
+					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
-							for (let subcmd of option.options) {
+							for (const subcmd of option.options) {
 								desc.push(
 									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
 								);
@@ -282,10 +282,10 @@ export default {
 				} else if (command[1].type === "ms") {
 					let desc = [];
 
-					for (let option of command[1].options) {
+					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
-							for (let subcmd of option.options) {
+							for (const subcmd of option.options) {
 								desc.push(
 									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
 								);
@@ -314,7 +314,7 @@ export default {
         			`
 			);
 
-			let components = [
+			const components = [
 				{
 					type: "ACTION_ROW",
 					components: [
@@ -350,7 +350,7 @@ export default {
 					components: components,
 				})
 				.then((sent) => {
-					let collector = sent.createMessageComponentCollector({
+					const collector = sent.createMessageComponentCollector({
 						componentType: "SELECT_MENU",
 						time: 300000,
 						dispose: true,

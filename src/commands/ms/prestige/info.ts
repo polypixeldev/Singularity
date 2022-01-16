@@ -6,12 +6,12 @@ export default {
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
-		let userMS = await client.utils.loadUserInfo(
+		const userMS = await client.utils.loadUserInfo(
 			client,
 			serverDoc,
 			interaction.user.id
 		);
-		let baseReq =
+		const baseReq =
 			(userMS.singularity.prestige + 2) *
 			((userMS.singularity.prestige + 2) * 2);
 

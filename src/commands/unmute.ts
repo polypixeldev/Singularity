@@ -24,7 +24,7 @@ export default {
 	notes: "user must be mentioned",
 	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply();
-		let user = interaction.options.get("user").user;
+		const user = interaction.options.get("user").user;
 
 		const member = interaction.guild.members.resolve(user);
 

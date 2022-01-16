@@ -8,13 +8,13 @@ export default {
 	example: "ms upgrade",
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		let userMS = await client.utils.loadUserInfo(
+		const userMS = await client.utils.loadUserInfo(
 			client,
 			serverDoc,
 			interaction.user.id
 		);
 		let limit = -1;
-		let remaining = {
+		const remaining = {
 			protons: userMS.protons,
 			electrons: userMS.electrons,
 		};
@@ -50,7 +50,7 @@ export default {
 		`
 		);
 
-		let components = [
+		const components = [
 			{
 				type: "ACTION_ROW",
 				components: [
@@ -109,7 +109,7 @@ export default {
 							embeds: [embed],
 							components: components,
 						});
-						let num = Number(selectionInteraction.values[0]);
+						const num = Number(selectionInteraction.values[0]);
 
 						if (num > limit) {
 							const embed = new Discord.MessageEmbed()

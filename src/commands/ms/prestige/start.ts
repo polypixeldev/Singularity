@@ -6,13 +6,13 @@ export default {
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
-		let userMS = await client.utils.loadUserInfo(
+		const userMS = await client.utils.loadUserInfo(
 			client,
 			serverDoc,
 			interaction.user.id
 		);
 
-		let baseReq =
+		const baseReq =
 			(userMS.singularity.prestige + 2) *
 			((userMS.singularity.prestige + 2) * 2);
 
@@ -31,7 +31,7 @@ export default {
 					  If not, click \`No\`
 				  `);
 
-			let confirmation = await interaction.editReply({
+			const confirmation = await interaction.editReply({
 				embeds: [firstEmbed],
 				components: [
 					{
@@ -66,7 +66,7 @@ export default {
 							client,
 							interaction.guild
 						);
-						let newUserMS = await client.utils.loadUserInfo(
+						const newUserMS = await client.utils.loadUserInfo(
 							client,
 							newServerDoc,
 							interaction.user.id
@@ -171,8 +171,7 @@ export default {
 
 						return answer.editReply({ embeds: [embed] });
 					}
-				})
-				.catch(() => {});
+				});
 		} else {
 			const embed = new Discord.MessageEmbed().setColor(0x000000)
 				.setDescription(`

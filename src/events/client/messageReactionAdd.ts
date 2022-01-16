@@ -23,7 +23,7 @@ export default async (Discord, client, reaction, user) => {
 			if (reaction.emoji.name === roleListener[i][1]) {
 				const member = reaction.message.guild.members.resolve(user);
 				await reaction.message.guild.roles.fetch();
-				let roleToAddToMember = reaction.message.guild.roles.cache.find(
+				const roleToAddToMember = reaction.message.guild.roles.cache.find(
 					(role) => role.name === roleListener[i][0]
 				);
 				member.roles.add(roleToAddToMember.id);

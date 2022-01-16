@@ -21,7 +21,7 @@ export default {
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply();
 
-		let user = interaction.options.get("user");
+		const user = interaction.options.get("user");
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
@@ -37,7 +37,7 @@ export default {
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		let userDoc = await client.utils.loadUserInfo(
+		const userDoc = await client.utils.loadUserInfo(
 			client,
 			serverDoc,
 			user.user.id

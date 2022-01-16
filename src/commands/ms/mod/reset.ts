@@ -13,7 +13,7 @@ export default {
 	example: "ms mod reset @user",
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		let user = interaction.options.get("user").user;
+		const user = interaction.options.get("user").user;
 
 		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
 			const embed = new Discord.MessageEmbed()
@@ -67,7 +67,7 @@ export default {
 						await press.deferUpdate();
 						if (press.customId === "yes") {
 							if (user.id !== process.env.CLIENT_ID) {
-								let userDoc = await client.utils.loadUserInfo(
+								const userDoc = await client.utils.loadUserInfo(
 									client,
 									serverDoc,
 									user.id

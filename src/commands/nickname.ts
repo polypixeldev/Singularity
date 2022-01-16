@@ -34,7 +34,7 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		let user = interaction.options.get("user").user;
+		const user = interaction.options.get("user").user;
 
 		const member = interaction.options.get("user").member;
 

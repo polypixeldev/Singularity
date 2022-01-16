@@ -35,7 +35,7 @@ export default {
 				],
 			})
 			.then((reply) => {
-				let collector = reply.createMessageComponentCollector({
+				const collector = reply.createMessageComponentCollector({
 					componentType: "BUTTON",
 					time: 300000,
 					dispose: true,

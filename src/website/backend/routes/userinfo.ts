@@ -19,14 +19,14 @@ export default (discord, client, req, res) => {
 					discord
 						.get(`https://discord.com/api/users/@me/guilds`)
 						.then(async (guildsRes) => {
-							let promises = [];
+							const promises = [];
 							for (let i = 0; i < guildsRes.data.length; i++) {
-								let ev = { available: false, data: null };
+								const ev = { available: false, data: null };
 
 								client.emit("guildAvailable", ev, guildsRes.data[i].id);
 
 								guildsRes.data[i].available = ev.available;
-								let permissions = new BitField(guildsRes.data[i].permissions);
+								const permissions = new BitField(guildsRes.data[i].permissions);
 								guildsRes.data[i].manageable = permissions.has(1 << 5);
 								if (ev.data)
 									promises.push(

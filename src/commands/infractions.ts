@@ -14,7 +14,7 @@ export default {
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
-		let user = interaction.options.get("user");
+		const user = interaction.options.get("user");
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
@@ -42,8 +42,8 @@ export default {
 		);
 
 		if (userDoc.infractions.length > 0) {
-			for (let infraction of userDoc.infractions) {
-				let timestamp = new Date(infraction.timestamp);
+			for (const infraction of userDoc.infractions) {
+				const timestamp = new Date(infraction.timestamp);
 				embed.addField(
 					`**${timestamp.getUTCMonth()}/${timestamp.getUTCDate()}/${timestamp.getUTCFullYear()}** - ${
 						infraction.type

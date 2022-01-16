@@ -1,6 +1,6 @@
 export default (client, guildResolvable) => {
 	return new Promise((resolve, reject) => {
-		let guild = client.guilds.resolve(guildResolvable);
+		const guild = client.guilds.resolve(guildResolvable);
 		client.serverModel
 			.findOne({ guildID: guild.id })
 			.exec()

@@ -47,10 +47,10 @@ export default {
 
 				return interaction.editReply({ embeds: [embed] });
 			}
-			let banArr = bans.map((banInfo) => banInfo.user.tag);
+			const banArr = bans.map((banInfo) => banInfo.user.tag);
 			let banListStr = "";
 
-			for (let ban of banArr) {
+			for (const ban of banArr) {
 				banListStr = banListStr + ` **- ${ban}** \n`;
 			}
 

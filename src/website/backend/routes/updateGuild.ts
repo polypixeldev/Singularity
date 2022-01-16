@@ -2,7 +2,7 @@ export default (discord, client, req, res) => {
 	discord
 		.get("https://discord.com/api/users/@me")
 		.then(async (apiRes) => {
-			let ev = { code: 1 };
+			const ev = { code: 1 };
 			client.emit(
 				"updateGuild",
 				ev,

@@ -8,7 +8,7 @@ export default async (Discord, client) => {
 		.readdirSync("./prod/commands/")
 		.filter((file) => file.endsWith("js"));
 
-	let basicCmds = new Discord.Collection();
+	const basicCmds = new Discord.Collection();
 	for (const file of command_files) {
 		const command = (await import(`../commands/${file}`)).default;
 		if (command.name) {
@@ -19,8 +19,8 @@ export default async (Discord, client) => {
 	}
 
 	client.user.id = process.env.CLIENT_ID;
-	let slashCommands = basicCmds.map(async (command) => {
-		let slashCmd = {
+	const slashCommands = basicCmds.map(async (command) => {
+		const slashCmd = {
 			name: command.name,
 			type: command.type,
 			description: command.description,
@@ -31,26 +31,26 @@ export default async (Discord, client) => {
 			slashExecute: command.slashExecute,
 		};
 		if (fs.existsSync(`./prod/commands/${command.name}/`)) {
-			let sub_dir = fs.readdirSync(`./prod/commands/${command.name}/`, {
+			const sub_dir = fs.readdirSync(`./prod/commands/${command.name}/`, {
 				withFileTypes: true,
 			});
-			for (let ent of sub_dir) {
+			for (const ent of sub_dir) {
 				if (ent.isDirectory()) {
 					if (ent.name === command.name) continue;
-					let grp_meta = (
+					const grp_meta = (
 						await import(`../commands/${command.name}/${ent.name}/meta.json`)
 					).default;
-					let index =
+					const index =
 						slashCmd.options.push({
 							name: ent.name,
 							description: grp_meta.description,
 							type: "SUB_COMMAND_GROUP",
 							options: [],
 						}) - 1;
-					let subgrp_cmds = fs
+					const subgrp_cmds = fs
 						.readdirSync(`./prod/commands/${command.name}/${ent.name}/`)
 						.filter((file) => file.endsWith("js"));
-					for (let subgrp_cmd_name of subgrp_cmds) {
+					for (const subgrp_cmd_name of subgrp_cmds) {
 						if (subgrp_cmd_name === ".meta.js") continue;
 						const subgrp_cmd = await import(
 							`../commands/${command.name}/${ent.name}/${subgrp_cmd_name}`
@@ -66,7 +66,7 @@ export default async (Discord, client) => {
 						});
 					}
 				} else if (ent.name.endsWith("js")) {
-					let sub_cmd = (
+					const sub_cmd = (
 						await import(`../commands/${command.name}/${ent.name}`)
 					).default;
 					slashCmd.options.push({

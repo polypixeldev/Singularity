@@ -13,11 +13,11 @@ export default {
 				start: Date.now(),
 			});
 			setTimeout(async () => {
-				let newServerDoc = await client.utils.loadGuildInfo(
+				const newServerDoc = await client.utils.loadGuildInfo(
 					client,
 					userDoc.guildID
 				);
-				let newUserDoc = await client.utils.loadUserInfo(
+				const newUserDoc = await client.utils.loadUserInfo(
 					client,
 					newServerDoc,
 					userDoc.userID
@@ -46,7 +46,7 @@ export default {
 
 		switch (item.name) {
 			case "instant": {
-				let random = Math.round(Math.random() * 100);
+				const random = Math.round(Math.random() * 100);
 				userDoc.protons += random;
 				userDoc.electrons += Math.round(random / 2.5);
 

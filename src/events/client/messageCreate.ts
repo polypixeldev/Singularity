@@ -3,18 +3,18 @@ const cooldowns = {};
 const levelArr = [200, 500, 1000, 2000, 5000, 9000, 14000, 20000, 28000, 40000];
 
 setInterval(() => {
-	for (let person in cooldowns) {
+	for (const person in cooldowns) {
 		if (cooldowns[person] > 0) cooldowns[person]--;
 	}
 }, 1000);
 
 function splitCommandLine(commandLine) {
-	var doubleDoubleQuote = "<DDQ>";
+	let doubleDoubleQuote = "<DDQ>";
 	while (commandLine.indexOf(doubleDoubleQuote) > -1) doubleDoubleQuote += "@";
-	var noDoubleDoubleQuotes = commandLine.replace(/""/g, doubleDoubleQuote);
-	var spaceMarker = "<SP>";
+	const noDoubleDoubleQuotes = commandLine.replace(/""/g, doubleDoubleQuote);
+	let spaceMarker = "<SP>";
 	while (commandLine.indexOf(spaceMarker) > -1) spaceMarker += "@";
-	var noSpacesInQuotes = noDoubleDoubleQuotes.replace(
+	const noSpacesInQuotes = noDoubleDoubleQuotes.replace(
 		/"([^"]*)"?/g,
 		(fullMatch, capture) => {
 			return capture
@@ -22,8 +22,8 @@ function splitCommandLine(commandLine) {
 				.replace(RegExp(doubleDoubleQuote, "g"), '"');
 		}
 	);
-	var mangledParamArray = noSpacesInQuotes.split(/ +/);
-	var paramArray = mangledParamArray.map((mangledParam) => {
+	const mangledParamArray = noSpacesInQuotes.split(/ +/);
+	const paramArray = mangledParamArray.map((mangledParam) => {
 		return mangledParam
 			.replace(RegExp(spaceMarker, "g"), " ")
 			.replace(RegExp(doubleDoubleQuote, "g"), "");
@@ -65,7 +65,7 @@ export default async (Discord, client, msg) => {
 			cooldowns[msg.author.id] = 60;
 		}
 		let index = 1;
-		for (let value of levelArr) {
+		for (const value of levelArr) {
 			if (prevExp < value && userMS.lifeAtoms >= value) {
 				msg.channel.send({
 					content: `Level up! Your Singularity is now level **${index}**!`,

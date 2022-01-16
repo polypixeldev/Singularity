@@ -8,7 +8,7 @@ export default (client, ev, userID, guildID) => {
 			.then((member) => {
 				if (!member) return resolve(2);
 
-				let currentDate = new Date(Date.now());
+				const currentDate = new Date(Date.now());
 
 				const embed = new Discord.MessageEmbed()
 					.setColor(0x000000)

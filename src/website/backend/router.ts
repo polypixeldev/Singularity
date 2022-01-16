@@ -6,9 +6,9 @@ import fs from "fs";
 export default async (client) => {
 	const router = Express.Router();
 
-	let corsOptions = {};
+	const corsOptions = {};
 
-	let routeArr = [];
+	const routeArr = [];
 
 	let routes = fs
 		.readdirSync("./prod/website/backend/routes", {
@@ -16,19 +16,19 @@ export default async (client) => {
 		})
 		.filter((file) => file.name.endsWith(".js"));
 
-	let search = async () => {
+	const search = async () => {
 		routes = fs
 			.readdirSync(`./prod/website/backend/routes/${routeArr.join("/")}`, {
 				withFileTypes: true,
 			})
 			.filter((file) => file.name.endsWith(".js"));
 
-		for (let ent of routes) {
+		for (const ent of routes) {
 			if (ent.isDirectory()) {
 				routeArr.push(ent.name);
 				search();
 			} else {
-				let exec = await import(`./routes/${routeArr.join("/")}/${ent.name}`);
+				const exec = await import(`./routes/${routeArr.join("/")}/${ent.name}`);
 
 				router.all(
 					`${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`,

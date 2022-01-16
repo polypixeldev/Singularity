@@ -26,25 +26,25 @@ export default {
 	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		let fetches = [];
+		const fetches = [];
 		for (let channel of interaction.guild.channels.cache) {
 			channel = channel[1];
 			if (!channel.messages) continue;
 			fetches.push(channel.messages.fetch(interaction.options.get("id").value));
 		}
 
-		let pollMessage = await Promise.any(fetches);
+		const pollMessage = await Promise.any(fetches);
 
 		const invalidPoll = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription("The specified poll does not exist!");
 
 		if (!pollMessage) return interaction.editReply({ embeds: [invalidPoll] });
-		let embed = pollMessage.embeds[0];
+		const embed = pollMessage.embeds[0];
 		if (!embed) return interaction.editReply({ embeds: [invalidPoll] });
 		let options = [];
-		let data = [];
-		let optStr = embed.fields.find((field) => field.name === "Options").value;
+		const data = [];
+		const optStr = embed.fields.find((field) => field.name === "Options").value;
 
 		options = optStr
 			.split("\n")

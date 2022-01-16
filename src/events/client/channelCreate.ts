@@ -1,7 +1,7 @@
 export default async (Discord, client, channel) => {
 	await channel.guild.roles.fetch();
 
-	let muteRole = channel.guild.roles.cache.find((rl) => rl.name === "Muted");
+	const muteRole = channel.guild.roles.cache.find((rl) => rl.name === "Muted");
 
 	if (!muteRole) return;
 

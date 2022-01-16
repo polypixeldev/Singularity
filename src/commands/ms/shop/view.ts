@@ -66,7 +66,7 @@ export default {
 			}
 		} else {
 			let itemStr = "";
-			for (let item of items) {
+			for (const item of items) {
 				if (item.rare !== true) {
 					itemStr =
 						itemStr +

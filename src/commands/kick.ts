@@ -23,7 +23,7 @@ export default {
 	notes: "user must be a mention",
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply();
-		let user = interaction.options.get("user");
+		const user = interaction.options.get("user");
 
 		const reason = interaction.options.get("reason");
 

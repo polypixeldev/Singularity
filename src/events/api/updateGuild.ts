@@ -5,8 +5,8 @@ export default (client, ev, userID, guildID, data) => {
 			?.members.fetch(userID)
 			.then((member) => {
 				if (!member) return resolve(2);
-				let cleanData = {};
-				for (let prop in data) {
+				const cleanData = {};
+				for (const prop in data) {
 					if (data[prop]) cleanData[prop] = data[prop];
 				}
 				client.utils.updateServer(client, guildID, cleanData);

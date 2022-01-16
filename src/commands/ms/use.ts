@@ -15,7 +15,7 @@ export default {
 	example: 'ms use "2x Proton Boost"',
 	async slashExecute(client, Discord, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		let userMS = await client.utils.loadUserInfo(
+		const userMS = await client.utils.loadUserInfo(
 			client,
 			serverDoc,
 			interaction.user.id
@@ -24,7 +24,7 @@ export default {
 
 		const items = serverDoc.items;
 
-		for (let item of items) {
+		for (const item of items) {
 			if (item.name === interaction.options.get("item").value) {
 				selectedItem = item;
 			}

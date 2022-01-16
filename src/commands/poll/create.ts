@@ -97,10 +97,10 @@ export default {
 	example: 'poll create "Yes or no?" "Yes" "No"',
 	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply();
-		let title = interaction.options.get("title").value;
-		let description = interaction.options.get("description")?.value ?? "";
-		let colorStr = interaction.options.get("color")?.value ?? "000000";
-		let options = [
+		const title = interaction.options.get("title").value;
+		const description = interaction.options.get("description")?.value ?? "";
+		const colorStr = interaction.options.get("color")?.value ?? "000000";
+		const options = [
 			interaction.options.get("option1")?.value,
 			interaction.options.get("option2")?.value,
 			interaction.options.get("option3")?.value,
@@ -112,7 +112,7 @@ export default {
 			interaction.options.get("option9")?.value,
 			interaction.options.get("option10")?.value,
 		];
-		let cleanOptions = options.filter((opt) => typeof opt === "string");
+		const cleanOptions = options.filter((opt) => typeof opt === "string");
 
 		let optStr = "";
 		for (let i = 0; i < cleanOptions.length; i++) {
@@ -153,7 +153,7 @@ export default {
 		});
 
 		interaction.editReply({ embeds: [poll] }).then((sent) => {
-			let sentEmbed = sent.embeds[0];
+			const sentEmbed = sent.embeds[0];
 			sentEmbed.setFooter(
 				`Poll ID: ${sent.id} • Poll created by ${
 					interaction.user.tag
