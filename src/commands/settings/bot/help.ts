@@ -8,11 +8,11 @@ export default {
 	args: [],
 	aliases: [],
 	example: "settings bot",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, Discord, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		if (interaction.options.getSubcommand(false) === "nickname") {
-			nickname.slashExecute(client, Discord, interaction, serverDoc);
+			nickname.slashExecute(client, Discord, interaction);
 		} else if (interaction.options.getSubcommand(false) === "kick") {
 			kick.slashExecute(client, Discord, interaction);
 		} else {

@@ -5,6 +5,10 @@ import fs from "fs";
 import apiRouter from "./backend/router";
 
 export default class APIClient extends EventEmitter {
+	type: string;
+	port: number;
+	host: string;
+	app: Express.app;
 	constructor(props) {
 		super(props);
 

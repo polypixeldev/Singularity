@@ -21,7 +21,7 @@ export default (discord, client, req, res) => {
 						.then(async (guildsRes) => {
 							const promises = [];
 							for (let i = 0; i < guildsRes.data.length; i++) {
-								const ev = { available: false, data: null };
+								const ev = { available: false, data: null, guild: null };
 
 								client.emit("guildAvailable", ev, guildsRes.data[i].id);
 

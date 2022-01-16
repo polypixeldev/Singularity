@@ -5,6 +5,8 @@ import Discord from "discord.js";
 import mongoose from "mongoose";
 import * as Sentry from "@sentry/node";
 
+import Singularity from "./interfaces/singularity";
+
 dotenv.config();
 
 Sentry.init({
@@ -35,21 +37,18 @@ const client = new Discord.Client({
 		"DIRECT_MESSAGES",
 	],
 	failIfNotExists: true,
-});
+}) as Singularity;
 const api = new APIClient({
 	type: process.env.API_TYPE,
 	host: process.env.API_HOST,
 	port: process.env.API_PORT,
 });
 
-mongoose.connect(process.env.MONGODB_URI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGODB_URI);
 
 const databaseConnectionTransaction = startupTransaction.startChild({
 	op: "connection",
-	name: "Database Connection",
+	description: "Database Connection",
 });
 
 const db = mongoose.connection;
@@ -91,13 +90,12 @@ db.once("open", () => {
 
 	client.commands = new Discord.Collection();
 	client.contexts = new Discord.Collection();
-	client.events = new Discord.Collection();
 	client.utils = {};
 
 	client.login(process.env.DISCORD_TOKEN);
 	const loginTransaction = startupTransaction.startChild({
 		op: "connection",
-		name: "Login to Discord API",
+		description: "Login to Discord API",
 	});
 
 	client.once("ready", () => {

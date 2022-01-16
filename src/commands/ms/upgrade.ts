@@ -58,6 +58,7 @@ export default {
 						type: "SELECT_MENU",
 						label: "Upgrade Quantity",
 						custom_id: "quantity",
+						disabled: false,
 						options: [
 							{
 								label: "1x Upgrade",

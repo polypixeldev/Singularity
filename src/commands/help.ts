@@ -236,7 +236,7 @@ export default {
 
 			for (const command of client.commands) {
 				if (command[1].type === "general") {
-					let desc = [];
+					const desc = [];
 
 					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
@@ -254,11 +254,9 @@ export default {
 
 					desc.unshift(`${command[1].description} \n`);
 
-					desc = desc.join("");
-
-					generalEmbed.addField(`\`/${command[1].name}\``, desc);
+					generalEmbed.addField(`\`/${command[1].name}\``, desc.join(""));
 				} else if (command[1].type === "mod") {
-					let desc = [];
+					const desc = [];
 
 					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
@@ -276,11 +274,9 @@ export default {
 
 					desc.unshift(`${command[1].description} \n`);
 
-					desc = desc.join("");
-
-					modEmbed.addField(`\`/${command[1].name}\``, desc);
+					modEmbed.addField(`\`/${command[1].name}\``, desc.join(""));
 				} else if (command[1].type === "ms") {
-					let desc = [];
+					const desc = [];
 
 					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
@@ -298,9 +294,7 @@ export default {
 
 					desc.unshift(`${command[1].description} \n`);
 
-					desc = desc.join("");
-
-					msEmbed.setDescription(`\`/ms\`\n ${desc}`);
+					msEmbed.setDescription(`\`/ms\`\n ${desc.join("")}`);
 				}
 			}
 			let latestEmbed = new client.utils.BaseEmbed(
