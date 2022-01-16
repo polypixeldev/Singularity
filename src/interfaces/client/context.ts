@@ -1,4 +1,4 @@
-import CommandExecutor from "../types/commandexecutor";
+import CommandExecutor from "../../types/commandexecutor";
 
 export default interface Context {
 	name: string;

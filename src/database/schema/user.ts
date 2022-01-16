@@ -1,9 +1,9 @@
 import { Schema } from "mongoose";
 
-import Item from "../interfaces/item";
-import ActiveItem from "../interfaces/activeitem";
-import UserSingularity from "../interfaces/usersingularity";
-import Infraction from "../interfaces/infraction";
+import Item from "../../interfaces/database/item";
+import ActiveItem from "../../interfaces/database/activeitem";
+import UserSingularity from "../../interfaces/database/usersingularity";
+import Infraction from "../../interfaces/database/infraction";
 
 export interface User {
 	userID: string;

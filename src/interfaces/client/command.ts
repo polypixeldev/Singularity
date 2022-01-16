@@ -1,5 +1,5 @@
 import Option from "./option";
-import CommandExecutor from "../types/commandexecutor";
+import CommandExecutor from "../../types/commandexecutor";
 
 export default interface Command {
 	name: string;

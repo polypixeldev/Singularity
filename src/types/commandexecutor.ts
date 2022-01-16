@@ -1,8 +1,8 @@
-import Singularity from "../../interfaces/singularity";
+import Singularity from "../interfaces/singularity";
 import DiscordImport, { Interaction } from "discord.js";
 import { Model } from "mongoose";
 
-import { Server } from "../schema/server";
+import { Server } from "../database/schema/server";
 
 type CommandExecutor = (
 	client: Singularity,

@@ -1,6 +1,6 @@
 import { Schema, Types } from "mongoose";
 
-import Item from "../interfaces/item";
+import Item from "../../interfaces/database/item";
 
 export interface Server {
 	guildID: string;
