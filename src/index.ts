@@ -16,8 +16,8 @@ import Context from "./interfaces/client/context";
 dotenv.config();
 
 Sentry.init({
-	dsn: "https://d38245378f464bdeb3d02ca1cb6af6f9@o920118.ingest.sentry.io/5865017",
-	release: "Singularity@0.1.0",
+	dsn: process.env.SENTRY_DSN,
+	release: "Singularity@1.0.0",
 	tracesSampleRate: 1.0,
 	integrations: [new Sentry.Integrations.Http({ tracing: true })],
 	environment: process.env.SENTRY_ENVIRONMENT,
