@@ -1,18 +1,21 @@
 import fs from "fs";
 
-export default (Discord, client, api) => {
-	const load_dir = async (dirs) => {
+import Singularity from "../interfaces/singularity";
+import APIClient from "../website/server";
+
+export default (client: Singularity, api: APIClient) => {
+	const load_dir = async (dir: string) => {
 		const event_files = fs
-			.readdirSync(`./prod/events/${dirs}`)
+			.readdirSync(`./prod/events/${dir}`)
 			.filter((file) => file.endsWith("js"));
 
 		for (const file of event_files) {
-			const event = (await import(`../events/${dirs}/${file}`)).default;
+			const event = (await import(`../events/${dir}/${file}`)).default;
 			const event_name = file.split(".")[0];
-			if (dirs === "api") {
+			if (dir === "api") {
 				api.on(event_name, event.bind(null, client));
-			} else if (dirs === "client") {
-				client.on(event_name, event.bind(null, Discord, client));
+			} else if (dir === "client") {
+				client.on(event_name, event.bind(null, client));
 			}
 		}
 	};

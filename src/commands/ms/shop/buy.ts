@@ -1,3 +1,11 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../../../util/loadUserInfo";
+import updateUser from "../../../util/updateUser";
+
+import Command from "../../../interfaces/client/command";
+import Item from "../../../interfaces/user/item";
+
 export default {
 	name: "buy",
 	description: "Buy an item from the Singularity Shop!",
@@ -19,28 +27,26 @@ export default {
 	args: [],
 	aliases: [],
 	example: "ms buy trophy",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		const userMS = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			interaction.user.id
-		);
-		let selectedItem;
+		const userMS = await loadUserInfo(client, serverDoc, interaction.user.id);
+		let selectedItem: Item | null = null;
 
 		const items = serverDoc.items;
 
 		for (const item of items) {
 			if (
-				item.name === interaction.options.get("item").value &&
+				item.name === interaction.options.get("item")?.value &&
 				item.rare !== true
 			) {
 				selectedItem = item;
+				break;
+			} else {
+				selectedItem = null;
 			}
 		}
 
 		if (!selectedItem) {
-			//eslint-disable-line no-prototype-builtins
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setDescription("That is not a valid item!");
@@ -48,7 +54,7 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		let quantity = interaction.options.get("quantity")?.value;
+		let quantity = Number(interaction.options.get("quantity")?.value);
 		if (!quantity) quantity = 1;
 		if (quantity < 1) {
 			const embed = new Discord.MessageEmbed()
@@ -67,34 +73,36 @@ export default {
 			userMS.electrons -= selectedItem.electrons * quantity;
 			userMS.darkMatter -= selectedItem.darkMatter * quantity;
 
-			userMS.items.push(interaction.options.get("item").value);
+			userMS.items.push(selectedItem.name);
 
-			client.utils
-				.updateUser(client, serverDoc.guildID, userMS.userID, {
-					...userMS.toObject(),
-					protons: userMS.protons,
-					electrons: userMS.electrons,
-					darkMatter: userMS.darkMatter,
-					items: userMS.items,
-				})
-				.then(() => {
-					const embed = new Discord.MessageEmbed().setColor(0x000000)
-						.setDescription(`
-					Purchase completed!
+			updateUser(client, serverDoc.guildID, userMS.userID, {
+				...userMS.toObject(),
+				protons: userMS.protons,
+				electrons: userMS.electrons,
+				darkMatter: userMS.darkMatter,
+				items: userMS.items,
+			}).then(() => {
+				if (!selectedItem) {
+					return;
+				}
 
-					\t + **${quantity}** ${interaction.options.get("item").value}
-					\t - **${selectedItem.protons * quantity}** Protons
-					\t - **${selectedItem.electrons * quantity}** Electrons
-					\t - **${selectedItem.darkMatter * quantity}** Dark Matter
+				const embed = new Discord.MessageEmbed().setColor(0x000000)
+					.setDescription(`
+				Purchase completed!
 
-					You now have:
-					\t **${userMS.protons}** Protons
-					\t **${userMS.electrons}** Electrons
-					\t **${userMS.darkMatter}** Dark Matter
-				`);
+				\t + **${quantity}** ${selectedItem.name}
+				\t - **${selectedItem.protons * quantity}** Protons
+				\t - **${selectedItem.electrons * quantity}** Electrons
+				\t - **${selectedItem.darkMatter * quantity}** Dark Matter
 
-					return interaction.editReply({ embeds: [embed] });
-				});
+				You now have:
+				\t **${userMS.protons}** Protons
+				\t **${userMS.electrons}** Electrons
+				\t **${userMS.darkMatter}** Dark Matter
+			`);
+
+				return interaction.editReply({ embeds: [embed] });
+			});
 		} else {
 			let missingArr = [
 				userMS.protons - selectedItem.protons * quantity,
@@ -125,4 +133,4 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 	},
-};
+} as Command;

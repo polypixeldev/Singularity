@@ -1,41 +1,49 @@
-export default async (Discord, client, interaction) => {
+import Discord from "discord.js";
+
+import loadGuildInfo from "../../../util/loadGuildInfo";
+
+import InteractionHandler from "../../../types/InteractionHandler";
+
+const handler: InteractionHandler = async (client, interaction) => {
+	if (!(interaction instanceof Discord.CommandInteraction)) {
+		return;
+	}
+
 	console.log(
 		`Command Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild.name}`
 	);
 	if (!client.commands.has(interaction.commandName) || !interaction.guild)
 		return;
 
-	let serverDoc;
-	await client.utils
-		.loadGuildInfo(client, interaction.guild)
-		.then(async (server) => {
-			serverDoc = server;
-		});
-	if (serverDoc === "err") return;
+	const serverDoc = await loadGuildInfo(client, interaction.guild);
 
 	let executor = null;
 
 	if (interaction.options.getSubcommandGroup(false)) {
 		executor = client.commands
 			.get(interaction.commandName)
-			.options.find(
+			?.options.find(
 				(cmd) => cmd.name === interaction.options.getSubcommandGroup()
 			)
-			.options.find(
+			?.options?.find(
 				(cmd) => cmd.name === interaction.options.getSubcommand()
-			).slashExecute;
+			)?.slashExecute;
 	} else if (interaction.options.getSubcommand(false)) {
 		executor = client.commands
 			.get(interaction.commandName)
-			.options.find(
+			?.options.find(
 				(cmd) => cmd.name === interaction.options.getSubcommand()
-			).slashExecute;
+			)?.slashExecute;
 	} else {
-		executor = client.commands.get(interaction.commandName).slashExecute;
+		executor = client.commands.get(interaction.commandName)?.slashExecute;
+	}
+
+	if (!executor) {
+		return;
 	}
 
 	try {
-		await executor(client, Discord, interaction, serverDoc);
+		await executor(client, interaction, serverDoc);
 	} catch (error) {
 		console.error(error);
 		const embed = new Discord.MessageEmbed()
@@ -45,7 +53,8 @@ export default async (Discord, client, interaction) => {
 			);
 		await interaction.editReply({
 			embeds: [embed],
-			ephemeral: true,
 		});
 	}
 };
+
+export default handler;

@@ -1,21 +1,23 @@
+import loadUserInfo from "../../../util/loadUserInfo";
+import BaseEmbed from "../../../util/BaseEmbed";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "info",
 	description: "Provides information on My Singularity Prestige",
 	options: [],
+	type: "ms",
 	example: "ms prestige info",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const userMS = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			interaction.user.id
-		);
+		const userMS = await loadUserInfo(client, serverDoc, interaction.user.id);
 		const baseReq =
 			(userMS.singularity.prestige + 2) *
 			((userMS.singularity.prestige + 2) * 2);
 
-		const embed = new client.utils.BaseEmbed(
+		const embed = new BaseEmbed(
 			"Singularity Prestige",
 			interaction.user
 		).setDescription(
@@ -44,4 +46,4 @@ export default {
 
 		return interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

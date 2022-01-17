@@ -1,5 +1,11 @@
-export default async (Discord, client, member) => {
-	const serverDoc = await client.utils.loadGuildInfo(client, member.guild);
+import Discord from "discord.js";
+
+import loadGuildInfo from "../../util/loadGuildInfo";
+
+import Singularity from "../../interfaces/singularity";
+
+export default async (client: Singularity, member: Discord.GuildMember) => {
+	const serverDoc = await loadGuildInfo(client, member.guild);
 	const channel = member.guild.channels.resolve(serverDoc.leaveChannelID);
 	if (!channel) return;
 	const tagRegex = /{tag}/g;
@@ -9,6 +15,10 @@ export default async (Discord, client, member) => {
 		`${member.user.tag}`
 	);
 	const leaveMsg2 = leaveMsg1.replace(nameRegex, `${member.user.username}`);
+
+	if (!("send" in channel)) {
+		return;
+	}
 
 	channel.send({ content: leaveMsg2 });
 };

@@ -1,3 +1,10 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../../util/loadUserInfo";
+import manageUse from "../../util/manageUse";
+
+import Command from "../../interfaces/client/command";
+
 export default {
 	name: "use",
 	description: "Use an item!",
@@ -13,19 +20,15 @@ export default {
 	args: [],
 	aliases: [],
 	example: 'ms use "2x Proton Boost"',
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		const userMS = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			interaction.user.id
-		);
+		const userMS = await loadUserInfo(client, serverDoc, interaction.user.id);
 		let selectedItem;
 
 		const items = serverDoc.items;
 
 		for (const item of items) {
-			if (item.name === interaction.options.get("item").value) {
+			if (item.name === interaction.options.get("item")?.value) {
 				selectedItem = item;
 			}
 		}
@@ -46,7 +49,9 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		if (!userMS.items.includes(interaction.options.get("item").value)) {
+		if (
+			!userMS.items.includes(interaction.options.get("item")?.value as string)
+		) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setDescription("You do not own this item!");
@@ -54,13 +59,12 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const embed = client.utils.manageUse.activate(
-			client,
-			Discord,
-			userMS,
-			selectedItem
-		);
+		const embed = manageUse.activate(client, userMS, selectedItem);
+
+		if (!embed) {
+			return;
+		}
 
 		return interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

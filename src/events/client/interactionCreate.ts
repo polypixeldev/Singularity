@@ -1,9 +1,12 @@
+import Discord from "discord.js";
+
 import handleCommand from "./interactions/command";
 import handleContextMenu from "./interactions/contextMenu";
 
-export default (Discord, client, interaction) => {
-	if (interaction.isCommand())
-		return handleCommand(Discord, client, interaction);
+import Singularity from "../../interfaces/singularity";
+
+export default (client: Singularity, interaction: Discord.Interaction) => {
+	if (interaction.isCommand()) return handleCommand(client, interaction);
 	if (interaction.isContextMenu())
-		return handleContextMenu(Discord, client, interaction);
+		return handleContextMenu(client, interaction);
 };

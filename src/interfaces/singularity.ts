@@ -11,5 +11,4 @@ export default interface Singularity extends Client {
 	serverModel: Model<Server>;
 	commands: Collection<string, Command>;
 	contexts: Collection<string, Context>;
-	utils: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }

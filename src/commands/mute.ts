@@ -1,3 +1,10 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../util/loadUserInfo";
+import updateUser from "../util/updateUser";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "mute",
 	description: "Mutes the mentioned user h",
@@ -22,9 +29,16 @@ export default {
 	aliases: [],
 	example: "mute @poly",
 	notes: "user must be mentioned",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply();
 		const user = interaction.options.get("user");
+
+		if (
+			!(user?.member instanceof Discord.GuildMember) ||
+			!(interaction.member instanceof Discord.GuildMember)
+		) {
+			return;
+		}
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
@@ -48,6 +62,10 @@ export default {
 				.setColor(0x000000);
 
 			return interaction.editReply({ embeds: [embed] });
+		}
+
+		if (!interaction.guild) {
+			return;
 		}
 
 		await interaction.guild.roles.fetch();
@@ -75,6 +93,10 @@ export default {
 			channels.mapValues((chanel) => {
 				if (!(chanel instanceof Discord.ThreadChannel)) {
 					if (chanel.manageable) {
+						if (!muteRole) {
+							return;
+						}
+
 						if (chanel.isText()) {
 							chanel.permissionOverwrites.create(
 								muteRole,
@@ -101,31 +123,38 @@ export default {
 			});
 		}
 
+		if (!muteRole) {
+			return;
+		}
+
 		user.member.roles
 			.add(
 				muteRole,
-				interaction.options.get("reason")?.value ??
-					`User muted by ${interaction.user.tag}`
+				(interaction.options.get("reason")?.value ??
+					`User muted by ${interaction.user.tag}`) as string
 			)
 			.then(async () => {
-				const userDoc = await client.utils.loadUserInfo(
-					client,
-					serverDoc,
-					user.user.id
-				);
+				if (!user.user) {
+					return;
+				}
+
+				const userDoc = await loadUserInfo(client, serverDoc, user.user.id);
 				userDoc.infractions.push({
 					modID: interaction.user.id,
 					modTag: interaction.user.tag,
 					timestamp: interaction.createdTimestamp,
 					type: "Mute",
-					message:
-						interaction.options.get("reason")?.value ??
-						`User muted by ${interaction.user.tag}`,
+					message: (interaction.options.get("reason")?.value ??
+						`User muted by ${interaction.user.tag}`) as string,
 				});
-				client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+				updateUser(client, userDoc.guildID, userDoc.userID, {
 					...userDoc.toObject(),
 					infractions: userDoc.infractions,
 				});
+
+				if (!interaction.guild) {
+					return;
+				}
 
 				const mutedEmbed = new Discord.MessageEmbed()
 					.setColor(0x000000)
@@ -155,4 +184,4 @@ export default {
 				console.error(err);
 			});
 	},
-};
+} as Command;

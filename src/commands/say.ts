@@ -1,3 +1,7 @@
+import Discord from "discord.js";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "say",
 	description: "The bot says the message you pass in",
@@ -14,13 +18,13 @@ export default {
 	args: ["<message to repeat"],
 	aliases: [],
 	example: "say I am Singularity",
-	slashExecute(client, Discord, interaction) {
+	slashExecute(client, interaction) {
 		if (
 			interaction.user.id === "722092754510807133" &&
-			interaction.options.get("message").value.startsWith("~")
+			(interaction.options.get("message")?.value as string).startsWith("~")
 		) {
-			interaction.channel.send(
-				`${interaction.options.get("message").value.slice(1)}`
+			interaction.channel?.send(
+				`${(interaction.options.get("message")?.value as string).slice(1)}`
 			);
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
@@ -30,7 +34,7 @@ export default {
 		} else {
 			interaction.reply({
 				content: `**${interaction.user.tag}:** ${
-					interaction.options.get("message").value
+					interaction.options.get("message")?.value
 				}`,
 				allowedMentions: {
 					parse: ["everyone", "roles", "users"],
@@ -40,4 +44,4 @@ export default {
 			});
 		}
 	},
-};
+} as Command;

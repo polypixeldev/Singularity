@@ -1,16 +1,25 @@
+import BaseEmbed from "../../../util/BaseEmbed";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "overview",
 	description: "An overview of the current server's statistics",
+	type: "general",
 	options: [],
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const embed = new client.utils.BaseEmbed(
+		if (!interaction.guild) {
+			return;
+		}
+
+		const embed = new BaseEmbed(
 			`${interaction.guild.name} - Server Stats`,
 			interaction.user
 		)
 			.setDescription("Various statistics about this server")
-			.setThumbnail(interaction.guild.iconURL())
+			.setThumbnail(interaction.guild.iconURL() as string)
 			.addFields([
 				{
 					name: "Member Count",
@@ -25,7 +34,7 @@ export default {
 				{
 					name: "Owner",
 					value: `\`${
-						interaction.guild.members.resolve(interaction.guild.ownerId).user
+						interaction.guild.members.resolve(interaction.guild.ownerId)?.user
 							.tag
 					}\``,
 					inline: true,
@@ -49,4 +58,4 @@ export default {
 
 		interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

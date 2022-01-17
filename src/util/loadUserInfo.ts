@@ -1,4 +1,17 @@
-export default (client, serverDoc, id) => {
+import { HydratedDocument } from "mongoose";
+import { Snowflake } from "discord.js";
+
+import updateServer from "./updateServer";
+
+import Singularity from "../interfaces/singularity";
+import { Server } from "../database/schema/server";
+import { User } from "../database/schema/user";
+
+export default (
+	client: Singularity,
+	serverDoc: HydratedDocument<Server>,
+	id: Snowflake
+): Promise<HydratedDocument<User>> => {
 	return new Promise((resolve, reject) => {
 		client.userModel
 			.findOne({ userID: id, guildID: serverDoc.guildID })
@@ -27,10 +40,9 @@ export default (client, serverDoc, id) => {
 						})
 						.then((userDoc) => {
 							serverDoc.ms.push(userDoc._id);
-							client.utils
-								.updateServer(client, serverDoc.guildID, {
-									ms: serverDoc.ms,
-								})
+							updateServer(client, serverDoc.guildID, {
+								ms: serverDoc.ms,
+							})
 								.then(() => {
 									resolve(userDoc);
 								})

@@ -1,3 +1,7 @@
+import Discord from "discord.js";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "nickname",
 	description: "Sets the mentioned user's nickname to the specified nickname",
@@ -22,8 +26,13 @@ export default {
 	aliases: [],
 	example: "nickname @poly Bot Maker",
 	notes: "user must be mentioned",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
+		if (!(interaction.member instanceof Discord.GuildMember)) {
+			return;
+		}
+
 		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
@@ -34,9 +43,13 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const user = interaction.options.get("user").user;
+		const user = interaction.options.get("user")?.user;
 
-		const member = interaction.options.get("user").member;
+		const member = interaction.options.get("user")?.member;
+
+		if (!(member instanceof Discord.GuildMember) || !user) {
+			return;
+		}
 
 		if (
 			member.permissions.has("ADMINISTRATOR") &&
@@ -52,7 +65,11 @@ export default {
 		const prevName = member.nickname;
 
 		member
-			.setNickname(interaction.options.get("nickname")?.value ?? null)
+			.setNickname(
+				interaction.options.get("nickname")?.value
+					? (interaction.options.get("nickname")?.value as string)
+					: null
+			)
 			.then(() => {
 				const embed = new Discord.MessageEmbed()
 					.setColor(0x000000)
@@ -84,4 +101,4 @@ export default {
 				}
 			});
 	},
-};
+} as Command;

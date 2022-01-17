@@ -1,3 +1,10 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../util/loadUserInfo";
+import BaseEmbed from "../util/BaseEmbed";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "infractions",
 	description: "Displays the infractions for the specified user",
@@ -11,10 +18,18 @@ export default {
 		},
 	],
 	example: "infractions @user",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const user = interaction.options.get("user");
+
+		if (
+			!(user?.member instanceof Discord.GuildMember) ||
+			!(interaction.member instanceof Discord.GuildMember) ||
+			!user.user
+		) {
+			return;
+		}
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
@@ -30,13 +45,9 @@ export default {
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		const userDoc = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			user.user.id
-		);
+		const userDoc = await loadUserInfo(client, serverDoc, user.user.id);
 
-		const embed = new client.utils.BaseEmbed(
+		const embed = new BaseEmbed(
 			`Infractions for ${user.user.tag}`,
 			interaction.user
 		);
@@ -58,4 +69,4 @@ export default {
 
 		interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

@@ -1,19 +1,26 @@
 import prettyMS from "pretty-ms";
 import os from "os-utils";
+
+import BaseEmbed from "../../../util/BaseEmbed";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "overview",
 	description: "An overview of Singularity's statistics",
+	type: "general",
 	options: [],
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 		os.cpuUsage((percentage) => {
 			client.userModel.distinct("userID").exec((err, count) => {
 				if (err) throw err;
 
-				const embed = new client.utils.BaseEmbed(
-					"Singularity Bot Stats",
-					interaction.user
-				)
+				if (!client.user) {
+					return;
+				}
+
+				const embed = new BaseEmbed("Singularity Bot Stats", interaction.user)
 					.setDescription("Various statistics about Singularity")
 					.setThumbnail(client.user.displayAvatarURL())
 					.addFields([
@@ -56,4 +63,4 @@ export default {
 			});
 		});
 	},
-};
+} as Command;

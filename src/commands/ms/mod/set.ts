@@ -1,3 +1,11 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../../../util/loadUserInfo";
+import updateUser from "../../../util/updateUser";
+
+import Command from "../../../interfaces/client/command";
+import ExpType from "../../../types/exptype";
+
 export default {
 	name: "set",
 	description:
@@ -41,8 +49,12 @@ export default {
 	args: [],
 	aliases: [],
 	example: "ms mod set @user protons +100",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
+
+		if (!(interaction.member instanceof Discord.GuildMember)) {
+			return;
+		}
 
 		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
 			const embed = new Discord.MessageEmbed()
@@ -54,9 +66,14 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const user = interaction.options.get("user").user;
-		const type = interaction.options.get("type").value;
-		const value = interaction.options.get("value").value;
+		const user = interaction.options.get("user")?.user;
+		const type = interaction.options.get("type")?.value as ExpType;
+		const value = interaction.options.get("value")?.value as string;
+
+		if (!user || !type || !value) {
+			return;
+		}
+
 		const mode = value.startsWith("+")
 			? "add"
 			: value.startsWith("-")
@@ -71,28 +88,26 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
+		const userMS = await loadUserInfo(client, serverDoc, user.id);
 
 		if (mode === "add") {
 			userMS[type] += Number(value.slice(1));
 		} else if (mode === "subtract") {
 			userMS[type] -= Number(value.slice(1));
 		} else {
-			userMS[type] = value;
+			userMS[type] = Number(value);
 		}
 
-		client.utils
-			.updateUser(client, serverDoc.guildID, userMS.userID, {
-				...userMS.toObject(),
-				[type]: userMS[type],
-			})
-			.then(() => {
-				const embed = new Discord.MessageEmbed().setColor(0x000000)
-					.setDescription(`
-				Set Successful
-			`);
+		updateUser(client, serverDoc.guildID, userMS.userID, {
+			...userMS.toObject(),
+			[type]: userMS[type],
+		}).then(() => {
+			const embed = new Discord.MessageEmbed().setColor(0x000000)
+				.setDescription(`
+			Set Successful
+		`);
 
-				return interaction.editReply({ embeds: [embed] });
-			});
+			return interaction.editReply({ embeds: [embed] });
+		});
 	},
-};
+} as Command;

@@ -1,3 +1,9 @@
+import Discord from "discord.js";
+
+import BaseEmbed from "../util/BaseEmbed";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "unban",
 	description: "Unbans the tagged user",
@@ -29,8 +35,16 @@ export default {
 	aliases: [],
 	example: "unban @poly not spamming",
 	notes: "user must be tagged in form user#tag",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
+		if (
+			!interaction.guild ||
+			!(interaction.member instanceof Discord.GuildMember)
+		) {
+			return;
+		}
+
 		if (!interaction.options.get("tag") && !interaction.options.get("id")) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
@@ -62,7 +76,7 @@ export default {
 				return interaction.editReply({ embeds: [embed] });
 			}
 
-			const listEmbed = new client.utils.BaseEmbed(
+			const listEmbed = new BaseEmbed(
 				`Bans for ${interaction.guild.name}`,
 				interaction.user
 			).setDescription(banListStr);
@@ -100,7 +114,8 @@ export default {
 			interaction.guild.members
 				.unban(
 					user,
-					reason ?? `${user.tag} unbanned by ${interaction.user.tag}`
+					(reason ??
+						`${user.tag} unbanned by ${interaction.user.tag}`) as string
 				)
 				.then(() => {
 					const successEmbed = new Discord.MessageEmbed()
@@ -134,4 +149,4 @@ export default {
 			interaction.editReply({ embeds: [mentionEmbed] });
 		}
 	},
-};
+} as Command;

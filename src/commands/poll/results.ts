@@ -1,19 +1,15 @@
-const optMapping = {
-	1: "1️⃣",
-	2: "2️⃣",
-	3: "3️⃣",
-	4: "4️⃣",
-	5: "5️⃣",
-	6: "6️⃣",
-	7: "7️⃣",
-	8: "8️⃣",
-	9: "9️⃣",
-	10: "🔟",
-};
+import Discord from "discord.js";
+
+import BaseEmbed from "../../util/BaseEmbed";
+
+import Command from "../../interfaces/client/command";
+
+const optMapping = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 export default {
 	name: "results",
 	description: "Shows the results of a poll",
+	type: "general",
 	options: [
 		{
 			name: "id",
@@ -23,14 +19,21 @@ export default {
 		},
 	],
 	example: "poll results",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
+		if (!interaction.guild) {
+			return;
+		}
+
 		const fetches = [];
-		for (let channel of interaction.guild.channels.cache) {
-			channel = channel[1];
-			if (!channel.messages) continue;
-			fetches.push(channel.messages.fetch(interaction.options.get("id").value));
+		for (const channel of interaction.guild.channels.cache) {
+			if (!(channel[1] instanceof Discord.TextChannel)) continue;
+			fetches.push(
+				channel[1].messages.fetch(
+					interaction.options.get("id")?.value as string
+				)
+			);
 		}
 
 		const pollMessage = await Promise.any(fetches);
@@ -44,19 +47,28 @@ export default {
 		if (!embed) return interaction.editReply({ embeds: [invalidPoll] });
 		let options = [];
 		const data = [];
-		const optStr = embed.fields.find((field) => field.name === "Options").value;
+		const optStr = embed.fields.find(
+			(field) => field.name === "Options"
+		)?.value;
+
+		if (!optStr) {
+			return;
+		}
 
 		options = optStr
 			.split("\n")
 			.filter((opt) => opt !== " ")
 			.map((opt) => opt.slice(4));
 		for (let i = 0; i < options.length; i++) {
-			data.push(
-				pollMessage.reactions.cache.get(optMapping[`${i + 1}`]).count - 1
-			);
+			const count = pollMessage.reactions.cache.get(optMapping[i])?.count;
+			if (!count) {
+				return;
+			}
+
+			data.push(count - 1);
 		}
 
-		const results = new client.utils.BaseEmbed(
+		const results = new BaseEmbed(
 			"Poll Results",
 			interaction.user
 		).setDescription(`Results for poll \`${embed.title}\``);
@@ -67,4 +79,4 @@ export default {
 
 		interaction.editReply({ embeds: [results] });
 	},
-};
+} as Command;

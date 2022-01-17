@@ -1,16 +1,18 @@
 import Express from "express";
 import { EventEmitter } from "events";
-import bodyParser from "body-parser";
 import fs from "fs";
+
 import apiRouter from "./backend/router";
+
+import ApiClientOptions from "../interfaces/api/ApiClientOptions";
 
 export default class APIClient extends EventEmitter {
 	type: string;
 	port: number;
 	host: string;
-	app: Express.app;
-	constructor(props) {
-		super(props);
+	app: Express.Application;
+	constructor(props: ApiClientOptions) {
+		super();
 
 		props = props ?? {};
 
@@ -50,7 +52,7 @@ export default class APIClient extends EventEmitter {
 	}
 
 	async startBackend() {
-		this.app.use(bodyParser.json());
+		this.app.use(Express.json());
 		this.app.use("/api", await apiRouter(this));
 	}
 

@@ -1,3 +1,9 @@
+import Discord from "discord.js";
+
+import BaseEmbed from "../../../util/BaseEmbed";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "kick",
 	description: "Kick Singularity from the server",
@@ -6,8 +12,13 @@ export default {
 	args: [],
 	aliases: [],
 	example: "settings bot kick",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
+		if (!interaction.channel) {
+			return;
+		}
+
 		const embed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription("Are you sure you want to kick Singularity? (Y/N)");
@@ -24,11 +35,13 @@ export default {
 			})
 			.then((collection) => {
 				const message = collection.first();
+
+				if (!message) {
+					return;
+				}
+
 				if (message.content === "Y") {
-					const embed = new client.utils.BaseEmbed(
-						"Singularity Kick",
-						interaction.user
-					)
+					const embed = new BaseEmbed("Singularity Kick", interaction.user)
 						.setTitle("Goodbye")
 						.setDescription(
 							`
@@ -46,12 +59,20 @@ export default {
 						);
 
 					interaction.editReply({ embeds: [embed] }).then(() => {
+						if (!interaction.guild) {
+							return;
+						}
+
 						interaction.guild.leave();
 
 						setTimeout(async () => {
+							if (!interaction.guild) {
+								return;
+							}
+
 							if (
 								await client.guilds.cache.find(
-									(guild) => guild.id === interaction.guild.id
+									(guild) => guild.id === interaction.guild?.id
 								)
 							) {
 								client.serverModel.deleteOne({ guildID: interaction.guild.id });
@@ -74,4 +95,4 @@ export default {
 				return interaction.editReply({ embeds: [embed] });
 			});
 	},
-};
+} as Command;

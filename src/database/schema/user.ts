@@ -1,19 +1,19 @@
 import { Schema } from "mongoose";
+import { Snowflake } from "discord.js";
 
-import Item from "../../interfaces/database/item";
-import ActiveItem from "../../interfaces/database/activeitem";
-import UserSingularity from "../../interfaces/database/usersingularity";
-import Infraction from "../../interfaces/database/infraction";
+import ActiveItem from "../../interfaces/user/activeitem";
+import UserSingularity from "../../interfaces/user/usersingularity";
+import Infraction from "../../interfaces/user/infraction";
 
 export interface User {
-	userID: string;
-	guildID: string;
+	userID: Snowflake;
+	guildID: Snowflake;
 	protons: number;
 	electrons: number;
 	darkMatter: number;
 	lifeExp: number;
-	items: Item[];
-	rareItems: Item[];
+	items: string[];
+	rareItems: string[];
 	active: ActiveItem[];
 	activity: Date;
 	singularity: UserSingularity;

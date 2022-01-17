@@ -1,3 +1,10 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../../../util/loadUserInfo";
+import updateServer from "../../../util/updateServer";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "reset",
 	description: "Reset a user's or the entire server's My Singularity data",
@@ -10,10 +17,15 @@ export default {
 			required: true,
 		},
 	],
+	type: "ms",
 	example: "ms mod reset @user",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		const user = interaction.options.get("user").user;
+		const user = interaction.options.get("user")?.user;
+
+		if (!user || !(interaction.member instanceof Discord.GuildMember)) {
+			return;
+		}
 
 		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
 			const embed = new Discord.MessageEmbed()
@@ -43,20 +55,24 @@ export default {
 							{
 								label: "Yes",
 								type: "BUTTON",
-								custom_id: "yes",
-								style: "SUCCESS",
+								customId: "yes",
+								style: 3,
 							},
 							{
 								label: "No",
 								type: "BUTTON",
-								custom_id: "no",
-								style: "DANGER",
+								customId: "no",
+								style: 4,
 							},
 						],
 					},
 				],
 			})
 			.then(async (sent) => {
+				if (!(sent instanceof Discord.Message)) {
+					return;
+				}
+
 				sent
 					.awaitMessageComponent({
 						filter: (press) => press.user.id === interaction.user.id,
@@ -67,11 +83,7 @@ export default {
 						await press.deferUpdate();
 						if (press.customId === "yes") {
 							if (user.id !== process.env.CLIENT_ID) {
-								const userDoc = await client.utils.loadUserInfo(
-									client,
-									serverDoc,
-									user.id
-								);
+								const userDoc = await loadUserInfo(client, serverDoc, user.id);
 								for (let i = 0; i < serverDoc.ms.length; i++) {
 									if (serverDoc.ms[i]._id === userDoc._id) {
 										serverDoc.ms.splice(i, 1);
@@ -80,7 +92,7 @@ export default {
 								}
 								await client.userModel.deleteOne({ _id: userDoc._id });
 
-								client.utils.updateServer(client, serverDoc.guildID, {
+								updateServer(client, serverDoc.guildID, {
 									ms: serverDoc.ms,
 								});
 
@@ -90,13 +102,17 @@ export default {
 
 								press.followUp({ embeds: [successEmbed], ephemeral: true });
 							} else {
+								if (!interaction.guild) {
+									return;
+								}
+
 								await client.userModel.deleteMany({
 									guildID: interaction.guild.id,
 								});
 
 								serverDoc.ms = [];
 
-								client.utils.updateServer(client, serverDoc.guildID, {
+								updateServer(client, serverDoc.guildID, {
 									ms: serverDoc.ms,
 								});
 
@@ -123,4 +139,4 @@ export default {
 					});
 			});
 	},
-};
+} as Command;

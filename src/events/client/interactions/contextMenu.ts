@@ -1,22 +1,26 @@
-export default async (Discord, client, interaction) => {
+import Discord from "discord.js";
+
+import loadGuildInfo from "../../../util/loadGuildInfo";
+
+import InteractionHandler from "../../../types/InteractionHandler";
+
+const handler: InteractionHandler = async (client, interaction) => {
+	if (!(interaction instanceof Discord.ContextMenuInteraction)) {
+		return;
+	}
+
 	console.log(
 		`Context Menu Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild.name}`
 	);
 	if (!client.contexts.has(interaction.commandName) || !interaction.guild)
 		return;
 
-	let serverDoc;
-	await client.utils
-		.loadGuildInfo(client, interaction.guild)
-		.then(async (server) => {
-			serverDoc = server;
-		});
-	if (serverDoc === "err") return;
+	const serverDoc = await loadGuildInfo(client, interaction.guild);
 
 	try {
 		await client.contexts
 			.get(interaction.commandName)
-			.execute(client, Discord, interaction, serverDoc);
+			?.execute(client, interaction, serverDoc);
 	} catch (e) {
 		const embed = new Discord.MessageEmbed()
 			.setColor(0x000000)
@@ -25,3 +29,5 @@ export default async (Discord, client, interaction) => {
 		return interaction.editReply({ embeds: [embed] });
 	}
 };
+
+export default handler;

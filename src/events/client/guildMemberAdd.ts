@@ -1,5 +1,11 @@
-export default async (Discord, client, member) => {
-	const serverDoc = await client.utils.loadGuildInfo(client, member.guild);
+import Discord from "discord.js";
+
+import loadGuildInfo from "../../util/loadGuildInfo";
+
+import Singularity from "../../interfaces/singularity";
+
+export default async (client: Singularity, member: Discord.GuildMember) => {
+	const serverDoc = await loadGuildInfo(client, member.guild);
 	const channel = member.guild.channels.resolve(serverDoc.welcomeChannelID);
 	if (!channel) return;
 	const tagRegex = /{tag}/g;
@@ -11,6 +17,10 @@ export default async (Discord, client, member) => {
 	);
 	welcomeMsg = welcomeMsg.replace(nameRegex, `${member.user.username}`);
 	welcomeMsg = welcomeMsg.replace(mentionRegex, `<@${member.user.id}>`);
+
+	if (!("send" in channel)) {
+		return;
+	}
 
 	channel.send({ content: welcomeMsg });
 	// if(member.guild.id === '822162764964560937'){

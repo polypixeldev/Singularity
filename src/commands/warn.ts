@@ -1,3 +1,10 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../util/loadUserInfo";
+import updateUser from "../util/updateUser";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "warn",
 	description: "Warn the specified user for the specified reason",
@@ -18,10 +25,19 @@ export default {
 		},
 	],
 	example: "warn @user spam",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply();
 
 		const user = interaction.options.get("user");
+
+		if (
+			!(user?.member instanceof Discord.GuildMember) ||
+			!(interaction.member instanceof Discord.GuildMember) ||
+			!user.user ||
+			!interaction.guild
+		) {
+			return;
+		}
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
@@ -37,21 +53,17 @@ export default {
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		const userDoc = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			user.user.id
-		);
+		const userDoc = await loadUserInfo(client, serverDoc, user.user.id);
 		userDoc.infractions.push({
 			modID: interaction.user.id,
 			modTag: interaction.user.tag,
 			type: "Warning",
 			timestamp: interaction.createdTimestamp,
-			message:
-				interaction.options.get("warning")?.value ??
-				`User warned by ${interaction.user.tag}`,
+			message: (interaction.options.get("warning")?.value ??
+				`User warned by ${interaction.user.tag}`) as string,
 		});
-		client.utils.updateUser(client, serverDoc.guildID, userDoc.userID, {
+
+		updateUser(client, serverDoc.guildID, userDoc.userID, {
 			...userDoc.toObject(),
 			infractions: userDoc.infractions,
 		});
@@ -78,4 +90,4 @@ export default {
 
 		interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

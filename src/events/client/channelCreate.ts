@@ -1,4 +1,8 @@
-export default async (Discord, client, channel) => {
+import Discord from "discord.js";
+
+import Singularity from "../../interfaces/singularity";
+
+export default async (client: Singularity, channel: Discord.GuildChannel) => {
 	await channel.guild.roles.fetch();
 
 	const muteRole = channel.guild.roles.cache.find((rl) => rl.name === "Muted");

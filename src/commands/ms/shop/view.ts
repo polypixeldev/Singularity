@@ -1,3 +1,9 @@
+import Discord from "discord.js";
+
+import BaseEmbed from "../../../util/BaseEmbed";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "view",
 	description: "The Singularity Shop",
@@ -11,14 +17,14 @@ export default {
 		},
 	],
 	example: "ms shop",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const items = serverDoc.items;
 
 		if (interaction.options.get("item")) {
 			const item = items.find(
-				(item) => item.name === interaction.options.get("item").value
+				(item) => item.name === interaction.options.get("item")?.value
 			);
 			if (item) {
 				if (item.rare === true) {
@@ -30,7 +36,7 @@ export default {
 
 					return interaction.editReply({ embeds: [embed] });
 				} else {
-					const embed = new client.utils.BaseEmbed(
+					const embed = new BaseEmbed(
 						`Singularity Shop - ${item.name}`,
 						interaction.user
 					)
@@ -74,7 +80,7 @@ export default {
 				}
 			}
 
-			const embed = new client.utils.BaseEmbed(
+			const embed = new BaseEmbed(
 				"Singularity Shop",
 				interaction.user
 			).setDescription(
@@ -90,4 +96,4 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 	},
-};
+} as Command;

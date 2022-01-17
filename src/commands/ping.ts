@@ -1,3 +1,7 @@
+import Discord from "discord.js";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "ping",
 	description: "Responds with the bot's latency and the API latency",
@@ -7,7 +11,7 @@ export default {
 	args: [],
 	aliases: [],
 	example: "ping",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 		let latestEmbed = new Discord.MessageEmbed()
 			.setDescription(
@@ -35,6 +39,10 @@ export default {
 				],
 			})
 			.then((reply) => {
+				if (!(reply instanceof Discord.Message)) {
+					return;
+				}
+
 				const collector = reply.createMessageComponentCollector({
 					componentType: "BUTTON",
 					time: 300000,
@@ -86,4 +94,4 @@ export default {
 				});
 			});
 	},
-};
+} as Command;

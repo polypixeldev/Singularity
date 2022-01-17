@@ -1,13 +1,13 @@
 import Singularity from "../interfaces/singularity";
-import { CommandInteraction, ContextMenuInteraction } from "discord.js";
+import { ContextMenuInteraction } from "discord.js";
 import { HydratedDocument } from "mongoose";
 
 import { Server } from "../database/schema/server";
 
-type CommandExecutor = (
+type ContextExecutor = (
 	client: Singularity,
-	interaction: CommandInteraction | ContextMenuInteraction,
+	interaction: ContextMenuInteraction,
 	serverDoc: HydratedDocument<Server>
 ) => void;
 
-export default CommandExecutor;
+export default ContextExecutor;

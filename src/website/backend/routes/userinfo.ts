@@ -1,6 +1,9 @@
 import { BitField } from "discord.js";
 
-export default (discord, client, req, res) => {
+import ApiRoute from "../../../interfaces/api/ApiRoute";
+import GuildAvailableEvent from "../../../interfaces/api/GuildAvailableEvent";
+
+const handler: ApiRoute = (discord, client, req, res) => {
 	discord
 		.get("https://discord.com/api/users/@me")
 		.then((apiRes) => {
@@ -21,7 +24,11 @@ export default (discord, client, req, res) => {
 						.then(async (guildsRes) => {
 							const promises = [];
 							for (let i = 0; i < guildsRes.data.length; i++) {
-								const ev = { available: false, data: null, guild: null };
+								const ev: GuildAvailableEvent = {
+									available: false,
+									data: undefined,
+									guild: undefined,
+								};
 
 								client.emit("guildAvailable", ev, guildsRes.data[i].id);
 
@@ -36,7 +43,7 @@ export default (discord, client, req, res) => {
 									promises.push(
 										ev.guild.then(
 											(guild) =>
-												(guildsRes.data[i].nickname = guild.me.nickname ?? "")
+												(guildsRes.data[i].nickname = guild.me?.nickname ?? "")
 										)
 									);
 							}
@@ -67,3 +74,5 @@ export default (discord, client, req, res) => {
 			});
 		});
 };
+
+export default handler;

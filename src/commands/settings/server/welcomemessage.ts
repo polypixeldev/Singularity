@@ -1,3 +1,9 @@
+import Discord from "discord.js";
+
+import updateServer from "../../../util/updateServer";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "welcomemessage",
 	description: "Change the server's message for when a memeber joins",
@@ -21,11 +27,16 @@ export default {
 	aliases: [],
 	example:
 		'settings server welcomemessage #welcome "Welcome, {member-mention}!',
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		if (interaction.options.get("message").value === "none") {
+
+		if (!interaction.guild) {
+			return;
+		}
+
+		if (interaction.options.get("message")?.value === "none") {
 			if (serverDoc.welcomeChannelID !== "none") {
-				client.utils.updateServer(client, interaction.guild.id, {
+				updateServer(client, interaction.guild.id, {
 					welcomeChannelID: "none",
 				});
 
@@ -47,7 +58,15 @@ export default {
 			}
 		}
 
-		const welcomeChannel = interaction.options.get("channel").channel;
+		const welcomeChannel = interaction.options.get("channel")?.channel;
+
+		if (!welcomeChannel) {
+			return;
+		}
+
+		if (!("isText" in welcomeChannel)) {
+			return;
+		}
 
 		if (!welcomeChannel.isText()) {
 			const embed = new Discord.MessageEmbed()
@@ -57,20 +76,18 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const welcomeMessage = interaction.options.get("message").value;
+		const welcomeMessage = interaction.options.get("message")?.value;
 
-		client.utils
-			.updateServer(client, interaction.guild.id, {
-				welcomeMessage: welcomeMessage,
-				welcomeChannelID: welcomeChannel.id,
-			})
-			.then(() => {
-				const successEmbed = new Discord.MessageEmbed()
-					.setColor(0x000000)
-					.setDescription(
-						`Server welcome message successfully changed to \`${welcomeMessage}\` in channel \`#${welcomeChannel.name}\``
-					);
-				interaction.editReply({ embeds: [successEmbed] });
-			});
+		updateServer(client, interaction.guild.id, {
+			welcomeMessage: welcomeMessage,
+			welcomeChannelID: welcomeChannel.id,
+		}).then(() => {
+			const successEmbed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription(
+					`Server welcome message successfully changed to \`${welcomeMessage}\` in channel \`#${welcomeChannel.name}\``
+				);
+			interaction.editReply({ embeds: [successEmbed] });
+		});
 	},
-};
+} as Command;

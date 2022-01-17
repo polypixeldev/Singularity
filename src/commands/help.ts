@@ -1,3 +1,9 @@
+import Discord from "discord.js";
+
+import BaseEmbed from "../util/BaseEmbed";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "help",
 	description: "Singularity Help",
@@ -33,13 +39,15 @@ export default {
 	args: ["!<command type>"],
 	aliases: [],
 	example: "help general",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 		if (interaction.options.get("command")) {
-			let command;
+			const command = client.commands.get(
+				interaction.options.get("command")?.value as string
+			);
 			let subcommand;
 			let group;
-			if (!client.commands.get(interaction.options.get("command").value)) {
+			if (!command) {
 				const notFoundEmbed = new Discord.MessageEmbed()
 					.setColor(0x000000)
 					.setDescription(
@@ -47,12 +55,11 @@ export default {
 					);
 				return interaction.editReply({ embeds: [notFoundEmbed] });
 			} else {
-				command = client.commands.get(interaction.options.get("command").value);
 				if (interaction.options.get("group")) {
 					group = command.options.find(
 						(opt) =>
 							opt.type === "SUB_COMMAND_GROUP" &&
-							opt.name === interaction.options.get("group").value
+							opt.name === interaction.options.get("group")?.value
 					);
 					if (!group) {
 						const embed = new Discord.MessageEmbed()
@@ -65,10 +72,14 @@ export default {
 
 				if (interaction.options.get("subcommand")) {
 					if (group) {
+						if (!group.options) {
+							return;
+						}
+
 						subcommand = group.options.find(
 							(opt) =>
 								opt.type === "SUB_COMMAND" &&
-								opt.name === interaction.options.get("subcommand").value
+								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
 							const embed = new Discord.MessageEmbed()
@@ -83,7 +94,7 @@ export default {
 						subcommand = command.options.find(
 							(opt) =>
 								opt.type === "SUB_COMMAND" &&
-								opt.name === interaction.options.get("subcommand").value
+								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
 							const embed = new Discord.MessageEmbed()
@@ -102,6 +113,10 @@ export default {
 					let subGrpStr = "";
 					let subStr = "";
 
+					if (!subcommand?.options) {
+						return;
+					}
+
 					if (subcommand?.options.length ?? command.options.length > 0) {
 						argString = ``;
 						for (const arg of subcommand?.options ?? command.options) {
@@ -118,10 +133,7 @@ export default {
 						argString = ``;
 					}
 
-					const embed = new client.utils.BaseEmbed(
-						"Singularity Help",
-						interaction.user
-					)
+					const embed = new BaseEmbed("Singularity Help", interaction.user)
 						.setTitle(
 							`${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
 								subcommand ? `Subcommand "${subcommand.name}" - ` : ""
@@ -147,14 +159,15 @@ export default {
 					return interaction.editReply({ embeds: [embed] });
 				} else if (group) {
 					let subStr = "";
+					if (!group.options) {
+						return;
+					}
+
 					for (const subcmd of group.options) {
 						subStr = subStr + ` - **${subcmd.name}** \n`;
 					}
 
-					const embed = new client.utils.BaseEmbed(
-						"Singularity Help",
-						interaction.user
-					)
+					const embed = new BaseEmbed("Singularity Help", interaction.user)
 						.setTitle(
 							`${command.name} - Group "${
 								group.name
@@ -173,9 +186,9 @@ export default {
 			} else {
 				const main = subcommand ?? command;
 				if (
-					!main.options.find(
+					!main.options?.find(
 						(option) =>
-							option.name === interaction.options.get("argument").value
+							option.name === interaction.options.get("argument")?.value
 					)
 				) {
 					const argNotFoundEmbed = new Discord.MessageEmbed()
@@ -187,31 +200,28 @@ export default {
 					return interaction.editReply({ embeds: [argNotFoundEmbed] });
 				} else {
 					const main = subcommand ?? command;
-					const argument = main.options.find(
+					const argument = main.options?.find(
 						(option) =>
-							option.name === interaction.options.get("argument").value
+							option.name === interaction.options.get("argument")?.value
 					);
-					const argEmbed = new client.utils.BaseEmbed(
-						"Singularity Help",
-						interaction.user
-					)
+					const argEmbed = new BaseEmbed("Singularity Help", interaction.user)
 						.setTitle(
 							`${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
 								subcommand ? `Subcommand "${subcommand.name}" - ` : ""
-							} Argument ${argument.name}`
+							} Argument ${argument?.name}`
 						)
 						.addFields([
 							{
 								name: "Description",
-								value: argument.description,
+								value: argument?.description as string,
 							},
 							{
 								name: "Type",
-								value: argument.type,
+								value: argument?.type as string,
 							},
 							{
 								name: "Required",
-								value: argument.required?.toString() ?? "False",
+								value: argument?.required?.toString() ?? "False",
 							},
 						]);
 
@@ -219,17 +229,17 @@ export default {
 				}
 			}
 		} else {
-			const generalEmbed = new client.utils.BaseEmbed(
+			const generalEmbed = new BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setTitle("Singularity General Commands");
 
-			const modEmbed = new client.utils.BaseEmbed(
+			const modEmbed = new BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setTitle("Singularity Moderation Commands");
 
-			const msEmbed = new client.utils.BaseEmbed(
+			const msEmbed = new BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setTitle("My Singularity Commands");
@@ -241,6 +251,9 @@ export default {
 					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
+							if (!option.options) {
+								return;
+							}
 							for (const subcmd of option.options) {
 								desc.push(
 									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
@@ -261,6 +274,11 @@ export default {
 					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
+
+							if (!option.options) {
+								return;
+							}
+
 							for (const subcmd of option.options) {
 								desc.push(
 									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
@@ -281,6 +299,11 @@ export default {
 					for (const option of command[1].options) {
 						if (option.type === "SUB_COMMAND_GROUP") {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
+
+							if (!option.options) {
+								return;
+							}
+
 							for (const subcmd of option.options) {
 								desc.push(
 									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
@@ -297,7 +320,7 @@ export default {
 					msEmbed.setDescription(`\`/ms\`\n ${desc.join("")}`);
 				}
 			}
-			let latestEmbed = new client.utils.BaseEmbed(
+			let latestEmbed = new BaseEmbed(
 				"Singularity Help",
 				interaction.user
 			).setDescription(
@@ -310,10 +333,10 @@ export default {
 
 			const components = [
 				{
-					type: "ACTION_ROW",
+					type: "ACTION_ROW" as const,
 					components: [
 						{
-							type: "SELECT_MENU",
+							type: "SELECT_MENU" as const,
 							label: "Command Category",
 							custom_id: "type",
 							options: [
@@ -344,6 +367,10 @@ export default {
 					components: components,
 				})
 				.then((sent) => {
+					if (!(sent instanceof Discord.Message)) {
+						return;
+					}
+
 					const collector = sent.createMessageComponentCollector({
 						componentType: "SELECT_MENU",
 						time: 300000,
@@ -375,4 +402,4 @@ export default {
 				});
 		}
 	},
-};
+} as Command;

@@ -1,19 +1,13 @@
-const optMapping = {
-	1: "1️⃣",
-	2: "2️⃣",
-	3: "3️⃣",
-	4: "4️⃣",
-	5: "5️⃣",
-	6: "6️⃣",
-	7: "7️⃣",
-	8: "8️⃣",
-	9: "9️⃣",
-	10: "🔟",
-};
+import Discord from "discord.js";
+
+import Command from "../../interfaces/client/command";
+
+const optMapping = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
 export default {
 	name: "create",
 	description: "Creates a poll",
+	type: "general",
 	options: [
 		{
 			name: "title",
@@ -95,9 +89,9 @@ export default {
 		},
 	],
 	example: 'poll create "Yes or no?" "Yes" "No"',
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply();
-		const title = interaction.options.get("title").value;
+		const title = interaction.options.get("title")?.value;
 		const description = interaction.options.get("description")?.value ?? "";
 		const colorStr = interaction.options.get("color")?.value ?? "000000";
 		const options = [
@@ -116,18 +110,18 @@ export default {
 
 		let optStr = "";
 		for (let i = 0; i < cleanOptions.length; i++) {
-			optStr = optStr + `${optMapping[`${i + 1}`]} ${cleanOptions[i]} \n \n`;
+			optStr = optStr + `${optMapping[i]} ${cleanOptions[i]} \n \n`;
 		}
 
 		const currentDate = new Date(Date.now());
 		const poll = new Discord.MessageEmbed()
-			.setTitle(title)
-			.setFooter(
-				`Poll created by ${
+			.setTitle(title as string)
+			.setFooter({
+				text: `Poll created by ${
 					interaction.user.tag
 				} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-				interaction.user.displayAvatarURL()
-			);
+				iconURL: interaction.user.displayAvatarURL(),
+			});
 
 		try {
 			poll.setColor(`#${colorStr}`);
@@ -142,7 +136,7 @@ export default {
 		if (description !== "")
 			poll.addFields({
 				name: "Description",
-				value: description,
+				value: description as string,
 				inline: false,
 			});
 
@@ -153,18 +147,23 @@ export default {
 		});
 
 		interaction.editReply({ embeds: [poll] }).then((sent) => {
+			if (!(sent instanceof Discord.Message)) {
+				return;
+			}
+
 			const sentEmbed = sent.embeds[0];
-			sentEmbed.setFooter(
-				`Poll ID: ${sent.id} • Poll created by ${
+			sentEmbed.setFooter({
+				text: `Poll ID: ${sent.id} • Poll created by ${
 					interaction.user.tag
 				} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-				interaction.user.displayAvatarURL()
-			);
+				iconURL: interaction.user.displayAvatarURL(),
+			});
+
 			sent.edit({ embeds: [sentEmbed] }).then((newSent) => {
 				for (let i = 0; i < cleanOptions.length; i++) {
-					newSent.react(optMapping[`${i + 1}`]);
+					newSent.react(optMapping[i]);
 				}
 			});
 		});
 	},
-};
+} as Command;

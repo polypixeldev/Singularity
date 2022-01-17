@@ -1,4 +1,14 @@
-const cooldowns = {};
+import Discord from "discord.js";
+
+import loadGuildInfo from "../../util/loadGuildInfo";
+import loadUserInfo from "../../util/loadUserInfo";
+import updateUser from "../../util/updateUser";
+import manageUse from "../../util/manageUse";
+
+import Singularity from "../../interfaces/singularity";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cooldowns: any = {};
 
 const levelArr = [200, 500, 1000, 2000, 5000, 9000, 14000, 20000, 28000, 40000];
 
@@ -8,7 +18,7 @@ setInterval(() => {
 	}
 }, 1000);
 
-function splitCommandLine(commandLine) {
+function getArgs(commandLine: string) {
 	let doubleDoubleQuote = "<DDQ>";
 	while (commandLine.indexOf(doubleDoubleQuote) > -1) doubleDoubleQuote += "@";
 	const noDoubleDoubleQuotes = commandLine.replace(/""/g, doubleDoubleQuote);
@@ -31,28 +41,23 @@ function splitCommandLine(commandLine) {
 	return paramArray;
 }
 
-export default async (Discord, client, msg) => {
-	if (msg.author.bot || msg.channel.type === "DM") return;
-	let userMS;
-	let serverDoc;
-	await client.utils.loadGuildInfo(client, msg.guild).then(async (server) => {
-		serverDoc = server;
-		userMS = await client.utils.loadUserInfo(client, server, msg.author.id);
-	});
-	if (serverDoc === "err") return;
+export default async (client: Singularity, msg: Discord.Message) => {
+	if (msg.author.bot || msg.channel.type === "DM" || !msg.guild) return;
+
+	const serverDoc = await loadGuildInfo(client, msg.guild);
+	const userMS = await loadUserInfo(client, serverDoc, msg.author.id);
 
 	if (!msg.author.bot) {
 		if (!cooldowns[msg.author.id]) {
 			cooldowns[msg.author.id] = 0;
 		}
 
-		const prevExp = userMS.atoms;
+		const prevExp = userMS.lifeExp;
 		if (cooldowns[msg.author.id] === 0) {
 			let addProton = Math.floor(5 + Math.random() * 5);
 			let addElectron = Math.floor(5 + Math.random());
 			let addDarkMatter = Math.random() < 0.001 ? 1 : 0;
-			[addProton, addElectron, addDarkMatter] = client.utils.manageUse.message(
-				msg,
+			[addProton, addElectron, addDarkMatter] = manageUse.message(
 				userMS,
 				addProton,
 				addElectron,
@@ -66,7 +71,7 @@ export default async (Discord, client, msg) => {
 		}
 		let index = 1;
 		for (const value of levelArr) {
-			if (prevExp < value && userMS.lifeAtoms >= value) {
+			if (prevExp < value && userMS.lifeExp >= value) {
 				msg.channel.send({
 					content: `Level up! Your Singularity is now level **${index}**!`,
 				});
@@ -74,7 +79,7 @@ export default async (Discord, client, msg) => {
 			index++;
 		}
 
-		await client.utils.updateUser(client, serverDoc.guildID, userMS.userID, {
+		await updateUser(client, serverDoc.guildID, userMS.userID, {
 			...userMS.toObject(),
 			protons: userMS.protons,
 			electrons: userMS.electrons,
@@ -85,12 +90,15 @@ export default async (Discord, client, msg) => {
 
 	if (!msg.content.startsWith(".") || msg.author.bot) return;
 
-	const args = splitCommandLine(msg.content.slice(1));
-	const cmd = args.shift().toLowerCase();
+	const args = getArgs(msg.content.slice(1));
+	const cmd = args.shift()?.toLowerCase();
 
-	const command =
-		client.commands.get(cmd) ||
-		client.commands.find((a) => a.aliases && a.aliases.includes(cmd));
+	if (!cmd) {
+		return;
+	}
+
+	const command = client.commands.get(cmd);
+
 	if (!command) return;
 
 	const warning = new Discord.MessageEmbed()

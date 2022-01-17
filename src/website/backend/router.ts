@@ -3,12 +3,14 @@ import CORS from "cors";
 import axios from "axios";
 import fs from "fs";
 
-export default async (client) => {
+import APIClient from "../server";
+
+export default async (client: APIClient) => {
 	const router = Express.Router();
 
-	const corsOptions = {};
+	router.use(CORS());
 
-	const routeArr = [];
+	const routeArr: string[] = [];
 
 	let routes = fs
 		.readdirSync("./prod/website/backend/routes", {
@@ -32,7 +34,6 @@ export default async (client) => {
 
 				router.all(
 					`${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`,
-					CORS(corsOptions),
 					(req, res) => {
 						const apiInstance = axios.create({
 							headers: {

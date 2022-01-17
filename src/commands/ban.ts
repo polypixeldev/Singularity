@@ -1,3 +1,10 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../util/loadUserInfo";
+import updateUser from "../util/updateUser";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "ban",
 	description: "Bans the mentioned user",
@@ -59,9 +66,25 @@ export default {
 	example: "ban @poly 14 Breaking the rules",
 	notes:
 		"number of days cannot be longer than 7 - if days are omitted, mentioned user will be banned indefinitely",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply();
 		const user = interaction.options.get("user");
+
+		if (!(user?.member instanceof Discord.GuildMember)) {
+			return;
+		}
+
+		if (!user.user) {
+			return;
+		}
+
+		if (!(interaction.member instanceof Discord.GuildMember)) {
+			return;
+		}
+
+		if (!interaction.guild) {
+			return;
+		}
 
 		if (user.member.permissions.has("ADMINISTRATOR")) {
 			const permsEmbed = new Discord.MessageEmbed()
@@ -91,26 +114,28 @@ export default {
 		return user.member
 			.ban({
 				reason:
-					interaction.options.get("reason")?.value ??
+					(interaction.options.get("reason")?.value as string) ??
 					`User banned by ${interaction.user.tag}`,
-				days: interaction.options.get("days")?.value,
+				days: Number(interaction.options.get("days")?.value),
 			})
 			.then(async () => {
-				const userDoc = await client.utils.loadUserInfo(
-					client,
-					serverDoc,
-					user.user.id
-				);
+				if (!user.user) {
+					return;
+				}
+
+				const userDoc = await loadUserInfo(client, serverDoc, user.user.id);
+
 				userDoc.infractions.push({
 					modID: interaction.user.id,
 					modTag: interaction.user.tag,
 					timestamp: interaction.createdTimestamp,
 					type: "Ban",
 					message:
-						interaction.options.get("reason")?.value ??
+						(interaction.options.get("reason")?.value as string) ??
 						`User banned by ${interaction.user.tag}`,
 				});
-				client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+
+				updateUser(client, userDoc.guildID, userDoc.userID, {
 					...userDoc.toObject(),
 					infractions: userDoc.infractions,
 				});
@@ -137,4 +162,4 @@ export default {
 				return interaction.editReply({ embeds: [embed] });
 			});
 	},
-};
+} as Command;

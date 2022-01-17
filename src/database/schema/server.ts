@@ -1,15 +1,16 @@
 import { Schema, Types } from "mongoose";
+import { Snowflake } from "discord.js";
 
-import Item from "../../interfaces/database/item";
+import Item from "../../interfaces/user/item";
 
 export interface Server {
-	guildID: string;
+	guildID: Snowflake;
 	welcomeMessage: string;
 	welcomeChannelID: string;
 	leaveChannelID: string;
 	leaveMessage: string;
-	reactionRoles: string[];
-	ms: Types.ObjectId;
+	reactionRoles: string[][];
+	ms: Types.ObjectId[];
 	items: Item[];
 	types: string[];
 }

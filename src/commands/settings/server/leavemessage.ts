@@ -1,3 +1,9 @@
+import Discord from "discord.js";
+
+import updateServer from "../../../util/updateServer";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "leavemessage",
 	description: "Change the server's message for when a member leaves",
@@ -20,11 +26,16 @@ export default {
 	args: [],
 	aliases: [],
 	example: 'settings server leavemessage #goodbye "Goodbye, {member-tag}"',
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		if (interaction.options.get("message").value === "none") {
+
+		if (!interaction.guild) {
+			return;
+		}
+
+		if (interaction.options.get("message")?.value === "none") {
 			if (serverDoc.leaveChannelID !== "none") {
-				client.utils.updateServer(client, interaction.guild.id, {
+				updateServer(client, interaction.guild.id, {
 					leaveChannelID: "none",
 				});
 
@@ -46,9 +57,17 @@ export default {
 			}
 		}
 
-		const leaveChannel = interaction.options.get("channel").channel;
+		const leaveChannel = interaction.options.get("channel")?.channel;
 
-		if (!leaveChannel.isText()) {
+		if (!leaveChannel) {
+			return;
+		}
+
+		if (!("isText" in leaveChannel)) {
+			return;
+		}
+
+		if (!leaveChannel?.isText()) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setDescription("This is not a valid text channel!");
@@ -56,21 +75,19 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const leaveMessage = interaction.options.get("message").value;
+		const leaveMessage = interaction.options.get("message")?.value;
 
-		client.utils
-			.updateServer(client, interaction.guild.id, {
-				leaveMessage: leaveMessage,
-				leaveChannelID: leaveChannel.id,
-			})
-			.then(() => {
-				const embed = new Discord.MessageEmbed()
-					.setColor(0x000000)
-					.setDescription(
-						`Server leave message successfully changed to \`${leaveMessage}\` in channel \`#${leaveChannel.name}\``
-					);
+		updateServer(client, interaction.guild.id, {
+			leaveMessage: leaveMessage,
+			leaveChannelID: leaveChannel.id,
+		}).then(() => {
+			const embed = new Discord.MessageEmbed()
+				.setColor(0x000000)
+				.setDescription(
+					`Server leave message successfully changed to \`${leaveMessage}\` in channel \`#${leaveChannel.name}\``
+				);
 
-				interaction.editReply({ embeds: [embed] });
-			});
+			interaction.editReply({ embeds: [embed] });
+		});
 	},
-};
+} as Command;

@@ -1,4 +1,8 @@
-export default async (client) => {
+import updateUser from "./updateUser";
+
+import Singularity from "../interfaces/singularity";
+
+export default async (client: Singularity) => {
 	const inactivityTimeout = 1000 * 60 * 60 * 24 * 14;
 	const inactives = await client.userModel.find({
 		activity: { $lte: new Date(new Date().getTime() - inactivityTimeout) },
@@ -13,7 +17,7 @@ export default async (client) => {
 	});
 
 	changed.forEach((userDoc) => {
-		client.utils.updateUser(client, userDoc.guildID, userDoc.userID, {
+		updateUser(client, userDoc.guildID, userDoc.userID, {
 			...userDoc.toObject(),
 			protons: userDoc.protons,
 			electrons: userDoc.electrons,

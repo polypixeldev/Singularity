@@ -1,6 +1,14 @@
 import Discord from "discord.js";
 
-export default (client, ev, userID, guildID) => {
+import Singularity from "../../interfaces/singularity";
+import AsyncApiEvent from "../../interfaces/api/AsyncApiEvent";
+
+export default (
+	client: Singularity,
+	ev: AsyncApiEvent,
+	userID: string,
+	guildID: string
+) => {
 	ev.code = new Promise((resolve) => {
 		client.guilds.cache
 			.get(guildID)
@@ -33,9 +41,9 @@ export default (client, ev, userID, guildID) => {
 
 				client.guilds.cache
 					.get(guildID)
-					.systemChannel.send({ embeds: [embed] })
+					?.systemChannel?.send({ embeds: [embed] })
 					.then(() => {
-						client.guilds.cache.get(guildID).leave();
+						client.guilds.cache.get(guildID)?.leave();
 
 						setTimeout(async () => {
 							if (

@@ -1,6 +1,19 @@
-export default (client, guildResolvable) => {
+import { GuildResolvable } from "discord.js";
+import { HydratedDocument } from "mongoose";
+
+import Singularity from "../interfaces/singularity";
+import { Server } from "../database/schema/server";
+
+export default (
+	client: Singularity,
+	guildResolvable: GuildResolvable
+): Promise<HydratedDocument<Server>> => {
 	return new Promise((resolve, reject) => {
 		const guild = client.guilds.resolve(guildResolvable);
+		if (!guild) {
+			return reject("Unable to resolve guild");
+		}
+
 		client.serverModel
 			.findOne({ guildID: guild.id })
 			.exec()

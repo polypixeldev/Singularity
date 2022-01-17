@@ -1,8 +1,12 @@
-export default (discord, client, req, res) => {
+import ApiRoute from "../../../interfaces/api/ApiRoute";
+
+import AsyncApiEvent from "../../../interfaces/api/AsyncApiEvent";
+
+const handler: ApiRoute = (discord, client, req, res) => {
 	discord
 		.get("https://discord.com/api/users/@me")
 		.then(async (apiRes) => {
-			const ev = { code: 1 };
+			const ev: AsyncApiEvent = { code: 1 };
 			client.emit(
 				"updateGuild",
 				ev,
@@ -20,3 +24,5 @@ export default (discord, client, req, res) => {
 			});
 		});
 };
+
+export default handler;

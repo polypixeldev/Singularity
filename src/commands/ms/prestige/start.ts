@@ -1,16 +1,21 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../../../util/loadUserInfo";
+import loadGuildInfo from "../../../util/loadGuildInfo";
+import updateUser from "../../../util/updateUser";
+
+import Command from "../../../interfaces/client/command";
+
 export default {
 	name: "start",
 	description: "Start prestiging your Singularity!",
 	options: [],
+	type: "ms",
 	example: "ms prestige start",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const userMS = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			interaction.user.id
-		);
+		const userMS = await loadUserInfo(client, serverDoc, interaction.user.id);
 
 		const baseReq =
 			(userMS.singularity.prestige + 2) *
@@ -54,6 +59,10 @@ export default {
 				],
 			});
 
+			if (!(confirmation instanceof Discord.Message)) {
+				return;
+			}
+
 			confirmation
 				.awaitMessageComponent({
 					time: 30000,
@@ -61,12 +70,14 @@ export default {
 				})
 				.then(async (answer) => {
 					await answer.deferReply({ ephemeral: true });
+
+					if (!interaction.guild) {
+						return;
+					}
+
 					if (answer.customId === "Yes") {
-						const newServerDoc = await client.utils.loadGuildInfo(
-							client,
-							interaction.guild
-						);
-						const newUserMS = await client.utils.loadUserInfo(
+						const newServerDoc = await loadGuildInfo(client, interaction.guild);
+						const newUserMS = await loadUserInfo(
 							client,
 							newServerDoc,
 							interaction.user.id
@@ -84,10 +95,10 @@ export default {
 							newUserMS.rareItems.push(
 								rareItems[
 									Math.abs(Math.floor(Math.random() * rareItems.length))
-								] ?? rareItems[rareItems.length - 1]
+								].name ?? rareItems[rareItems.length - 1].name
 							);
 						}
-						newUserMS.powerUps = [];
+
 						newUserMS.darkMatter = 0;
 						newUserMS.active = [];
 						newUserMS.singularity = {
@@ -102,44 +113,42 @@ export default {
 							prestige: newUserMS.singularity.prestige + 1,
 						};
 
-						client.utils
-							.updateUser(
-								client,
-								newServerDoc.guildID,
-								newUserMS.userID,
-								newUserMS
-							)
-							.then(() => {
-								interaction.editReply({
-									embeds: [firstEmbed],
-									components: [
-										{
-											type: "ACTION_ROW",
-											components: [
-												{
-													type: "BUTTON",
-													label: "Yes",
-													customId: "Yes",
-													style: "SUCCESS",
-													disabled: true,
-												},
-												{
-													type: "BUTTON",
-													label: "No",
-													customId: "No",
-													style: "DANGER",
-													disabled: true,
-												},
-											],
-										},
-									],
-								});
-								const embed = new Discord.MessageEmbed()
-									.setColor(0x000000)
-									.setDescription("Congratulations! Prestige Successful!");
-
-								return answer.editReply({ embeds: [embed] });
+						updateUser(
+							client,
+							newServerDoc.guildID,
+							newUserMS.userID,
+							newUserMS
+						).then(() => {
+							interaction.editReply({
+								embeds: [firstEmbed],
+								components: [
+									{
+										type: "ACTION_ROW",
+										components: [
+											{
+												type: "BUTTON",
+												label: "Yes",
+												customId: "Yes",
+												style: "SUCCESS",
+												disabled: true,
+											},
+											{
+												type: "BUTTON",
+												label: "No",
+												customId: "No",
+												style: "DANGER",
+												disabled: true,
+											},
+										],
+									},
+								],
 							});
+							const embed = new Discord.MessageEmbed()
+								.setColor(0x000000)
+								.setDescription("Congratulations! Prestige Successful!");
+
+							return answer.editReply({ embeds: [embed] });
+						});
 					} else {
 						interaction.editReply({
 							embeds: [firstEmbed],
@@ -186,4 +195,4 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 	},
-};
+} as Command;

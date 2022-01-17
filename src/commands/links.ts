@@ -1,3 +1,7 @@
+import Discord from "discord.js";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "links",
 	description: "Various links for Singularity",
@@ -7,7 +11,7 @@ export default {
 	args: [],
 	aliases: ["l"],
 	example: "links",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const embed = new Discord.MessageEmbed()
@@ -43,4 +47,4 @@ export default {
 			],
 		});
 	},
-};
+} as Command;

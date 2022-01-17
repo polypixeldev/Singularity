@@ -1,8 +1,15 @@
 import prettyMS from "pretty-ms";
+import Discord from "discord.js";
+
+import loadUserInfo from "../../util/loadUserInfo";
+import BaseEmbed from "../../util/BaseEmbed";
+
+import Command from "../../interfaces/client/command";
 
 export default {
 	name: "view",
 	description: "View people's Singularity!",
+	type: "ms",
 	options: [
 		{
 			name: "user",
@@ -11,7 +18,7 @@ export default {
 			required: false,
 		},
 	],
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 		const user = interaction.options.get("user")?.user ?? interaction.user;
 		if (user.bot) {
@@ -23,7 +30,7 @@ export default {
 
 			return interaction.editReply({ embeds: [embed] });
 		}
-		const userMS = await client.utils.loadUserInfo(client, serverDoc, user.id);
+		const userMS = await loadUserInfo(client, serverDoc, user.id);
 
 		let itemStr = "\n";
 		for (const item of userMS.items) {
@@ -44,14 +51,11 @@ export default {
 		let rareStr = "";
 		for (const rare of userMS.rareItems) {
 			rareStr = rareStr + "\n";
-			rareStr = rareStr + `- **${rare.name}**`;
+			rareStr = rareStr + `- **${rare}**`;
 		}
 		if (rareStr === "") rareStr = "**None**";
 
-		const embed = new client.utils.BaseEmbed(
-			`${user.tag}'s Singularity`,
-			interaction.user
-		)
+		const embed = new BaseEmbed(`${user.tag}'s Singularity`, interaction.user)
 			.setThumbnail(user.displayAvatarURL())
 			.addField(
 				"User Stats",
@@ -77,4 +81,4 @@ export default {
 
 		interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

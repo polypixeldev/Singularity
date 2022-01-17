@@ -1,6 +1,12 @@
 import fs from "fs";
+import Discord from "discord.js";
 
-export default async (Discord, client) => {
+import Singularity from "../interfaces/singularity";
+import Command from "../interfaces/client/command";
+import Context from "../interfaces/client/context";
+import CommandsArray from "../interfaces/client/commandsarray";
+
+export default async (client: Singularity) => {
 	console.log("Loading Slash (/) Command Data...");
 	console.time("Finished Loading Slash (/) Command Data in");
 
@@ -8,7 +14,7 @@ export default async (Discord, client) => {
 		.readdirSync("./prod/commands/")
 		.filter((file) => file.endsWith("js"));
 
-	const basicCmds = new Discord.Collection();
+	const basicCmds = new Discord.Collection<string, Command>();
 	for (const file of command_files) {
 		const command = (await import(`../commands/${file}`)).default;
 		if (command.name) {
@@ -18,14 +24,21 @@ export default async (Discord, client) => {
 		}
 	}
 
-	client.user.id = process.env.CLIENT_ID;
-	const slashCommands = basicCmds.map(async (command) => {
+	if (!process.env.CLIENT_ID) {
+		throw "The client ID must be set in the environment variables.";
+	}
+
+	if (!client.user) {
+		throw new Error("Client user not available");
+	}
+
+	client.user.id = process.env.CLIENT_ID ?? "";
+	const pendingSlashCommands = basicCmds.map(async (command: Command) => {
 		const slashCmd = {
 			name: command.name,
 			type: command.type,
 			description: command.description,
 			options: command.options,
-			defaultPermission: command.defaultPermission,
 			example: command.example,
 			notes: command.notes,
 			slashExecute: command.slashExecute,
@@ -51,11 +64,13 @@ export default async (Discord, client) => {
 						.readdirSync(`./prod/commands/${command.name}/${ent.name}/`)
 						.filter((file) => file.endsWith("js"));
 					for (const subgrp_cmd_name of subgrp_cmds) {
-						if (subgrp_cmd_name === ".meta.js") continue;
-						const subgrp_cmd = await import(
-							`../commands/${command.name}/${ent.name}/${subgrp_cmd_name}`
-						);
-						slashCmd.options[index].options.push({
+						if (subgrp_cmd_name === "meta.json") continue;
+						const subgrp_cmd = (
+							await import(
+								`../commands/${command.name}/${ent.name}/${subgrp_cmd_name}`
+							)
+						).default;
+						slashCmd.options[index].options?.push({
 							name: subgrp_cmd.name,
 							description: subgrp_cmd.description,
 							type: "SUB_COMMAND",
@@ -85,6 +100,8 @@ export default async (Discord, client) => {
 		return slashCmd;
 	});
 
+	const slashCommands: CommandsArray = await Promise.all(pendingSlashCommands);
+
 	console.timeEnd("Finished Loading Slash (/) Command Data in");
 
 	console.log("Loading Context Menu Data...");
@@ -95,7 +112,7 @@ export default async (Discord, client) => {
 		.filter((file) => file.endsWith("js"));
 
 	for (const file of context_files) {
-		const context = (await import(`../contexts/${file}`)).default;
+		const context: Context = (await import(`../contexts/${file}`)).default;
 		if (context.name) {
 			client.contexts.set(context.name, context);
 			slashCommands.push({
@@ -115,26 +132,32 @@ export default async (Discord, client) => {
 		console.log(
 			`Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID}...`
 		);
+
 		if (!process.env.DEV_GUILD_ID) {
 			throw new ReferenceError("The development guild ID is not set!");
 		}
+
 		console.time(
 			`Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`
 		);
 
-		client.application.commands
+		client.application?.commands
+			// @ts-expect-error: String types also work
 			.set(slashCommands, process.env.DEV_GUILD_ID)
-			.then(() => {
+			?.then(() => {
 				console.timeEnd(
 					`Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`
 				);
 			});
 	} else if (process.argv[2] === "-D") {
 		console.log(`Sending Slash (/) Command Data to Discord Globally`);
+
 		console.time(
 			`Finished Sending Slash (/) Command Data to Discord Globally in`
 		);
-		client.application.commands.set(slashCommands).then(() => {
+
+		// @ts-expect-error: The slash command array is valid
+		client.application?.commands.set(slashCommands)?.then(() => {
 			console.timeEnd(
 				`Finished Sending Slash (/) Command Data to Discord Globally in`
 			);
@@ -143,10 +166,16 @@ export default async (Discord, client) => {
 		console.log(
 			`Removing All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID}...`
 		);
+
+		if (!process.env.DEV_GUILD_ID) {
+			throw new ReferenceError("The development guild ID is not set!");
+		}
+
 		console.time(
 			`Removed All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID} in`
 		);
-		client.application.commands.set([], process.env.DEV_GUILD_ID).then(() => {
+
+		client.application?.commands.set([], process.env.DEV_GUILD_ID)?.then(() => {
 			console.timeEnd(
 				`Removed All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID} in`
 			);
@@ -154,7 +183,7 @@ export default async (Discord, client) => {
 	} else if (process.argv[2] === "-R") {
 		console.log(`Removing All Slash (/) Commands Globally...`);
 		console.time(`Removed All Slash (/) Commands Globally in`);
-		client.application.commands.set([]).then(() => {
+		client.application?.commands.set([]).then(() => {
 			console.timeEnd(`Removed All Slash (/) Commands Globally in`);
 		});
 	}

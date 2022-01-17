@@ -1,12 +1,14 @@
 import Option from "./option";
 import CommandExecutor from "../../types/commandexecutor";
 
-export default interface Command {
+type CommandsArray = {
 	name: string;
-	description: string;
 	type: string;
-	options: Option[];
+	description?: string;
+	options?: Option[];
 	example?: string;
 	notes?: string;
 	slashExecute?: CommandExecutor;
-}
+}[];
+
+export default CommandsArray;

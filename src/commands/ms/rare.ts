@@ -1,16 +1,18 @@
+import BaseEmbed from "../../util/BaseEmbed";
+
+import Command from "../../interfaces/client/command";
+
 export default {
 	name: "rare",
 	description: "Display the list of Rare Items",
 	type: "ms",
-	args: [],
-	aliases: [],
 	example: "ms rare",
 	options: [],
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
 		const rareItems = serverDoc.items.filter((item) => item.rare === true);
-		const embed = new client.utils.BaseEmbed(
+		const embed = new BaseEmbed(
 			`My Singularity - Rare Items`,
 			interaction.user
 		).setDescription(
@@ -22,4 +24,4 @@ export default {
 
 		interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

@@ -1,18 +1,18 @@
+import BaseEmbed from "../../util/BaseEmbed";
+
+import Command from "../../interfaces/client/command";
+
 export default {
 	name: "info",
 	description: "Display information about My Singularity",
 	defaultPermission: true,
 	options: [],
-	args: [],
-	aliases: [],
+	type: "ms",
 	example: "ms info",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const embed = new client.utils.BaseEmbed(
-			"My Singularity Info",
-			interaction.user
-		)
+		const embed = new BaseEmbed("My Singularity Info", interaction.user)
 			.setDescription(
 				`
 			***My Singularity is the new best way to show off what you've done for a server!***
@@ -59,4 +59,4 @@ export default {
 
 		interaction.editReply({ embeds: [embed] });
 	},
-};
+} as Command;

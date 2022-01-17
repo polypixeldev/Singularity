@@ -1,5 +1,16 @@
+import Discord from "discord.js";
+import { HydratedDocument } from "mongoose";
+
+import loadGuildInfo from "./loadGuildInfo";
+import loadUserInfo from "./loadUserInfo";
+import updateUser from "./updateUser";
+
+import Singularity from "../interfaces/singularity";
+import { User } from "../database/schema/user";
+import Item from "../interfaces/user/item";
+
 export default {
-	activate(client, Discord, userDoc, item) {
+	activate(client: Singularity, userDoc: HydratedDocument<User>, item: Item) {
 		for (let i = 0; i < userDoc.items.length; i++) {
 			if (userDoc.items[i] === item.name) {
 				userDoc.items.splice(i, 1);
@@ -13,11 +24,8 @@ export default {
 				start: Date.now(),
 			});
 			setTimeout(async () => {
-				const newServerDoc = await client.utils.loadGuildInfo(
-					client,
-					userDoc.guildID
-				);
-				const newUserDoc = await client.utils.loadUserInfo(
+				const newServerDoc = await loadGuildInfo(client, userDoc.guildID);
+				const newUserDoc = await loadUserInfo(
 					client,
 					newServerDoc,
 					userDoc.userID
@@ -30,15 +38,10 @@ export default {
 					}
 				}
 
-				client.utils.updateUser(
-					client,
-					newServerDoc.guildID,
-					newUserDoc.userID,
-					{
-						...newUserDoc.toObject(),
-						active: newUserDoc.active,
-					}
-				);
+				updateUser(client, newServerDoc.guildID, newUserDoc.userID, {
+					...newUserDoc.toObject(),
+					active: newUserDoc.active,
+				});
 			}, item.time * 1000);
 		}
 
@@ -69,11 +72,16 @@ export default {
 				console.log(`Unknown item name: ${item.name}`);
 		}
 
-		client.utils.updateUser(client, userDoc.guildID, userDoc.userID, userDoc);
+		updateUser(client, userDoc.guildID, userDoc.userID, userDoc);
 
 		return embed;
 	},
-	message(msg, userDoc, addProton, addElectron, addDarkMatter) {
+	message(
+		userDoc: HydratedDocument<User>,
+		addProton: number,
+		addElectron: number,
+		addDarkMatter: number
+	) {
 		if (userDoc.active.find((item) => item.name === "lasting")) {
 			addProton *= 2;
 			addElectron *= 2;

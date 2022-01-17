@@ -5,7 +5,13 @@ import Discord from "discord.js";
 import mongoose from "mongoose";
 import * as Sentry from "@sentry/node";
 
+import checkActivity from "./util/checkActivity";
+import command_handler from "./handlers/command_handler";
+import event_handler from "./handlers/event_handler";
+
 import Singularity from "./interfaces/singularity";
+import Command from "./interfaces/client/command";
+import Context from "./interfaces/client/context";
 
 dotenv.config();
 
@@ -39,10 +45,14 @@ const client = new Discord.Client({
 	failIfNotExists: true,
 }) as Singularity;
 const api = new APIClient({
-	type: process.env.API_TYPE,
-	host: process.env.API_HOST,
-	port: process.env.API_PORT,
+	type: process.env.API_TYPE as string,
+	host: process.env.API_HOST as string,
+	port: Number(process.env.API_PORT) ?? 5000,
 });
+
+if (!process.env.MONGODB_URI) {
+	throw new Error("MongoDB URI must be provided in the environment variables");
+}
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -88,9 +98,8 @@ db.once("open", () => {
 	client.userModel = mongoose.model("Users", userSchema);
 	client.serverModel = mongoose.model("Servers", serverSchema);
 
-	client.commands = new Discord.Collection();
-	client.contexts = new Discord.Collection();
-	client.utils = {};
+	client.commands = new Discord.Collection<string, Command>();
+	client.contexts = new Discord.Collection<string, Context>();
 
 	client.login(process.env.DISCORD_TOKEN);
 	const loginTransaction = startupTransaction.startChild({
@@ -101,18 +110,15 @@ db.once("open", () => {
 	client.once("ready", () => {
 		console.log("Singularity is now online");
 
-		client.user.setPresence({
+		client.user?.setPresence({
 			activities: [{ name: "singularitybot.glitch.me", type: "WATCHING" }],
 			status: "online",
 		});
 
-		["command_handler", "event_handler", "util_handler"].forEach((handler) => {
-			import(`./handlers/${handler}`).then((func) =>
-				func.default(Discord, client, api)
-			);
-		});
+		command_handler(client);
+		event_handler(client, api);
 
-		cron.schedule("0 0 * * *", () => client.utils.checkActivity(client), {
+		cron.schedule("0 0 * * *", () => checkActivity(client), {
 			timezone: "America/New_York",
 		});
 

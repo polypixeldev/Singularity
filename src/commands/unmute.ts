@@ -1,3 +1,7 @@
+import Discord from "discord.js";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "unmute",
 	description: "Unmutes the mentioned user",
@@ -22,11 +26,22 @@ export default {
 	aliases: [],
 	example: "unmute @poly",
 	notes: "user must be mentioned",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply();
-		const user = interaction.options.get("user").user;
+		const user = interaction.options.get("user")?.user;
 
-		const member = interaction.guild.members.resolve(user);
+		if (!interaction.guild || !user) {
+			return;
+		}
+
+		const member = interaction.guild.members.resolve(
+			user as Discord.GuildMemberResolvable
+		);
+		const unmuter = interaction.member;
+
+		if (!member || !(unmuter instanceof Discord.GuildMember)) {
+			return;
+		}
 
 		if (!member.roles.cache.find((role) => role.name === "Muted")) {
 			const embed = new Discord.MessageEmbed()
@@ -36,7 +51,6 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const unmuter = interaction.member;
 		if (!unmuter.permissions.has("MUTE_MEMBERS")) {
 			const permsEmbed = new Discord.MessageEmbed()
 				.setDescription("You do not have permission to unmute!")
@@ -46,11 +60,16 @@ export default {
 		const unmuteRole = interaction.guild.roles.cache.find(
 			(role) => role.name === "Muted"
 		);
+
+		if (!unmuteRole) {
+			return;
+		}
+
 		member.roles
 			.remove(
 				unmuteRole,
-				interaction.options.get("reason")?.value ??
-					`User unmuted by ${interaction.user.tag}`
+				(interaction.options.get("reason")?.value ??
+					`User unmuted by ${interaction.user.tag}`) as string
 			)
 			.then(() => {
 				const embed = new Discord.MessageEmbed()
@@ -70,4 +89,4 @@ export default {
 				console.error(err);
 			});
 	},
-};
+} as Command;

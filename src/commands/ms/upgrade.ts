@@ -1,3 +1,11 @@
+import Discord from "discord.js";
+
+import loadUserInfo from "../../util/loadUserInfo";
+import BaseEmbed from "../../util/BaseEmbed";
+import updateUser from "../../util/updateUser";
+
+import Command from "../../interfaces/client/command";
+
 export default {
 	name: "upgrade",
 	description: "Upgrade your Singularity!",
@@ -6,13 +14,9 @@ export default {
 	args: [],
 	aliases: [],
 	example: "ms upgrade",
-	async slashExecute(client, Discord, interaction, serverDoc) {
+	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
-		const userMS = await client.utils.loadUserInfo(
-			client,
-			serverDoc,
-			interaction.user.id
-		);
+		const userMS = await loadUserInfo(client, serverDoc, interaction.user.id);
 		let limit = -1;
 		const remaining = {
 			protons: userMS.protons,
@@ -26,7 +30,7 @@ export default {
 			limit++;
 		} while (remaining.protons > 0 && remaining.electrons > 0);
 
-		const embed = new client.utils.BaseEmbed(
+		const embed = new BaseEmbed(
 			"Singularity Upgrade",
 			interaction.user
 		).setDescription(
@@ -52,10 +56,10 @@ export default {
 
 		const components = [
 			{
-				type: "ACTION_ROW",
+				type: "ACTION_ROW" as const,
 				components: [
 					{
-						type: "SELECT_MENU",
+						type: "SELECT_MENU" as const,
 						label: "Upgrade Quantity",
 						custom_id: "quantity",
 						disabled: false,
@@ -97,6 +101,10 @@ export default {
 				components: components,
 			})
 			.then((sent) => {
+				if (!(sent instanceof Discord.Message)) {
+					return;
+				}
+
 				sent
 					.awaitMessageComponent({
 						filter: (inter) => inter.user.id === interaction.user.id,
@@ -134,9 +142,8 @@ export default {
 							for (let i = 0; i < num; i++) {
 								userMS.singularity.size += Math.floor(Math.random() * 9 + 1);
 							}
-							client.utils
-								.updateUser(client, serverDoc.guildID, userMS.userID, userMS)
-								.then(() => {
+							updateUser(client, serverDoc.guildID, userMS.userID, userMS).then(
+								() => {
 									const embed = new Discord.MessageEmbed()
 										.setColor(0x000000)
 										.setDescription(
@@ -147,7 +154,8 @@ export default {
 										embeds: [embed],
 										ephemeral: true,
 									});
-								});
+								}
+							);
 						}
 					})
 					.catch(() => {
@@ -160,4 +168,4 @@ export default {
 					});
 			});
 	},
-};
+} as Command;

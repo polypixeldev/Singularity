@@ -1,3 +1,7 @@
+import Discord from "discord.js";
+
+import Command from "../interfaces/client/command";
+
 export default {
 	name: "clear",
 	description: "Clear messages",
@@ -14,8 +18,13 @@ export default {
 	args: ["<# of messages to clear> "],
 	aliases: ["purge", "delete"],
 	example: "clear 100",
-	async slashExecute(client, Discord, interaction) {
+	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
+
+		if (!(interaction.member instanceof Discord.GuildMember)) {
+			return;
+		}
+
 		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
 			const embed = new Discord.MessageEmbed()
 				.setDescription("You do not have permission to clear messages!")
@@ -23,8 +32,16 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		if (!Number.isInteger(Number(interaction.options.get("amount").value))) {
-			if (interaction.options.get("amount").value === "all") {
+		if (!Number.isInteger(Number(interaction.options.get("amount")?.value))) {
+			if (interaction.options.get("amount")?.value === "all") {
+				if (!interaction.channel) {
+					return;
+				}
+
+				if (!("clone" in interaction.channel)) {
+					return;
+				}
+
 				interaction.channel
 					.clone({
 						position: interaction.channel.rawPosition,
@@ -41,9 +58,8 @@ export default {
 							}, 10000);
 						});
 					});
-				interaction.channel.delete({
-					reason: "Clearing channel message history",
-				});
+
+				interaction.channel.delete("Clearing channel message history");
 				return;
 			} else {
 				const embed = new Discord.MessageEmbed()
@@ -53,7 +69,7 @@ export default {
 			}
 		}
 
-		if (Number(interaction.options.get("amount").value) > 100) {
+		if (Number(interaction.options.get("amount")?.value) > 100) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setDescription(
@@ -62,15 +78,23 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		if (Number(interaction.options.get("amount").value) < 1) {
+		if (Number(interaction.options.get("amount")?.value) < 1) {
 			const embed = new Discord.MessageEmbed()
 				.setColor(0x000000)
 				.setDescription("You must delete at least one message!");
 			return interaction.editReply({ embeds: [embed] });
 		}
 
+		if (!interaction.channel) {
+			return;
+		}
+
+		if (!("bulkDelete" in interaction.channel)) {
+			return;
+		}
+
 		interaction.channel
-			.bulkDelete(Number(interaction.options.get("amount").value), true)
+			?.bulkDelete(Number(interaction.options.get("amount")?.value), true)
 			.then(async (collection) => {
 				const embed = new Discord.MessageEmbed()
 					.setDescription(
@@ -95,4 +119,4 @@ export default {
 				return;
 			});
 	},
-};
+} as Command;
