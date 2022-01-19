@@ -1,12 +1,12 @@
 {
-	"extends": "eslint:recommended",
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
 	"env": {
 		"node": true,
 		"es6": true
 	},
-	"parserOptions": {
-		"ecmaVersion": 12
-	},
-	"ignorePatterns": ["website/frontend/build/**/*"],
+	"ignorePatterns": ["src/website/frontend/build/**/*"],
 	"rules": {}
 }

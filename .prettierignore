@@ -1,6 +1,7 @@
 .prettierignore
+.eslintignore
 .gitignore
 .husky
 LICENSE
-website/frontend/build
+src/website/frontend/build
 .devcontainer/Dockerfile
