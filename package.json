@@ -27,7 +27,7 @@
 		"@types/express": "^4.17.13",
 		"@types/node-cron": "^3.0.1",
 		"@types/os-utils": "^0.0.1",
-		"@typescript-eslint/eslint-plugin": "^5.10.2",
+		"@typescript-eslint/eslint-plugin": "^5.11.0",
 		"@typescript-eslint/parser": "^5.11.0",
 		"copyfiles": "^2.4.1",
 		"eslint": "^8.8.0",
