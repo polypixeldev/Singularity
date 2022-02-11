@@ -6,7 +6,7 @@
 	"main": "./prod/index.js",
 	"dependencies": {
 		"@sentry/node": "^6.17.6",
-		"@sentry/tracing": "^6.17.5",
+		"@sentry/tracing": "^6.17.7",
 		"axios": "^0.25.0",
 		"body-parser": "^1.19.1",
 		"bufferutil": "^4.0.6",
