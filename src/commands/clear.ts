@@ -50,11 +50,13 @@ export default {
 					.then((newChannel) => {
 						const embed = new Discord.MessageEmbed()
 							.setColor(0x000000)
-							.setDescription("Channel message history cleared!");
+							.setDescription(
+								"Channel message history cleared! \n *This message will self-delete*"
+							);
 
 						newChannel.send({ embeds: [embed] }).then((sent) => {
 							setTimeout(() => {
-								sent.delete();
+								sent.delete().catch(() => null);
 							}, 10000);
 						});
 					});
