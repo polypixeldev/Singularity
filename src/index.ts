@@ -32,14 +32,14 @@ Sentry.init({
 	environment: process.env.SENTRY_ENVIRONMENT,
 });
 
-const startupTransaction = Sentry.startTransaction({
-	op: "Startup",
-	name: "Startup",
-});
+// const startupTransaction = Sentry.startTransaction({
+// 	op: "Startup",
+// 	name: "Startup",
+// });
 
-Sentry.configureScope((scope) => {
-	scope.setSpan(startupTransaction);
-});
+// Sentry.configureScope((scope) => {
+// 	scope.setSpan(startupTransaction);
+// });
 
 const client = new Discord.Client({
 	partials: ["REACTION", "MESSAGE", "CHANNEL"],
@@ -65,14 +65,14 @@ if (!process.env.MONGODB_URI) {
 
 mongoose.connect(process.env.MONGODB_URI);
 
-const databaseConnectionTransaction = startupTransaction.startChild({
-	op: "connection",
-	description: "Database Connection",
-});
+// const databaseConnectionTransaction = startupTransaction.startChild({
+// 	op: "connection",
+// 	description: "Database Connection",
+// });
 
 const db = mongoose.connection;
 db.once("open", () => {
-	databaseConnectionTransaction.finish();
+	// databaseConnectionTransaction.finish();
 	console.log("Database connected:", process.env.MONGODB_URI);
 	const userSchema = new mongoose.Schema({
 		userID: String,
@@ -111,10 +111,10 @@ db.once("open", () => {
 	client.contexts = new Discord.Collection<string, Context>();
 
 	client.login(process.env.DISCORD_TOKEN);
-	const loginTransaction = startupTransaction.startChild({
-		op: "connection",
-		description: "Login to Discord API",
-	});
+	// const loginTransaction = startupTransaction.startChild({
+	// 	op: "connection",
+	// 	description: "Login to Discord API",
+	// });
 
 	client.once("ready", () => {
 		console.log("Singularity is now online");
@@ -131,7 +131,7 @@ db.once("open", () => {
 			timezone: "America/New_York",
 		});
 
-		loginTransaction.finish();
+		// loginTransaction.finish();
 	});
 });
 
