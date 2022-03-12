@@ -5,6 +5,7 @@
 	"repository": "https://github.com/Poly-Pixel/Singularity",
 	"main": "./prod/index.js",
 	"dependencies": {
+		"@sentry/integrations": "^6.18.2",
 		"@sentry/node": "^6.18.2",
 		"@sentry/tracing": "^6.18.2",
 		"axios": "^0.26.1",
@@ -20,6 +21,7 @@
 		"os-utils": "^0.0.14",
 		"pretty-ms": "^7.0.1",
 		"process-nextick-args": "^2.0.1",
+		"tslib": "^2.3.1",
 		"utf-8-validate": "^5.0.9"
 	},
 	"devDependencies": {
@@ -42,7 +44,8 @@
 		"start": "node .",
 		"lint": "eslint .",
 		"prepare": "husky install",
-		"build": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod"
+		"build:dev": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod",
+		"build:prod": "rimraf prod; tsc -p tsconfig.production.json && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod"
 	},
 	"keywords": [],
 	"author": "",

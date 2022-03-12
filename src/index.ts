@@ -4,10 +4,14 @@ import dotenv from "dotenv";
 import Discord from "discord.js";
 import mongoose from "mongoose";
 import * as Sentry from "@sentry/node";
+import { RewriteFrames } from "@sentry/integrations";
+//eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as Tracing from "@sentry/tracing";
 
 import checkActivity from "./util/checkActivity";
 import command_handler from "./handlers/command_handler";
 import event_handler from "./handlers/event_handler";
+import rootDir from "./root";
 
 import Singularity from "./interfaces/singularity";
 import Command from "./interfaces/client/command";
@@ -19,7 +23,12 @@ Sentry.init({
 	dsn: process.env.SENTRY_DSN,
 	release: "Singularity@1.0.1",
 	tracesSampleRate: 1.0,
-	integrations: [new Sentry.Integrations.Http({ tracing: true })],
+	integrations: [
+		new Sentry.Integrations.Http({ tracing: true }),
+		new RewriteFrames({
+			root: rootDir,
+		}),
+	],
 	environment: process.env.SENTRY_ENVIRONMENT,
 });
 
