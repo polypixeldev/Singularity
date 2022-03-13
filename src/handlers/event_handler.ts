@@ -1,5 +1,7 @@
 import fs from "fs";
 
+import apiBreadcrumb from "../util/apiBreadcrumb";
+
 import Singularity from "../interfaces/singularity";
 import APIClient from "../website/server";
 
@@ -14,6 +16,7 @@ export default (client: Singularity, api: APIClient) => {
 			const event_name = file.split(".")[0];
 			if (dir === "api") {
 				api.on(event_name, event.bind(null, client));
+				api.on(event_name, apiBreadcrumb.bind(null, event_name));
 			} else if (dir === "client") {
 				client.on(event_name, event.bind(null, client));
 			}
