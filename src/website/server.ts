@@ -71,6 +71,7 @@ export default class APIClient extends EventEmitter {
 		this.app.use("/api", await apiRouter(this));
 
 		this.app.use((req, res) => {
+			res.type("html");
 			res.send(html);
 		});
 	}
