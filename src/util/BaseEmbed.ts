@@ -6,11 +6,11 @@ export default class BaseEmbed extends MessageEmbed {
 		const currentDate = new Date(Date.now());
 		this.setColor(0x000000);
 		this.setTitle(title);
-		this.setFooter(
-			`${title} requested by ${
+		this.setFooter({
+			text: `${title} requested by ${
 				user.tag
 			} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
-			user.displayAvatarURL()
-		);
+			iconURL: user.displayAvatarURL(),
+		});
 	}
 }
