@@ -11,6 +11,7 @@ import checkActivity from "./util/checkActivity";
 import command_handler from "./handlers/command_handler";
 import event_handler from "./handlers/event_handler";
 import rootDir from "./root";
+import captureException from "./util/captureException";
 
 import Singularity from "./interfaces/singularity";
 import Command from "./interfaces/client/command";
@@ -140,5 +141,5 @@ db.once("open", () => {
 });
 
 db.on("error", (err) => {
-	Sentry.captureException(err);
+	captureException(err);
 });

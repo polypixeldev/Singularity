@@ -1,11 +1,8 @@
 import Discord from "discord.js";
-import {
-	startTransaction,
-	captureException,
-	configureScope,
-} from "@sentry/node";
+import { startTransaction, configureScope } from "@sentry/node";
 
 import loadGuildInfo from "../../../util/loadGuildInfo";
+import captureException from "../../../util/captureException";
 
 import InteractionHandler from "../../../types/InteractionHandler";
 
