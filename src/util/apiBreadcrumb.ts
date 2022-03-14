@@ -4,7 +4,7 @@ import GuildAvailableEvent from "../interfaces/api/GuildAvailableEvent";
 
 export default (endpoint: string, _: GuildAvailableEvent, guildId: string) => {
 	addBreadcrumb({
-		type: "util",
+		type: "debug",
 		category: "api",
 		message: `Client API interface \`${endpoint}\` hit`,
 		level: Severity.Info,
