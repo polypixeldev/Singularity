@@ -1,19 +1,43 @@
 import Discord from "discord.js";
+import {
+	startTransaction,
+	captureException,
+	configureScope,
+} from "@sentry/node";
 
 import loadGuildInfo from "../../../util/loadGuildInfo";
 
 import InteractionHandler from "../../../types/InteractionHandler";
 
 const handler: InteractionHandler = async (client, interaction) => {
+	const commandTransaction = startTransaction({
+		op: "command",
+		name: "Command Interaction",
+	});
+
+	configureScope((scope) => {
+		scope.setSpan(commandTransaction);
+	});
+
+	const dataTransaction = commandTransaction.startChild({
+		op: "command",
+		description: "Fetch command data",
+	});
+
 	if (!(interaction instanceof Discord.CommandInteraction)) {
+		dataTransaction.finish();
+		commandTransaction.finish();
 		return;
 	}
 
 	console.log(
 		`Command Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild.name}`
 	);
-	if (!client.commands.has(interaction.commandName) || !interaction.guild)
+	if (!client.commands.has(interaction.commandName) || !interaction.guild) {
+		dataTransaction.finish();
+		commandTransaction.finish();
 		return;
+	}
 
 	const serverDoc = await loadGuildInfo(client, interaction.guild);
 
@@ -39,13 +63,21 @@ const handler: InteractionHandler = async (client, interaction) => {
 	}
 
 	if (!executor) {
+		dataTransaction.finish();
+		commandTransaction.finish();
 		return;
 	}
+
+	const executeTransaction = commandTransaction.startChild({
+		op: "command",
+		description: "Execute the command with the fetched data",
+	});
 
 	try {
 		await executor(client, interaction, serverDoc);
 	} catch (error) {
-		console.error(error);
+		captureException(error);
+
 		const embed = new Discord.MessageEmbed()
 			.setColor(0x000000)
 			.setDescription(
@@ -55,6 +87,9 @@ const handler: InteractionHandler = async (client, interaction) => {
 			embeds: [embed],
 		});
 	}
+
+	executeTransaction.finish();
+	commandTransaction.finish();
 };
 
 export default handler;
