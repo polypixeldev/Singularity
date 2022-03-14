@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build:dev",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: build:dev",
+			"detail": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod"
+		}
+	]
+}
