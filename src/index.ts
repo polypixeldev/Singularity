@@ -140,5 +140,5 @@ db.once("open", () => {
 });
 
 db.on("error", (err) => {
-	console.error("connection error:", err);
+	Sentry.captureException(err);
 });
