@@ -41,7 +41,7 @@ export default class APIClient extends EventEmitter {
 
 		this.app.use("/", (req, res, next) => {
 			addBreadcrumb({
-				type: "event",
+				type: "debug",
 				category: "website",
 				message: `Endpoint \`${req.url}\` requested`,
 				level: Severity.Info,
