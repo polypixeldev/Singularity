@@ -85,6 +85,7 @@ export default async (client: Singularity, msg: Discord.Message) => {
 			electrons: userMS.electrons,
 			darkMatter: userMS.darkMatter,
 			lifeExp: userMS.lifeExp,
+			activity: new Date(Date.now()),
 		});
 	}
 

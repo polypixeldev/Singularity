@@ -10,6 +10,9 @@ export default async (
 	data: any
 ) => {
 	await client.userModel
-		.replaceOne({ guildID: guildID, userID: userID }, data)
+		.replaceOne(
+			{ guildID: guildID, userID: userID },
+			{ ...data, _id: undefined }
+		)
 		.exec();
 };

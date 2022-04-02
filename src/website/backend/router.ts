@@ -30,7 +30,9 @@ export default async (client: APIClient) => {
 				routeArr.push(ent.name);
 				search();
 			} else {
-				const exec = await import(`./routes/${routeArr.join("/")}/${ent.name}`);
+				const exec = (
+					await import(`./routes/${routeArr.join("/")}/${ent.name}`)
+				).default;
 
 				router.all(
 					`${routeArr.join("/")}/${ent.name.slice(0, ent.name.length - 3)}`,

@@ -1,6 +1,7 @@
 import Express from "express";
 import { EventEmitter } from "events";
 import fs from "fs";
+import { addBreadcrumb, Severity } from "@sentry/node";
 
 import apiRouter from "./backend/router";
 
@@ -38,6 +39,16 @@ export default class APIClient extends EventEmitter {
 				this.startFull();
 		}
 
+		this.app.use("/", (req, res, next) => {
+			addBreadcrumb({
+				type: "debug",
+				category: "website",
+				message: `Endpoint \`${req.url}\` requested`,
+				level: Severity.Info,
+			});
+			next();
+		});
+
 		this.app.listen(this.port, this.host, () => {
 			console.log(
 				`${
@@ -71,6 +82,7 @@ export default class APIClient extends EventEmitter {
 		this.app.use("/api", await apiRouter(this));
 
 		this.app.use((req, res) => {
+			res.type("html");
 			res.send(html);
 		});
 	}
