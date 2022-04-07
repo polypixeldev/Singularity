@@ -7,7 +7,7 @@
 	"dependencies": {
 		"@sentry/integrations": "^6.19.4",
 		"@sentry/node": "^6.19.4",
-		"@sentry/tracing": "^6.19.4",
+		"@sentry/tracing": "^6.19.6",
 		"@sentry/types": "^6.19.3",
 		"axios": "^0.26.1",
 		"body-parser": "^1.20.0",
