@@ -25,7 +25,7 @@ dotenv.config();
 
 Sentry.init({
 	dsn: process.env.SENTRY_DSN,
-	release: "Singularity@1.0.3",
+	release: "Singularity@2.0.0",
 	tracesSampleRate: 1.0,
 	integrations: [
 		new Sentry.Integrations.Http({ tracing: true }),
