@@ -9,10 +9,10 @@ export default async (
 	userID: Snowflake,
 	data: any
 ) => {
+	const filteredData = { ...data };
+	delete filteredData._id;
+
 	await client.userModel
-		.replaceOne(
-			{ guildID: guildID, userID: userID },
-			{ ...data, _id: undefined }
-		)
+		.replaceOne({ guildID: guildID, userID: userID }, filteredData)
 		.exec();
 };
