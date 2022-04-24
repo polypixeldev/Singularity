@@ -68,7 +68,7 @@ export default {
 			.setDescription(
 				`You have been kicked from **${interaction.guild.name}** for \`${
 					interaction.options.get("reason")?.value ??
-					`User banned by ${interaction.user.tag}`
+					`User kicked by ${interaction.user.tag}`
 				}\``
 			);
 
