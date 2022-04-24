@@ -1,5 +1,3 @@
-> **THIS IS THE CURRENT PRODUCTION BRANCH OF SINGULARITY**
-
 # Singularity
 
 A free, easy to use Discord bot
@@ -13,7 +11,7 @@ A free, easy to use Discord bot
 - Moderation Commands
   - Ban
   - Kick
-  - Mute
+  - Timeout
   - Unmute
   - Clear (bulk deletes messages)
   - Warn
@@ -21,12 +19,12 @@ A free, easy to use Discord bot
   - View infractions
 - Polls
 - Stats
-- My Singularity (more info on this [here](https://singularitybot.glitch.me/mysingularity))
+- My Singularity
 - ...and more!
 
 ## What's the invite link?
 
-[Invite Singularity](https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8)
+[Invite Singularity](https://discord.com/api/oauth2/authorize?client_id=835256019336036423&permissions=8&scope=bot%20applications.commands)
 
 ## How can I help?
 
