@@ -5,7 +5,7 @@
 	"repository": "https://github.com/Poly-Pixel/Singularity",
 	"main": "./prod/index.js",
 	"dependencies": {
-		"@sentry/integrations": "^6.19.6",
+		"@sentry/integrations": "^6.19.7",
 		"@sentry/node": "^6.19.6",
 		"@sentry/tracing": "^6.19.6",
 		"@sentry/types": "^6.19.6",
