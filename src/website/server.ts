@@ -44,7 +44,7 @@ export default class APIClient extends EventEmitter {
 				type: "debug",
 				category: "website",
 				message: `Endpoint \`${req.url}\` requested`,
-				level: Severity.Info,
+				level: "info",
 			});
 			next();
 		});

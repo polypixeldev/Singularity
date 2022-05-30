@@ -1,4 +1,4 @@
-import { addBreadcrumb, Severity } from "@sentry/node";
+import { addBreadcrumb } from "@sentry/node";
 
 import GuildAvailableEvent from "../interfaces/api/GuildAvailableEvent";
 
@@ -7,7 +7,7 @@ export default (endpoint: string, _: GuildAvailableEvent, guildId: string) => {
 		type: "debug",
 		category: "api",
 		message: `Client API interface \`${endpoint}\` hit`,
-		level: Severity.Info,
+		level: "info",
 		data: {
 			guildId,
 		},
