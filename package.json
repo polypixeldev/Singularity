@@ -20,7 +20,7 @@
 		"mongoose": "^6.3.5",
 		"node-cron": "^3.0.0",
 		"os-utils": "^0.0.14",
-		"pretty-ms": "^7.0.1",
+		"pretty-ms": "^8.0.0",
 		"process-nextick-args": "^2.0.1",
 		"tslib": "^2.4.0",
 		"utf-8-validate": "^5.0.9"
