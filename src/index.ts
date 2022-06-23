@@ -16,6 +16,8 @@ import captureException from "./util/captureException";
 import Singularity from "./interfaces/singularity";
 import Command from "./interfaces/client/command";
 import Context from "./interfaces/client/context";
+import { User } from "./database/schema/user";
+import { Server } from "./database/schema/server";
 
 // Used to prevent Tracing import from being pruned
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -108,8 +110,8 @@ db.once("open", () => {
 	userSchema.index({ guildID: 1, userID: -1 });
 	serverSchema.index({ guildID: 1 });
 
-	client.userModel = mongoose.model("Users", userSchema);
-	client.serverModel = mongoose.model("Servers", serverSchema);
+	client.userModel = mongoose.model<User>("Users", userSchema);
+	client.serverModel = mongoose.model<Server>("Servers", serverSchema);
 
 	client.commands = new Discord.Collection<string, Command>();
 	client.contexts = new Discord.Collection<string, Context>();
