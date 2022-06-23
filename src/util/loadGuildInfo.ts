@@ -19,7 +19,7 @@ export default (
 			.exec()
 			.then((serverDoc) => {
 				if (serverDoc === null) {
-					client.serverModel.create(
+					client.serverModel.create<Server>(
 						{
 							guildID: guild.id,
 							welcomeMessage: "{member-mention} has joined the server!",
@@ -38,6 +38,7 @@ export default (
 									protons: 1,
 									electrons: 1,
 									darkMatter: 0,
+									rare: false,
 								},
 								{
 									name: "lasting",
@@ -48,13 +49,18 @@ export default (
 									protons: 2,
 									electrons: 2,
 									darkMatter: 0,
+									rare: false,
 								},
 								{
 									name: "Wormhole Relic",
 									description:
 										"An ancient relic from the early days of the universe when wormholes were common",
 									effects: "None",
+									time: 0,
 									useable: false,
+									protons: 0,
+									electrons: 0,
+									darkMatter: 0,
 									rare: true,
 								},
 								{
@@ -62,14 +68,22 @@ export default (
 									description:
 										"A piece of the string that holds spacetime together",
 									effects: "None",
+									time: 0,
 									useable: false,
+									protons: 0,
+									electrons: 0,
+									darkMatter: 0,
 									rare: true,
 								},
 								{
 									name: "???",
 									description: "Nobody knows exactly what this is...",
 									effects: "None",
+									time: 0,
 									useable: false,
+									protons: 0,
+									electrons: 0,
+									darkMatter: 0,
 									rare: true,
 								},
 							],
