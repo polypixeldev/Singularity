@@ -77,7 +77,11 @@ const databaseConnectionTransaction = startupTransaction.startChild({
 const db = mongoose.connection;
 db.once("open", () => {
 	databaseConnectionTransaction.finish();
-	console.log("Database connected:", process.env.MONGODB_URI);
+	const censoredURI = process.env.MONGODB_URI?.replaceAll(
+		/(?<=^mongodb:\/\/.*:).*(?=@.*$)/g,
+		"*"
+	);
+	console.log("Database connected:", censoredURI);
 	const userSchema = new mongoose.Schema({
 		userID: String,
 		guildID: String,
