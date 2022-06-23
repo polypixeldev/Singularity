@@ -1,11 +1,15 @@
 import Express from "express";
 import { EventEmitter } from "events";
 import fs from "fs";
-import { addBreadcrumb, Severity } from "@sentry/node";
+import { addBreadcrumb } from "@sentry/node";
+import path from "path";
+import { fileURLToPath } from "url";
 
-import apiRouter from "./backend/router";
+import apiRouter from "./backend/router.js";
 
-import ApiClientOptions from "../interfaces/api/ApiClientOptions";
+import ApiClientOptions from "../interfaces/api/ApiClientOptions.js";
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default class APIClient extends EventEmitter {
 	type: string;
@@ -68,7 +72,7 @@ export default class APIClient extends EventEmitter {
 	}
 
 	startFrontend() {
-		const html = fs.readFileSync(__dirname + "/frontend/build/index.html");
+		const html = fs.readFileSync(dirname + "/frontend/build/index.html");
 		this.app.use(Express.static("./frontend/build/"));
 		this.app.use((req, res) => {
 			res.send(html);
@@ -76,8 +80,8 @@ export default class APIClient extends EventEmitter {
 	}
 
 	async startFull() {
-		const html = fs.readFileSync(__dirname + "/frontend/build/index.html");
-		this.app.use(Express.static(__dirname + "/frontend/build/"));
+		const html = fs.readFileSync(dirname + "/frontend/build/index.html");
+		this.app.use(Express.static(dirname + "/frontend/build/"));
 
 		this.app.use("/api", await apiRouter(this));
 

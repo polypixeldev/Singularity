@@ -1,10 +1,10 @@
 import Discord from "discord.js";
 
-import loadUserInfo from "../../../util/loadUserInfo";
-import updateUser from "../../../util/updateUser";
+import loadUserInfo from "../../../util/loadUserInfo.js";
+import updateUser from "../../../util/updateUser.js";
 
-import Command from "../../../interfaces/client/command";
-import Item from "../../../interfaces/user/item";
+import Command from "../../../interfaces/client/command.js";
+import Item from "../../../interfaces/user/item.js";
 
 export default {
 	name: "buy",

@@ -1,7 +1,7 @@
-import loadGuildInfo from "../../util/loadGuildInfo";
+import loadGuildInfo from "../../util/loadGuildInfo.js";
 
-import Singularity from "../../interfaces/singularity";
-import GuildAvailableEvent from "../../interfaces/api/GuildAvailableEvent";
+import Singularity from "../../interfaces/singularity.js";
+import GuildAvailableEvent from "../../interfaces/api/GuildAvailableEvent.js";
 
 export default (
 	client: Singularity,

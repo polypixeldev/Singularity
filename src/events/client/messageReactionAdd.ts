@@ -1,8 +1,8 @@
 import Discord from "discord.js";
 
-import loadGuildInfo from "../../util/loadGuildInfo";
+import loadGuildInfo from "../../util/loadGuildInfo.js";
 
-import Singularity from "../../interfaces/singularity";
+import Singularity from "../../interfaces/singularity.js";
 
 export default async (
 	client: Singularity,

@@ -1,7 +1,7 @@
 import { BitField } from "discord.js";
 
-import ApiRoute from "../../../interfaces/api/ApiRoute";
-import GuildAvailableEvent from "../../../interfaces/api/GuildAvailableEvent";
+import ApiRoute from "../../../interfaces/api/ApiRoute.js";
+import GuildAvailableEvent from "../../../interfaces/api/GuildAvailableEvent.js";
 
 const handler: ApiRoute = (discord, client, req, res) => {
 	discord

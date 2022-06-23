@@ -1,10 +1,10 @@
 import Discord from "discord.js";
 import { startTransaction, configureScope } from "@sentry/node";
 
-import loadGuildInfo from "../../../util/loadGuildInfo";
-import captureException from "../../../util/captureException";
+import loadGuildInfo from "../../../util/loadGuildInfo.js";
+import captureException from "../../../util/captureException.js";
 
-import InteractionHandler from "../../../types/InteractionHandler";
+import InteractionHandler from "../../../types/InteractionHandler.js";
 
 const handler: InteractionHandler = async (client, interaction) => {
 	const commandTransaction = startTransaction({

@@ -1,9 +1,9 @@
 import Discord from "discord.js";
 
-import handleCommand from "./interactions/command";
-import handleContextMenu from "./interactions/contextMenu";
+import handleCommand from "./interactions/command.js";
+import handleContextMenu from "./interactions/contextMenu.js";
 
-import Singularity from "../../interfaces/singularity";
+import Singularity from "../../interfaces/singularity.js";
 
 export default (client: Singularity, interaction: Discord.Interaction) => {
 	if (interaction.isCommand()) return handleCommand(client, interaction);

@@ -1,4 +1,4 @@
-import Command from "../interfaces/client/command";
+import Command from "../interfaces/client/command.js";
 
 export default {
 	name: "ms",

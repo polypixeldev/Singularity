@@ -1,8 +1,8 @@
 import { GuildResolvable } from "discord.js";
 import { HydratedDocument } from "mongoose";
 
-import Singularity from "../interfaces/singularity";
-import { Server } from "../database/schema/server";
+import Singularity from "../interfaces/singularity.js";
+import { Server } from "../database/schema/server.js";
 
 export default (
 	client: Singularity,

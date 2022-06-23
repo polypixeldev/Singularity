@@ -1,7 +1,7 @@
 import Discord from "discord.js";
 
-import Singularity from "../../interfaces/singularity";
-import AsyncApiEvent from "../../interfaces/api/AsyncApiEvent";
+import Singularity from "../../interfaces/singularity.js";
+import AsyncApiEvent from "../../interfaces/api/AsyncApiEvent.js";
 
 export default (
 	client: Singularity,

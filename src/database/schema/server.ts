@@ -1,7 +1,7 @@
 import { Schema, Types } from "mongoose";
 import { Snowflake } from "discord.js";
 
-import Item from "../../interfaces/user/item";
+import Item from "../../interfaces/user/item.js";
 
 export interface Server {
 	guildID: Snowflake;

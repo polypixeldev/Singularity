@@ -1,9 +1,9 @@
 import prettyMS from "pretty-ms";
 import os from "os-utils";
 
-import BaseEmbed from "../../../util/BaseEmbed";
+import BaseEmbed from "../../../util/BaseEmbed.js";
 
-import Command from "../../../interfaces/client/command";
+import Command from "../../../interfaces/client/command.js";
 
 export default {
 	name: "overview",

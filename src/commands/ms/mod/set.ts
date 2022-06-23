@@ -1,10 +1,10 @@
 import Discord from "discord.js";
 
-import loadUserInfo from "../../../util/loadUserInfo";
-import updateUser from "../../../util/updateUser";
+import loadUserInfo from "../../../util/loadUserInfo.js";
+import updateUser from "../../../util/updateUser.js";
 
-import Command from "../../../interfaces/client/command";
-import ExpType from "../../../types/exptype";
+import Command from "../../../interfaces/client/command.js";
+import ExpType from "../../../types/exptype.js";
 
 export default {
 	name: "set",

@@ -1,5 +1,5 @@
-import Option from "./option";
-import CommandExecutor from "../../types/commandexecutor";
+import Option from "./option.js";
+import CommandExecutor from "../../types/commandexecutor.js";
 
 export default interface Command {
 	name: string;

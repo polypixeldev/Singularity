@@ -1,9 +1,9 @@
 import { Schema } from "mongoose";
 import { Snowflake } from "discord.js";
 
-import ActiveItem from "../../interfaces/user/activeitem";
-import UserSingularity from "../../interfaces/user/usersingularity";
-import Infraction from "../../interfaces/user/infraction";
+import ActiveItem from "../../interfaces/user/activeitem.js";
+import UserSingularity from "../../interfaces/user/usersingularity.js";
+import Infraction from "../../interfaces/user/infraction.js";
 
 export interface User {
 	userID: Snowflake;

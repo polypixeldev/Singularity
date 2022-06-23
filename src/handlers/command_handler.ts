@@ -1,10 +1,10 @@
 import fs from "fs";
 import Discord from "discord.js";
 
-import Singularity from "../interfaces/singularity";
-import Command from "../interfaces/client/command";
-import Context from "../interfaces/client/context";
-import CommandsArray from "../interfaces/client/commandsarray";
+import Singularity from "../interfaces/singularity.js";
+import Command from "../interfaces/client/command.js";
+import Context from "../interfaces/client/context.js";
+import CommandsArray from "../interfaces/client/commandsarray.js";
 
 export default async (client: Singularity) => {
 	console.log("Loading Slash (/) Command Data...");
@@ -51,7 +51,9 @@ export default async (client: Singularity) => {
 				if (ent.isDirectory()) {
 					if (ent.name === command.name) continue;
 					const grp_meta = (
-						await import(`../commands/${command.name}/${ent.name}/meta.json`)
+						await import(`../commands/${command.name}/${ent.name}/meta.json`, {
+							assert: { type: "json" },
+						})
 					).default;
 					const index =
 						slashCmd.options.push({

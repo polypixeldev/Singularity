@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import { Request, Response } from "express";
 
-import APIClient from "../../website/server";
+import APIClient from "../../website/server.js";
 
 type ApiRoute = (
 	discord: AxiosInstance,

@@ -1,11 +1,11 @@
 import { HydratedDocument } from "mongoose";
 import { Snowflake } from "discord.js";
 
-import updateServer from "./updateServer";
+import updateServer from "./updateServer.js";
 
-import Singularity from "../interfaces/singularity";
-import { Server } from "../database/schema/server";
-import { User } from "../database/schema/user";
+import Singularity from "../interfaces/singularity.js";
+import { Server } from "../database/schema/server.js";
+import { User } from "../database/schema/user.js";
 
 export default (
 	client: Singularity,

@@ -1,8 +1,8 @@
 import Discord from "discord.js";
 
-import updateServer from "../../../util/updateServer";
+import updateServer from "../../../util/updateServer.js";
 
-import Command from "../../../interfaces/client/command";
+import Command from "../../../interfaces/client/command.js";
 
 export default {
 	name: "welcomemessage",

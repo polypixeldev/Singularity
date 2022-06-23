@@ -1,7 +1,7 @@
-import updateServer from "../../util/updateServer";
+import updateServer from "../../util/updateServer.js";
 
-import Singularity from "../../interfaces/singularity";
-import AsyncApiEvent from "../../interfaces/api/AsyncApiEvent";
+import Singularity from "../../interfaces/singularity.js";
+import AsyncApiEvent from "../../interfaces/api/AsyncApiEvent.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default (
@@ -9,6 +9,7 @@ export default (
 	ev: AsyncApiEvent,
 	userID: string,
 	guildID: string,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	data: any
 ) => {
 	ev.code = new Promise((resolve) => {

@@ -1,6 +1,6 @@
-import updateUser from "./updateUser";
+import updateUser from "./updateUser.js";
 
-import Singularity from "../interfaces/singularity";
+import Singularity from "../interfaces/singularity.js";
 
 export default async (client: Singularity) => {
 	const inactivityTimeout = 1000 * 60 * 60 * 24 * 14;

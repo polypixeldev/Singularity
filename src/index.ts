@@ -1,4 +1,4 @@
-import APIClient from "./website/server";
+import APIClient from "./website/server.js";
 import cron from "node-cron";
 import dotenv from "dotenv";
 import Discord from "discord.js";
@@ -7,15 +7,15 @@ import * as Sentry from "@sentry/node";
 import { RewriteFrames } from "@sentry/integrations";
 import * as Tracing from "@sentry/tracing";
 
-import checkActivity from "./util/checkActivity";
-import command_handler from "./handlers/command_handler";
-import event_handler from "./handlers/event_handler";
-import rootDir from "./root";
-import captureException from "./util/captureException";
+import checkActivity from "./util/checkActivity.js";
+import command_handler from "./handlers/command_handler.js";
+import event_handler from "./handlers/event_handler.js";
+import rootDir from "./root.js";
+import captureException from "./util/captureException.js";
 
-import Singularity from "./interfaces/singularity";
-import Command from "./interfaces/client/command";
-import Context from "./interfaces/client/context";
+import Singularity from "./interfaces/singularity.js";
+import Command from "./interfaces/client/command.js";
+import Context from "./interfaces/client/context.js";
 
 // Used to prevent Tracing import from being pruned
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

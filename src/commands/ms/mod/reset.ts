@@ -1,9 +1,9 @@
 import Discord from "discord.js";
 
-import loadUserInfo from "../../../util/loadUserInfo";
-import updateServer from "../../../util/updateServer";
+import loadUserInfo from "../../../util/loadUserInfo.js";
+import updateServer from "../../../util/updateServer.js";
 
-import Command from "../../../interfaces/client/command";
+import Command from "../../../interfaces/client/command.js";
 
 export default {
 	name: "reset",

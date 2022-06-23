@@ -3,7 +3,7 @@ import CORS from "cors";
 import axios from "axios";
 import fs from "fs";
 
-import APIClient from "../server";
+import APIClient from "../server.js";
 
 export default async (client: APIClient) => {
 	const router = Express.Router();
