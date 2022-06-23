@@ -1,13 +1,13 @@
 import Discord from "discord.js";
-import { HydratedDocument } from "mongoose";
+import type { HydratedDocument } from "mongoose";
 
-import loadGuildInfo from "./loadGuildInfo";
-import loadUserInfo from "./loadUserInfo";
-import updateUser from "./updateUser";
+import loadGuildInfo from "./loadGuildInfo.js";
+import loadUserInfo from "./loadUserInfo.js";
+import updateUser from "./updateUser.js";
 
-import Singularity from "../interfaces/singularity";
-import { User } from "../database/schema/user";
-import Item from "../interfaces/user/item";
+import type Singularity from "../interfaces/singularity.js";
+import type { User } from "../database/schema/user.js";
+import type Item from "../interfaces/user/Item.js";
 
 export default {
 	activate(client: Singularity, userDoc: HydratedDocument<User>, item: Item) {

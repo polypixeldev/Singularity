@@ -1,9 +1,9 @@
 import Discord from "discord.js";
 
-import loadUserInfo from "../../util/loadUserInfo";
-import manageUse from "../../util/manageUse";
+import loadUserInfo from "../../util/loadUserInfo.js";
+import manageUse from "../../util/manageUse.js";
 
-import Command from "../../interfaces/client/command";
+import type Command from "../../interfaces/client/Command.js";
 
 export default {
 	name: "use",

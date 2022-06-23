@@ -1,5 +1,5 @@
-import Option from "./option";
-import CommandExecutor from "../../types/commandexecutor";
+import type Option from "./Option.js";
+import type CommandExecutor from "../../types/CommandExecutor.js";
 
 type CommandsArray = {
 	name: string;

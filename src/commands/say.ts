@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 
-import Command from "../interfaces/client/command";
+import type Command from "../interfaces/client/Command.js";
 
 export default {
 	name: "say",

@@ -1,10 +1,10 @@
-import Context from "../interfaces/client/context.js";
+import type Context from "../interfaces/client/Context.js";
 
 export default {
-	name: "View Singularity",
+	name: "Warn User",
 	type: "USER",
 	async execute(client, interaction, serverDoc) {
-		const slashExecute = (await import("../commands/ms/view.js")).default
+		const slashExecute = (await import("../commands/warn.js")).default
 			.slashExecute;
 
 		if (!slashExecute) {

@@ -1,4 +1,4 @@
-import ContextExecutor from "../../types/contextexecutor";
+import type ContextExecutor from "../../types/ContextExecutor.js";
 
 export default interface Context {
 	name: string;

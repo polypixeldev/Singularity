@@ -1,4 +1,4 @@
-import APIClient from "./website/server";
+import APIClient from "./website/server.js";
 import cron from "node-cron";
 import dotenv from "dotenv";
 import Discord from "discord.js";
@@ -7,17 +7,17 @@ import * as Sentry from "@sentry/node";
 import { RewriteFrames } from "@sentry/integrations";
 import * as Tracing from "@sentry/tracing";
 
-import checkActivity from "./util/checkActivity";
-import command_handler from "./handlers/command_handler";
-import event_handler from "./handlers/event_handler";
-import rootDir from "./root";
-import captureException from "./util/captureException";
+import checkActivity from "./util/checkActivity.js";
+import commandHandler from "./handlers/commandHandler.js";
+import eventHandler from "./handlers/eventHandler.js";
+import rootDir from "./root.js";
+import captureException from "./util/captureException.js";
 
-import Singularity from "./interfaces/singularity";
-import Command from "./interfaces/client/command";
-import Context from "./interfaces/client/context";
-import { User } from "./database/schema/user";
-import { Server } from "./database/schema/server";
+import type Singularity from "./interfaces/singularity.js";
+import type Command from "./interfaces/client/Command.js";
+import type Context from "./interfaces/client/Context.js";
+import type { User } from "./database/schema/user";
+import type { Server } from "./database/schema/server";
 
 // Used to prevent Tracing import from being pruned
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -79,7 +79,11 @@ const databaseConnectionTransaction = startupTransaction.startChild({
 const db = mongoose.connection;
 db.once("open", () => {
 	databaseConnectionTransaction.finish();
-	console.log("Database connected:", process.env.MONGODB_URI);
+	const censoredURI = process.env.MONGODB_URI?.replaceAll(
+		/(?<=^mongodb:\/\/.*:).*(?=@.*$)/g,
+		"*"
+	);
+	console.log("Database connected:", censoredURI);
 	const userSchema = new mongoose.Schema({
 		userID: String,
 		guildID: String,
@@ -130,8 +134,8 @@ db.once("open", () => {
 			status: "online",
 		});
 
-		command_handler(client);
-		event_handler(client, api);
+		commandHandler(client);
+		eventHandler(client, api);
 
 		cron.schedule("0 0 * * *", () => checkActivity(client), {
 			timezone: "America/New_York",

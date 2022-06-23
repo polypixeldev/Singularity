@@ -4,6 +4,7 @@
 	"description": "A free, easy to use Discord bot",
 	"repository": "https://github.com/Poly-Pixel/Singularity",
 	"main": "./prod/index.js",
+	"type": "module",
 	"dependencies": {
 		"@sentry/integrations": "^7.2.0",
 		"@sentry/node": "^7.2.0",
@@ -23,7 +24,8 @@
 		"pretty-ms": "^8.0.0",
 		"process-nextick-args": "^2.0.1",
 		"tslib": "^2.4.0",
-		"utf-8-validate": "^5.0.9"
+		"utf-8-validate": "^5.0.9",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.12",

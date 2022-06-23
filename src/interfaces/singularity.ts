@@ -1,10 +1,10 @@
-import { Client, Collection } from "discord.js";
-import { Model } from "mongoose";
+import type { Client, Collection } from "discord.js";
+import type { Model } from "mongoose";
 
-import { User } from "../database/schema/user";
-import { Server } from "../database/schema/server";
-import Command from "./client/command";
-import Context from "./client/context";
+import type { User } from "../database/schema/user.js";
+import type { Server } from "../database/schema/server.js";
+import type Command from "./client/Command.js";
+import type Context from "./client/Context.js";
 
 export default interface Singularity extends Client {
 	userModel: Model<User>;
