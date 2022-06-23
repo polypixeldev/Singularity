@@ -3,8 +3,8 @@ import type { Model } from "mongoose";
 
 import type { User } from "../database/schema/user.js";
 import type { Server } from "../database/schema/server.js";
-import type Command from "./client/command.js";
-import type Context from "./client/context.js";
+import type Command from "./client/Command.js";
+import type Context from "./client/Context.js";
 
 export default interface Singularity extends Client {
 	userModel: Model<User>;

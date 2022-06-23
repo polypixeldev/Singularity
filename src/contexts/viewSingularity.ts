@@ -1,4 +1,4 @@
-import type Context from "../interfaces/client/context.js";
+import type Context from "../interfaces/client/Context.js";
 
 export default {
 	name: "View Singularity",

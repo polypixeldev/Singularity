@@ -8,14 +8,14 @@ import { RewriteFrames } from "@sentry/integrations";
 import * as Tracing from "@sentry/tracing";
 
 import checkActivity from "./util/checkActivity.js";
-import command_handler from "./handlers/command_handler.js";
-import event_handler from "./handlers/event_handler.js";
+import commandHandler from "./handlers/commandHandler.js";
+import eventHandler from "./handlers/eventHandler.js";
 import rootDir from "./root.js";
 import captureException from "./util/captureException.js";
 
 import type Singularity from "./interfaces/singularity.js";
-import type Command from "./interfaces/client/command.js";
-import type Context from "./interfaces/client/context.js";
+import type Command from "./interfaces/client/Command.js";
+import type Context from "./interfaces/client/Context.js";
 
 // Used to prevent Tracing import from being pruned
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -128,8 +128,8 @@ db.once("open", () => {
 			status: "online",
 		});
 
-		command_handler(client);
-		event_handler(client, api);
+		commandHandler(client);
+		eventHandler(client, api);
 
 		cron.schedule("0 0 * * *", () => checkActivity(client), {
 			timezone: "America/New_York",

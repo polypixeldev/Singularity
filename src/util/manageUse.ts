@@ -7,7 +7,7 @@ import updateUser from "./updateUser.js";
 
 import type Singularity from "../interfaces/singularity.js";
 import type { User } from "../database/schema/user.js";
-import type Item from "../interfaces/user/item.js";
+import type Item from "../interfaces/user/Item.js";
 
 export default {
 	activate(client: Singularity, userDoc: HydratedDocument<User>, item: Item) {

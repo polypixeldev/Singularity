@@ -1,6 +1,6 @@
 import BaseEmbed from "../../util/BaseEmbed.js";
 
-import type Command from "../../interfaces/client/command.js";
+import type Command from "../../interfaces/client/Command.js";
 
 export default {
 	name: "rare",

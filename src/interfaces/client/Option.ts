@@ -1,4 +1,4 @@
-import type CommandExecutor from "../../types/commandexecutor.js";
+import type CommandExecutor from "../../types/CommandExecutor.js";
 
 export default interface Option {
 	name: string;

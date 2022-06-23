@@ -4,7 +4,7 @@ import loadUserInfo from "../../../util/loadUserInfo.js";
 import loadGuildInfo from "../../../util/loadGuildInfo.js";
 import updateUser from "../../../util/updateUser.js";
 
-import type Command from "../../../interfaces/client/command.js";
+import type Command from "../../../interfaces/client/Command.js";
 
 export default {
 	name: "start",
