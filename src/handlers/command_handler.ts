@@ -1,10 +1,10 @@
 import fs from "fs";
 import Discord from "discord.js";
 
-import Singularity from "../interfaces/singularity.js";
-import Command from "../interfaces/client/command.js";
-import Context from "../interfaces/client/context.js";
-import CommandsArray from "../interfaces/client/commandsarray.js";
+import type Singularity from "../interfaces/singularity.js";
+import type Command from "../interfaces/client/command.js";
+import type Context from "../interfaces/client/context.js";
+import type CommandsArray from "../interfaces/client/commandsarray.js";
 
 export default async (client: Singularity) => {
 	console.log("Loading Slash (/) Command Data...");

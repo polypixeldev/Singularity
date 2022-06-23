@@ -1,8 +1,8 @@
-import { ContextMenuInteraction } from "discord.js";
-import { HydratedDocument } from "mongoose";
+import type { ContextMenuInteraction } from "discord.js";
+import type { HydratedDocument } from "mongoose";
 
-import Singularity from "../interfaces/singularity.js";
-import { Server } from "../database/schema/server.js";
+import type Singularity from "../interfaces/singularity.js";
+import type { Server } from "../database/schema/server.js";
 
 type ContextExecutor = (
 	client: Singularity,

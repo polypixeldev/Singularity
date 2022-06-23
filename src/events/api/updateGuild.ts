@@ -1,7 +1,7 @@
 import updateServer from "../../util/updateServer.js";
 
-import Singularity from "../../interfaces/singularity.js";
-import AsyncApiEvent from "../../interfaces/api/AsyncApiEvent.js";
+import type Singularity from "../../interfaces/singularity.js";
+import type AsyncApiEvent from "../../interfaces/api/AsyncApiEvent.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default (

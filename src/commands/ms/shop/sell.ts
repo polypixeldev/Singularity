@@ -3,8 +3,8 @@ import Discord from "discord.js";
 import loadUserInfo from "../../../util/loadUserInfo.js";
 import updateUser from "../../../util/updateUser.js";
 
-import Command from "../../../interfaces/client/command.js";
-import Item from "../../../interfaces/user/item.js";
+import type Command from "../../../interfaces/client/command.js";
+import type Item from "../../../interfaces/user/item.js";
 
 export default {
 	name: "sell",

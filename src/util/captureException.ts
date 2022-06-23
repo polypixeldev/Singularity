@@ -1,5 +1,5 @@
 import { captureException } from "@sentry/node";
-import { CaptureContext } from "@sentry/types";
+import type { CaptureContext } from "@sentry/types";
 
 import logMessage from "./logMessage.js";
 

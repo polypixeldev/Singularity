@@ -13,9 +13,9 @@ import event_handler from "./handlers/event_handler.js";
 import rootDir from "./root.js";
 import captureException from "./util/captureException.js";
 
-import Singularity from "./interfaces/singularity.js";
-import Command from "./interfaces/client/command.js";
-import Context from "./interfaces/client/context.js";
+import type Singularity from "./interfaces/singularity.js";
+import type Command from "./interfaces/client/command.js";
+import type Context from "./interfaces/client/context.js";
 
 // Used to prevent Tracing import from being pruned
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

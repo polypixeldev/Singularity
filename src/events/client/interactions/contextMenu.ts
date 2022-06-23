@@ -2,7 +2,7 @@ import Discord from "discord.js";
 
 import loadGuildInfo from "../../../util/loadGuildInfo.js";
 
-import InteractionHandler from "../../../types/InteractionHandler.js";
+import type InteractionHandler from "../../../types/InteractionHandler.js";
 
 const handler: InteractionHandler = async (client, interaction) => {
 	if (!(interaction instanceof Discord.ContextMenuInteraction)) {

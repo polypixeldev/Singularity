@@ -1,6 +1,6 @@
 import { addBreadcrumb } from "@sentry/node";
 
-import GuildAvailableEvent from "../interfaces/api/GuildAvailableEvent.js";
+import type GuildAvailableEvent from "../interfaces/api/GuildAvailableEvent.js";
 
 export default (endpoint: string, _: GuildAvailableEvent, guildId: string) => {
 	addBreadcrumb({

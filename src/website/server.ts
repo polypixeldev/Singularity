@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 
 import apiRouter from "./backend/router.js";
 
-import ApiClientOptions from "../interfaces/api/ApiClientOptions.js";
+import type ApiClientOptions from "../interfaces/api/ApiClientOptions.js";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 

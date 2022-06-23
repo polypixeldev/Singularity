@@ -1,4 +1,4 @@
-import Context from "../interfaces/client/context.js";
+import type Context from "../interfaces/client/context.js";
 
 export default {
 	name: "Warn User",

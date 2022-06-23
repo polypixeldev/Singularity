@@ -2,7 +2,7 @@ import Discord from "discord.js";
 
 import loadGuildInfo from "../../util/loadGuildInfo.js";
 
-import Singularity from "../../interfaces/singularity.js";
+import type Singularity from "../../interfaces/singularity.js";
 
 export default async (client: Singularity, member: Discord.GuildMember) => {
 	const serverDoc = await loadGuildInfo(client, member.guild);

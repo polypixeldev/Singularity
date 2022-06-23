@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 
-import Command from "../interfaces/client/command.js";
+import type Command from "../interfaces/client/command.js";
 
 export default {
 	name: "ping",

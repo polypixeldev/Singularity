@@ -5,7 +5,7 @@ import loadUserInfo from "../../util/loadUserInfo.js";
 import updateUser from "../../util/updateUser.js";
 import manageUse from "../../util/manageUse.js";
 
-import Singularity from "../../interfaces/singularity.js";
+import type Singularity from "../../interfaces/singularity.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cooldowns: any = {};

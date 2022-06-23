@@ -3,8 +3,8 @@ import fs from "fs";
 import apiBreadcrumb from "../util/apiBreadcrumb.js";
 import clientBreadcrumb from "../util/clientBreadcrumb.js";
 
-import Singularity from "../interfaces/singularity.js";
-import APIClient from "../website/server.js";
+import type Singularity from "../interfaces/singularity.js";
+import type APIClient from "../website/server.js";
 
 export default (client: Singularity, api: APIClient) => {
 	const load_dir = async (dir: string) => {
