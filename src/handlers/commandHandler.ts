@@ -11,7 +11,7 @@ export default async (client: Singularity) => {
 	console.time("Finished Loading Slash (/) Command Data in");
 
 	const command_files = fs
-		.readdirSync("./prod/commands/")
+		.readdirSync("./build/commands/")
 		.filter((file) => file.endsWith("js"));
 
 	const basicCmds = new Discord.Collection<string, Command>();
@@ -43,8 +43,8 @@ export default async (client: Singularity) => {
 			notes: command.notes,
 			slashExecute: command.slashExecute,
 		};
-		if (fs.existsSync(`./prod/commands/${command.name}/`)) {
-			const sub_dir = fs.readdirSync(`./prod/commands/${command.name}/`, {
+		if (fs.existsSync(`./build/commands/${command.name}/`)) {
+			const sub_dir = fs.readdirSync(`./build/commands/${command.name}/`, {
 				withFileTypes: true,
 			});
 			for (const ent of sub_dir) {
@@ -63,7 +63,7 @@ export default async (client: Singularity) => {
 							options: [],
 						}) - 1;
 					const subgrp_cmds = fs
-						.readdirSync(`./prod/commands/${command.name}/${ent.name}/`)
+						.readdirSync(`./build/commands/${command.name}/${ent.name}/`)
 						.filter((file) => file.endsWith("js"));
 					for (const subgrp_cmd_name of subgrp_cmds) {
 						if (subgrp_cmd_name === "meta.json") continue;
@@ -110,7 +110,7 @@ export default async (client: Singularity) => {
 	console.time("Finished Loading Context Menu Data in");
 
 	const context_files = fs
-		.readdirSync("./prod/contexts/")
+		.readdirSync("./build/contexts/")
 		.filter((file) => file.endsWith("js"));
 
 	for (const file of context_files) {

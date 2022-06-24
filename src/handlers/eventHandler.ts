@@ -9,7 +9,7 @@ import type APIClient from "../website/server.js";
 export default (client: Singularity, api: APIClient) => {
 	const load_dir = async (dir: string) => {
 		const event_files = fs
-			.readdirSync(`./prod/events/${dir}`)
+			.readdirSync(`./build/events/${dir}`)
 			.filter((file) => file.endsWith("js"));
 
 		for (const file of event_files) {

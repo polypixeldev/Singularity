@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"outDir": "./prod",
+		"outDir": "./build",
 		"allowJs": true,
 		"target": "ES2022",
 		"module": "esnext",

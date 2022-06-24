@@ -13,14 +13,14 @@ export default async (client: APIClient) => {
 	const routeArr: string[] = [];
 
 	let routes = fs
-		.readdirSync("./prod/website/backend/routes", {
+		.readdirSync("./build/website/backend/routes", {
 			withFileTypes: true,
 		})
 		.filter((file) => file.name.endsWith(".js"));
 
 	const search = async () => {
 		routes = fs
-			.readdirSync(`./prod/website/backend/routes/${routeArr.join("/")}`, {
+			.readdirSync(`./build/website/backend/routes/${routeArr.join("/")}`, {
 				withFileTypes: true,
 			})
 			.filter((file) => file.name.endsWith(".js"));

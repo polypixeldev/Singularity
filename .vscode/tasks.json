@@ -10,7 +10,7 @@
 			},
 			"problemMatcher": [],
 			"label": "npm: build:dev",
-			"detail": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod"
+			"detail": "rimraf build; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* build/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json build"
 		}
 	]
 }

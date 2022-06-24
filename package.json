@@ -3,7 +3,7 @@
 	"version": "2.0.0",
 	"description": "A free, easy to use Discord bot",
 	"repository": "https://github.com/Poly-Pixel/Singularity",
-	"main": "./prod/index.js",
+	"main": "./build/index.js",
 	"type": "module",
 	"dependencies": {
 		"@sentry/integrations": "^7.3.0",
@@ -47,8 +47,8 @@
 		"start": "node .",
 		"lint": "eslint .",
 		"prepare": "husky install",
-		"build:dev": "rimraf prod; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod",
-		"build:prod": "rimraf prod; tsc -p tsconfig.production.json && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* prod/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json prod"
+		"build:dev": "rimraf build; tsc && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* build/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json build",
+		"build:prod": "rimraf build; tsc -p tsconfig.production.json && copyfiles -u 4 src/website/frontend/build/index.html src/website/frontend/build/**/* build/website/frontend/build && copyfiles -u 1 src/commands/**/**/meta.json build"
 	},
 	"keywords": [],
 	"author": "",
