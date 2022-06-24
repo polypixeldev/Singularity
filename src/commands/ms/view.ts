@@ -1,10 +1,10 @@
 import prettyMS from "pretty-ms";
 import Discord from "discord.js";
 
-import loadUserInfo from "../../util/loadUserInfo";
-import BaseEmbed from "../../util/BaseEmbed";
+import loadUserInfo from "../../util/loadUserInfo.js";
+import BaseEmbed from "../../util/BaseEmbed.js";
 
-import Command from "../../interfaces/client/command";
+import type Command from "../../interfaces/client/Command.js";
 
 export default {
 	name: "view",

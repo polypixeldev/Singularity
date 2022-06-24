@@ -1,8 +1,8 @@
 import Discord from "discord.js";
 
-import BaseEmbed from "../util/BaseEmbed";
+import BaseEmbed from "../util/BaseEmbed.js";
 
-import Command from "../interfaces/client/command";
+import type Command from "../interfaces/client/Command.js";
 
 export default {
 	name: "unban",

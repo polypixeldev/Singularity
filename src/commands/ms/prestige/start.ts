@@ -1,10 +1,10 @@
 import Discord from "discord.js";
 
-import loadUserInfo from "../../../util/loadUserInfo";
-import loadGuildInfo from "../../../util/loadGuildInfo";
-import updateUser from "../../../util/updateUser";
+import loadUserInfo from "../../../util/loadUserInfo.js";
+import loadGuildInfo from "../../../util/loadGuildInfo.js";
+import updateUser from "../../../util/updateUser.js";
 
-import Command from "../../../interfaces/client/command";
+import type Command from "../../../interfaces/client/Command.js";
 
 export default {
 	name: "start",

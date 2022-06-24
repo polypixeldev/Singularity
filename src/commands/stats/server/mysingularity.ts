@@ -1,7 +1,7 @@
-import BaseEmbed from "../../../util/BaseEmbed";
+import BaseEmbed from "../../../util/BaseEmbed.js";
 
-import Command from "../../../interfaces/client/command";
-import { User } from "../../../database/schema/user";
+import type Command from "../../../interfaces/client/Command.js";
+import type { User } from "../../../database/schema/user.js";
 
 export default {
 	name: "mysingularity",

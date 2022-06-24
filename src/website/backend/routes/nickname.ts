@@ -1,5 +1,5 @@
-import ApiRoute from "../../../interfaces/api/ApiRoute";
-import AsyncApiEvent from "../../../interfaces/api/AsyncApiEvent";
+import type ApiRoute from "../../../interfaces/api/ApiRoute.js";
+import type AsyncApiEvent from "../../../interfaces/api/AsyncApiEvent.js";
 
 const handler: ApiRoute = (discord, client, req, res) => {
 	discord

@@ -3,7 +3,7 @@ import CORS from "cors";
 import axios from "axios";
 import fs from "fs";
 
-import APIClient from "../server";
+import type APIClient from "../server.js";
 
 export default async (client: APIClient) => {
 	const router = Express.Router();
@@ -13,14 +13,14 @@ export default async (client: APIClient) => {
 	const routeArr: string[] = [];
 
 	let routes = fs
-		.readdirSync("./prod/website/backend/routes", {
+		.readdirSync("./build/website/backend/routes", {
 			withFileTypes: true,
 		})
 		.filter((file) => file.name.endsWith(".js"));
 
 	const search = async () => {
 		routes = fs
-			.readdirSync(`./prod/website/backend/routes/${routeArr.join("/")}`, {
+			.readdirSync(`./build/website/backend/routes/${routeArr.join("/")}`, {
 				withFileTypes: true,
 			})
 			.filter((file) => file.name.endsWith(".js"));

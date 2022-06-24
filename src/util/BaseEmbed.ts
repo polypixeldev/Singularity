@@ -1,4 +1,4 @@
-import { MessageEmbed, User } from "discord.js";
+import { MessageEmbed, type User } from "discord.js";
 
 export default class BaseEmbed extends MessageEmbed {
 	constructor(title: string, user: User) {

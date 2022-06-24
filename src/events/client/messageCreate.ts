@@ -1,11 +1,11 @@
 import Discord from "discord.js";
 
-import loadGuildInfo from "../../util/loadGuildInfo";
-import loadUserInfo from "../../util/loadUserInfo";
-import updateUser from "../../util/updateUser";
-import manageUse from "../../util/manageUse";
+import loadGuildInfo from "../../util/loadGuildInfo.js";
+import loadUserInfo from "../../util/loadUserInfo.js";
+import updateUser from "../../util/updateUser.js";
+import manageUse from "../../util/manageUse.js";
 
-import Singularity from "../../interfaces/singularity";
+import type Singularity from "../../interfaces/singularity.js";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cooldowns: any = {};
