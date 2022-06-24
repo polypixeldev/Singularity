@@ -6,10 +6,9 @@
 	"main": "./prod/index.js",
 	"type": "module",
 	"dependencies": {
-		"@sentry/integrations": "^7.2.0",
-		"@sentry/node": "^7.2.0",
-		"@sentry/tracing": "^7.2.0",
-		"@sentry/types": "^7.2.0",
+		"@sentry/integrations": "^7.3.0",
+		"@sentry/node": "^7.3.0",
+		"@sentry/tracing": "^7.3.0",
 		"axios": "^0.27.2",
 		"body-parser": "^1.20.0",
 		"bufferutil": "^4.0.6",
@@ -28,6 +27,7 @@
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
+		"@sentry/types": "^7.3.0",
 		"@types/cors": "^2.8.12",
 		"@types/express": "^4.17.13",
 		"@types/node-cron": "^3.0.1",
