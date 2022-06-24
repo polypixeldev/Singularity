@@ -7,14 +7,12 @@ class Settings extends Component {
 		super(props);
 
 		this.state = {
-			prefix: "",
 			nickname: "",
 			welcomeMessage: "",
 			leaveMessage: "",
 		};
 
 		this.handleRemove = this.handleRemove.bind(this);
-		this.handlePrefixSubmit = this.handlePrefixSubmit.bind(this);
 		this.handleNicknameSubmit = this.handleNicknameSubmit.bind(this);
 		this.handleWelcomeMessageSubmit =
 			this.handleWelcomeMessageSubmit.bind(this);
@@ -29,25 +27,6 @@ class Settings extends Component {
 			welcomeMessage: this.props.data.data.welcomeMessage,
 			leaveMessage: this.props.data.data.leaveMessage,
 		});
-	}
-
-	handlePrefixSubmit(event) {
-		event.preventDefault();
-
-		axios
-			.post("http://localhost:5000/api/updateGuild", {
-				token: this.props.userInfo.token,
-				guildID: this.props.data.id,
-				data: {
-					prefix: this.state.prefix,
-				},
-			})
-			.then((res) => {
-				console.log(res.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
 	}
 
 	handleNicknameSubmit(event) {
@@ -141,17 +120,6 @@ class Settings extends Component {
 				<h2>{this.props.data.name} - Settings</h2>
 				<hr style={{ width: "75%" }} />
 				<h3>Bot Settings</h3>
-				<form onSubmit={this.handlePrefixSubmit}>
-					<label htmlFor="prefix">Prefix: </label>
-					<input
-						name="prefix"
-						type="text"
-						onChange={this.handleChange}
-						value={this.state.prefix}
-					/>
-					<input type="submit" />
-				</form>
-				<br />
 				<form onSubmit={this.handleNicknameSubmit}>
 					<label htmlFor="nickname">Nickname: </label>
 					<input

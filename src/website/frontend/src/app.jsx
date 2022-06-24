@@ -67,7 +67,7 @@ class App extends Component {
 						<a
 							id="inv-link"
 							className="nav-links"
-							href="https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8"
+							href="https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot"
 							target="_blank"
 						>
 							Invite
@@ -92,7 +92,7 @@ class App extends Component {
 							</Link>
 							<Link to="/commands">Commands</Link>
 							<Link
-								to="https://discord.com/oauth2/authorize?client_id=835256019336036423&scope=bot&permissions=8"
+								to="https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot"
 								target="_blank"
 							>
 								Invite
