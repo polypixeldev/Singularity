@@ -7,7 +7,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sentry/integrations": "^7.2.0",
-		"@sentry/node": "^7.2.0",
+		"@sentry/node": "^7.3.0",
 		"@sentry/tracing": "^7.2.0",
 		"@sentry/types": "^7.2.0",
 		"axios": "^0.27.2",
