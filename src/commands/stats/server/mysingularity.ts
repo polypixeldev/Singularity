@@ -11,22 +11,19 @@ export default {
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
 
-		serverDoc = await serverDoc.populate<{ ms: User[] }>("ms");
+		const populatedDoc = await serverDoc.populate<{ ms: User[] }>("ms");
 
-		const totalProtons = serverDoc.ms.reduce(
-			// @ts-expect-error: Populate array not implemented in mongoose?
+		const totalProtons = populatedDoc.ms.reduce(
 			(acc, val) => acc + val.protons,
 			0
 		);
 
-		const totalElectrons = serverDoc.ms.reduce(
-			// @ts-expect-error: Populate array not implemented in mongoose?
+		const totalElectrons = populatedDoc.ms.reduce(
 			(acc, val) => acc + val.electrons,
 			0
 		);
 
-		const totalDarkMatter = serverDoc.ms.reduce(
-			// @ts-expect-error: Populate array not implemented in mongoose?
+		const totalDarkMatter = populatedDoc.ms.reduce(
 			(acc, val) => acc + val.darkMatter,
 			0
 		);
