@@ -47,7 +47,7 @@ export default {
 		}
 
 		if (!selectedItem) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("That is not a valid item!");
 
@@ -57,7 +57,7 @@ export default {
 		if (
 			!userMS.items.includes(interaction.options.get("item")?.value as string)
 		) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You do not own this item!");
 
@@ -67,7 +67,7 @@ export default {
 		let quantity = Number(interaction.options.get("quantity")?.value);
 		if (!quantity) quantity = 1;
 		if (quantity < 1) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You must specify a positive quantity!");
 
@@ -91,7 +91,7 @@ export default {
 		}
 
 		if (removed < quantity) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You do not have that many of the specified item!");
 
@@ -112,7 +112,7 @@ export default {
 				return;
 			}
 
-			const embed = new Discord.MessageEmbed().setColor(0x000000)
+			const embed = new Discord.EmbedBuilder().setColor(0x000000)
 				.setDescription(`
 			Sale completed!
 

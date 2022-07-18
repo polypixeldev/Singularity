@@ -54,51 +54,44 @@ export default {
 		`
 		);
 
-		const components = [
-			{
-				type: "ACTION_ROW" as const,
-				components: [
-					{
-						type: "SELECT_MENU" as const,
-						label: "Upgrade Quantity",
-						custom_id: "quantity",
-						disabled: false,
-						options: [
-							{
-								label: "1x Upgrade",
-								value: "1",
-								description: "Upgrade your Singularity once",
-							},
-							{
-								label: "2x Upgrade",
-								value: "2",
-								description: "Upgrade your Singularity twice",
-							},
-							{
-								label: "3x Upgrade",
-								value: "3",
-								description: "Upgrade your Singularity thrice",
-							},
-							{
-								label: "5x Upgrade",
-								value: "5",
-								description: "Upgrade your Singularity 5 times",
-							},
-							{
-								label: "10x Upgrade",
-								value: "10",
-								description: "Upgrade your Singularity 10 times",
-							},
-						],
-					},
-				],
-			},
-		];
+		const row =
+			new Discord.ActionRowBuilder<Discord.SelectMenuBuilder>().addComponents(
+				new Discord.SelectMenuBuilder()
+					.setCustomId("quantity")
+					.setDisabled(false)
+					.setOptions([
+						{
+							label: "1x Upgrade",
+							value: "1",
+							description: "Upgrade your Singularity once",
+						},
+						{
+							label: "2x Upgrade",
+							value: "2",
+							description: "Upgrade your Singularity twice",
+						},
+						{
+							label: "3x Upgrade",
+							value: "3",
+							description: "Upgrade your Singularity thrice",
+						},
+						{
+							label: "5x Upgrade",
+							value: "5",
+							description: "Upgrade your Singularity 5 times",
+						},
+						{
+							label: "10x Upgrade",
+							value: "10",
+							description: "Upgrade your Singularity 10 times",
+						},
+					])
+			);
 
 		interaction
 			.editReply({
 				embeds: [embed],
-				components: components,
+				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
 			})
 			.then((sent) => {
 				if (!(sent instanceof Discord.Message)) {
@@ -109,19 +102,19 @@ export default {
 					.awaitMessageComponent({
 						filter: (inter) => inter.user.id === interaction.user.id,
 						time: 30000,
-						componentType: "SELECT_MENU",
+						componentType: Discord.ComponentType.SelectMenu,
 					})
 					.then(async (selectionInteraction) => {
 						await selectionInteraction.deferUpdate();
-						components[0].components[0].disabled = true;
+						row.components[0].data.disabled = true;
 						interaction.editReply({
 							embeds: [embed],
-							components: components,
+							components: [{ ...row, type: Discord.ComponentType.ActionRow }],
 						});
 						const num = Number(selectionInteraction.values[0]);
 
 						if (num > limit) {
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription(
 									"You do not have enough protons/electrons to upgrade your Singularity size this much!"
@@ -129,7 +122,7 @@ export default {
 
 							return interaction.followUp({ embeds: [embed], ephemeral: true });
 						} else if (num <= 0) {
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription("Upgrade Aborted.");
 
@@ -144,7 +137,7 @@ export default {
 							}
 							updateUser(client, serverDoc.guildID, userMS.userID, userMS).then(
 								() => {
-									const embed = new Discord.MessageEmbed()
+									const embed = new Discord.EmbedBuilder()
 										.setColor(0x000000)
 										.setDescription(
 											`Congrats! Your Singularity is now size \`${userMS.singularity.size}\`!`
@@ -159,7 +152,7 @@ export default {
 						}
 					})
 					.catch(() => {
-						const embed = new Discord.MessageEmbed()
+						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription(
 								"You did not respond with a valid number in time."

@@ -4,9 +4,9 @@ import { startTransaction, configureScope } from "@sentry/node";
 import loadGuildInfo from "../../../util/loadGuildInfo.js";
 import captureException from "../../../util/captureException.js";
 
-import type InteractionHandler from "../../../types/InteractionHandler.js";
+import type { CommandInteractionHandler } from "../../../types/InteractionHandler.js";
 
-const handler: InteractionHandler = async (client, interaction) => {
+const handler: CommandInteractionHandler = async (client, interaction) => {
 	const commandTransaction = startTransaction({
 		op: "command",
 		name: "Command Interaction",
@@ -28,7 +28,7 @@ const handler: InteractionHandler = async (client, interaction) => {
 	}
 
 	console.log(
-		`Command Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild.name}`
+		`Command Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild?.name}`
 	);
 	if (!client.commands.has(interaction.commandName) || !interaction.guild) {
 		dataTransaction.finish();
@@ -75,7 +75,7 @@ const handler: InteractionHandler = async (client, interaction) => {
 	} catch (error) {
 		captureException(error);
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
 				"An error was encountered while executing this command. The issue has been reported to the Singularity Team. We are sorry for the inconvenience."

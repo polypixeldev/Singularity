@@ -14,37 +14,31 @@ export default {
 	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setTitle("Singularity Links")
 			.setColor(0x000000);
 
+		const row =
+			new Discord.ActionRowBuilder<Discord.ButtonBuilder>().addComponents(
+				new Discord.ButtonBuilder()
+					.setLabel("Bot Invite")
+					.setURL(
+						"https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot"
+					)
+					.setStyle(Discord.ButtonStyle.Link),
+				new Discord.ButtonBuilder()
+					.setLabel("Support Server")
+					.setURL("https://discord.gg/Q5GbzpXgSz")
+					.setStyle(Discord.ButtonStyle.Link),
+				new Discord.ButtonBuilder()
+					.setLabel("GitHub Repository")
+					.setURL("https://github.com/Poly-Pixel/Singularity")
+					.setStyle(Discord.ButtonStyle.Link)
+			);
+
 		interaction.editReply({
 			embeds: [embed],
-			components: [
-				{
-					type: "ACTION_ROW",
-					components: [
-						{
-							type: "BUTTON",
-							label: "Bot Invite",
-							url: "https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot",
-							style: "LINK",
-						},
-						{
-							type: "BUTTON",
-							label: "Support Server",
-							url: "https://discord.gg/Q5GbzpXgSz",
-							style: "LINK",
-						},
-						{
-							type: "BUTTON",
-							label: "GitHub Repository",
-							url: "https://github.com/Poly-Pixel/Singularity",
-							style: "LINK",
-						},
-					],
-				},
-			],
+			components: [{ ...row, type: Discord.ComponentType.ActionRow }],
 		});
 	},
 } as Command;

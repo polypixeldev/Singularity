@@ -62,13 +62,13 @@ export default {
 		} catch {
 			sentMessage.delete();
 
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("Invalid emoji");
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const successEmbed = new Discord.MessageEmbed()
+		const successEmbed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription("Reaction role added!");
 		interaction.editReply({ embeds: [successEmbed] });

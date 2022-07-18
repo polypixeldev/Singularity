@@ -56,8 +56,12 @@ export default {
 			return;
 		}
 
-		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-			const embed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.Administrator
+			)
+		) {
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					"You do not have permission to execute My Singularity moderation commands!"
@@ -81,7 +85,7 @@ export default {
 			: "set";
 
 		if (isNaN(Number(value.slice(1)))) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("The value provided is invalid!");
 
@@ -102,7 +106,7 @@ export default {
 			...userMS.toObject(),
 			[type]: userMS[type],
 		}).then(() => {
-			const embed = new Discord.MessageEmbed().setColor(0x000000)
+			const embed = new Discord.EmbedBuilder().setColor(0x000000)
 				.setDescription(`
 			Set Successful
 		`);

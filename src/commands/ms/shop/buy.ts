@@ -47,7 +47,7 @@ export default {
 		}
 
 		if (!selectedItem) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("That is not a valid item!");
 
@@ -57,7 +57,7 @@ export default {
 		let quantity = Number(interaction.options.get("quantity")?.value);
 		if (!quantity) quantity = 1;
 		if (quantity < 1) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You must specify a positive quantity!");
 
@@ -86,7 +86,7 @@ export default {
 					return;
 				}
 
-				const embed = new Discord.MessageEmbed().setColor(0x000000)
+				const embed = new Discord.EmbedBuilder().setColor(0x000000)
 					.setDescription(`
 				Purchase completed!
 
@@ -120,7 +120,7 @@ export default {
 				return type;
 			});
 
-			const embed = new Discord.MessageEmbed().setColor(0x000000)
+			const embed = new Discord.EmbedBuilder().setColor(0x000000)
 				.setDescription(`
 				You do not have enough resources needed to buy this item!
 

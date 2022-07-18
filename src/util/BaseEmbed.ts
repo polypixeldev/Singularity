@@ -1,6 +1,6 @@
-import { MessageEmbed, type User } from "discord.js";
+import { EmbedBuilder, type User } from "discord.js";
 
-export default class BaseEmbed extends MessageEmbed {
+export default class BaseEmbed extends EmbedBuilder {
 	constructor(title: string, user: User) {
 		super();
 		const currentDate = new Date(Date.now());

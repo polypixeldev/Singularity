@@ -114,7 +114,7 @@ export default {
 		}
 
 		const currentDate = new Date(Date.now());
-		const poll = new Discord.MessageEmbed()
+		const poll = new Discord.EmbedBuilder()
 			.setTitle(title as string)
 			.setFooter({
 				text: `Poll created by ${
@@ -126,7 +126,7 @@ export default {
 		try {
 			poll.setColor(`#${colorStr}`);
 		} catch {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("Invalid hex color provided");
 
@@ -152,14 +152,15 @@ export default {
 			}
 
 			const sentEmbed = sent.embeds[0];
-			sentEmbed.setFooter({
+			const sentBuilder = Discord.EmbedBuilder.from(sentEmbed);
+			sentBuilder.setFooter({
 				text: `Poll ID: ${sent.id} • Poll created by ${
 					interaction.user.tag
 				} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
 				iconURL: interaction.user.displayAvatarURL(),
 			});
 
-			sent.edit({ embeds: [sentEmbed] }).then((newSent) => {
+			sent.edit({ embeds: [sentBuilder] }).then((newSent) => {
 				for (let i = 0; i < cleanOptions.length; i++) {
 					newSent.react(optMapping[i]);
 				}

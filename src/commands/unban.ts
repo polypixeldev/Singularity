@@ -46,7 +46,7 @@ export default {
 		}
 
 		if (!interaction.options.get("tag") && !interaction.options.get("id")) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You must provide either a user tag or a user id!");
 
@@ -54,8 +54,12 @@ export default {
 		}
 		const bans = await interaction.guild.bans.fetch();
 		if (interaction.options.get("tag")?.value === "list") {
-			if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-				const embed = new Discord.MessageEmbed()
+			if (
+				!interaction.member.permissions.has(
+					Discord.PermissionFlagsBits.BanMembers
+				)
+			) {
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription("You do not have permission to view the ban list!");
 
@@ -69,7 +73,7 @@ export default {
 			}
 
 			if (banListStr === "") {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription("No users are banned in this server!");
 
@@ -101,10 +105,14 @@ export default {
 		if (banInfo) {
 			const user = banInfo.user;
 			if (
-				!interaction.member.permissions.has("BAN_MEMBERS") &&
-				!interaction.member.permissions.has("ADMINISTRATOR")
+				!interaction.member.permissions.has(
+					Discord.PermissionFlagsBits.BanMembers
+				) &&
+				!interaction.member.permissions.has(
+					Discord.PermissionFlagsBits.Administrator
+				)
 			) {
-				const permsEmbed = new Discord.MessageEmbed()
+				const permsEmbed = new Discord.EmbedBuilder()
 					.setDescription("You do not have permissions to unban!")
 					.setColor(0x000000);
 
@@ -118,7 +126,7 @@ export default {
 						`${user.tag} unbanned by ${interaction.user.tag}`) as string
 				)
 				.then(() => {
-					const successEmbed = new Discord.MessageEmbed()
+					const successEmbed = new Discord.EmbedBuilder()
 						.setDescription(`Successfully unbanned **${user.tag}**`)
 						.setColor(0x000000);
 
@@ -126,14 +134,14 @@ export default {
 				})
 				.catch((err) => {
 					if (err.message === "Missing Permissions") {
-						const embed = new Discord.MessageEmbed()
+						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription("I don't have permissions to unban this user!");
 
 						return interaction.editReply({ embeds: [embed] });
 					}
 
-					const errEmbed = new Discord.MessageEmbed().setDescription(
+					const errEmbed = new Discord.EmbedBuilder().setDescription(
 						"I was unable to unban the member because: \n`" + err + "`"
 					);
 
@@ -142,7 +150,7 @@ export default {
 					console.error(err);
 				});
 		} else {
-			const mentionEmbed = new Discord.MessageEmbed()
+			const mentionEmbed = new Discord.EmbedBuilder()
 				.setDescription("The tagged user is not banned!")
 				.setColor(0x000000);
 
