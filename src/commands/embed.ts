@@ -47,14 +47,14 @@ export default {
 			return;
 		}
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setTitle(title)
 			.setDescription(content);
 
 		try {
 			embed.setColor(color as Discord.ColorResolvable);
 		} catch (err) {
-			const errorEmbed = new Discord.MessageEmbed()
+			const errorEmbed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("This color doesnt exist, please enter another color!");
 

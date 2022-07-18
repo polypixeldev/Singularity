@@ -48,7 +48,7 @@ export default {
 			let subcommand;
 			let group;
 			if (!command) {
-				const notFoundEmbed = new Discord.MessageEmbed()
+				const notFoundEmbed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"That command does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
@@ -62,7 +62,7 @@ export default {
 							opt.name === interaction.options.get("group")?.value
 					);
 					if (!group) {
-						const embed = new Discord.MessageEmbed()
+						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription("The specified subcommand group does not exist!");
 
@@ -82,7 +82,7 @@ export default {
 								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription(
 									"The specified subcommand does not exist within the specified group!"
@@ -97,7 +97,7 @@ export default {
 								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription("The specified subcommand does not exist!");
 
@@ -191,7 +191,7 @@ export default {
 							option.name === interaction.options.get("argument")?.value
 					)
 				) {
-					const argNotFoundEmbed = new Discord.MessageEmbed()
+					const argNotFoundEmbed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
 							"That argument does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
@@ -267,7 +267,10 @@ export default {
 
 					desc.unshift(`${command[1].description} \n`);
 
-					generalEmbed.addField(`\`/${command[1].name}\``, desc.join(""));
+					generalEmbed.addFields({
+						name: `\`/${command[1].name}\``,
+						value: desc.join(""),
+					});
 				} else if (command[1].type === "mod") {
 					const desc = [];
 
@@ -292,7 +295,10 @@ export default {
 
 					desc.unshift(`${command[1].description} \n`);
 
-					modEmbed.addField(`\`/${command[1].name}\``, desc.join(""));
+					modEmbed.addFields({
+						name: `\`/${command[1].name}\``,
+						value: desc.join(""),
+					});
 				} else if (command[1].type === "ms") {
 					const desc = [];
 
@@ -331,40 +337,31 @@ export default {
         			`
 			);
 
-			const components = [
-				{
-					type: "ACTION_ROW" as const,
-					components: [
+			const row =
+				new Discord.ActionRowBuilder<Discord.SelectMenuBuilder>().addComponents(
+					new Discord.SelectMenuBuilder().setCustomId("type").setOptions([
 						{
-							type: "SELECT_MENU" as const,
-							label: "Command Category",
-							custom_id: "type",
-							options: [
-								{
-									label: "General",
-									value: "general",
-									description: "General Singularity Commands",
-								},
-								{
-									label: "Moderation",
-									value: "mod",
-									description: "Moderation Singularity Commands",
-								},
-								{
-									label: "My Singularity",
-									value: "ms",
-									description: "My Singularity Commands",
-								},
-							],
+							label: "General",
+							value: "general",
+							description: "General Singularity Commands",
 						},
-					],
-				},
-			];
+						{
+							label: "Moderation",
+							value: "mod",
+							description: "Moderation Singularity Commands",
+						},
+						{
+							label: "My Singularity",
+							value: "ms",
+							description: "My Singularity Commands",
+						},
+					])
+				);
 
 			interaction
 				.editReply({
 					embeds: [latestEmbed],
-					components: components,
+					components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
 				})
 				.then((sent) => {
 					if (!(sent instanceof Discord.Message)) {
@@ -372,7 +369,7 @@ export default {
 					}
 
 					const collector = sent.createMessageComponentCollector({
-						componentType: "SELECT_MENU",
+						componentType: Discord.ComponentType.SelectMenu,
 						time: 300000,
 						dispose: true,
 					});
@@ -389,14 +386,14 @@ export default {
 
 						selection.editReply({
 							embeds: [latestEmbed],
-							components: components,
+							components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
 						});
 					});
 
 					collector.on("end", () => {
 						interaction.editReply({
 							embeds: [latestEmbed],
-							components: components,
+							components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
 						});
 					});
 				});

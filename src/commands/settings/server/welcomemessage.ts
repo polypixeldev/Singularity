@@ -40,7 +40,7 @@ export default {
 					welcomeChannelID: "none",
 				});
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"Welcome messages are now toggled off. To turn them on again, run this command with the appropriate arguments."
@@ -48,7 +48,7 @@ export default {
 
 				return interaction.editReply({ embeds: [embed] });
 			} else {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"Welcome messages are currently toggled off. To turn them on, run this command with the appropriate arguments."
@@ -64,12 +64,8 @@ export default {
 			return;
 		}
 
-		if (!("isText" in welcomeChannel)) {
-			return;
-		}
-
-		if (!welcomeChannel.isText()) {
-			const embed = new Discord.MessageEmbed()
+		if (welcomeChannel.type !== Discord.ChannelType.GuildText) {
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("This is not a valid text channel!");
 
@@ -82,7 +78,7 @@ export default {
 			welcomeMessage: welcomeMessage,
 			welcomeChannelID: welcomeChannel.id,
 		}).then(() => {
-			const successEmbed = new Discord.MessageEmbed()
+			const successEmbed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					`Server welcome message successfully changed to \`${welcomeMessage}\` in channel \`#${welcomeChannel.name}\``

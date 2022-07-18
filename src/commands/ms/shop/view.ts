@@ -28,7 +28,7 @@ export default {
 			);
 			if (item) {
 				if (item.rare === true) {
-					const embed = new Discord.MessageEmbed()
+					const embed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
 							`The specified item is rare and cannot be viewed from the Singularity Shop. Use \`/ms rare\` to view this item`
@@ -64,7 +64,7 @@ export default {
 					return interaction.editReply({ embeds: [embed] });
 				}
 			} else {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription("The specified item does not exist!");
 

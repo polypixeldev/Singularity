@@ -1,10 +1,18 @@
-import type { Interaction } from "discord.js";
+import type {
+	ChatInputCommandInteraction,
+	ContextMenuCommandInteraction,
+} from "discord.js";
 
 import type Singularity from "../interfaces/singularity.js";
 
-type InteractionHandler = (
+type CommandInteractionHandler = (
 	client: Singularity,
-	interaction: Interaction
+	interaction: ChatInputCommandInteraction
 ) => void;
 
-export default InteractionHandler;
+type ContextInteractionHandler = (
+	client: Singularity,
+	interaction: ContextMenuCommandInteraction
+) => void;
+
+export type { CommandInteractionHandler, ContextInteractionHandler };

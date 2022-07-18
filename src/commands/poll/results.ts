@@ -38,7 +38,7 @@ export default {
 
 		const pollMessage = await Promise.any(fetches);
 
-		const invalidPoll = new Discord.MessageEmbed()
+		const invalidPoll = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription("The specified poll does not exist!");
 
@@ -74,7 +74,11 @@ export default {
 		).setDescription(`Results for poll \`${embed.title}\``);
 
 		for (let i = 0; i < options.length; i++) {
-			results.addField(options[i], `**${data[i]}** vote(s)`, true);
+			results.addFields({
+				name: options[i],
+				value: `**${data[i]}** vote(s)`,
+				inline: true,
+			});
 		}
 
 		interaction.editReply({ embeds: [results] });

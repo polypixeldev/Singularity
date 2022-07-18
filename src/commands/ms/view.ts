@@ -22,7 +22,7 @@ export default {
 		await interaction.deferReply({ ephemeral: true });
 		const user = interaction.options.get("user")?.user ?? interaction.user;
 		if (user.bot) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					"Bots are not powerful enough to have their own Singularity!"
@@ -57,27 +57,29 @@ export default {
 
 		const embed = new BaseEmbed(`${user.tag}'s Singularity`, interaction.user)
 			.setThumbnail(user.displayAvatarURL())
-			.addField(
-				"User Stats",
-				`
-			Protons: **${userMS.protons}**
-			Electrons: **${userMS.electrons}**
-			Dark Matter: **${userMS.darkMatter}**
-			Items: ${itemStr}
-			Rare Items: ${rareStr}
-			Active Power-Ups: ${aStr}
-			Lifetime Experience: **${userMS.lifeExp}**
-		`
-			)
-			.addField(
-				"Singularity Stats",
-				`
-			Singularity Type: **${userMS.singularity.type}**
-			Singularity Size: **${userMS.singularity.size}**
-			Singularity Ferocity: **${userMS.singularity.ferocity}**
-			Times Prestiged: **${userMS.singularity.prestige}**
-		`
-			);
+			.addFields([
+				{
+					name: "User Stats",
+					value: `
+								Protons: **${userMS.protons}**
+								Electrons: **${userMS.electrons}**
+								Dark Matter: **${userMS.darkMatter}**
+								Items: ${itemStr}
+								Rare Items: ${rareStr}
+								Active Power-Ups: ${aStr}
+								Lifetime Experience: **${userMS.lifeExp}**
+							`,
+				},
+				{
+					name: "Singularity Stats",
+					value: `
+								Singularity Type: **${userMS.singularity.type}**
+								Singularity Size: **${userMS.singularity.size}**
+								Singularity Ferocity: **${userMS.singularity.ferocity}**
+								Times Prestiged: **${userMS.singularity.prestige}**
+							`,
+				},
+			]);
 
 		interaction.editReply({ embeds: [embed] });
 	},

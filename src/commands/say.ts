@@ -26,7 +26,7 @@ export default {
 			interaction.channel?.send(
 				`${(interaction.options.get("message")?.value as string).slice(1)}`
 			);
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("Done!");
 

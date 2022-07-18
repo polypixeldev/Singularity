@@ -53,7 +53,7 @@ export default {
 				userDoc.protons += random;
 				userDoc.electrons += Math.round(random / 2.5);
 
-				embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
+				embed = new Discord.EmbedBuilder().setColor(0x000000).setDescription(`
 					Instant Boost used!
 
 					+**${random}** Protons
@@ -62,7 +62,7 @@ export default {
 				break;
 			}
 			case "lasting":
-				embed = new Discord.MessageEmbed().setColor(0x000000).setDescription(`
+				embed = new Discord.EmbedBuilder().setColor(0x000000).setDescription(`
           Lasting Boost used!
 
           You will now gain extra protons and electrons for 60 seconds

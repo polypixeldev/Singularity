@@ -41,18 +41,24 @@ export default {
 			return;
 		}
 
-		if (user.member.permissions.has("ADMINISTRATOR")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			user.member.permissions.has(Discord.PermissionFlagsBits.Administrator)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You cannot kick a moderator!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
 		if (
-			!interaction.member.permissions.has("KICK_MEMBERS") &&
-			!interaction.member.permissions.has("ADMINISTRATOR")
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.KickMembers
+			) &&
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.Administrator
+			)
 		) {
-			const permsEmbed = new Discord.MessageEmbed()
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You do not have permissions to kick!")
 				.setColor(0x000000);
 
@@ -63,7 +69,7 @@ export default {
 			return;
 		}
 
-		const kickedEmbed = new Discord.MessageEmbed()
+		const kickedEmbed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
 				`You have been kicked from **${interaction.guild.name}** for \`${
@@ -97,7 +103,7 @@ export default {
 					...userDoc.toObject(),
 					infractions: userDoc.infractions,
 				});
-				const successEmbed = new Discord.MessageEmbed()
+				const successEmbed = new Discord.EmbedBuilder()
 					.setDescription(`Successfully kicked **${user.user.tag}**`)
 					.setColor(0x000000);
 
@@ -105,13 +111,13 @@ export default {
 			})
 			.catch((err) => {
 				if (err.message === "Missing Permissions") {
-					const embed = new Discord.MessageEmbed()
+					const embed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription("I don't have permissions to kick this user!");
 
 					return interaction.editReply({ embeds: [embed] });
 				}
-				const errEmbed = new Discord.MessageEmbed()
+				const errEmbed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"I was unable to kick the member because: \n`" + err + "`"

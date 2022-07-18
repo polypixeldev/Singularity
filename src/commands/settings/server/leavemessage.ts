@@ -39,7 +39,7 @@ export default {
 					leaveChannelID: "none",
 				});
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"Leave messages are now toggled off. To turn them on again, run this command with the appropriate arguments."
@@ -47,7 +47,7 @@ export default {
 
 				return interaction.editReply({ embeds: [embed] });
 			} else {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"Leave messages are currently toggled off. To turn them on, run this command with the appropriate arguments."
@@ -63,12 +63,8 @@ export default {
 			return;
 		}
 
-		if (!("isText" in leaveChannel)) {
-			return;
-		}
-
-		if (!leaveChannel?.isText()) {
-			const embed = new Discord.MessageEmbed()
+		if (leaveChannel.type !== Discord.ChannelType.GuildText) {
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("This is not a valid text channel!");
 
@@ -81,7 +77,7 @@ export default {
 			leaveMessage: leaveMessage,
 			leaveChannelID: leaveChannel.id,
 		}).then(() => {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					`Server leave message successfully changed to \`${leaveMessage}\` in channel \`#${leaveChannel.name}\``

@@ -18,7 +18,7 @@ export default (
 
 				const currentDate = new Date(Date.now());
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setTitle("Goodbye")
 					.setDescription(
@@ -35,9 +35,9 @@ export default (
 					The Singularity Team*
 				`
 					)
-					.setFooter(
-						`Singularity was kicked by User ID ${userID} through the Web API • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`
-					);
+					.setFooter({
+						text: `Singularity was kicked by User ID ${userID} through the Web API • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
+					});
 
 				client.guilds.cache
 					.get(guildID)

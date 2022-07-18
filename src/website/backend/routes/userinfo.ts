@@ -43,7 +43,8 @@ const handler: ApiRoute = (discord, client, req, res) => {
 									promises.push(
 										ev.guild.then(
 											(guild) =>
-												(guildsRes.data[i].nickname = guild.me?.nickname ?? "")
+												(guildsRes.data[i].nickname =
+													guild.members.me?.nickname ?? "")
 										)
 									);
 							}
