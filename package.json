@@ -8,7 +8,7 @@
 	"dependencies": {
 		"@sentry/integrations": "^7.10.0",
 		"@sentry/node": "^7.10.0",
-		"@sentry/react": "^7.10.0",
+		"@sentry/react": "^7.11.1",
 		"@sentry/tracing": "^7.10.0",
 		"@vitejs/plugin-react": "^2.0.1",
 		"axios": "^0.27.2",
