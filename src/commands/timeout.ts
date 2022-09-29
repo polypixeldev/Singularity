@@ -13,23 +13,24 @@ export default {
 		{
 			name: "user",
 			description: "The user to timeout",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 		{
 			name: "time",
 			description: "The time in minutes to timeout the user",
-			type: "INTEGER",
+			type: Discord.ApplicationCommandOptionType.Integer,
 			required: true,
 		},
 		{
 			name: "reason",
 			description:
 				'A short reason for timing out this user - will default to "Timed out by <your tag>" if omitted',
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	example: "timeout @poly 5",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply();

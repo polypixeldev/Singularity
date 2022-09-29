@@ -10,18 +10,19 @@ export default {
 		{
 			name: "user",
 			description: "The user you want to nickname",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 		{
 			name: "nickname",
 			description:
 				"The new nickname for the user - leave blank to get rid of a nickname",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<target user>", "<new nickname>"],
 	aliases: [],
 	example: "nickname @poly Bot Maker",

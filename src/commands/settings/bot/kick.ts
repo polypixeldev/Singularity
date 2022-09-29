@@ -7,7 +7,8 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "kick",
 	description: "Kick Singularity from the server",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [],
 	args: [],
 	aliases: [],

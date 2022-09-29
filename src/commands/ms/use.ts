@@ -8,12 +8,13 @@ import type Command from "../../interfaces/client/Command.js";
 export default {
 	name: "use",
 	description: "Use an item!",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "item",
 			description: "The name of the item you want to use",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],

@@ -9,7 +9,8 @@ import type Command from "../../interfaces/client/Command.js";
 export default {
 	name: "upgrade",
 	description: "Upgrade your Singularity!",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [],
 	args: [],
 	aliases: [],

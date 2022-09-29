@@ -37,6 +37,7 @@ export default async (client: Singularity) => {
 		const slashCmd = {
 			name: command.name,
 			type: command.type,
+			category: command.category,
 			description: command.description,
 			options: command.options,
 			example: command.example,
@@ -59,7 +60,7 @@ export default async (client: Singularity) => {
 						slashCmd.options.push({
 							name: ent.name,
 							description: grp_meta.description,
-							type: "SUB_COMMAND_GROUP",
+							type: Discord.ApplicationCommandOptionType.SubcommandGroup,
 							options: [],
 						}) - 1;
 					const subgrp_cmds = fs
@@ -75,7 +76,7 @@ export default async (client: Singularity) => {
 						slashCmd.options[index].options?.push({
 							name: subgrp_cmd.name,
 							description: subgrp_cmd.description,
-							type: "SUB_COMMAND",
+							type: Discord.ApplicationCommandOptionType.Subcommand,
 							options: subgrp_cmd.options,
 							example: subgrp_cmd.example,
 							notes: subgrp_cmd.notes,
@@ -89,7 +90,7 @@ export default async (client: Singularity) => {
 					slashCmd.options.push({
 						name: sub_cmd.name,
 						description: sub_cmd.description,
-						type: "SUB_COMMAND",
+						type: Discord.ApplicationCommandOptionType.Subcommand,
 						options: sub_cmd.options,
 						example: sub_cmd.example,
 						notes: sub_cmd.notes,

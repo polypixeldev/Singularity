@@ -12,18 +12,19 @@ export default {
 	options: [
 		{
 			name: "user",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			description: "The user you want to kick",
 			required: true,
 		},
 		{
 			name: "reason",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			description:
 				'A short reason for kicking this user - will default to "Kicked by <your tag>" if omitted',
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<user to kick>", "!<reason>"],
 	aliases: [],
 	example: "kick @poly spamming",

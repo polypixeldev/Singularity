@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import BaseEmbed from "../../../util/BaseEmbed.js";
 
 import type Command from "../../../interfaces/client/Command.js";
@@ -6,7 +8,8 @@ import type { User } from "../../../database/schema/user.js";
 export default {
 	name: "mysingularity",
 	description: "My Singularity statistics for this server",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	options: [],
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });

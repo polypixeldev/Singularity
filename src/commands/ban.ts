@@ -11,13 +11,13 @@ export default {
 	defaultPermission: true,
 	options: [
 		{
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			name: "user",
 			description: "The user you want to ban",
 			required: true,
 		},
 		{
-			type: "INTEGER",
+			type: Discord.ApplicationCommandOptionType.Integer,
 			name: "days",
 			description: "Number of days of messages by the user to delete",
 			required: false,
@@ -53,14 +53,15 @@ export default {
 			],
 		},
 		{
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			name: "reason",
 			description:
 				'A short reason for banning this user - will default to "Banned by <your tag>" if omitted',
 			required: false,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<user to ban>", "!<number of days>", "reason"],
 	aliases: ["tempban"],
 	example: "ban @poly 14 Breaking the rules",

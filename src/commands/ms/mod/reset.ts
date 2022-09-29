@@ -13,11 +13,12 @@ export default {
 			name: "user",
 			description:
 				"The user you want to reset - pick Singularity (this bot) to reset the entire server",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 	],
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	example: "ms mod reset @user",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });

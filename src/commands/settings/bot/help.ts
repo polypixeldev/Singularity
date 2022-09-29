@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import BaseEmbed from "../../../util/BaseEmbed.js";
 
 import type Command from "../../../interfaces/client/Command.js";
@@ -5,7 +7,8 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "help",
 	description: "Singularity Bot Settings",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [],
 	example: "settings bot",
 	async slashExecute(client, interaction) {

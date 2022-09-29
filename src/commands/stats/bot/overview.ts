@@ -1,3 +1,4 @@
+import Discord from "discord.js";
 import prettyMS from "pretty-ms";
 import os from "os-utils";
 
@@ -8,7 +9,8 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "overview",
 	description: "An overview of Singularity's statistics",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	options: [],
 	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });

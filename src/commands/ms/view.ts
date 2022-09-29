@@ -9,12 +9,13 @@ import type Command from "../../interfaces/client/Command.js";
 export default {
 	name: "view",
 	description: "View people's Singularity!",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "user",
 			description: "The user that you want to view - defaults to yourself",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: false,
 		},
 	],
