@@ -10,7 +10,8 @@ export default {
 	name: "start",
 	description: "Start prestiging your Singularity!",
 	options: [],
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	example: "ms prestige start",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });

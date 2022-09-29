@@ -10,18 +10,19 @@ export default {
 	name: "set",
 	description:
 		"Set the protons/electrons/dark matter of other My Singularity users",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "user",
 			description: "The user you want to manage",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 		{
 			name: "type",
 			description: "The type you want to change",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 			choices: [
 				{
@@ -42,7 +43,7 @@ export default {
 			name: "value",
 			description:
 				"The new value - prefix it with + or - to add or subtract from the current value",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],

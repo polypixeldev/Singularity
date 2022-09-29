@@ -8,12 +8,13 @@ import type Command from "../interfaces/client/Command.js";
 export default {
 	name: "infractions",
 	description: "Displays the infractions for the specified user",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [
 		{
 			name: "user",
 			description: "The user you wish to view",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 	],

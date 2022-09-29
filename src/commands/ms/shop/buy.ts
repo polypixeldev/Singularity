@@ -9,18 +9,19 @@ import type Item from "../../../interfaces/user/Item.js";
 export default {
 	name: "buy",
 	description: "Buy an item from the Singularity Shop!",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "item",
 			description: "The name of the item you want to buy",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "quantity",
 			description: "How many of the item you want to buy - defaults to 1",
-			type: "INTEGER",
+			type: Discord.ApplicationCommandOptionType.Integer,
 			required: false,
 		},
 	],

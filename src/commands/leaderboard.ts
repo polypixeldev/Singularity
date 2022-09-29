@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import BaseEmbed from "../util/BaseEmbed.js";
 
 import type Command from "../interfaces/client/Command.js";
@@ -5,7 +7,8 @@ import type Command from "../interfaces/client/Command.js";
 export default {
 	name: "leaderboard",
 	description: "Shows the server leaderboard",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	options: [],
 	args: [],
 	aliases: ["lb"],

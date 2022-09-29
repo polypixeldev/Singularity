@@ -9,12 +9,13 @@ const optMapping = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️
 export default {
 	name: "results",
 	description: "Shows the results of a poll",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	options: [
 		{
 			name: "id",
 			description: "The poll ID of the poll",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],

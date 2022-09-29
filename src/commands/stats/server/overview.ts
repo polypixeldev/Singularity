@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import BaseEmbed from "../../../util/BaseEmbed.js";
 
 import type Command from "../../../interfaces/client/Command.js";
@@ -5,7 +7,8 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "overview",
 	description: "An overview of the current server's statistics",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	options: [],
 	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });

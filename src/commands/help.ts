@@ -13,29 +13,30 @@ export default {
 			name: "command",
 			description: "The name of the command you want information about",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 		{
 			name: "argument",
 			description: "The name of the argument you wish to view",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 		{
 			name: "group",
 			description: "The name of a subcommand group within the command",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 		{
 			name: "subcommand",
 			description:
 				"The name of a subcommand within the command or subcommand group",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 	],
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	args: ["!<command type>"],
 	aliases: [],
 	example: "help general",
@@ -58,7 +59,8 @@ export default {
 				if (interaction.options.get("group")) {
 					group = command.options.find(
 						(opt) =>
-							opt.type === "SUB_COMMAND_GROUP" &&
+							opt.type ===
+								Discord.ApplicationCommandOptionType.SubcommandGroup &&
 							opt.name === interaction.options.get("group")?.value
 					);
 					if (!group) {
@@ -78,7 +80,7 @@ export default {
 
 						subcommand = group.options.find(
 							(opt) =>
-								opt.type === "SUB_COMMAND" &&
+								opt.type === Discord.ApplicationCommandOptionType.Subcommand &&
 								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
@@ -93,7 +95,7 @@ export default {
 					} else {
 						subcommand = command.options.find(
 							(opt) =>
-								opt.type === "SUB_COMMAND" &&
+								opt.type === Discord.ApplicationCommandOptionType.Subcommand &&
 								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
@@ -120,9 +122,14 @@ export default {
 					if (subcommand?.options.length ?? command.options.length > 0) {
 						argString = ``;
 						for (const arg of subcommand?.options ?? command.options) {
-							if (arg.type === "SUB_COMMAND_GROUP") {
+							if (
+								arg.type ===
+								Discord.ApplicationCommandOptionType.SubcommandGroup
+							) {
 								subGrpStr = subGrpStr + ` - ${arg.name} \n`;
-							} else if (arg.type === "SUB_COMMAND") {
+							} else if (
+								arg.type === Discord.ApplicationCommandOptionType.Subcommand
+							) {
 								subStr = subStr + ` - ${arg.name} \n`;
 							} else {
 								argString =
@@ -137,7 +144,7 @@ export default {
 						.setTitle(
 							`${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
 								subcommand ? `Subcommand "${subcommand.name}" - ` : ""
-							} ${command.type.toUpperCase()}`
+							} ${command.category.toUpperCase()}`
 						)
 						.setDescription(
 							`${subcommand?.description ?? command.description}
@@ -171,7 +178,7 @@ export default {
 						.setTitle(
 							`${command.name} - Group "${
 								group.name
-							}" - ${command.type.toUpperCase()}`
+							}" - ${command.category.toUpperCase()}`
 						)
 						.setDescription(
 							`
@@ -216,10 +223,6 @@ export default {
 								value: argument?.description as string,
 							},
 							{
-								name: "Type",
-								value: argument?.type as string,
-							},
-							{
 								name: "Required",
 								value: argument?.required?.toString() ?? "False",
 							},
@@ -245,11 +248,14 @@ export default {
 			).setTitle("My Singularity Commands");
 
 			for (const command of client.commands) {
-				if (command[1].type === "general") {
+				if (command[1].category === "general") {
 					const desc = [];
 
 					for (const option of command[1].options) {
-						if (option.type === "SUB_COMMAND_GROUP") {
+						if (
+							option.type ===
+							Discord.ApplicationCommandOptionType.SubcommandGroup
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
 							if (!option.options) {
 								return;
@@ -260,7 +266,9 @@ export default {
 								);
 							}
 							desc.push("\n");
-						} else if (option.type === "SUB_COMMAND") {
+						} else if (
+							option.type === Discord.ApplicationCommandOptionType.Subcommand
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description} \n`);
 						}
 					}
@@ -271,11 +279,14 @@ export default {
 						name: `\`/${command[1].name}\``,
 						value: desc.join(""),
 					});
-				} else if (command[1].type === "mod") {
+				} else if (command[1].category === "mod") {
 					const desc = [];
 
 					for (const option of command[1].options) {
-						if (option.type === "SUB_COMMAND_GROUP") {
+						if (
+							option.type ===
+							Discord.ApplicationCommandOptionType.SubcommandGroup
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
 
 							if (!option.options) {
@@ -288,7 +299,9 @@ export default {
 								);
 							}
 							desc.push("\n");
-						} else if (option.type === "SUB_COMMAND") {
+						} else if (
+							option.type === Discord.ApplicationCommandOptionType.Subcommand
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description} \n`);
 						}
 					}
@@ -299,11 +312,14 @@ export default {
 						name: `\`/${command[1].name}\``,
 						value: desc.join(""),
 					});
-				} else if (command[1].type === "ms") {
+				} else if (command[1].category === "ms") {
 					const desc = [];
 
 					for (const option of command[1].options) {
-						if (option.type === "SUB_COMMAND_GROUP") {
+						if (
+							option.type ===
+							Discord.ApplicationCommandOptionType.SubcommandGroup
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
 
 							if (!option.options) {
@@ -316,7 +332,9 @@ export default {
 								);
 							}
 							desc.push("\n");
-						} else if (option.type === "SUB_COMMAND") {
+						} else if (
+							option.type === Discord.ApplicationCommandOptionType.Subcommand
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description} \n`);
 						}
 					}
@@ -361,7 +379,7 @@ export default {
 			interaction
 				.editReply({
 					embeds: [latestEmbed],
-					components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
+					components: [row],
 				})
 				.then((sent) => {
 					if (!(sent instanceof Discord.Message)) {

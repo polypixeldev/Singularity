@@ -5,7 +5,8 @@ import type Command from "../interfaces/client/Command.js";
 export default {
 	name: "links",
 	description: "Various links for Singularity",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	defaultPermission: true,
 	options: [],
 	args: [],

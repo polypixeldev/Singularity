@@ -1,8 +1,10 @@
+import Discord from "discord.js";
+
 import type Context from "../interfaces/client/Context.js";
 
 export default {
 	name: "Kick User",
-	type: "USER",
+	type: Discord.ApplicationCommandType.User,
 	async execute(client, interaction, serverDoc) {
 		const slashExecute = (await import("../commands/kick.js")).default
 			.slashExecute;

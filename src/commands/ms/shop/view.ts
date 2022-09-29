@@ -7,12 +7,13 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "view",
 	description: "The Singularity Shop",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "item",
 			description: "The name of the item you wish to view",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],

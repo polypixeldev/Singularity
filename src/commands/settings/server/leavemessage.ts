@@ -7,19 +7,20 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "leavemessage",
 	description: "Change the server's message for when a member leaves",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [
 		{
 			name: "channel",
 			description: "The channel that the message should be sent in",
-			type: "CHANNEL",
+			type: Discord.ApplicationCommandOptionType.Channel,
 			required: true,
 		},
 		{
 			name: "message",
 			description:
 				'{tag} and {name} are valid placeholders - "none" to turn off leave messages',
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],

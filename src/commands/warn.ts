@@ -8,17 +8,18 @@ import type Command from "../interfaces/client/Command.js";
 export default {
 	name: "warn",
 	description: "Warn the specified user for the specified reason",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [
 		{
 			name: "user",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			description: "The user you wish to warn",
 			required: true,
 		},
 		{
 			name: "warning",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			description:
 				'The message to warn the user for - defaults to "warned by <your tag>"',
 			required: false,
