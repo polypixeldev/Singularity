@@ -8,12 +8,13 @@ import type Command from "../interfaces/client/Command.js";
 export default {
 	name: "infractions",
 	description: "Displays the infractions for the specified user",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [
 		{
 			name: "user",
 			description: "The user you wish to view",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 	],
@@ -31,15 +32,21 @@ export default {
 			return;
 		}
 
-		if (user.member.permissions.has("ADMINISTRATOR")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			user.member.permissions.has(Discord.PermissionFlagsBits.Administrator)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("Moderators cannot have infractions!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.ModerateMembers
+			)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You do not have permission to view infractions!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
@@ -55,13 +62,13 @@ export default {
 		if (userDoc.infractions.length > 0) {
 			for (const infraction of userDoc.infractions) {
 				const timestamp = new Date(infraction.timestamp);
-				embed.addField(
-					`**${timestamp.getUTCMonth()}/${timestamp.getUTCDate()}/${timestamp.getUTCFullYear()}** - ${
+				embed.addFields({
+					name: `**${timestamp.getUTCMonth()}/${timestamp.getUTCDate()}/${timestamp.getUTCFullYear()}** - ${
 						infraction.type
 					} from ${infraction.modTag}`,
-					infraction.message,
-					false
-				);
+					value: infraction.message,
+					inline: false,
+				});
 			}
 		} else {
 			embed.setDescription("The specified user has no infractions!");

@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import loadUserInfo from "../../../util/loadUserInfo.js";
 import BaseEmbed from "../../../util/BaseEmbed.js";
 
@@ -7,7 +9,8 @@ export default {
 	name: "info",
 	description: "Provides information on My Singularity Prestige",
 	options: [],
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	example: "ms prestige info",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });

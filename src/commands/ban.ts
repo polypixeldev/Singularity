@@ -11,15 +11,15 @@ export default {
 	defaultPermission: true,
 	options: [
 		{
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			name: "user",
 			description: "The user you want to ban",
 			required: true,
 		},
 		{
-			type: "INTEGER",
+			type: Discord.ApplicationCommandOptionType.Integer,
 			name: "days",
-			description: "The number of days you want to ban the user, up to 7",
+			description: "Number of days of messages by the user to delete",
 			required: false,
 			choices: [
 				{
@@ -53,19 +53,18 @@ export default {
 			],
 		},
 		{
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			name: "reason",
 			description:
 				'A short reason for banning this user - will default to "Banned by <your tag>" if omitted',
 			required: false,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<user to ban>", "!<number of days>", "reason"],
 	aliases: ["tempban"],
 	example: "ban @poly 14 Breaking the rules",
-	notes:
-		"number of days cannot be longer than 7 - if days are omitted, mentioned user will be banned indefinitely",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply();
 		const user = interaction.options.get("user");
@@ -86,21 +85,27 @@ export default {
 			return;
 		}
 
-		if (user.member.permissions.has("ADMINISTRATOR")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			user.member.permissions.has(Discord.PermissionFlagsBits.Administrator)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You cannot ban a moderator!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.BanMembers
+			)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You do not have permission to ban!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		const bannedEmbed = new Discord.MessageEmbed()
+		const bannedEmbed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
 				`You have been banned from **${interaction.guild.name}** for \`${
@@ -116,7 +121,7 @@ export default {
 				reason:
 					(interaction.options.get("reason")?.value as string) ??
 					`User banned by ${interaction.user.tag}`,
-				days: Number(interaction.options.get("days")?.value),
+				deleteMessageDays: Number(interaction.options.get("days")?.value),
 			})
 			.then(async () => {
 				if (!user.user) {
@@ -140,21 +145,21 @@ export default {
 					infractions: userDoc.infractions,
 				});
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(`Successfully banned **${user.user.tag}**`);
 				return interaction.editReply({ embeds: [embed] });
 			})
 			.catch((err) => {
 				if (err.message === "Missing Permissions") {
-					const embed = new Discord.MessageEmbed()
+					const embed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription("I do not have permissions to ban this user!");
 
 					return interaction.editReply({ embeds: [embed] });
 				}
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						`I was unable to ban the member because: \n \`\`\`${err}\`\`\``

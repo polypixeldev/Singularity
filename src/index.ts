@@ -1,7 +1,7 @@
 import APIClient from "./website/server.js";
 import cron from "node-cron";
 import dotenv from "dotenv";
-import Discord from "discord.js";
+import Discord, { GatewayIntentBits, Partials, ActivityType } from "discord.js";
 import mongoose from "mongoose";
 import * as Sentry from "@sentry/node";
 import { RewriteFrames } from "@sentry/integrations";
@@ -27,7 +27,7 @@ dotenv.config();
 
 Sentry.init({
 	dsn: process.env.SENTRY_DSN,
-	release: "Singularity@2.0.1",
+	release: "Singularity@2.0.2",
 	tracesSampleRate: 1.0,
 	integrations: [
 		new Sentry.Integrations.Http({ tracing: true }),
@@ -48,14 +48,14 @@ Sentry.configureScope((scope) => {
 });
 
 const client = new Discord.Client({
-	partials: ["REACTION", "MESSAGE", "CHANNEL"],
+	partials: [Partials.Reaction, Partials.Message, Partials.Channel],
 	intents: [
-		"GUILDS",
-		"GUILD_MEMBERS",
-		"GUILD_BANS",
-		"GUILD_MESSAGES",
-		"GUILD_MESSAGE_REACTIONS",
-		"DIRECT_MESSAGES",
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildBans,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.DirectMessages,
 	],
 	failIfNotExists: true,
 }) as Singularity;
@@ -130,7 +130,9 @@ db.once("open", () => {
 		console.log("Singularity is now online");
 
 		client.user?.setPresence({
-			activities: [{ name: "singularitybot.glitch.me", type: "WATCHING" }],
+			activities: [
+				{ name: "singularitybot.glitch.me", type: ActivityType.Watching },
+			],
 			status: "online",
 		});
 

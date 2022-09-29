@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import BaseEmbed from "../../../util/BaseEmbed.js";
 
 import type Command from "../../../interfaces/client/Command.js";
@@ -5,7 +7,8 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "help",
 	description: "Singularity Server Settings",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [],
 	args: [],
 	aliases: [],

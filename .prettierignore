@@ -3,5 +3,6 @@
 .gitignore
 .husky
 LICENSE
-src/website/frontend/build
+src/website/frontend/dist
+src/website/frontend/src/media
 .devcontainer/Dockerfile

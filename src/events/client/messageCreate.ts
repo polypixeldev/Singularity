@@ -42,7 +42,12 @@ function getArgs(commandLine: string) {
 }
 
 export default async (client: Singularity, msg: Discord.Message) => {
-	if (msg.author.bot || msg.channel.type === "DM" || !msg.guild) return;
+	if (
+		msg.author.bot ||
+		msg.channel.type === Discord.ChannelType.DM ||
+		!msg.guild
+	)
+		return;
 
 	const serverDoc = await loadGuildInfo(client, msg.guild);
 	const userMS = await loadUserInfo(client, serverDoc, msg.author.id);
@@ -102,7 +107,7 @@ export default async (client: Singularity, msg: Discord.Message) => {
 
 	if (!command) return;
 
-	const warning = new Discord.MessageEmbed()
+	const warning = new Discord.EmbedBuilder()
 		.setColor(0x000000)
 		.setTitle("Message-Based Command Deprecation")
 		.setDescription(

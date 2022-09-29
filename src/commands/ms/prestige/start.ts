@@ -10,7 +10,8 @@ export default {
 	name: "start",
 	description: "Start prestiging your Singularity!",
 	options: [],
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	example: "ms prestige start",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
@@ -26,7 +27,7 @@ export default {
 			userMS.electrons >= baseReq * 41666 &&
 			userMS.darkMatter >= baseReq * 6
 		) {
-			const firstEmbed = new Discord.MessageEmbed()
+			const firstEmbed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setTitle("Are You Sure?").setDescription(`
 					  Prestiging has many benefits, but it is a destructive action. **Prestiging is not reversible.**
@@ -36,27 +37,21 @@ export default {
 					  If not, click \`No\`
 				  `);
 
+			const row =
+				new Discord.ActionRowBuilder<Discord.ButtonBuilder>().addComponents(
+					new Discord.ButtonBuilder()
+						.setLabel("Yes")
+						.setCustomId("Yes")
+						.setStyle(Discord.ButtonStyle.Success),
+					new Discord.ButtonBuilder()
+						.setLabel("No")
+						.setCustomId("No")
+						.setStyle(Discord.ButtonStyle.Danger)
+				);
+
 			const confirmation = await interaction.editReply({
 				embeds: [firstEmbed],
-				components: [
-					{
-						type: "ACTION_ROW",
-						components: [
-							{
-								type: "BUTTON",
-								label: "Yes",
-								customId: "Yes",
-								style: "SUCCESS",
-							},
-							{
-								type: "BUTTON",
-								label: "No",
-								customId: "No",
-								style: "DANGER",
-							},
-						],
-					},
-				],
+				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
 			});
 
 			if (!(confirmation instanceof Discord.Message)) {
@@ -123,27 +118,27 @@ export default {
 								embeds: [firstEmbed],
 								components: [
 									{
-										type: "ACTION_ROW",
+										type: Discord.ComponentType.ActionRow,
 										components: [
 											{
-												type: "BUTTON",
+												type: Discord.ComponentType.Button,
 												label: "Yes",
 												customId: "Yes",
-												style: "SUCCESS",
+												style: Discord.ButtonStyle.Success,
 												disabled: true,
 											},
 											{
-												type: "BUTTON",
+												type: Discord.ComponentType.Button,
 												label: "No",
 												customId: "No",
-												style: "DANGER",
+												style: Discord.ButtonStyle.Danger,
 												disabled: true,
 											},
 										],
 									},
 								],
 							});
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription("Congratulations! Prestige Successful!");
 
@@ -154,27 +149,27 @@ export default {
 							embeds: [firstEmbed],
 							components: [
 								{
-									type: "ACTION_ROW",
+									type: Discord.ComponentType.ActionRow,
 									components: [
 										{
-											type: "BUTTON",
+											type: Discord.ComponentType.Button,
 											label: "Yes",
 											customId: "Yes",
-											style: "SUCCESS",
+											style: Discord.ButtonStyle.Success,
 											disabled: true,
 										},
 										{
-											type: "BUTTON",
+											type: Discord.ComponentType.Button,
 											label: "No",
 											customId: "No",
-											style: "DANGER",
+											style: Discord.ButtonStyle.Danger,
 											disabled: true,
 										},
 									],
 								},
 							],
 						});
-						const embed = new Discord.MessageEmbed()
+						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription("Prestige Aborted");
 
@@ -182,7 +177,7 @@ export default {
 					}
 				});
 		} else {
-			const embed = new Discord.MessageEmbed().setColor(0x000000)
+			const embed = new Discord.EmbedBuilder().setColor(0x000000)
 				.setDescription(`
 					  *You do not have enough resources to prestige! You need:*
 					  - **${baseReq * 125000}** Protons

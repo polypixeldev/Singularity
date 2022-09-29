@@ -10,18 +10,19 @@ export default {
 		{
 			name: "user",
 			description: "The user you want to nickname",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 		{
 			name: "nickname",
 			description:
 				"The new nickname for the user - leave blank to get rid of a nickname",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<target user>", "<new nickname>"],
 	aliases: [],
 	example: "nickname @poly Bot Maker",
@@ -33,8 +34,12 @@ export default {
 			return;
 		}
 
-		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-			const embed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.Administrator
+			)
+		) {
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					"You do not have permission to set the nickname of others!"
@@ -52,10 +57,10 @@ export default {
 		}
 
 		if (
-			member.permissions.has("ADMINISTRATOR") &&
+			member.permissions.has(Discord.PermissionFlagsBits.Administrator) &&
 			user.id !== "860552124064202812"
 		) {
-			const permsEmbed = new Discord.MessageEmbed()
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You cannot nickname a moderator!")
 				.setColor(0x000000);
 
@@ -71,7 +76,7 @@ export default {
 					: null
 			)
 			.then(() => {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						`Name changed from \`${
@@ -83,7 +88,7 @@ export default {
 			})
 			.catch(async (err) => {
 				if (err == "DiscordAPIError: Missing Permissions") {
-					const errPermsEmbed = new Discord.MessageEmbed()
+					const errPermsEmbed = new Discord.EmbedBuilder()
 						.setDescription(
 							"Uh oh! I don't have permission to nickname this user!"
 						)
@@ -91,7 +96,7 @@ export default {
 
 					return interaction.editReply({ embeds: [errPermsEmbed] });
 				} else {
-					const errEmbed = new Discord.MessageEmbed()
+					const errEmbed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
 							`I was unable to change the member's nickname because: \n \`${err}\``

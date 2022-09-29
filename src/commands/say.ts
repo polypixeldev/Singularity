@@ -10,11 +10,12 @@ export default {
 		{
 			name: "message",
 			description: "The message I should repeat",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	args: ["<message to repeat"],
 	aliases: [],
 	example: "say I am Singularity",
@@ -26,7 +27,7 @@ export default {
 			interaction.channel?.send(
 				`${(interaction.options.get("message")?.value as string).slice(1)}`
 			);
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("Done!");
 

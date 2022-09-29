@@ -8,17 +8,18 @@ import type Command from "../interfaces/client/Command.js";
 export default {
 	name: "warn",
 	description: "Warn the specified user for the specified reason",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [
 		{
 			name: "user",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			description: "The user you wish to warn",
 			required: true,
 		},
 		{
 			name: "warning",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			description:
 				'The message to warn the user for - defaults to "warned by <your tag>"',
 			required: false,
@@ -39,15 +40,21 @@ export default {
 			return;
 		}
 
-		if (user.member.permissions.has("ADMINISTRATOR")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			user.member.permissions.has(Discord.PermissionFlagsBits.Administrator)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You cannot warn a moderator!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
 		}
 
-		if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-			const permsEmbed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.ModerateMembers
+			)
+		) {
+			const permsEmbed = new Discord.EmbedBuilder()
 				.setDescription("You do not have permission to warn!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [permsEmbed] });
@@ -68,7 +75,7 @@ export default {
 			infractions: userDoc.infractions,
 		});
 
-		const warnedEmbed = new Discord.MessageEmbed()
+		const warnedEmbed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
 				`You have been warned in **${interaction.guild.name}** for \`${
@@ -79,7 +86,7 @@ export default {
 
 		user.user.send({ embeds: [warnedEmbed] });
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
 				`Successfully warned \`${user.user.tag}\` for \`${

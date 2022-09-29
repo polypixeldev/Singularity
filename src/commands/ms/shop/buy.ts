@@ -9,18 +9,19 @@ import type Item from "../../../interfaces/user/Item.js";
 export default {
 	name: "buy",
 	description: "Buy an item from the Singularity Shop!",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "item",
 			description: "The name of the item you want to buy",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "quantity",
 			description: "How many of the item you want to buy - defaults to 1",
-			type: "INTEGER",
+			type: Discord.ApplicationCommandOptionType.Integer,
 			required: false,
 		},
 	],
@@ -47,7 +48,7 @@ export default {
 		}
 
 		if (!selectedItem) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("That is not a valid item!");
 
@@ -57,7 +58,7 @@ export default {
 		let quantity = Number(interaction.options.get("quantity")?.value);
 		if (!quantity) quantity = 1;
 		if (quantity < 1) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You must specify a positive quantity!");
 
@@ -86,7 +87,7 @@ export default {
 					return;
 				}
 
-				const embed = new Discord.MessageEmbed().setColor(0x000000)
+				const embed = new Discord.EmbedBuilder().setColor(0x000000)
 					.setDescription(`
 				Purchase completed!
 
@@ -120,7 +121,7 @@ export default {
 				return type;
 			});
 
-			const embed = new Discord.MessageEmbed().setColor(0x000000)
+			const embed = new Discord.EmbedBuilder().setColor(0x000000)
 				.setDescription(`
 				You do not have enough resources needed to buy this item!
 

@@ -72,16 +72,16 @@ export default class APIClient extends EventEmitter {
 	}
 
 	startFrontend() {
-		const html = fs.readFileSync(dirname + "/frontend/build/index.html");
-		this.app.use(Express.static("./frontend/build/"));
+		const html = fs.readFileSync(dirname + "/frontend/dist/index.html");
+		this.app.use(Express.static("./frontend/dist/"));
 		this.app.use((req, res) => {
 			res.send(html);
 		});
 	}
 
 	async startFull() {
-		const html = fs.readFileSync(dirname + "/frontend/build/index.html");
-		this.app.use(Express.static(dirname + "/frontend/build/"));
+		const html = fs.readFileSync(dirname + "/frontend/dist/index.html");
+		this.app.use(Express.static(dirname + "/frontend/dist/"));
 
 		this.app.use("/api", await apiRouter(this));
 

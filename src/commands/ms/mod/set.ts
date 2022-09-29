@@ -10,18 +10,19 @@ export default {
 	name: "set",
 	description:
 		"Set the protons/electrons/dark matter of other My Singularity users",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "user",
 			description: "The user you want to manage",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 		{
 			name: "type",
 			description: "The type you want to change",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 			choices: [
 				{
@@ -42,7 +43,7 @@ export default {
 			name: "value",
 			description:
 				"The new value - prefix it with + or - to add or subtract from the current value",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
@@ -56,8 +57,12 @@ export default {
 			return;
 		}
 
-		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-			const embed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.Administrator
+			)
+		) {
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					"You do not have permission to execute My Singularity moderation commands!"
@@ -81,7 +86,7 @@ export default {
 			: "set";
 
 		if (isNaN(Number(value.slice(1)))) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("The value provided is invalid!");
 
@@ -102,7 +107,7 @@ export default {
 			...userMS.toObject(),
 			[type]: userMS[type],
 		}).then(() => {
-			const embed = new Discord.MessageEmbed().setColor(0x000000)
+			const embed = new Discord.EmbedBuilder().setColor(0x000000)
 				.setDescription(`
 			Set Successful
 		`);

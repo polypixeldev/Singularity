@@ -10,23 +10,24 @@ export default {
 		{
 			name: "title",
 			description: "The title for the embed you want to create",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "color",
 			description: "The color that you want to make the embed",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "content",
 			description: "The main context for the embed",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<title>", "<color>", "<content>"],
 	aliases: [],
 	example:
@@ -47,14 +48,14 @@ export default {
 			return;
 		}
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setTitle(title)
 			.setDescription(content);
 
 		try {
 			embed.setColor(color as Discord.ColorResolvable);
 		} catch (err) {
-			const errorEmbed = new Discord.MessageEmbed()
+			const errorEmbed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("This color doesnt exist, please enter another color!");
 

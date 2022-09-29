@@ -8,12 +8,13 @@ import type Command from "../../interfaces/client/Command.js";
 export default {
 	name: "use",
 	description: "Use an item!",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "item",
 			description: "The name of the item you want to use",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
@@ -34,7 +35,7 @@ export default {
 		}
 
 		if (!selectedItem) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("Please enter the name of the item you wish to use!");
 
@@ -42,7 +43,7 @@ export default {
 		}
 
 		if (!selectedItem.useable) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("This item is not useable!");
 
@@ -52,7 +53,7 @@ export default {
 		if (
 			!userMS.items.includes(interaction.options.get("item")?.value as string)
 		) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You do not own this item!");
 

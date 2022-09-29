@@ -13,11 +13,12 @@ export default {
 			name: "user",
 			description:
 				"The user you want to reset - pick Singularity (this bot) to reset the entire server",
-			type: "USER",
+			type: Discord.ApplicationCommandOptionType.User,
 			required: true,
 		},
 	],
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	example: "ms mod reset @user",
 	async slashExecute(client, interaction, serverDoc) {
 		await interaction.deferReply({ ephemeral: true });
@@ -27,8 +28,12 @@ export default {
 			return;
 		}
 
-		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-			const embed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.Administrator
+			)
+		) {
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					"You do not have permission to execute My Singularity moderation commands!"
@@ -37,7 +42,7 @@ export default {
 			return interaction.editReply({ embeds: [embed] });
 		}
 
-		const confirmEmbed = new Discord.MessageEmbed()
+		const confirmEmbed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
 				`Are you sure you want to reset \`${
@@ -45,28 +50,21 @@ export default {
 				}\`'s My Singularity data? This will wipe **everything**, including Lifetime Experience. `
 			);
 
+		const row =
+			new Discord.ActionRowBuilder<Discord.ButtonBuilder>().addComponents(
+				new Discord.ButtonBuilder()
+					.setLabel("Yes")
+					.setCustomId("yes")
+					.setStyle(Discord.ButtonStyle.Success),
+				new Discord.ButtonBuilder()
+					.setLabel("No")
+					.setCustomId("no")
+					.setStyle(Discord.ButtonStyle.Danger)
+			);
 		interaction
 			.editReply({
 				embeds: [confirmEmbed],
-				components: [
-					{
-						type: "ACTION_ROW",
-						components: [
-							{
-								label: "Yes",
-								type: "BUTTON",
-								customId: "yes",
-								style: 3,
-							},
-							{
-								label: "No",
-								type: "BUTTON",
-								customId: "no",
-								style: 4,
-							},
-						],
-					},
-				],
+				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
 			})
 			.then(async (sent) => {
 				if (!(sent instanceof Discord.Message)) {
@@ -76,7 +74,7 @@ export default {
 				sent
 					.awaitMessageComponent({
 						filter: (press) => press.user.id === interaction.user.id,
-						componentType: "BUTTON",
+						componentType: Discord.ComponentType.Button,
 						time: 30000,
 					})
 					.then(async (press) => {
@@ -96,7 +94,7 @@ export default {
 									ms: serverDoc.ms,
 								});
 
-								const successEmbed = new Discord.MessageEmbed()
+								const successEmbed = new Discord.EmbedBuilder()
 									.setColor(0x000000)
 									.setDescription("Reset successful");
 
@@ -116,14 +114,14 @@ export default {
 									ms: serverDoc.ms,
 								});
 
-								const successEmbed = new Discord.MessageEmbed()
+								const successEmbed = new Discord.EmbedBuilder()
 									.setColor(0x000000)
 									.setDescription("Reset successful");
 
 								press.followUp({ embeds: [successEmbed], ephemeral: true });
 							}
 						} else {
-							const abortEmbed = new Discord.MessageEmbed()
+							const abortEmbed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription("Reset Aborted");
 
@@ -131,7 +129,7 @@ export default {
 						}
 					})
 					.catch(() => {
-						const timeoutEmbed = new Discord.MessageEmbed()
+						const timeoutEmbed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription("You did not respond in time - reset aborted.");
 

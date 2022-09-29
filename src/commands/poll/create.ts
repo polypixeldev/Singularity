@@ -7,84 +7,85 @@ const optMapping = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️
 export default {
 	name: "create",
 	description: "Creates a poll",
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	options: [
 		{
 			name: "title",
 			description: "The title of the poll",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "option1",
 			description: "The first option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "option2",
 			description: "The second option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 		{
 			name: "option3",
 			description: "The third option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option4",
 			description: "The fourth option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option5",
 			description: "The fifth option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option6",
 			description: "The sixth option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option7",
 			description: "The seventh option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option8",
 			description: "The eighth option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option9",
 			description: "The ninth option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "option10",
 			description: "The tenth option",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "description",
 			description: "The description of the poll",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 		{
 			name: "color",
 			description: "The hex color of the poll embed (just the 6 characters)",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],
@@ -114,7 +115,7 @@ export default {
 		}
 
 		const currentDate = new Date(Date.now());
-		const poll = new Discord.MessageEmbed()
+		const poll = new Discord.EmbedBuilder()
 			.setTitle(title as string)
 			.setFooter({
 				text: `Poll created by ${
@@ -126,7 +127,7 @@ export default {
 		try {
 			poll.setColor(`#${colorStr}`);
 		} catch {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("Invalid hex color provided");
 
@@ -152,14 +153,15 @@ export default {
 			}
 
 			const sentEmbed = sent.embeds[0];
-			sentEmbed.setFooter({
+			const sentBuilder = Discord.EmbedBuilder.from(sentEmbed);
+			sentBuilder.setFooter({
 				text: `Poll ID: ${sent.id} • Poll created by ${
 					interaction.user.tag
 				} • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,
 				iconURL: interaction.user.displayAvatarURL(),
 			});
 
-			sent.edit({ embeds: [sentEmbed] }).then((newSent) => {
+			sent.edit({ embeds: [sentBuilder] }).then((newSent) => {
 				for (let i = 0; i < cleanOptions.length; i++) {
 					newSent.react(optMapping[i]);
 				}

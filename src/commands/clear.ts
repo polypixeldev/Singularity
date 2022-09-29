@@ -10,11 +10,12 @@ export default {
 		{
 			name: "amount",
 			description: "The number of messages you wish to clear, or all",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: true,
 		},
 	],
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	args: ["<# of messages to clear> "],
 	aliases: ["purge", "delete"],
 	example: "clear 100",
@@ -25,8 +26,12 @@ export default {
 			return;
 		}
 
-		if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-			const embed = new Discord.MessageEmbed()
+		if (
+			!interaction.member.permissions.has(
+				Discord.PermissionFlagsBits.Administrator
+			)
+		) {
+			const embed = new Discord.EmbedBuilder()
 				.setDescription("You do not have permission to clear messages!")
 				.setColor(0x000000);
 			return interaction.editReply({ embeds: [embed] });
@@ -48,7 +53,7 @@ export default {
 						reason: "Clearing channel message history",
 					})
 					.then((newChannel) => {
-						const embed = new Discord.MessageEmbed()
+						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription(
 								"Channel message history cleared! \n *This message will self-delete*"
@@ -64,7 +69,7 @@ export default {
 				interaction.channel.delete("Clearing channel message history");
 				return;
 			} else {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription("Please enter a valid integer!");
 				return interaction.editReply({ embeds: [embed] });
@@ -72,7 +77,7 @@ export default {
 		}
 
 		if (Number(interaction.options.get("amount")?.value) > 100) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
 					"You are not able to delete over 100 messages at a time!"
@@ -81,7 +86,7 @@ export default {
 		}
 
 		if (Number(interaction.options.get("amount")?.value) < 1) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription("You must delete at least one message!");
 			return interaction.editReply({ embeds: [embed] });
@@ -98,7 +103,7 @@ export default {
 		interaction.channel
 			?.bulkDelete(Number(interaction.options.get("amount")?.value), true)
 			.then(async (collection) => {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setDescription(
 						`
                     Successfully cleared \`${collection.size}\` messages!
@@ -112,7 +117,7 @@ export default {
 			})
 			.catch((err) => {
 				console.error(err);
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setDescription("An error occured while clearing the messages.")
 					.setColor(0x000000);
 

@@ -2,15 +2,15 @@ import Discord from "discord.js";
 
 import loadGuildInfo from "../../../util/loadGuildInfo.js";
 
-import type InteractionHandler from "../../../types/InteractionHandler.js";
+import type { ContextInteractionHandler } from "../../../types/InteractionHandler.js";
 
-const handler: InteractionHandler = async (client, interaction) => {
-	if (!(interaction instanceof Discord.ContextMenuInteraction)) {
+const handler: ContextInteractionHandler = async (client, interaction) => {
+	if (!(interaction instanceof Discord.ContextMenuCommandInteraction)) {
 		return;
 	}
 
 	console.log(
-		`Context Menu Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild.name}`
+		`Context Menu Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild?.name}`
 	);
 	if (!client.contexts.has(interaction.commandName) || !interaction.guild)
 		return;
@@ -22,7 +22,7 @@ const handler: InteractionHandler = async (client, interaction) => {
 			.get(interaction.commandName)
 			?.execute(client, interaction, serverDoc);
 	} catch (e) {
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription("An error occured while processing your request");
 

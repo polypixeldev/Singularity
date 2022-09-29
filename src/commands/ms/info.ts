@@ -1,3 +1,5 @@
+import Discord from "discord.js";
+
 import BaseEmbed from "../../util/BaseEmbed.js";
 
 import type Command from "../../interfaces/client/Command.js";
@@ -7,7 +9,8 @@ export default {
 	description: "Display information about My Singularity",
 	defaultPermission: true,
 	options: [],
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	example: "ms info",
 	async slashExecute(client, interaction) {
 		await interaction.deferReply({ ephemeral: true });

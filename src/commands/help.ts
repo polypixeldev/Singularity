@@ -13,29 +13,30 @@ export default {
 			name: "command",
 			description: "The name of the command you want information about",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 		{
 			name: "argument",
 			description: "The name of the argument you wish to view",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 		{
 			name: "group",
 			description: "The name of a subcommand group within the command",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 		{
 			name: "subcommand",
 			description:
 				"The name of a subcommand within the command or subcommand group",
 			required: false,
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 		},
 	],
-	type: "general",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "general",
 	args: ["!<command type>"],
 	aliases: [],
 	example: "help general",
@@ -48,7 +49,7 @@ export default {
 			let subcommand;
 			let group;
 			if (!command) {
-				const notFoundEmbed = new Discord.MessageEmbed()
+				const notFoundEmbed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
 						"That command does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
@@ -58,11 +59,12 @@ export default {
 				if (interaction.options.get("group")) {
 					group = command.options.find(
 						(opt) =>
-							opt.type === "SUB_COMMAND_GROUP" &&
+							opt.type ===
+								Discord.ApplicationCommandOptionType.SubcommandGroup &&
 							opt.name === interaction.options.get("group")?.value
 					);
 					if (!group) {
-						const embed = new Discord.MessageEmbed()
+						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription("The specified subcommand group does not exist!");
 
@@ -78,11 +80,11 @@ export default {
 
 						subcommand = group.options.find(
 							(opt) =>
-								opt.type === "SUB_COMMAND" &&
+								opt.type === Discord.ApplicationCommandOptionType.Subcommand &&
 								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription(
 									"The specified subcommand does not exist within the specified group!"
@@ -93,11 +95,11 @@ export default {
 					} else {
 						subcommand = command.options.find(
 							(opt) =>
-								opt.type === "SUB_COMMAND" &&
+								opt.type === Discord.ApplicationCommandOptionType.Subcommand &&
 								opt.name === interaction.options.get("subcommand")?.value
 						);
 						if (!subcommand) {
-							const embed = new Discord.MessageEmbed()
+							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription("The specified subcommand does not exist!");
 
@@ -120,9 +122,14 @@ export default {
 					if (subcommand?.options.length ?? command.options.length > 0) {
 						argString = ``;
 						for (const arg of subcommand?.options ?? command.options) {
-							if (arg.type === "SUB_COMMAND_GROUP") {
+							if (
+								arg.type ===
+								Discord.ApplicationCommandOptionType.SubcommandGroup
+							) {
 								subGrpStr = subGrpStr + ` - ${arg.name} \n`;
-							} else if (arg.type === "SUB_COMMAND") {
+							} else if (
+								arg.type === Discord.ApplicationCommandOptionType.Subcommand
+							) {
 								subStr = subStr + ` - ${arg.name} \n`;
 							} else {
 								argString =
@@ -137,7 +144,7 @@ export default {
 						.setTitle(
 							`${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
 								subcommand ? `Subcommand "${subcommand.name}" - ` : ""
-							} ${command.type.toUpperCase()}`
+							} ${command.category.toUpperCase()}`
 						)
 						.setDescription(
 							`${subcommand?.description ?? command.description}
@@ -171,7 +178,7 @@ export default {
 						.setTitle(
 							`${command.name} - Group "${
 								group.name
-							}" - ${command.type.toUpperCase()}`
+							}" - ${command.category.toUpperCase()}`
 						)
 						.setDescription(
 							`
@@ -191,7 +198,7 @@ export default {
 							option.name === interaction.options.get("argument")?.value
 					)
 				) {
-					const argNotFoundEmbed = new Discord.MessageEmbed()
+					const argNotFoundEmbed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
 							"That argument does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
@@ -214,10 +221,6 @@ export default {
 							{
 								name: "Description",
 								value: argument?.description as string,
-							},
-							{
-								name: "Type",
-								value: argument?.type as string,
 							},
 							{
 								name: "Required",
@@ -245,11 +248,14 @@ export default {
 			).setTitle("My Singularity Commands");
 
 			for (const command of client.commands) {
-				if (command[1].type === "general") {
+				if (command[1].category === "general") {
 					const desc = [];
 
 					for (const option of command[1].options) {
-						if (option.type === "SUB_COMMAND_GROUP") {
+						if (
+							option.type ===
+							Discord.ApplicationCommandOptionType.SubcommandGroup
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
 							if (!option.options) {
 								return;
@@ -260,19 +266,27 @@ export default {
 								);
 							}
 							desc.push("\n");
-						} else if (option.type === "SUB_COMMAND") {
+						} else if (
+							option.type === Discord.ApplicationCommandOptionType.Subcommand
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description} \n`);
 						}
 					}
 
 					desc.unshift(`${command[1].description} \n`);
 
-					generalEmbed.addField(`\`/${command[1].name}\``, desc.join(""));
-				} else if (command[1].type === "mod") {
+					generalEmbed.addFields({
+						name: `\`/${command[1].name}\``,
+						value: desc.join(""),
+					});
+				} else if (command[1].category === "mod") {
 					const desc = [];
 
 					for (const option of command[1].options) {
-						if (option.type === "SUB_COMMAND_GROUP") {
+						if (
+							option.type ===
+							Discord.ApplicationCommandOptionType.SubcommandGroup
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
 
 							if (!option.options) {
@@ -285,19 +299,27 @@ export default {
 								);
 							}
 							desc.push("\n");
-						} else if (option.type === "SUB_COMMAND") {
+						} else if (
+							option.type === Discord.ApplicationCommandOptionType.Subcommand
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description} \n`);
 						}
 					}
 
 					desc.unshift(`${command[1].description} \n`);
 
-					modEmbed.addField(`\`/${command[1].name}\``, desc.join(""));
-				} else if (command[1].type === "ms") {
+					modEmbed.addFields({
+						name: `\`/${command[1].name}\``,
+						value: desc.join(""),
+					});
+				} else if (command[1].category === "ms") {
 					const desc = [];
 
 					for (const option of command[1].options) {
-						if (option.type === "SUB_COMMAND_GROUP") {
+						if (
+							option.type ===
+							Discord.ApplicationCommandOptionType.SubcommandGroup
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description}`);
 
 							if (!option.options) {
@@ -310,7 +332,9 @@ export default {
 								);
 							}
 							desc.push("\n");
-						} else if (option.type === "SUB_COMMAND") {
+						} else if (
+							option.type === Discord.ApplicationCommandOptionType.Subcommand
+						) {
 							desc.push(`\n \`${option.name}\` - ${option.description} \n`);
 						}
 					}
@@ -331,40 +355,31 @@ export default {
         			`
 			);
 
-			const components = [
-				{
-					type: "ACTION_ROW" as const,
-					components: [
+			const row =
+				new Discord.ActionRowBuilder<Discord.SelectMenuBuilder>().addComponents(
+					new Discord.SelectMenuBuilder().setCustomId("type").setOptions([
 						{
-							type: "SELECT_MENU" as const,
-							label: "Command Category",
-							custom_id: "type",
-							options: [
-								{
-									label: "General",
-									value: "general",
-									description: "General Singularity Commands",
-								},
-								{
-									label: "Moderation",
-									value: "mod",
-									description: "Moderation Singularity Commands",
-								},
-								{
-									label: "My Singularity",
-									value: "ms",
-									description: "My Singularity Commands",
-								},
-							],
+							label: "General",
+							value: "general",
+							description: "General Singularity Commands",
 						},
-					],
-				},
-			];
+						{
+							label: "Moderation",
+							value: "mod",
+							description: "Moderation Singularity Commands",
+						},
+						{
+							label: "My Singularity",
+							value: "ms",
+							description: "My Singularity Commands",
+						},
+					])
+				);
 
 			interaction
 				.editReply({
 					embeds: [latestEmbed],
-					components: components,
+					components: [row],
 				})
 				.then((sent) => {
 					if (!(sent instanceof Discord.Message)) {
@@ -372,7 +387,7 @@ export default {
 					}
 
 					const collector = sent.createMessageComponentCollector({
-						componentType: "SELECT_MENU",
+						componentType: Discord.ComponentType.SelectMenu,
 						time: 300000,
 						dispose: true,
 					});
@@ -389,14 +404,14 @@ export default {
 
 						selection.editReply({
 							embeds: [latestEmbed],
-							components: components,
+							components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
 						});
 					});
 
 					collector.on("end", () => {
 						interaction.editReply({
 							embeds: [latestEmbed],
-							components: components,
+							components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
 						});
 					});
 				});

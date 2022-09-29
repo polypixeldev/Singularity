@@ -7,12 +7,13 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "view",
 	description: "The Singularity Shop",
-	type: "ms",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "ms",
 	options: [
 		{
 			name: "item",
 			description: "The name of the item you wish to view",
-			type: "STRING",
+			type: Discord.ApplicationCommandOptionType.String,
 			required: false,
 		},
 	],
@@ -28,7 +29,7 @@ export default {
 			);
 			if (item) {
 				if (item.rare === true) {
-					const embed = new Discord.MessageEmbed()
+					const embed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
 							`The specified item is rare and cannot be viewed from the Singularity Shop. Use \`/ms rare\` to view this item`
@@ -64,7 +65,7 @@ export default {
 					return interaction.editReply({ embeds: [embed] });
 				}
 			} else {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription("The specified item does not exist!");
 

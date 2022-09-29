@@ -7,7 +7,8 @@ import type Command from "../../../interfaces/client/Command.js";
 export default {
 	name: "kick",
 	description: "Kick Singularity from the server",
-	type: "mod",
+	type: Discord.ApplicationCommandType.ChatInput,
+	category: "mod",
 	options: [],
 	args: [],
 	aliases: [],
@@ -19,7 +20,7 @@ export default {
 			return;
 		}
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription("Are you sure you want to kick Singularity? (Y/N)");
 
@@ -80,7 +81,7 @@ export default {
 						}, 300000);
 					});
 				} else {
-					const embed = new Discord.MessageEmbed()
+					const embed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription("Kick Aborted");
 
@@ -88,7 +89,7 @@ export default {
 				}
 			})
 			.catch(() => {
-				const embed = new Discord.MessageEmbed()
+				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription("You did not respond with a valid answer in time!");
 
