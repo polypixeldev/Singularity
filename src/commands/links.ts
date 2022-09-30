@@ -39,7 +39,7 @@ export default {
 
 		interaction.editReply({
 			embeds: [embed],
-			components: [{ ...row, type: Discord.ComponentType.ActionRow }],
+			components: [row],
 		});
 	},
 } as Command;

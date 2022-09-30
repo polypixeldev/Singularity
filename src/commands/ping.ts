@@ -33,7 +33,7 @@ export default {
 		interaction
 			.editReply({
 				embeds: [latestEmbed],
-				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
+				components: [row],
 			})
 			.then((reply) => {
 				if (!(reply instanceof Discord.Message)) {

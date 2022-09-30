@@ -64,7 +64,7 @@ export default {
 		interaction
 			.editReply({
 				embeds: [confirmEmbed],
-				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
+				components: [row],
 			})
 			.then(async (sent) => {
 				if (!(sent instanceof Discord.Message)) {
