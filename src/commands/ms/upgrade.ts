@@ -92,7 +92,7 @@ export default {
 		interaction
 			.editReply({
 				embeds: [embed],
-				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
+				components: [row],
 			})
 			.then((sent) => {
 				if (!(sent instanceof Discord.Message)) {
@@ -110,7 +110,7 @@ export default {
 						row.components[0].data.disabled = true;
 						interaction.editReply({
 							embeds: [embed],
-							components: [{ ...row, type: Discord.ComponentType.ActionRow }],
+							components: [row],
 						});
 						const num = Number(selectionInteraction.values[0]);
 

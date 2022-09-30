@@ -51,7 +51,7 @@ export default {
 
 			const confirmation = await interaction.editReply({
 				embeds: [firstEmbed],
-				components: [{ ...row, type: Discord.ComponentType.ActionRow }],
+				components: [row],
 			});
 
 			if (!(confirmation instanceof Discord.Message)) {

@@ -404,14 +404,14 @@ export default {
 
 						selection.editReply({
 							embeds: [latestEmbed],
-							components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
+							components: [row],
 						});
 					});
 
 					collector.on("end", () => {
 						interaction.editReply({
 							embeds: [latestEmbed],
-							components: [{ ...row, type: Discord.ComponentType.SelectMenu }],
+							components: [row],
 						});
 					});
 				});
