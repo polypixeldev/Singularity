@@ -109,3 +109,8 @@ dist
 
 # Website build
 src/website/frontend/build
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
