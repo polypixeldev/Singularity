@@ -39,7 +39,7 @@
 		"@types/node-cron": "^3.0.6",
 		"@types/os-utils": "^0.0.1",
 		"@types/react": "^18.0.25",
-		"@types/react-dom": "^18.0.8",
+		"@types/react-dom": "^18.0.9",
 		"@typescript-eslint/eslint-plugin": "^5.43.0",
 		"@typescript-eslint/parser": "^5.42.1",
 		"copyfiles": "^2.4.1",
