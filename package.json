@@ -7,7 +7,7 @@
 	"type": "module",
 	"dependencies": {
 		"@sentry/integrations": "^7.21.1",
-		"@sentry/node": "^7.21.1",
+		"@sentry/node": "^7.22.0",
 		"@sentry/react": "^7.21.1",
 		"@sentry/tracing": "^7.21.1",
 		"@vitejs/plugin-react": "^2.2.0",
