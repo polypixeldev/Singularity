@@ -6,7 +6,7 @@
 	"main": "./build/index.js",
 	"type": "module",
 	"dependencies": {
-		"@sentry/integrations": "^7.24.2",
+		"@sentry/integrations": "^7.25.0",
 		"@sentry/node": "^7.24.2",
 		"@sentry/react": "^7.24.2",
 		"@sentry/tracing": "^7.24.2",
