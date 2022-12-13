@@ -10,7 +10,7 @@
 		"@sentry/node": "^7.25.0",
 		"@sentry/react": "^7.25.0",
 		"@sentry/tracing": "^7.25.0",
-		"@vitejs/plugin-react": "^2.2.0",
+		"@vitejs/plugin-react": "^3.0.0",
 		"axios": "^1.2.1",
 		"body-parser": "^1.20.1",
 		"bufferutil": "^4.0.7",
@@ -49,7 +49,7 @@
 		"prettier": "^2.8.0",
 		"rimraf": "^3.0.2",
 		"typescript": "^4.9.4",
-		"vite": "^3.2.5"
+		"vite": "^4.0.1"
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
