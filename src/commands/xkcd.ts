@@ -33,6 +33,7 @@ export default {
 			.setAuthor({ name: "Randall Munroe", url: "https://xkcd.com" })
 			.setColor(0x000000)
 			.setDescription(data.alt)
+			.setURL(`https://xkcd.com/${data.num}/`)
 			.setFooter({
 				text: `Published on ${data.month}/${data.day}/${data.year}`,
 			});

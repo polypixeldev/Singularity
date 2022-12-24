@@ -27,7 +27,7 @@ dotenv.config();
 
 Sentry.init({
 	dsn: process.env.SENTRY_DSN,
-	release: "Singularity@2.1.0",
+	release: "Singularity@2.2.0",
 	tracesSampleRate: 1.0,
 	integrations: [
 		new Sentry.Integrations.Http({ tracing: true }),
@@ -69,6 +69,7 @@ if (!process.env.MONGODB_URI) {
 	throw new Error("MongoDB URI must be provided in the environment variables");
 }
 
+mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGODB_URI);
 
 const databaseConnectionTransaction = startupTransaction.startChild({
