@@ -19,8 +19,8 @@ export default (
 			.exec()
 			.then((serverDoc) => {
 				if (serverDoc === null) {
-					client.serverModel.create<Server>(
-						{
+					client.serverModel
+						.create<Server>({
 							guildID: guild.id,
 							welcomeMessage: "{member-mention} has joined the server!",
 							welcomeChannelID: "none",
@@ -88,15 +88,11 @@ export default (
 								},
 							],
 							types: ["Black", "White", "Ethereal"],
-						},
-						(err, newServer) => {
-							if (err) {
-								reject(err);
-							} else {
-								resolve(newServer);
-							}
-						}
-					);
+						})
+						.then((newServer) => {
+							resolve(newServer);
+						})
+						.catch((err) => reject(err));
 				} else {
 					resolve(serverDoc);
 				}
