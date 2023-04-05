@@ -5,7 +5,6 @@ import Discord, { GatewayIntentBits, Partials, ActivityType } from "discord.js";
 import mongoose from "mongoose";
 import * as Sentry from "@sentry/node";
 import { RewriteFrames } from "@sentry/integrations";
-import * as Tracing from "@sentry/tracing";
 
 import checkActivity from "./util/checkActivity.js";
 import commandHandler from "./handlers/commandHandler.js";
@@ -18,10 +17,6 @@ import type Command from "./interfaces/client/Command.js";
 import type Context from "./interfaces/client/Context.js";
 import type { User } from "./database/schema/user";
 import type { Server } from "./database/schema/server";
-
-// Used to prevent Tracing import from being pruned
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const tracer = Tracing;
 
 dotenv.config();
 
