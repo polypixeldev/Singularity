@@ -39,7 +39,7 @@
 		"@types/os-utils": "^0.0.1",
 		"@types/react": "^18.2.7",
 		"@types/react-dom": "^18.2.4",
-		"@typescript-eslint/eslint-plugin": "^5.59.7",
+		"@typescript-eslint/eslint-plugin": "^5.59.8",
 		"@typescript-eslint/parser": "^5.59.7",
 		"copyfiles": "^2.4.1",
 		"eslint": "^8.41.0",
