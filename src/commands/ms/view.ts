@@ -26,7 +26,7 @@ export default {
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					"Bots are not powerful enough to have their own Singularity!"
+					"Bots are not powerful enough to have their own Singularity!",
 				);
 
 			return interaction.editReply({ embeds: [embed] });
@@ -44,7 +44,7 @@ export default {
 			aStr =
 				aStr +
 				`- **${a.name}** - ${prettyMS(
-					a.time * 1000 - (Date.now() - a.start)
+					a.time * 1000 - (Date.now() - a.start),
 				)} left \n `;
 		}
 		if (aStr === "\n") aStr = "**None**";

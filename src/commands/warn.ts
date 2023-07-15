@@ -51,7 +51,7 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.ModerateMembers
+				Discord.PermissionFlagsBits.ModerateMembers,
 			)
 		) {
 			const permsEmbed = new Discord.EmbedBuilder()
@@ -81,7 +81,7 @@ export default {
 				`You have been warned in **${interaction.guild.name}** for \`${
 					interaction.options.get("reason")?.value ??
 					`User banned by ${interaction.user.tag}`
-				}\``
+				}\``,
 			);
 
 		user.user.send({ embeds: [warnedEmbed] });
@@ -92,7 +92,7 @@ export default {
 				`Successfully warned \`${user.user.tag}\` for \`${
 					interaction.options.get("warning")?.value ??
 					`User warned by ${interaction.user.tag}`
-				}\``
+				}\``,
 			);
 
 		interaction.editReply({ embeds: [embed] });

@@ -96,7 +96,7 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.BanMembers
+				Discord.PermissionFlagsBits.BanMembers,
 			)
 		) {
 			const permsEmbed = new Discord.EmbedBuilder()
@@ -111,7 +111,7 @@ export default {
 				`You have been banned from **${interaction.guild.name}** for \`${
 					interaction.options.get("reason")?.value ??
 					`User banned by ${interaction.user.tag}`
-				}\``
+				}\``,
 			);
 
 		await user.user.send({ embeds: [bannedEmbed] });
@@ -162,7 +162,7 @@ export default {
 				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						`I was unable to ban the member because: \n \`\`\`${err}\`\`\``
+						`I was unable to ban the member because: \n \`\`\`${err}\`\`\``,
 					);
 				return interaction.editReply({ embeds: [embed] });
 			});

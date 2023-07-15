@@ -89,7 +89,7 @@ class Login extends Component {
 		} else {
 			console.log("a");
 			window.location.assign(
-				"https://discord.com/api/oauth2/authorize?client_id=835256019336036423&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Flogin&response_type=token&scope=identify%20guilds"
+				"https://discord.com/api/oauth2/authorize?client_id=835256019336036423&redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Flogin&response_type=token&scope=identify%20guilds",
 			);
 
 			return (

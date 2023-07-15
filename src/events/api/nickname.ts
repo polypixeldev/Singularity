@@ -6,7 +6,7 @@ export default (
 	ev: AsyncApiEvent,
 	userID: string,
 	guildID: string,
-	nickname: string
+	nickname: string,
 ) => {
 	ev.code = new Promise((resolve) => {
 		client.guilds.cache
@@ -16,7 +16,7 @@ export default (
 				if (!member) return resolve(2);
 				member.guild.members.me?.setNickname(
 					nickname,
-					`Web API - User ${userID}`
+					`Web API - User ${userID}`,
 				);
 				return resolve(0);
 			});

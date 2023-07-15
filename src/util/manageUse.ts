@@ -28,7 +28,7 @@ export default {
 				const newUserDoc = await loadUserInfo(
 					client,
 					newServerDoc,
-					userDoc.userID
+					userDoc.userID,
 				);
 
 				for (let i = 0; i < newUserDoc.active.length; i++) {
@@ -80,7 +80,7 @@ export default {
 		userDoc: HydratedDocument<User>,
 		addProton: number,
 		addElectron: number,
-		addDarkMatter: number
+		addDarkMatter: number,
 	) {
 		if (userDoc.active.find((item) => item.name === "lasting")) {
 			addProton *= 2;

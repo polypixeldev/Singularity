@@ -30,7 +30,7 @@ function getArgs(commandLine: string) {
 			return capture
 				.replace(/ /g, spaceMarker)
 				.replace(RegExp(doubleDoubleQuote, "g"), '"');
-		}
+		},
 	);
 	const mangledParamArray = noSpacesInQuotes.split(/ +/);
 	const paramArray = mangledParamArray.map((mangledParam) => {
@@ -66,7 +66,7 @@ export default async (client: Singularity, msg: Discord.Message) => {
 				userMS,
 				addProton,
 				addElectron,
-				addDarkMatter
+				addDarkMatter,
 			);
 			userMS.protons += addProton;
 			userMS.electrons += addElectron;
@@ -111,7 +111,7 @@ export default async (client: Singularity, msg: Discord.Message) => {
 		.setColor(0x000000)
 		.setTitle("Message-Based Command Deprecation")
 		.setDescription(
-			"Uhoh! It look like you're using Singularity's old message-based commands. **Message-based commands have been removed.** Please switch to using Singularity's brand-new slash commands!"
+			"Uhoh! It look like you're using Singularity's old message-based commands. **Message-based commands have been removed.** Please switch to using Singularity's brand-new slash commands!",
 		);
 
 	msg.author.send({ embeds: [warning] });

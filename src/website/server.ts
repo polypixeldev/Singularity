@@ -37,10 +37,10 @@ export default class APIClient extends EventEmitter {
 				this.startFrontend();
 				break;
 			case "backend":
-				this.startBackend();
+				void this.startBackend();
 				break;
 			default:
-				this.startFull();
+				void this.startFull();
 		}
 
 		this.app.use("/", (req, res, next) => {
@@ -61,7 +61,7 @@ export default class APIClient extends EventEmitter {
 						: this.type === "backend"
 						? "Backend"
 						: "Full"
-				} Server running at http://${this.host}:${this.port}`
+				} Server running at http://${this.host}:${this.port}`,
 			);
 		});
 	}

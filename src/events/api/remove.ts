@@ -7,7 +7,7 @@ export default (
 	client: Singularity,
 	ev: AsyncApiEvent,
 	userID: string,
-	guildID: string
+	guildID: string,
 ) => {
 	ev.code = new Promise((resolve) => {
 		client.guilds.cache
@@ -33,7 +33,7 @@ export default (
 
 					*Sincerely,
 					The Singularity Team*
-				`
+				`,
 					)
 					.setFooter({
 						text: `Singularity was kicked by User ID ${userID} through the Web API • ${currentDate.getUTCMonth()}/${currentDate.getUTCDate()}/${currentDate.getUTCFullYear()} @ ${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()} UTC`,

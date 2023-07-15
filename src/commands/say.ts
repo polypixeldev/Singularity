@@ -25,7 +25,7 @@ export default {
 			(interaction.options.get("message")?.value as string).startsWith("~")
 		) {
 			interaction.channel?.send(
-				`${(interaction.options.get("message")?.value as string).slice(1)}`
+				`${(interaction.options.get("message")?.value as string).slice(1)}`,
 			);
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
@@ -34,9 +34,9 @@ export default {
 			interaction.reply({ embeds: [embed], ephemeral: true });
 		} else {
 			interaction.reply({
-				content: `**${interaction.user.tag}:** ${
-					interaction.options.get("message")?.value
-				}`,
+				content: `**${interaction.user.tag}:** ${interaction.options.get(
+					"message",
+				)?.value}`,
 				allowedMentions: {
 					parse: ["everyone", "roles", "users"],
 					users: [],

@@ -6,7 +6,7 @@ import type GuildAvailableEvent from "../../interfaces/api/GuildAvailableEvent.j
 export default (
 	client: Singularity,
 	ev: GuildAvailableEvent,
-	guildID: string
+	guildID: string,
 ) => {
 	ev.available = !client.guilds.cache.get(guildID) ? false : true;
 	if (ev.available) {

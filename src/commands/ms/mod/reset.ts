@@ -30,13 +30,13 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.Administrator
+				Discord.PermissionFlagsBits.Administrator,
 			)
 		) {
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					"You do not have permission to execute My Singularity moderation commands!"
+					"You do not have permission to execute My Singularity moderation commands!",
 				);
 
 			return interaction.editReply({ embeds: [embed] });
@@ -47,7 +47,7 @@ export default {
 			.setDescription(
 				`Are you sure you want to reset \`${
 					user.id === process.env.CLIENT_ID ? "GLOBAL" : user.tag
-				}\`'s My Singularity data? This will wipe **everything**, including Lifetime Experience. `
+				}\`'s My Singularity data? This will wipe **everything**, including Lifetime Experience. `,
 			);
 
 		const row =
@@ -59,7 +59,7 @@ export default {
 				new Discord.ButtonBuilder()
 					.setLabel("No")
 					.setCustomId("no")
-					.setStyle(Discord.ButtonStyle.Danger)
+					.setStyle(Discord.ButtonStyle.Danger),
 			);
 		interaction
 			.editReply({

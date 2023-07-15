@@ -56,7 +56,7 @@ export default {
 
 					*Sincerely,
 					The Singularity Team*
-				`
+				`,
 						);
 
 					interaction.editReply({ embeds: [embed] }).then(() => {
@@ -73,7 +73,7 @@ export default {
 
 							if (
 								await client.guilds.cache.find(
-									(guild) => guild.id === interaction.guild?.id
+									(guild) => guild.id === interaction.guild?.id,
 								)
 							) {
 								client.serverModel.deleteOne({ guildID: interaction.guild.id });

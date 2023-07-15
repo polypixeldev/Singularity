@@ -7,7 +7,7 @@ type ApiRoute = (
 	discord: AxiosInstance,
 	client: APIClient,
 	req: Request,
-	res: Response
+	res: Response,
 ) => void;
 
 export default ApiRoute;

@@ -47,11 +47,7 @@ export default {
 		const sentMessage = await reactionChannel.send({
 			content: messageSend as string,
 		});
-		serverDoc.reactionRoles.push([
-			role.name as string,
-			emoji as string,
-			sentMessage.id as string,
-		]);
+		serverDoc.reactionRoles.push([role.name, emoji as string, sentMessage.id]);
 		serverDoc.markModified("reactionRoles");
 
 		await updateServer(client, serverDoc.guildID, {

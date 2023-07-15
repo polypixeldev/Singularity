@@ -44,7 +44,7 @@ export default {
 
 		const embed = new BaseEmbed(
 			`${interaction.guild.name}'s Leaderboard`,
-			interaction.user
+			interaction.user,
 		).setDescription(lbStr);
 
 		return interaction.editReply({ embeds: [embed] });

@@ -6,7 +6,7 @@ import type { Server } from "../database/schema/server.js";
 
 export default (
 	client: Singularity,
-	guildResolvable: GuildResolvable
+	guildResolvable: GuildResolvable,
 ): Promise<HydratedDocument<Server>> => {
 	return new Promise((resolve, reject) => {
 		const guild = client.guilds.resolve(guildResolvable);

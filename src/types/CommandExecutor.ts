@@ -10,7 +10,7 @@ import type { Server } from "../database/schema/server.js";
 type CommandExecutor = (
 	client: Singularity,
 	interaction: CommandInteraction | ContextMenuCommandInteraction,
-	serverDoc: HydratedDocument<Server>
-) => void;
+	serverDoc: HydratedDocument<Server>,
+) => void | Promise<void>;
 
 export default CommandExecutor;

@@ -53,10 +53,10 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.KickMembers
+				Discord.PermissionFlagsBits.KickMembers,
 			) &&
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.Administrator
+				Discord.PermissionFlagsBits.Administrator,
 			)
 		) {
 			const permsEmbed = new Discord.EmbedBuilder()
@@ -76,14 +76,14 @@ export default {
 				`You have been kicked from **${interaction.guild.name}** for \`${
 					interaction.options.get("reason")?.value ??
 					`User kicked by ${interaction.user.tag}`
-				}\``
+				}\``,
 			);
 
 		user.user.send({ embeds: [kickedEmbed] });
 
 		user.member
 			.kick(
-				(reason?.value ?? `User kicked by ${interaction.user.tag}`) as string
+				(reason?.value ?? `User kicked by ${interaction.user.tag}`) as string,
 			)
 			.then(async () => {
 				if (!user.user) {
@@ -121,7 +121,7 @@ export default {
 				const errEmbed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"I was unable to kick the member because: \n`" + err + "`"
+						"I was unable to kick the member because: \n`" + err + "`",
 					);
 				interaction.editReply({ embeds: [errEmbed] });
 

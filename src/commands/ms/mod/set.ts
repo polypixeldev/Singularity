@@ -59,13 +59,13 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.Administrator
+				Discord.PermissionFlagsBits.Administrator,
 			)
 		) {
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					"You do not have permission to execute My Singularity moderation commands!"
+					"You do not have permission to execute My Singularity moderation commands!",
 				);
 
 			return interaction.editReply({ embeds: [embed] });

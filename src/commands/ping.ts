@@ -18,7 +18,7 @@ export default {
 			.setDescription(
 				`🏓 Latency is ${
 					Date.now() - interaction.createdTimestamp
-				}ms. API Latency is ${Math.round(client.ws.ping)}ms`
+				}ms. API Latency is ${Math.round(client.ws.ping)}ms`,
 			)
 			.setColor(0x000000);
 
@@ -27,7 +27,7 @@ export default {
 				new Discord.ButtonBuilder()
 					.setLabel("Retest")
 					.setStyle(Discord.ButtonStyle.Primary)
-					.setCustomId("retest")
+					.setCustomId("retest"),
 			);
 
 		interaction
@@ -60,7 +60,7 @@ export default {
 							.setDescription(
 								`🏓 Latency is ${
 									Date.now() - press.createdTimestamp
-								}ms. API Latency is ${Math.round(client.ws.ping)}ms`
+								}ms. API Latency is ${Math.round(client.ws.ping)}ms`,
 							)
 							.setColor(0x000000);
 

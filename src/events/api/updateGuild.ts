@@ -10,7 +10,7 @@ export default (
 	userID: string,
 	guildID: string,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	data: any
+	data: any,
 ) => {
 	ev.code = new Promise((resolve) => {
 		client.guilds.cache

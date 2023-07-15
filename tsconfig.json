@@ -11,6 +11,6 @@
 		"noEmitHelpers": true,
 		"importHelpers": true
 	},
-	"include": ["./src/**/*"],
+	"include": ["./src/**/*", "./lint-staged.config.js"],
 	"exclude": ["./src/website/frontend/**/*"]
 }

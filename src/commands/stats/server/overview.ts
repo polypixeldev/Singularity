@@ -19,10 +19,10 @@ export default {
 
 		const embed = new BaseEmbed(
 			`${interaction.guild.name} - Server Stats`,
-			interaction.user
+			interaction.user,
 		)
 			.setDescription("Various statistics about this server")
-			.setThumbnail(interaction.guild.iconURL() as string)
+			.setThumbnail(interaction.guild.iconURL())
 			.addFields([
 				{
 					name: "Member Count",
@@ -36,10 +36,9 @@ export default {
 				},
 				{
 					name: "Owner",
-					value: `\`${
-						interaction.guild.members.resolve(interaction.guild.ownerId)?.user
-							.tag
-					}\``,
+					value: `\`${interaction.guild.members.resolve(
+						interaction.guild.ownerId,
+					)?.user.tag}\``,
 					inline: true,
 				},
 				{

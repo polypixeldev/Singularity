@@ -44,7 +44,7 @@ export default {
 				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"Welcome messages are now toggled off. To turn them on again, run this command with the appropriate arguments."
+						"Welcome messages are now toggled off. To turn them on again, run this command with the appropriate arguments.",
 					);
 
 				return interaction.editReply({ embeds: [embed] });
@@ -52,7 +52,7 @@ export default {
 				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"Welcome messages are currently toggled off. To turn them on, run this command with the appropriate arguments."
+						"Welcome messages are currently toggled off. To turn them on, run this command with the appropriate arguments.",
 					);
 
 				return interaction.editReply({ embeds: [embed] });
@@ -82,7 +82,7 @@ export default {
 			const successEmbed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					`Server welcome message successfully changed to \`${welcomeMessage}\` in channel \`#${welcomeChannel.name}\``
+					`Server welcome message successfully changed to \`${welcomeMessage}\` in channel \`#${welcomeChannel.name}\``,
 				);
 			interaction.editReply({ embeds: [successEmbed] });
 		});

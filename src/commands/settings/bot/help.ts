@@ -20,7 +20,7 @@ export default {
 
 		const embed = new BaseEmbed(
 			`Singularity Bot Settings - ${interaction.guild.name}`,
-			interaction.user
+			interaction.user,
 		).setDescription(
 			`
 			**Nickname Me:**  \`/settings bot nickname <nickname>\`
@@ -30,7 +30,7 @@ export default {
 						: "None"
 				}\`
 			**Kick Me:** \`/settings bot kick\`
-		`
+		`,
 		);
 
 		return interaction.editReply({ embeds: [embed] });

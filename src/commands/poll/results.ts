@@ -32,8 +32,8 @@ export default {
 			if (!(channel[1] instanceof Discord.TextChannel)) continue;
 			fetches.push(
 				channel[1].messages.fetch(
-					interaction.options.get("id")?.value as string
-				)
+					interaction.options.get("id")?.value as string,
+				),
 			);
 		}
 
@@ -48,9 +48,8 @@ export default {
 		if (!embed) return interaction.editReply({ embeds: [invalidPoll] });
 		let options = [];
 		const data = [];
-		const optStr = embed.fields.find(
-			(field) => field.name === "Options"
-		)?.value;
+		const optStr = embed.fields.find((field) => field.name === "Options")
+			?.value;
 
 		if (!optStr) {
 			return;
@@ -71,7 +70,7 @@ export default {
 
 		const results = new BaseEmbed(
 			"Poll Results",
-			interaction.user
+			interaction.user,
 		).setDescription(`Results for poll \`${embed.title}\``);
 
 		for (let i = 0; i < options.length; i++) {

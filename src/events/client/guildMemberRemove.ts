@@ -12,7 +12,7 @@ export default async (client: Singularity, member: Discord.GuildMember) => {
 	const nameRegex = /{name}/g;
 	const leaveMsg1 = serverDoc.leaveMessage.replace(
 		tagRegex,
-		`${member.user.tag}`
+		`${member.user.tag}`,
 	);
 	const leaveMsg2 = leaveMsg1.replace(nameRegex, `${member.user.username}`);
 

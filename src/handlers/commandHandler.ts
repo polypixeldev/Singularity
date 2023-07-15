@@ -133,7 +133,7 @@ export default async (client: Singularity) => {
 
 	if (process.argv[2] === "-d") {
 		console.log(
-			`Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID}...`
+			`Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID}...`,
 		);
 
 		if (!process.env.DEV_GUILD_ID) {
@@ -141,7 +141,7 @@ export default async (client: Singularity) => {
 		}
 
 		console.time(
-			`Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`
+			`Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`,
 		);
 
 		client.application?.commands
@@ -149,25 +149,25 @@ export default async (client: Singularity) => {
 			.set(slashCommands, process.env.DEV_GUILD_ID)
 			?.then(() => {
 				console.timeEnd(
-					`Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`
+					`Finished Sending Slash (/) Command Data to Discord for Guild ${process.env.DEV_GUILD_ID} in`,
 				);
 			});
 	} else if (process.argv[2] === "-D") {
 		console.log(`Sending Slash (/) Command Data to Discord Globally`);
 
 		console.time(
-			`Finished Sending Slash (/) Command Data to Discord Globally in`
+			`Finished Sending Slash (/) Command Data to Discord Globally in`,
 		);
 
 		// @ts-expect-error: The slash command array is valid
 		client.application?.commands.set(slashCommands)?.then(() => {
 			console.timeEnd(
-				`Finished Sending Slash (/) Command Data to Discord Globally in`
+				`Finished Sending Slash (/) Command Data to Discord Globally in`,
 			);
 		});
 	} else if (process.argv[2] === "-r") {
 		console.log(
-			`Removing All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID}...`
+			`Removing All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID}...`,
 		);
 
 		if (!process.env.DEV_GUILD_ID) {
@@ -175,12 +175,12 @@ export default async (client: Singularity) => {
 		}
 
 		console.time(
-			`Removed All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID} in`
+			`Removed All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID} in`,
 		);
 
 		client.application?.commands.set([], process.env.DEV_GUILD_ID)?.then(() => {
 			console.timeEnd(
-				`Removed All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID} in`
+				`Removed All Slash (/) Commands from Guild ${process.env.DEV_GUILD_ID} in`,
 			);
 		});
 	} else if (process.argv[2] === "-R") {

@@ -63,7 +63,7 @@ class Dashboard extends Component {
 		) {
 			if (
 				this.props.userInfo.guilds.find(
-					(guild) => guild.id === this.state.guild
+					(guild) => guild.id === this.state.guild,
 				).manageable === false
 			) {
 				return (
@@ -96,7 +96,7 @@ class Dashboard extends Component {
 			return (
 				<Guild
 					data={this.props.userInfo.guilds.find(
-						(val) => val.id === this.state.guild
+						(val) => val.id === this.state.guild,
 					)}
 				/>
 			);
@@ -120,7 +120,7 @@ class Dashboard extends Component {
 								<Settings
 									{...props}
 									data={this.props.userInfo.guilds.find(
-										(val) => val.id === this.state.guild
+										(val) => val.id === this.state.guild,
 									)}
 									userInfo={this.props.userInfo}
 								/>
@@ -132,7 +132,7 @@ class Dashboard extends Component {
 								<Features
 									{...props}
 									data={this.props.userInfo.guilds.find(
-										(val) => val.id === this.state.guild
+										(val) => val.id === this.state.guild,
 									)}
 									userInfo={this.props.userInfo}
 								/>

@@ -22,7 +22,7 @@ export default {
 
 		const embed = new BaseEmbed(
 			"Singularity Prestige",
-			interaction.user
+			interaction.user,
 		).setDescription(
 			`
 			Is your Singularity so big that the universe is beginning to collapse in on itself? If so, it may be time to prestige.
@@ -44,9 +44,10 @@ export default {
 			}** random items from the Rare Items list (\`/ms rare\`), as well as a new type of Singularity
 		
 			*Your Lifetime Experience will not be affected*
-			`
+			`,
 		);
 
-		return interaction.editReply({ embeds: [embed] });
+		interaction.editReply({ embeds: [embed] });
+		return;
 	},
 } as Command;

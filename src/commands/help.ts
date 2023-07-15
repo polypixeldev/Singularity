@@ -44,7 +44,7 @@ export default {
 		await interaction.deferReply({ ephemeral: true });
 		if (interaction.options.get("command")) {
 			const command = client.commands.get(
-				interaction.options.get("command")?.value as string
+				interaction.options.get("command")?.value as string,
 			);
 			let subcommand;
 			let group;
@@ -52,7 +52,7 @@ export default {
 				const notFoundEmbed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"That command does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
+						"That command does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*",
 					);
 				return interaction.editReply({ embeds: [notFoundEmbed] });
 			} else {
@@ -61,7 +61,7 @@ export default {
 						(opt) =>
 							opt.type ===
 								Discord.ApplicationCommandOptionType.SubcommandGroup &&
-							opt.name === interaction.options.get("group")?.value
+							opt.name === interaction.options.get("group")?.value,
 					);
 					if (!group) {
 						const embed = new Discord.EmbedBuilder()
@@ -81,13 +81,13 @@ export default {
 						subcommand = group.options.find(
 							(opt) =>
 								opt.type === Discord.ApplicationCommandOptionType.Subcommand &&
-								opt.name === interaction.options.get("subcommand")?.value
+								opt.name === interaction.options.get("subcommand")?.value,
 						);
 						if (!subcommand) {
 							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription(
-									"The specified subcommand does not exist within the specified group!"
+									"The specified subcommand does not exist within the specified group!",
 								);
 
 							return interaction.editReply({ embeds: [embed] });
@@ -96,7 +96,7 @@ export default {
 						subcommand = command.options.find(
 							(opt) =>
 								opt.type === Discord.ApplicationCommandOptionType.Subcommand &&
-								opt.name === interaction.options.get("subcommand")?.value
+								opt.name === interaction.options.get("subcommand")?.value,
 						);
 						if (!subcommand) {
 							const embed = new Discord.EmbedBuilder()
@@ -144,14 +144,14 @@ export default {
 						.setTitle(
 							`${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
 								subcommand ? `Subcommand "${subcommand.name}" - ` : ""
-							} ${command.category.toUpperCase()}`
+							} ${command.category.toUpperCase()}`,
 						)
 						.setDescription(
 							`${subcommand?.description ?? command.description}
             **Usage**:
             \`\`\`/${command.name} ${group ? `${group.name} ` : ""}${
-								subcommand ? `${subcommand.name} ` : ""
-							} ${argString}\`\`\`
+							subcommand ? `${subcommand.name} ` : ""
+						} ${argString}\`\`\`
             **Example:**
             \`\`\`${subcommand?.example ?? command.example}\`\`\`
             **Notes:**
@@ -160,7 +160,7 @@ export default {
             \`\`\`${subGrpStr !== "" ? subGrpStr : "None"}\`\`\`
             **Subcommands:**
             \`\`\`${subStr !== "" ? subStr : "None"}\`\`\`
-        `
+        `,
 						);
 
 					return interaction.editReply({ embeds: [embed] });
@@ -178,14 +178,14 @@ export default {
 						.setTitle(
 							`${command.name} - Group "${
 								group.name
-							}" - ${command.category.toUpperCase()}`
+							}" - ${command.category.toUpperCase()}`,
 						)
 						.setDescription(
 							`
             ${group.description}
             **Subcommands:**
             ${subStr}
-            `
+            `,
 						);
 
 					return interaction.editReply({ embeds: [embed] });
@@ -195,13 +195,13 @@ export default {
 				if (
 					!main.options?.find(
 						(option) =>
-							option.name === interaction.options.get("argument")?.value
+							option.name === interaction.options.get("argument")?.value,
 					)
 				) {
 					const argNotFoundEmbed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
-							"That argument does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*"
+							"That argument does not exist! \n **NOTE:** *The full command name (not an alias) must be provided*",
 						);
 
 					return interaction.editReply({ embeds: [argNotFoundEmbed] });
@@ -209,18 +209,18 @@ export default {
 					const main = subcommand ?? command;
 					const argument = main.options?.find(
 						(option) =>
-							option.name === interaction.options.get("argument")?.value
+							option.name === interaction.options.get("argument")?.value,
 					);
 					const argEmbed = new BaseEmbed("Singularity Help", interaction.user)
 						.setTitle(
 							`${command.name} - ${group ? `Group "${group.name}" - ` : ""}${
 								subcommand ? `Subcommand "${subcommand.name}" - ` : ""
-							} Argument ${argument?.name}`
+							} Argument ${argument?.name}`,
 						)
 						.addFields([
 							{
 								name: "Description",
-								value: argument?.description as string,
+								value: argument?.description ?? "No description",
 							},
 							{
 								name: "Required",
@@ -234,17 +234,17 @@ export default {
 		} else {
 			const generalEmbed = new BaseEmbed(
 				"Singularity Help",
-				interaction.user
+				interaction.user,
 			).setTitle("Singularity General Commands");
 
 			const modEmbed = new BaseEmbed(
 				"Singularity Help",
-				interaction.user
+				interaction.user,
 			).setTitle("Singularity Moderation Commands");
 
 			const msEmbed = new BaseEmbed(
 				"Singularity Help",
-				interaction.user
+				interaction.user,
 			).setTitle("My Singularity Commands");
 
 			for (const command of client.commands) {
@@ -262,7 +262,7 @@ export default {
 							}
 							for (const subcmd of option.options) {
 								desc.push(
-									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`,
 								);
 							}
 							desc.push("\n");
@@ -295,7 +295,7 @@ export default {
 
 							for (const subcmd of option.options) {
 								desc.push(
-									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`,
 								);
 							}
 							desc.push("\n");
@@ -328,7 +328,7 @@ export default {
 
 							for (const subcmd of option.options) {
 								desc.push(
-									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`
+									`\n :arrow_forward: \`${subcmd.name}\` - ${subcmd.description}`,
 								);
 							}
 							desc.push("\n");
@@ -346,13 +346,13 @@ export default {
 			}
 			let latestEmbed = new BaseEmbed(
 				"Singularity Help",
-				interaction.user
+				interaction.user,
 			).setDescription(
 				`
             			*Use \`/help <command>\` to learn more about a command*
 
 						Select a category from the select menu below to explore available commands!
-        			`
+        			`,
 			);
 
 			const row =
@@ -373,7 +373,7 @@ export default {
 							value: "ms",
 							description: "My Singularity Commands",
 						},
-					])
+					]),
 				);
 
 			interaction

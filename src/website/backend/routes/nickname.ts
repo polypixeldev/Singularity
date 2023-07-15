@@ -11,7 +11,7 @@ const handler: ApiRoute = (discord, client, req, res) => {
 				ev,
 				apiRes.data.id,
 				req.body.guildID,
-				req.body.nickname
+				req.body.nickname,
 			);
 			res.json({
 				code: await ev.code,
