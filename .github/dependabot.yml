@@ -10,3 +10,10 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "develop"
+    groups:
+      sentry:
+        patterns:
+          - "@sentry/*"
+      ts-eslint:
+        patterns:
+          - "@typescript-eslint/*"
