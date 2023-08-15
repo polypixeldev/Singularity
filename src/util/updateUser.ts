@@ -8,7 +8,7 @@ export default async (
 	guildID: Snowflake,
 	userID: Snowflake,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	data: any
+	data: any,
 ) => {
 	const filteredData = { ...data };
 	delete filteredData._id;

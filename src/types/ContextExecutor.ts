@@ -7,7 +7,7 @@ import type { Server } from "../database/schema/server.js";
 type ContextExecutor = (
 	client: Singularity,
 	interaction: ContextMenuCommandInteraction,
-	serverDoc: HydratedDocument<Server>
+	serverDoc: HydratedDocument<Server>,
 ) => void;
 
 export default ContextExecutor;

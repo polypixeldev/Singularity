@@ -7,7 +7,7 @@ import type Singularity from "../../interfaces/singularity.js";
 export default async (
 	client: Singularity,
 	reaction: Discord.MessageReaction,
-	user: Discord.User
+	user: Discord.User,
 ) => {
 	if (reaction.partial) {
 		await reaction.fetch().catch((error) => {
@@ -26,19 +26,19 @@ export default async (
 	}
 
 	const serverDoc = await loadGuildInfo(client, reaction.message.guild);
-	const roleListener = serverDoc.reactionRoles;
+	const roleListeners = serverDoc.reactionRoles;
 
-	for (let i = 0; i < roleListener.length; i++) {
+	for (const roleListener of roleListeners) {
 		if (
-			reaction.message.id === roleListener[i][2] &&
+			reaction.message.id === roleListener[2] &&
 			user.id !== process.env.CLIENT_ID
 		) {
-			if (reaction.emoji.name === roleListener[i][1]) {
+			if (reaction.emoji.name === roleListener[1]) {
 				const member = reaction.message.guild.members.resolve(user);
 
 				await reaction.message.guild.roles.fetch();
 				const roleToAddToMember = reaction.message.guild.roles.cache.find(
-					(role) => role.name === roleListener[i][0]
+					(role) => role.name === roleListener[0],
 				);
 
 				if (!roleToAddToMember) {

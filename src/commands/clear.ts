@@ -28,7 +28,7 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.Administrator
+				Discord.PermissionFlagsBits.Administrator,
 			)
 		) {
 			const embed = new Discord.EmbedBuilder()
@@ -56,7 +56,7 @@ export default {
 						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription(
-								"Channel message history cleared! \n *This message will self-delete*"
+								"Channel message history cleared! \n *This message will self-delete*",
 							);
 
 						newChannel.send({ embeds: [embed] }).then((sent) => {
@@ -80,7 +80,7 @@ export default {
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					"You are not able to delete over 100 messages at a time!"
+					"You are not able to delete over 100 messages at a time!",
 				);
 			return interaction.editReply({ embeds: [embed] });
 		}
@@ -109,7 +109,7 @@ export default {
                     Successfully cleared \`${collection.size}\` messages!
 
                     *Note: Some messages may have not been cleared since they are older than 14 days old.*
-                    `
+                    `,
 					)
 					.setColor(0x000000);
 

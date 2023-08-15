@@ -56,10 +56,10 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.ModerateMembers
+				Discord.PermissionFlagsBits.ModerateMembers,
 			) &&
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.Administrator
+				Discord.PermissionFlagsBits.Administrator,
 			)
 		) {
 			const permsEmbed = new Discord.EmbedBuilder()
@@ -76,12 +76,13 @@ export default {
 		const kickedEmbed = new Discord.EmbedBuilder()
 			.setColor(0x000000)
 			.setDescription(
-				`You have been timed out in **${interaction.guild.name}** for ${
-					interaction.options.get("time")?.value
-				} minutes for the following reason: \`${
+				`You have been timed out in **${
+					interaction.guild.name
+				}** for ${interaction.options.get("time")
+					?.value} minutes for the following reason: \`${
 					interaction.options.get("reason")?.value ??
 					`User timed out by ${interaction.user.tag}`
-				}\``
+				}\``,
 			);
 
 		user.user.send({ embeds: [kickedEmbed] });
@@ -89,7 +90,8 @@ export default {
 		user.member
 			.timeout(
 				Number(interaction.options.get("time")?.value) * 60 * 1000,
-				(reason?.value ?? `User timed out by ${interaction.user.tag}`) as string
+				(reason?.value ??
+					`User timed out by ${interaction.user.tag}`) as string,
 			)
 			.then(async () => {
 				if (!user.user) {
@@ -103,9 +105,9 @@ export default {
 					timestamp: interaction.createdTimestamp,
 					type: "Timeout",
 					message: (interaction.options.get("reason")?.value ??
-						`User timed out by ${interaction.user.tag} for ${
-							interaction.options.get("time")?.value
-						} minutes`) as string,
+						`User timed out by ${
+							interaction.user.tag
+						} for ${interaction.options.get("time")?.value} minutes`) as string,
 				});
 
 				updateUser(client, userDoc.guildID, userDoc.userID, {
@@ -129,7 +131,7 @@ export default {
 				const errEmbed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"I was unable to time out the member because: \n`" + err + "`"
+						"I was unable to time out the member because: \n`" + err + "`",
 					);
 				interaction.editReply({ embeds: [errEmbed] });
 

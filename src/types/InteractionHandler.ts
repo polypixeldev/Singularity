@@ -7,12 +7,12 @@ import type Singularity from "../interfaces/singularity.js";
 
 type CommandInteractionHandler = (
 	client: Singularity,
-	interaction: ChatInputCommandInteraction
+	interaction: ChatInputCommandInteraction,
 ) => void;
 
 type ContextInteractionHandler = (
 	client: Singularity,
-	interaction: ContextMenuCommandInteraction
+	interaction: ContextMenuCommandInteraction,
 ) => void;
 
 export type { CommandInteractionHandler, ContextInteractionHandler };

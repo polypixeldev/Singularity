@@ -46,7 +46,7 @@ export default {
 					new Discord.ButtonBuilder()
 						.setLabel("No")
 						.setCustomId("No")
-						.setStyle(Discord.ButtonStyle.Danger)
+						.setStyle(Discord.ButtonStyle.Danger),
 				);
 
 			const confirmation = await interaction.editReply({
@@ -75,11 +75,11 @@ export default {
 						const newUserMS = await loadUserInfo(
 							client,
 							newServerDoc,
-							interaction.user.id
+							interaction.user.id,
 						);
 
 						const rareItems = newServerDoc.items.filter(
-							(item) => item.rare === true
+							(item) => item.rare === true,
 						);
 
 						newUserMS.userID = interaction.user.id;
@@ -90,7 +90,7 @@ export default {
 							newUserMS.rareItems.push(
 								rareItems[
 									Math.abs(Math.floor(Math.random() * rareItems.length))
-								].name ?? rareItems[rareItems.length - 1].name
+								].name ?? rareItems[rareItems.length - 1].name,
 							);
 						}
 
@@ -100,7 +100,7 @@ export default {
 							type:
 								newServerDoc.types[
 									Math.abs(
-										Math.floor(Math.random() * newServerDoc.types.length)
+										Math.floor(Math.random() * newServerDoc.types.length),
 									)
 								] ?? newServerDoc.types[newServerDoc.types.length - 1],
 							size: 10,
@@ -112,7 +112,7 @@ export default {
 							client,
 							newServerDoc.guildID,
 							newUserMS.userID,
-							newUserMS
+							newUserMS,
 						).then(() => {
 							interaction.editReply({
 								embeds: [firstEmbed],

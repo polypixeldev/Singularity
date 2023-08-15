@@ -13,7 +13,7 @@ export default async (client: Singularity, member: Discord.GuildMember) => {
 	const mentionRegex = /{mention}/g;
 	let welcomeMsg = serverDoc.welcomeMessage.replace(
 		tagRegex,
-		`${member.user.tag}`
+		`${member.user.tag}`,
 	);
 	welcomeMsg = welcomeMsg.replace(nameRegex, `${member.user.username}`);
 	welcomeMsg = welcomeMsg.replace(mentionRegex, `<@${member.user.id}>`);

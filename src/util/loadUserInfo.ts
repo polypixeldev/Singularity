@@ -10,7 +10,7 @@ import type { User } from "../database/schema/user.js";
 export default (
 	client: Singularity,
 	serverDoc: HydratedDocument<Server>,
-	id: Snowflake
+	id: Snowflake,
 ): Promise<HydratedDocument<User>> => {
 	return new Promise((resolve, reject) => {
 		client.userModel

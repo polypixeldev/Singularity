@@ -20,7 +20,7 @@ jobs:
         with:
           environment: production
           version: "singularity@${{ github.event.inputs.tag }}"
-          
+
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
@@ -29,4 +29,3 @@ jobs:
           draft: true
           name: "Version ${{ github.event.inputs.tag }}"
           token: ${{ secrets.GITHUB_TOKEN }}
-

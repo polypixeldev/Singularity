@@ -36,13 +36,13 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.Administrator
+				Discord.PermissionFlagsBits.Administrator,
 			)
 		) {
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					"You do not have permission to set the nickname of others!"
+					"You do not have permission to set the nickname of others!",
 				);
 
 			return interaction.editReply({ embeds: [embed] });
@@ -73,7 +73,7 @@ export default {
 			.setNickname(
 				interaction.options.get("nickname")?.value
 					? (interaction.options.get("nickname")?.value as string)
-					: null
+					: null,
 			)
 			.then(() => {
 				const embed = new Discord.EmbedBuilder()
@@ -81,7 +81,7 @@ export default {
 					.setDescription(
 						`Name changed from \`${
 							prevName === null || prevName === "" ? "None" : prevName
-						}\` to \`${interaction.options.get("nickname")?.value ?? "None"}\``
+						}\` to \`${interaction.options.get("nickname")?.value ?? "None"}\``,
 					);
 
 				interaction.editReply({ embeds: [embed] });
@@ -90,7 +90,7 @@ export default {
 				if (err == "DiscordAPIError: Missing Permissions") {
 					const errPermsEmbed = new Discord.EmbedBuilder()
 						.setDescription(
-							"Uh oh! I don't have permission to nickname this user!"
+							"Uh oh! I don't have permission to nickname this user!",
 						)
 						.setColor(0x000000);
 
@@ -99,7 +99,7 @@ export default {
 					const errEmbed = new Discord.EmbedBuilder()
 						.setColor(0x000000)
 						.setDescription(
-							`I was unable to change the member's nickname because: \n \`${err}\``
+							`I was unable to change the member's nickname because: \n \`${err}\``,
 						);
 
 					return interaction.editReply({ embeds: [errEmbed] });

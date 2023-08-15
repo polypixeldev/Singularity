@@ -5,7 +5,6 @@ import Discord, { GatewayIntentBits, Partials, ActivityType } from "discord.js";
 import mongoose from "mongoose";
 import * as Sentry from "@sentry/node";
 import { RewriteFrames } from "@sentry/integrations";
-import * as Tracing from "@sentry/tracing";
 
 import checkActivity from "./util/checkActivity.js";
 import commandHandler from "./handlers/commandHandler.js";
@@ -18,10 +17,6 @@ import type Command from "./interfaces/client/Command.js";
 import type Context from "./interfaces/client/Context.js";
 import type { User } from "./database/schema/user";
 import type { Server } from "./database/schema/server";
-
-// Used to prevent Tracing import from being pruned
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const tracer = Tracing;
 
 dotenv.config();
 
@@ -60,8 +55,8 @@ const client = new Discord.Client({
 	failIfNotExists: true,
 }) as Singularity;
 const api = new APIClient({
-	type: process.env.API_TYPE as string,
-	host: process.env.API_HOST as string,
+	type: process.env.API_TYPE!,
+	host: process.env.API_HOST!,
 	port: Number(process.env.API_PORT) ?? 5000,
 });
 
@@ -82,7 +77,7 @@ db.once("open", () => {
 	databaseConnectionTransaction.finish();
 	const censoredURI = process.env.MONGODB_URI?.replaceAll(
 		/(?<=^mongodb:\/\/.*:).*(?=@.*$)/g,
-		"*"
+		"*",
 	);
 	console.log("Database connected:", censoredURI);
 	const userSchema = new mongoose.Schema({

@@ -12,40 +12,37 @@ const handler: ApiRoute = (discord, client, req, res) => {
 					`https://cdn.discordapp.com/avatars/${apiRes.data.id}/${apiRes.data.avatar}`,
 					{
 						responseType: "arraybuffer",
-					}
+					},
 				)
 				.then((avatarRes) => {
 					apiRes.data.avatar = Buffer.from(avatarRes.data, "binary").toString(
-						"base64"
+						"base64",
 					);
 
 					discord
 						.get(`https://discord.com/api/users/@me/guilds`)
 						.then(async (guildsRes) => {
 							const promises = [];
-							for (let i = 0; i < guildsRes.data.length; i++) {
+							for (const guild of guildsRes.data) {
 								const ev: GuildAvailableEvent = {
 									available: false,
 									data: undefined,
 									guild: undefined,
 								};
 
-								client.emit("guildAvailable", ev, guildsRes.data[i].id);
+								client.emit("guildAvailable", ev, guild.id);
 
-								guildsRes.data[i].available = ev.available;
-								const permissions = new BitField(guildsRes.data[i].permissions);
-								guildsRes.data[i].manageable = permissions.has(1 << 5);
+								guild.available = ev.available;
+								const permissions = new BitField(guild.permissions);
+								guild.manageable = permissions.has(1 << 5);
 								if (ev.data)
-									promises.push(
-										ev.data.then((data) => (guildsRes.data[i].data = data))
-									);
+									promises.push(ev.data.then((data) => (guild.data = data)));
 								if (ev.guild)
 									promises.push(
 										ev.guild.then(
-											(guild) =>
-												(guildsRes.data[i].nickname =
-													guild.members.me?.nickname ?? "")
-										)
+											(evGuild) =>
+												(guild.nickname = evGuild.members.me?.nickname ?? ""),
+										),
 									);
 							}
 

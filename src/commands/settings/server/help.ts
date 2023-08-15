@@ -22,20 +22,20 @@ export default {
 
 		const embed = new BaseEmbed(
 			`Singularity Server Settings - ${interaction.guild.name}`,
-			interaction.user
+			interaction.user,
 		).setDescription(
 			`
 			**Set/Toggle a Welcome Message:** \`/settings server welcome <channel> <message>\`
 				*- Current Setting:* \`${serverDoc.welcomeMessage}\` *in* \`${
-				interaction.guild.channels.resolve(serverDoc.welcomeChannelID)?.name ??
-				"None"
-			}\`
+					interaction.guild.channels.resolve(serverDoc.welcomeChannelID)
+						?.name ?? "None"
+				}\`
 			**Set/Toggle a Leave Message:** \`/settings server leave <channel> <message>\`
 				*- Current Setting:* \`${serverDoc.leaveMessage}\` *in* \`${
-				interaction.guild.channels.resolve(serverDoc.leaveChannelID)?.name ??
-				"None"
-			}\`
-		`
+					interaction.guild.channels.resolve(serverDoc.leaveChannelID)?.name ??
+					"None"
+				}\`
+		`,
 		);
 
 		return interaction.editReply({ embeds: [embed] });

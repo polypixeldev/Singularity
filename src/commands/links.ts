@@ -24,7 +24,7 @@ export default {
 				new Discord.ButtonBuilder()
 					.setLabel("Bot Invite")
 					.setURL(
-						"https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot"
+						"https://discord.com/oauth2/authorize?client_id=835256019336036423&permissions=261993005047&redirect_uri=https%3A%2F%2Fsingularitybot.glitch.me%2Flogin&scope=applications.commands%20bot",
 					)
 					.setStyle(Discord.ButtonStyle.Link),
 				new Discord.ButtonBuilder()
@@ -34,7 +34,7 @@ export default {
 				new Discord.ButtonBuilder()
 					.setLabel("GitHub Repository")
 					.setURL("https://github.com/Poly-Pixel/Singularity")
-					.setStyle(Discord.ButtonStyle.Link)
+					.setStyle(Discord.ButtonStyle.Link),
 			);
 
 		interaction.editReply({

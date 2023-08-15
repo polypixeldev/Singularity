@@ -10,7 +10,7 @@ const handler: ContextInteractionHandler = async (client, interaction) => {
 	}
 
 	console.log(
-		`Context Menu Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild?.name}`
+		`Context Menu Interaction Recieved - ${interaction.commandName} from ${interaction.user.tag} in ${interaction.guild?.name}`,
 	);
 	if (!client.contexts.has(interaction.commandName) || !interaction.guild)
 		return;

@@ -33,7 +33,7 @@ export default {
 
 		const embed = new BaseEmbed(
 			"Singularity Upgrade",
-			interaction.user
+			interaction.user,
 		).setDescription(
 			`
 			**Current Singularity Size:** *${userMS.singularity.size}*
@@ -52,7 +52,7 @@ export default {
 			**Maximum Upgrades Available: ** *${limit}*
 
 			*Respond with the desired number of upgrades within 30 seconds*
-		`
+		`,
 		);
 
 		const row =
@@ -86,7 +86,7 @@ export default {
 							value: "10",
 							description: "Upgrade your Singularity 10 times",
 						},
-					])
+					]),
 			);
 
 		interaction
@@ -118,7 +118,7 @@ export default {
 							const embed = new Discord.EmbedBuilder()
 								.setColor(0x000000)
 								.setDescription(
-									"You do not have enough protons/electrons to upgrade your Singularity size this much!"
+									"You do not have enough protons/electrons to upgrade your Singularity size this much!",
 								);
 
 							return interaction.followUp({ embeds: [embed], ephemeral: true });
@@ -141,14 +141,14 @@ export default {
 									const embed = new Discord.EmbedBuilder()
 										.setColor(0x000000)
 										.setDescription(
-											`Congrats! Your Singularity is now size \`${userMS.singularity.size}\`!`
+											`Congrats! Your Singularity is now size \`${userMS.singularity.size}\`!`,
 										);
 
 									return interaction.followUp({
 										embeds: [embed],
 										ephemeral: true,
 									});
-								}
+								},
 							);
 						}
 					})
@@ -156,7 +156,7 @@ export default {
 						const embed = new Discord.EmbedBuilder()
 							.setColor(0x000000)
 							.setDescription(
-								"You did not respond with a valid number in time."
+								"You did not respond with a valid number in time.",
 							);
 						return interaction.followUp({ embeds: [embed], ephemeral: true });
 					});

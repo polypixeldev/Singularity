@@ -43,7 +43,7 @@ export default {
 				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"Leave messages are now toggled off. To turn them on again, run this command with the appropriate arguments."
+						"Leave messages are now toggled off. To turn them on again, run this command with the appropriate arguments.",
 					);
 
 				return interaction.editReply({ embeds: [embed] });
@@ -51,7 +51,7 @@ export default {
 				const embed = new Discord.EmbedBuilder()
 					.setColor(0x000000)
 					.setDescription(
-						"Leave messages are currently toggled off. To turn them on, run this command with the appropriate arguments."
+						"Leave messages are currently toggled off. To turn them on, run this command with the appropriate arguments.",
 					);
 
 				return interaction.editReply({ embeds: [embed] });
@@ -81,7 +81,7 @@ export default {
 			const embed = new Discord.EmbedBuilder()
 				.setColor(0x000000)
 				.setDescription(
-					`Server leave message successfully changed to \`${leaveMessage}\` in channel \`#${leaveChannel.name}\``
+					`Server leave message successfully changed to \`${leaveMessage}\` in channel \`#${leaveChannel.name}\``,
 				);
 
 			interaction.editReply({ embeds: [embed] });

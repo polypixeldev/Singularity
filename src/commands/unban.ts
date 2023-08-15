@@ -57,7 +57,7 @@ export default {
 		if (interaction.options.get("tag")?.value === "list") {
 			if (
 				!interaction.member.permissions.has(
-					Discord.PermissionFlagsBits.BanMembers
+					Discord.PermissionFlagsBits.BanMembers,
 				)
 			) {
 				const embed = new Discord.EmbedBuilder()
@@ -83,7 +83,7 @@ export default {
 
 			const listEmbed = new BaseEmbed(
 				`Bans for ${interaction.guild.name}`,
-				interaction.user
+				interaction.user,
 			).setDescription(banListStr);
 
 			return interaction.editReply({ embeds: [listEmbed] });
@@ -93,11 +93,11 @@ export default {
 
 		if (interaction.options.get("id")) {
 			banInfo = bans.find(
-				(ban) => ban.user.id === interaction.options.get("id")?.value
+				(ban) => ban.user.id === interaction.options.get("id")?.value,
 			);
 		} else {
 			banInfo = bans.find(
-				(ban) => ban.user.tag === interaction.options.get("tag")?.value
+				(ban) => ban.user.tag === interaction.options.get("tag")?.value,
 			);
 		}
 
@@ -107,10 +107,10 @@ export default {
 			const user = banInfo.user;
 			if (
 				!interaction.member.permissions.has(
-					Discord.PermissionFlagsBits.BanMembers
+					Discord.PermissionFlagsBits.BanMembers,
 				) &&
 				!interaction.member.permissions.has(
-					Discord.PermissionFlagsBits.Administrator
+					Discord.PermissionFlagsBits.Administrator,
 				)
 			) {
 				const permsEmbed = new Discord.EmbedBuilder()
@@ -124,7 +124,7 @@ export default {
 				.unban(
 					user,
 					(reason ??
-						`${user.tag} unbanned by ${interaction.user.tag}`) as string
+						`${user.tag} unbanned by ${interaction.user.tag}`) as string,
 				)
 				.then(() => {
 					const successEmbed = new Discord.EmbedBuilder()
@@ -143,7 +143,7 @@ export default {
 					}
 
 					const errEmbed = new Discord.EmbedBuilder().setDescription(
-						"I was unable to unban the member because: \n`" + err + "`"
+						"I was unable to unban the member because: \n`" + err + "`",
 					);
 
 					interaction.editReply({ embeds: [errEmbed] });

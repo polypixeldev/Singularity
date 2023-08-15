@@ -44,7 +44,7 @@ export default async (client: APIClient) => {
 						});
 
 						return exec(apiInstance, client, req, res);
-					}
+					},
 				);
 			}
 		}

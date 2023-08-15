@@ -18,17 +18,17 @@ export default {
 
 		const totalProtons = populatedDoc.ms.reduce(
 			(acc, val) => acc + val.protons,
-			0
+			0,
 		);
 
 		const totalElectrons = populatedDoc.ms.reduce(
 			(acc, val) => acc + val.electrons,
-			0
+			0,
 		);
 
 		const totalDarkMatter = populatedDoc.ms.reduce(
 			(acc, val) => acc + val.darkMatter,
-			0
+			0,
 		);
 
 		if (!interaction.guild) {
@@ -37,10 +37,10 @@ export default {
 
 		const embed = new BaseEmbed(
 			`${interaction.guild.name} - My Singularity Stats`,
-			interaction.user
+			interaction.user,
 		)
 			.setDescription("My Singularity statistics for this server")
-			.setThumbnail(interaction.guild.iconURL() as string)
+			.setThumbnail(interaction.guild.iconURL())
 			.addFields([
 				{
 					name: "Total Protons",

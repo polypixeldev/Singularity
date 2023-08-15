@@ -43,7 +43,7 @@ export default {
 
 		if (
 			!interaction.member.permissions.has(
-				Discord.PermissionFlagsBits.ModerateMembers
+				Discord.PermissionFlagsBits.ModerateMembers,
 			)
 		) {
 			const permsEmbed = new Discord.EmbedBuilder()
@@ -56,7 +56,7 @@ export default {
 
 		const embed = new BaseEmbed(
 			`Infractions for ${user.user.tag}`,
-			interaction.user
+			interaction.user,
 		);
 
 		if (userDoc.infractions.length > 0) {

@@ -19,7 +19,7 @@ export default {
 			.setDescription(
 				`
 			***My Singularity is the new best way to show off what you've done for a server!***
-		`
+		`,
 			)
 			.addFields(
 				{
@@ -57,7 +57,7 @@ export default {
             Note that your Lifetime Experience is not affected by this process.
           `,
 					inline: false,
-				}
+				},
 			);
 
 		interaction.editReply({ embeds: [embed] });
