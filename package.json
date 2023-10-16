@@ -12,7 +12,7 @@
 		"@vitejs/plugin-react": "^4.1.0",
 		"axios": "^1.5.1",
 		"body-parser": "^1.20.2",
-		"bufferutil": "^4.0.7",
+		"bufferutil": "^4.0.8",
 		"cors": "^2.8.5",
 		"discord.js": "^14.13.0",
 		"dotenv": "^16.3.1",
