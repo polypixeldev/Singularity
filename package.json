@@ -6,9 +6,9 @@
 	"main": "./build/index.js",
 	"type": "module",
 	"dependencies": {
-		"@sentry/integrations": "^7.84.0",
-		"@sentry/node": "^7.84.0",
-		"@sentry/react": "^7.84.0",
+		"@sentry/integrations": "^7.85.0",
+		"@sentry/node": "^7.85.0",
+		"@sentry/react": "^7.85.0",
 		"@vitejs/plugin-react": "^4.2.0",
 		"axios": "^1.6.2",
 		"body-parser": "^1.20.2",
