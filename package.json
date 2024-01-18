@@ -21,7 +21,7 @@
 		"mongoose": "^8.1.0",
 		"node-cron": "^3.0.3",
 		"os-utils": "^0.0.14",
-		"pretty-ms": "^8.0.0",
+		"pretty-ms": "^9.0.0",
 		"process-nextick-args": "^2.0.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
