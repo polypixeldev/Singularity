@@ -18,7 +18,7 @@
 		"dotenv": "^16.4.5",
 		"express": "^4.19.2",
 		"isarray": "^2.0.5",
-		"mongoose": "^8.4.3",
+		"mongoose": "^8.4.4",
 		"node-cron": "^3.0.3",
 		"os-utils": "^0.0.14",
 		"pretty-ms": "^9.0.0",
